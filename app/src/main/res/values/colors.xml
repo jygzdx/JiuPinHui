@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <!--首页字体颜色-->
+    <color name="mainTextColor">#D3AC65</color>
+    <!--主颜色-->
+    <color name="mainColor">#D3AC65</color>
+    <!--背景颜色-->
+    <color name="mainBackground">#EDEFF0</color>
+    <!--纯白-->
+    <color name="white">#FFFFFF</color>
+    <!--纯黑-->
+    <color name="black">#000000</color>
+    <!--浅黑-->
+    <color name="shallow_black">#999999</color>
+    <!--亮黑-->
+    <color name="light_black">#4D4D4D</color>
+</resources>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@android:id/background">
+        <shape>
+            <gradient
+                android:startColor="#F3E3C9"
+                android:centerColor="#F3E3C9"
+                android:endColor="#F3E3C9"
+                />
+        </shape>
+    </item>
+
+    <item android:id="@android:id/progress">
+        <clip>
+            <nine-patch android:src="@drawable/progress_bg"></nine-patch>
+        </clip>
+    </item>
+</layer-list>

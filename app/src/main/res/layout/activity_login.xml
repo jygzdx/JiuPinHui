@@ -1,0 +1,689 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/login_bg"
+    tools:context="com.jiupin.jiupinhui.activity.LoginActivity">
+    <!--顶部说明图标及文字-->
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="80dp"
+        android:src="@drawable/store"
+        />
+
+    <LinearLayout
+        android:id="@+id/ll_login_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/imageView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="酒品会"
+            android:textColor="@color/white"
+            android:textSize="12dp"
+            />
+
+        <View
+            android:layout_width="20dp"
+            android:layout_height="1dp"
+            android:layout_gravity="center"
+            android:background="@color/white"
+            android:hint="@null"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="一款专门垂直酒行业的APP"
+            android:textColor="@color/white"
+            android:textSize="12dp"
+            />
+    </LinearLayout>
+    <!--登录注册按钮-->
+    <LinearLayout
+        android:id="@+id/ll_login_and_register"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:layout_below="@+id/ll_login_text"
+        android:layout_marginTop="105dp"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        >
+
+        <Button
+            android:id="@+id/btn_login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/login_unclicked"
+            />
+
+        <Button
+            android:id="@+id/btn_register"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/register_unclicked"
+            />
+
+    </LinearLayout>
+    <!--第三方登录标识-->
+    <LinearLayout
+        android:id="@+id/ll_disanfang_biaoji"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ll_login_and_register"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="160dp"
+        android:orientation="horizontal"
+        >
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/left_line"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="1dp"
+            android:layout_marginRight="1dp"
+            android:text="其他登录方式"
+            android:textColor="#b3b3b3"
+            android:textSize="11dp"
+            />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/right_line"
+            />
+    </LinearLayout>
+    <!--第三方登录按钮-->
+    <LinearLayout
+        android:id="@+id/ll_other_login"
+        android:layout_width="210dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ll_disanfang_biaoji"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:orientation="horizontal"
+        >
+
+        <ImageView
+            android:id="@+id/iv_login_qq"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="1"
+            android:paddingBottom="4dp"
+            android:paddingTop="4dp"
+            android:src="@drawable/qq"
+            />
+
+        <ImageView
+            android:id="@+id/iv_login_wechat"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="1"
+            android:paddingBottom="4dp"
+            android:paddingTop="4dp"
+            android:src="@drawable/wechat"
+            />
+
+        <ImageView
+            android:id="@+id/iv_login_weibo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="1"
+            android:paddingBottom="4dp"
+            android:paddingTop="4dp"
+            android:src="@drawable/weibo"
+            />
+
+    </LinearLayout>
+    <!--底部手机登录-->
+    <RelativeLayout
+        android:id="@+id/rl_bottom_login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/ll_login_and_register"
+        android:layout_marginTop="14dp"
+        android:visibility="gone"
+        >
+
+        <ImageView
+            android:id="@+id/iv_left_sign"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="98dp"
+            android:src="@drawable/login_sign"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_below="@+id/iv_left_sign"
+            android:background="@color/white"
+            android:orientation="vertical"
+            >
+
+            <LinearLayout
+                android:layout_width="212dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_horizontal"
+                android:orientation="vertical"
+                >
+                <!--输入手机号码-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="25dp"
+                    android:orientation="horizontal"
+                    >
+
+                    <EditText
+                        android:id="@+id/et_login_mobile"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:hint="输入手机号码"
+                        android:paddingBottom="10dp"
+                        android:paddingTop="10dp"
+                        android:textColor="#cccccc"
+                        android:textSize="12sp"
+                        />
+
+                    <ImageView
+                        android:id="@+id/iv_login_mobile"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:src="@drawable/login_cancel"
+                        />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/mainBackground"/>
+                <!--输入密码-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    >
+
+                    <EditText
+                        android:id="@+id/et_login_password"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:hint="输入密码"
+                        android:paddingBottom="10dp"
+                        android:paddingTop="10dp"
+                        android:textColor="#cccccc"
+                        android:textSize="12sp"
+                        />
+
+                    <ImageView
+                        android:id="@+id/iv_login_password"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:src="@drawable/login_cancel"
+                        />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/mainBackground"/>
+
+                <Button
+                    android:id="@+id/btn_login_bottom"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/unlogined_bg"
+                    android:hint="登录"
+                    android:textColor="@color/mainTextColor"
+                    android:textSize="17sp"
+                    />
+
+                <TextView
+                    android:id="@+id/tv_reset_password"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="9dp"
+                    android:text="@string/reset_password"
+                    android:textColor="#999999"
+                    android:textSize="12sp"
+                    />
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+    </RelativeLayout>
+    <!--底部手机注册-->
+    <RelativeLayout
+        android:id="@+id/rl_bottom_register"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/ll_login_and_register"
+        android:layout_marginTop="14dp"
+        android:visibility="gone"
+        >
+        <!--对准图-->
+        <ImageView
+            android:id="@+id/iv_left_sign2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="250dp"
+            android:src="@drawable/login_sign"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_below="@+id/iv_left_sign2"
+            android:background="@color/white"
+            android:orientation="vertical"
+            >
+
+            <LinearLayout
+                android:layout_width="212dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_horizontal"
+                android:orientation="vertical"
+                >
+                <!--输入注册手机号码-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal"
+                    >
+
+                    <EditText
+                        android:id="@+id/et_register_mobile"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:hint="输入手机号码"
+                        android:paddingBottom="10dp"
+                        android:paddingTop="10dp"
+                        android:textColor="#cccccc"
+                        android:textSize="12sp"
+                        />
+
+                    <ImageView
+                        android:id="@+id/iv_register_mobile"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:src="@drawable/login_cancel"
+                        />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/mainBackground"/>
+                <!--输入验证码-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginBottom="2dp"
+                    android:orientation="horizontal"
+                    >
+
+                    <EditText
+                        android:id="@+id/et_register_checkout"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:hint="输入验证码"
+                        android:paddingBottom="10dp"
+                        android:paddingTop="10dp"
+                        android:textColor="#cccccc"
+                        android:textSize="12sp"
+                        />
+
+                    <Button
+                        android:id="@+id/iv_register_checkout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="35dp"
+                        android:layout_gravity="center_vertical"
+                        android:background="@drawable/uncheckouted"
+                        android:text="获取验证码"
+                        android:textColor="@color/white"
+                        />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/mainBackground"/>
+                <!--输入密码-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    >
+
+                    <EditText
+                        android:id="@+id/et_register_password_one"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:hint="创建密码（6-16位数字或字母）"
+                        android:paddingBottom="10dp"
+                        android:paddingTop="10dp"
+                        android:textColor="#cccccc"
+                        android:textSize="12sp"
+                        />
+
+                    <ImageView
+                        android:id="@+id/iv_register_password_one"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:src="@drawable/login_cancel"
+                        />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/mainBackground"/>
+                <!--再次输入密码-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    >
+
+                    <EditText
+                        android:id="@+id/et_register_password_two"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:hint="再次输入密码"
+                        android:paddingBottom="10dp"
+                        android:paddingTop="10dp"
+                        android:textColor="#cccccc"
+                        android:textSize="12sp"
+                        />
+
+                    <ImageView
+                        android:id="@+id/iv_register_password_two"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:src="@drawable/login_cancel"
+                        />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/mainBackground"/>
+
+                <Button
+                    android:id="@+id/btn_register_deal"
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@null"
+                    android:drawableLeft="@drawable/deal_right"
+                    android:drawablePadding="4dp"
+                    android:paddingRight="25dp"
+                    android:text="@string/user_deal"
+                    android:textColor="@color/mainTextColor"
+                    android:textSize="10sp"
+                    />
+
+                <Button
+                    android:id="@+id/btn_register_bottom"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="4dp"
+                    android:background="@drawable/unlogined_bg"
+                    android:text="注册"
+                    android:textColor="@color/mainTextColor"
+                    android:textSize="17sp"
+                    />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+    </RelativeLayout>
+    <!--底部重置密码-->
+    <RelativeLayout
+        android:id="@+id/rl_bottom_reset"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/ll_login_and_register"
+        android:layout_marginTop="14dp"
+        android:visibility="gone"
+        >
+        <!--对准图-->
+        <ImageView
+            android:id="@+id/iv_left_sign2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="98dp"
+            android:src="@drawable/login_sign"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_below="@+id/iv_left_sign2"
+            android:background="@color/white"
+            android:orientation="vertical"
+            >
+
+            <LinearLayout
+                android:layout_width="212dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_horizontal"
+                android:orientation="vertical"
+                >
+                <!--输入手机号码-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal"
+                    >
+
+                    <EditText
+                        android:id="@+id/et_reset_mobile"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:hint="输入手机号码"
+                        android:paddingBottom="10dp"
+                        android:paddingTop="10dp"
+                        android:textColor="#cccccc"
+                        android:textSize="12sp"
+                        />
+
+                    <ImageView
+                        android:id="@+id/iv_reset_mobile"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:src="@drawable/login_cancel"
+                        />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/mainBackground"/>
+                <!--输入验证码-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginBottom="2dp"
+                    android:orientation="horizontal"
+                    >
+
+                    <EditText
+                        android:id="@+id/et_reset_checkout"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:hint="输入验证码"
+                        android:paddingBottom="10dp"
+                        android:paddingTop="10dp"
+                        android:textColor="#cccccc"
+                        android:textSize="12sp"
+                        />
+
+                    <Button
+                        android:id="@+id/iv_reset_checkout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="35dp"
+                        android:layout_gravity="center_vertical"
+                        android:background="@drawable/uncheckouted"
+                        android:text="获取验证码"
+                        android:textColor="@color/white"
+                        />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/mainBackground"/>
+                <!--输入密码-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    >
+
+                    <EditText
+                        android:id="@+id/et_reset_password_one"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:hint="输入新密码"
+                        android:paddingBottom="10dp"
+                        android:paddingTop="10dp"
+                        android:textColor="#cccccc"
+                        android:textSize="12sp"
+                        />
+
+                    <ImageView
+                        android:id="@+id/iv_reset_password_one"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:src="@drawable/login_cancel"
+                        />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/mainBackground"/>
+                <!--再次输入密码-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    >
+
+                    <EditText
+                        android:id="@+id/et_reset_password_two"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:hint="再次输入密码"
+                        android:paddingBottom="10dp"
+                        android:paddingTop="10dp"
+                        android:textColor="#cccccc"
+                        android:textSize="12sp"
+                        />
+
+                    <ImageView
+                        android:id="@+id/iv_reset_password_two"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:src="@drawable/login_cancel"
+                        />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/mainBackground"/>
+
+                <Button
+                    android:id="@+id/btn_reset_bottom"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/unlogined_bg"
+                    android:text="确定"
+                    android:textColor="@color/mainTextColor"
+                    android:textSize="17sp"
+                    />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</RelativeLayout>

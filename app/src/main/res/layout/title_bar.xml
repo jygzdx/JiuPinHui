@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_title_bar"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:background="@color/mainTextColor"
+    android:gravity="center"
+    android:padding="8dp"
+    android:alpha="0"
+    android:orientation="horizontal">
+    <EditText
+        android:id="@+id/et_store_search"
+        style="@style/search_edittext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="搜索酒品"/>
+
+</LinearLayout>

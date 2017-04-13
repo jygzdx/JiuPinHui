@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_home_guess_love"
+    android:layout_width="match_parent"
+    android:layout_height="255dp"
+    >
+
+    <RelativeLayout
+        android:id="@+id/rl_relativeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingTop="16dp"
+        >
+
+        <ImageView
+            android:id="@+id/iv_guess_love"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/guess_love"
+            />
+
+        <TextView
+            android:id="@+id/tv_guess_love_des"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/iv_guess_love"
+            android:layout_alignRight="@+id/iv_guess_love"
+            android:layout_below="@+id/iv_guess_love"
+            android:layout_marginTop="10dp"
+            android:text="法国原装进口保障送礼品袋"
+            android:textColor="#4d4d4d"
+            android:textSize="14sp"
+            />
+
+        <TextView
+            android:id="@+id/tv_guess_love_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/tv_guess_love_des"
+            android:layout_below="@+id/tv_guess_love_des"
+            android:layout_marginTop="13dp"
+            android:text="￥688.00"
+            android:textColor="#d3ac65"
+            android:textSize="12sp"
+            />
+
+        <TextView
+            android:id="@+id/tv_guess_love_price_next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_guess_love_des"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="13dp"
+            android:layout_toRightOf="@+id/tv_guess_love_price"
+            android:text="￥660.00"
+            android:textColor="#cccccc"
+            android:textSize="10sp"
+            />
+
+        <TextView
+            android:id="@+id/tv_buy_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/tv_guess_love_price"
+            android:layout_below="@+id/tv_guess_love_price"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="16dp"
+            android:text="200人已付款"
+            android:textSize="10sp"
+            />
+
+        <ImageView
+            android:id="@+id/iv_guess_love_more"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:layout_alignBottom="@+id/tv_buy_number"
+            android:layout_alignRight="@+id/iv_guess_love"
+            android:src="@drawable/more"
+            />
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:id="@+id/ll_love_cover"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0.58"
+        android:background="#dacfbb"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:layout_alignParentTop="true"
+        android:layout_alignBottom="@+id/rl_relativeLayout"
+        >
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            >
+
+            <TextView
+                android:id="@+id/tv_add_cart"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/circle_home_love"
+                android:gravity="center"
+                android:text="加购物车"
+                android:textSize="10sp"
+                android:textColor="#fefefe"
+                android:alpha="0.7"
+                />
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            >
+            <TextView
+                android:id="@+id/tv_share_link"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/circle_home_love"
+                android:gravity="center"
+                android:text="分享链接"
+                android:textSize="10sp"
+                android:textColor="#fefefe"
+                android:alpha="0.7"
+                />
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>
