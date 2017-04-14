@@ -76,6 +76,7 @@
             />
 
         <TextView
+            android:visibility="gone"
             android:id="@+id/tv_member_club"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -103,6 +104,7 @@
         android:layout_height="45dp"
         android:background="#ffffff"
         android:orientation="horizontal"
+        android:visibility="gone"
         >
 
         <RelativeLayout
@@ -239,13 +241,14 @@
         </RelativeLayout>
 
     </LinearLayout>
-    <!--会员服务-->
+    <!--会员服务-隐藏-->
     <RelativeLayout
         android:id="@+id/rl_member_service"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginTop="10dp"
         android:background="#ffffff"
+        android:visibility="gone"
         >
 
         <TextView
@@ -555,11 +558,12 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"></View>
     </LinearLayout>
-    <!--我的礼物-->
+    <!--我的礼物-隐藏-->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:background="#ffffff"
+        android:visibility="gone"
         >
 
         <TextView
@@ -575,13 +579,14 @@
             />
 
     </RelativeLayout>
-    <!--我的礼物详情-->
+    <!--我的礼物详情-隐藏-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="43dp"
         android:background="@color/white"
         android:orientation="vertical"
+        android:visibility="gone"
         >
 
         <View
@@ -703,13 +708,14 @@
             />
 
     </RelativeLayout>
-    <!--我的足迹-->
+    <!--我的足迹-隐藏-->
     <RelativeLayout
         android:id="@+id/rl_my_looked"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginTop="10dp"
         android:background="#ffffff"
+        android:visibility="gone"
         >
 
         <TextView
@@ -725,13 +731,14 @@
             />
 
     </RelativeLayout>
-    <!--设置-->
+    <!--设置-隐藏-->
     <RelativeLayout
         android:id="@+id/rl_my_setting"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginTop="10dp"
         android:background="#ffffff"
+        android:visibility="gone"
         >
 
         <TextView

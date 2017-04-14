@@ -60,6 +60,7 @@
             />
 
         <Button
+            android:visibility="gone"
             android:id="@+id/btn_goods_collecting_start"
             android:layout_width="40dp"
             android:layout_height="wrap_content"
@@ -76,6 +77,7 @@
             />
 
         <Button
+            android:visibility="gone"
             android:id="@+id/btn_goods_share_start"
             android:layout_width="40dp"
             android:layout_height="wrap_content"
@@ -100,7 +102,7 @@
             android:layout_marginTop="14dp"
             android:layout_toLeftOf="@+id/btn_goods_collecting_start"
             android:lines="1"
-            android:text="酒名酒名酒名酒名酒名酒名酒名酒名酒名酒名酒名酒名酒名酒名酒名酒名酒名酒名酒名酒名酒名"
+            android:text="酒名酒名酒名酒名酒名酒名酒名酒名酒名酒名酒名酒名酒名"
             android:textColor="@color/light_black"
             android:textSize="10sp"
             />
@@ -151,6 +153,7 @@
         android:layout_marginTop="10dp"
         android:background="@color/white"
         android:orientation="vertical"
+        android:visibility="gone"
         >
 
         <LinearLayout
@@ -387,6 +390,7 @@
             </LinearLayout>
 
             <Button
+                android:visibility="gone"
                 android:id="@+id/btn_check_appraise"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -582,7 +586,7 @@
                     android:layout_marginLeft="10dp"
                     android:drawablePadding="10dp"
                     android:clickable="false"
-                    android:text="进入店铺"
+                    android:text="返回首页"
                     android:textColor="#666666"
                     android:textSize="10sp"
                     />

@@ -26,6 +26,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:padding="15dp"
+            android:visibility="gone"
             >
 
             <include layout="@layout/home_sign_in_item"/>
@@ -38,6 +39,7 @@
         </LinearLayout>
 
         <EditText
+            android:visibility="gone"
             android:id="@+id/et_home_search"
             style="@style/search_edittext"
             android:layout_width="match_parent"

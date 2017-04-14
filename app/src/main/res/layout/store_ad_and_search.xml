@@ -16,6 +16,7 @@
         android:layout_marginTop="27dp"
         android:layout_marginLeft="12dp"
         android:layout_marginRight="12dp"
+        android:visibility="gone"
         android:hint="搜索酒品"/>
 
 </FrameLayout>

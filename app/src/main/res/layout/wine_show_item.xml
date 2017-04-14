@@ -57,5 +57,6 @@
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:layout_marginRight="20dp"
+        android:visibility="gone"
         app:srcCompat="@drawable/btn_shopping"/>
 </RelativeLayout>
