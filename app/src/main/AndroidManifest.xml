@@ -14,7 +14,8 @@
         <activity
             android:name=".activity.MainActivity"
             android:windowSoftInputMode="stateUnspecified|adjustPan">
-
+        </activity>
+        <activity android:name=".activity.BaseActivity">
         </activity>
         <activity android:name=".activity.LoginActivity">
         </activity>
@@ -30,6 +31,8 @@
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+        </activity>
+        <activity android:name=".activity.OrderActivity">
         </activity>
     </application>
 
