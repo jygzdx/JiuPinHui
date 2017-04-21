@@ -26,13 +26,18 @@
         <activity android:name=".activity.MemberClubActivity">
         </activity>
         <activity android:name=".activity.BuyCartActivity">
+
+        </activity>
+        <activity android:name=".activity.OrderActivity">
+        </activity>
+        <activity android:name=".activity.PaySuccessActivity">
+        </activity>
+        <activity android:name=".activity.FormParticularActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
-        </activity>
-        <activity android:name=".activity.OrderActivity">
         </activity>
     </application>
 

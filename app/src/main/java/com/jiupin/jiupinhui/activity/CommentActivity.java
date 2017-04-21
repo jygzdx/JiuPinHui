@@ -14,6 +14,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+/**
+ * 商品评价
+ */
 public class CommentActivity extends AppCompatActivity {
     private static final String TAG = "CommentActivity";
     @BindView(R.id.iv_more)

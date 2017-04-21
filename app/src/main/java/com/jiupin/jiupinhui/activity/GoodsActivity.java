@@ -118,7 +118,7 @@ public class GoodsActivity extends AppCompatActivity {
         nsvGoodsScrollview.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
             @Override
             public void onScrollChange(NestedScrollView nestedScrollView, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-//                float height = btnGoodsCollectingStart.getY() + btnGoodsCollectingStart.getHeight();
+
                 float height = btnGoodsCollectingStart.getY();
                 if (scrollY <= height && scrollY >= 0) {
                     float scale = (float) scrollY / height;

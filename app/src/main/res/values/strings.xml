@@ -3,4 +3,19 @@
     <string name="reset_password"><u>重置密码</u></string>
     <string name="user_deal"><u>我已阅读，并同意《用户注册协议》</u></string>
     <string name="change_gift"><u>换一批</u></string>
+
+    <!--<string name="wait_pay">等待付款</string>-->
+    <!--<string name="transaction_closed">交易关闭</string>-->
+    <!--<string name="transaction_success_has_comment">交易成功</string>-->
+    <!--<string name="transaction_success_no_comment">交易成功</string>-->
+    <!--<string name="wait_deliver_goods">等待发货</string>-->
+    <!--<string name="wait_gain_goods">等待收货</string>-->
+    
+    <string name="cancel_form">取消订单</string>
+    <string name="pay_money">付款</string>
+    <string name="delete_form">删除订单</string>
+    <string name="apply_after_sale">申请售后</string>
+    <string name="refund_and_after_sale">退款/售后</string>
+    <string name="ensure_gain_goods">确定收货</string>
+    <string name="now_comment">立即评论</string>
 </resources>
