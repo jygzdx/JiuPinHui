@@ -17,4 +17,6 @@
     <color name="shallow_black">#999999</color>
     <!--亮黑-->
     <color name="light_black">#4d4d4d</color>
+    <!--红色-->
+    <color name="light_red">#e92a2a</color>
 </resources>

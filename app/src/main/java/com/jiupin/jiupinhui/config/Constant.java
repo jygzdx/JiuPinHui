@@ -45,4 +45,6 @@ public class Constant {
      * 等待收货
      */
     public static final int WAIT_GAIN_GOODS = 106;
+
+
 }

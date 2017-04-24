@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.jiupin.jiupinhui.R;
 import com.jiupin.jiupinhui.activity.MemberClubActivity;
+import com.jiupin.jiupinhui.activity.MyFormActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -27,6 +28,8 @@ public class MyFragment extends Fragment {
     TextView tvMemberClub;
     @BindView(R.id.rl_member_service)
     RelativeLayout rlMemberService;
+    @BindView(R.id.tv_look_form)
+    TextView tvLookForm;
     Unbinder unbinder;
     private View view;
 
@@ -44,7 +47,7 @@ public class MyFragment extends Fragment {
         unbinder.unbind();
     }
 
-    @OnClick({R.id.tv_member_club, R.id.rl_member_service})
+    @OnClick({R.id.tv_member_club, R.id.rl_member_service,R.id.tv_look_form})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_member_club:
@@ -54,6 +57,10 @@ public class MyFragment extends Fragment {
             case R.id.rl_member_service:
                 Intent intent2 = new Intent(getActivity(), MemberClubActivity.class);
                 getActivity().startActivity(intent2);
+                break;
+            case R.id.tv_look_form:
+                Intent intent3 = new Intent(getActivity(), MyFormActivity.class);
+                getActivity().startActivity(intent3);
                 break;
         }
     }

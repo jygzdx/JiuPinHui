@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/rl_form_pull"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/rl_title"
+                android:visibility="gone"
+    >
+
+    <View
+        android:id="@+id/id_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0.5"
+        android:background="#000000"
+        />
+
+    <LinearLayout
+        android:id="@+id/ll_form_pull"
+        android:layout_width="match_parent"
+        android:layout_height="350dp"
+        android:background="@color/white"
+        android:clickable="true"
+        android:orientation="vertical"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="20dp"
+            android:text="订单状态"
+            android:textColor="@color/shallow_black"
+            android:textSize="14sp"
+            />
+
+        <RadioGroup
+            android:id="@+id/rg_control_top"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="22dp"
+            android:orientation="horizontal"
+            >
+
+            <RadioButton
+                android:id="@+id/rb_all_form"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:background="@drawable/radiobutton_pull_bg_selector"
+                android:button="@null"
+                android:checked="true"
+                android:gravity="center"
+                android:text="全部"
+                android:textColor="@color/radiobutton_pull_text_selector"
+                android:textSize="12sp"
+                />
+
+            <RadioButton
+                android:id="@+id/rb_wait_pay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="50dp"
+                android:background="@drawable/radiobutton_pull_bg_selector"
+                android:button="@null"
+                android:gravity="center"
+                android:text="待付款"
+                android:textColor="@color/radiobutton_pull_text_selector"
+                android:textSize="12sp"
+                />
+
+            <RadioButton
+                android:id="@+id/rb_wait_deliver_goods"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="50dp"
+                android:layout_marginRight="12dp"
+                android:background="@drawable/radiobutton_pull_bg_selector"
+                android:button="@null"
+                android:gravity="center"
+                android:text="待发货"
+                android:textColor="@color/radiobutton_pull_text_selector"
+                android:textSize="12sp"
+                />
+        </RadioGroup>
+
+        <RadioGroup
+            android:id="@+id/rg_control_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="22dp"
+            android:orientation="horizontal"
+            >
+
+            <RadioButton
+                android:id="@+id/rb_wait_gain_goods"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:background="@drawable/radiobutton_pull_bg_selector"
+                android:button="@null"
+                android:gravity="center"
+                android:text="待收货"
+                android:textColor="@color/radiobutton_pull_text_selector"
+                android:textSize="12sp"
+                />
+
+            <RadioButton
+                android:id="@+id/rb_wait_comment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="50dp"
+                android:background="@drawable/radiobutton_pull_bg_selector"
+                android:button="@null"
+                android:gravity="center"
+                android:text="待评价"
+                android:textColor="@color/radiobutton_pull_text_selector"
+                android:textSize="12sp"
+                />
+
+        </RadioGroup>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginBottom="40dp"
+            android:layout_marginTop="15dp"
+            android:background="#cccccc"/>
+    </LinearLayout>
+
+</RelativeLayout>

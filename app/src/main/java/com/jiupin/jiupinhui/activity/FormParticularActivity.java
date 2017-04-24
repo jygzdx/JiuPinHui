@@ -2,11 +2,15 @@ package com.jiupin.jiupinhui.activity;
 
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.jiupin.jiupinhui.R;
+import com.jiupin.jiupinhui.utils.LogUtils;
 import com.jiupin.jiupinhui.utils.ToastUtils;
 
 import butterknife.BindView;
@@ -33,6 +37,11 @@ public class FormParticularActivity extends BaseActivity {
     Button btnLeft;
     @BindView(R.id.btn_right)
     Button btnRight;
+    /**
+     * 保存取消订单弹出窗的radiobutton
+     */
+    private RadioButton[] rbArray = new RadioButton[5];
+
     private int formStatus = WAIT_PAY;
 
     @Override
@@ -104,38 +113,90 @@ public class FormParticularActivity extends BaseActivity {
     }
 
     /**
-     *付款
+     * 付款
      */
     private void payMoney() {
     }
+
     /**
-     *取消订单
+     * 取消订单
      */
     private void cancelForm() {
+        View view = LayoutInflater.from(this).inflate(R.layout.dialog_cancel_form, null);
 
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(view);
+        final AlertDialog dialog = builder.create();
+        rbArray[0] = (RadioButton) view.findViewById(R.id.rb_unwillingness_pay);
+        rbArray[1] = (RadioButton) view.findViewById(R.id.rb_info_error);
+        rbArray[2] = (RadioButton) view.findViewById(R.id.rb_no_goods);
+        rbArray[3] = (RadioButton) view.findViewById(R.id.rb_ready_item);
+        rbArray[4] = (RadioButton) view.findViewById(R.id.rb_other_cause);
+        TextView tvCancel = (TextView) view.findViewById(R.id.tv_cancel);
+        TextView tvEnsure = (TextView) view.findViewById(R.id.tv_ensure);
+
+        for (int i = 0; i < 5; i++) {
+            rbArray[i].setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    for (int j = 0; j < 5; j++) {
+                        rbArray[j].setChecked(false);
+                    }
+                    ((RadioButton) v).setChecked(true);
+                }
+            });
+        }
+
+        tvCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //取消
+                dialog.dismiss();
+            }
+        });
+        tvEnsure.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //确定
+                dialog.dismiss();
+
+                for (int i = 0; i < 5; i++) {
+                    if (rbArray[i].isChecked()) {//根据i值得不同，传递不同的取消订单的原因
+                        LogUtils.d("i= " + i);
+                    }
+
+                }
+            }
+        });
+        dialog.show();
     }
+
     /**
-     *删除订单
+     * 删除订单
      */
     private void deleteForm() {
     }
+
     /**
-     *申请售后
+     * 申请售后
      */
     private void applyAfterSale() {
     }
+
     /**
-     *退款/售后
+     * 退款/售后
      */
     private void refundAndAfterSale() {
     }
+
     /**
-     *确定收货
+     * 确定收货
      */
     private void ensureGainGoods() {
     }
+
     /**
-     *立即评论
+     * 立即评论
      */
     private void nowComment() {
     }
@@ -198,5 +259,9 @@ public class FormParticularActivity extends BaseActivity {
                 tvShowStatus.setText("卖家已发货");
                 break;
         }
+    }
+
+    private void setRadioChecked(RadioButton radioButton) {
+
     }
 }
