@@ -19,6 +19,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+/**
+ * 订单页面
+ */
 public class OrderActivity extends BaseActivity {
     private static final String TAG = "OrderActivity";
 

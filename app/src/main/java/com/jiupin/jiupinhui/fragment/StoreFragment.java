@@ -1,5 +1,6 @@
 package com.jiupin.jiupinhui.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -12,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.jiupin.jiupinhui.R;
+import com.jiupin.jiupinhui.activity.GoodsActivity;
 import com.jiupin.jiupinhui.utils.LogUtils;
 import com.jiupin.jiupinhui.widget.ADBannerView;
 
@@ -56,6 +58,9 @@ public class StoreFragment extends Fragment {
         view2 = mInflater.inflate(R.layout.store_func_frag_place, null);
         view3 = mInflater.inflate(R.layout.store_func_frag_place, null);
 
+        setViewClick();
+
+
         //添加页卡视图
         mViewList.clear();
         mViewList.add(view1);
@@ -79,6 +84,20 @@ public class StoreFragment extends Fragment {
         tabLayout.setupWithViewPager(vpFunction);
         LogUtils.d(TAG, "onCreateView");
         return view;
+    }
+
+    /**
+     * 设置click事件
+     */
+    private void setViewClick() {
+        View llSceneDate = view1.findViewById(R.id.ll_scene_date);
+        llSceneDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), GoodsActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     class MyPagerAdapter extends PagerAdapter {

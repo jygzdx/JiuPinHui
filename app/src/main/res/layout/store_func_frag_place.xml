@@ -4,82 +4,90 @@
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
     >
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:orientation="horizontal"
-        android:paddingTop="10dp"
         android:paddingBottom="20dp"
+        android:paddingTop="10dp"
         >
+
         <LinearLayout
+            android:id="@+id/ll_scene_date"
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:gravity="center_horizontal"
             android:orientation="vertical"
             >
 
             <ImageButton
-                android:background="@null"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@null"
                 android:src="@drawable/icon_situation"/>
 
             <TextView
+                style="@style/store_function_fragment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="约会"
-                style="@style/store_function_fragment"
                 />
 
         </LinearLayout>
+
         <LinearLayout
+            android:id="@+id/ll_scene_barbecue"
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:gravity="center_horizontal"
             android:orientation="vertical"
             >
 
             <ImageButton
-                android:background="@null"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/icon_situation"/>
+                android:background="@null"
+                android:src="@drawable/icon_bbq"/>
 
             <TextView
+                style="@style/store_function_fragment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="约会"
-                style="@style/store_function_fragment"
+                android:text="烧烤"
                 />
 
         </LinearLayout>
+
         <LinearLayout
+            android:id="@+id/ll_scene_sing"
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:gravity="center_horizontal"
             android:orientation="vertical"
             >
 
             <ImageButton
-                android:background="@null"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/icon_situation"/>
+                android:background="@null"
+                android:src="@drawable/icon_song"/>
 
             <TextView
+                style="@style/store_function_fragment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="约会"
-                style="@style/store_function_fragment"
+                android:text="k歌"
                 />
 
         </LinearLayout>
 
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -89,6 +97,7 @@
         android:paddingBottom="15dp"
         >
         <LinearLayout
+            android:id="@+id/ll_scene_eat"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
@@ -100,17 +109,18 @@
                 android:background="@null"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/icon_situation"/>
+                android:src="@drawable/icon_eat"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="约会"
+                android:text="吃饭"
                 style="@style/store_function_fragment"
                 />
 
         </LinearLayout>
         <LinearLayout
+            android:id="@+id/ll_scene_bar"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
@@ -122,17 +132,18 @@
                 android:background="@null"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/icon_situation"/>
+                android:src="@drawable/icon_bar"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="约会"
+                android:text="酒吧"
                 style="@style/store_function_fragment"
                 />
 
         </LinearLayout>
         <LinearLayout
+            android:id="@+id/ll_scene_meeting"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
@@ -144,12 +155,12 @@
                 android:background="@null"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/icon_situation"/>
+                android:src="@drawable/icon_party"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="约会"
+                android:text="聚会"
                 style="@style/store_function_fragment"
                 />
 

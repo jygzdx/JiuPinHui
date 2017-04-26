@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.widget.NestedScrollView;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -22,7 +21,7 @@ import butterknife.OnClick;
 /**
  * 商品详情页
  */
-public class GoodsActivity extends AppCompatActivity {
+public class GoodsActivity extends BaseActivity {
     private static final String TAG = "GoodsActivity";
     @BindView(R.id.ll_goods_show)
     LinearLayout llGoodsShow;
@@ -158,8 +157,12 @@ public class GoodsActivity extends AppCompatActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_contact_customer:
+                Intent intent2 = new Intent(mContext,FamiliarQuestionActivity.class);
+                startActivity(intent2);
                 break;
             case R.id.rl_buy_car:
+                Intent intent1 = new Intent(mContext,BuyCartActivity.class);
+                startActivity(intent1);
                 break;
             case R.id.btn_check_appraise:
                 Intent intent = new Intent(this,CommentActivity.class);

@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.jiupin.jiupinhui.R;
+import com.jiupin.jiupinhui.activity.FormParticularActivity;
 import com.jiupin.jiupinhui.activity.SendCommentActivity;
 import com.jiupin.jiupinhui.config.Constant;
 import com.jiupin.jiupinhui.entity.Form;
@@ -59,6 +60,8 @@ public class MyFormAdapter extends RecyclerView.Adapter{
                     @Override
                     public void onClick(View v) {
                         ToastUtils.showShort(mContext,"待付款");
+                        Intent intent = new Intent(mContext, FormParticularActivity.class);
+                        mContext.startActivity(intent);
                     }
                 });
                 break;
