@@ -19,4 +19,6 @@
     <string name="ready_item">其他原因</string>
     <string name="other_cause">其他原因</string>
 
+    <string name="comment_hint">请写下你的心得吧~</string>
+
 </resources>

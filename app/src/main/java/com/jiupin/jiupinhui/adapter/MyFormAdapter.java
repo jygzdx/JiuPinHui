@@ -1,6 +1,7 @@
 package com.jiupin.jiupinhui.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.jiupin.jiupinhui.R;
+import com.jiupin.jiupinhui.activity.SendCommentActivity;
 import com.jiupin.jiupinhui.config.Constant;
 import com.jiupin.jiupinhui.entity.Form;
 import com.jiupin.jiupinhui.utils.ToastUtils;
@@ -93,6 +95,8 @@ public class MyFormAdapter extends RecyclerView.Adapter{
                     @Override
                     public void onClick(View v) {
                         ToastUtils.showShort(mContext,"待评价");
+                        Intent intent = new Intent(mContext, SendCommentActivity.class);
+                        mContext.startActivity(intent);
                     }
                 });
                 break;

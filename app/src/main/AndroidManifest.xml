@@ -37,9 +37,14 @@
         <activity android:name=".activity.PaySuccessActivity">
         </activity>
         <activity android:name=".activity.FormParticularActivity">
-
         </activity>
         <activity android:name=".activity.MyFormActivity">
+        </activity>
+        <activity android:name=".activity.SendCommentActivity">
+        </activity>
+        <activity android:name=".activity.FamiliarQuestionActivity">
+        </activity>
+        <activity android:name=".activity.QuestionActivity">
         </activity>
     </application>
 
