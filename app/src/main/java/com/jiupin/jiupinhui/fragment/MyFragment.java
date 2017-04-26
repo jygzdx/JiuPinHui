@@ -51,11 +51,11 @@ public class MyFragment extends Fragment {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_member_club:
-                Intent intent1 = new Intent(getActivity(), MemberClubActivity.class);
+                Intent intent1 = new Intent(getActivity(), MemberClubActivity.class);//该功能暂时隐藏
                 getActivity().startActivity(intent1);
                 break;
             case R.id.rl_member_service:
-                Intent intent2 = new Intent(getActivity(), MemberClubActivity.class);
+                Intent intent2 = new Intent(getActivity(), MemberClubActivity.class);//该功能暂时隐藏
                 getActivity().startActivity(intent2);
                 break;
             case R.id.tv_look_form:

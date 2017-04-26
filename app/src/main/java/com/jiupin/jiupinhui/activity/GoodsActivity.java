@@ -118,7 +118,8 @@ public class GoodsActivity extends BaseActivity {
             @Override
             public void onScrollChange(NestedScrollView nestedScrollView, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
 
-                float height = btnGoodsCollectingStart.getY();
+//                float height = btnGoodsCollectingStart.getY();
+                float height = 300f;
                 if (scrollY <= height && scrollY >= 0) {
                     float scale = (float) scrollY / height;
                     float alpha = 255 * scale;

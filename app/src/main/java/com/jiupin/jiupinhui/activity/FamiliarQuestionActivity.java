@@ -1,7 +1,7 @@
 package com.jiupin.jiupinhui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
 
@@ -14,7 +14,7 @@ import butterknife.OnClick;
 /**
  * 常见问题界面
  */
-public class FamiliarQuestionActivity extends AppCompatActivity {
+public class FamiliarQuestionActivity extends BaseActivity {
 
     @BindView(R.id.tv_contact_service)
     TextView tvContactService;
@@ -30,7 +30,7 @@ public class FamiliarQuestionActivity extends AppCompatActivity {
     public void onViewClicked(View view) {
         switch (view.getId()){
             case R.id.tv_contact_service:
-
+                Intent intent = new Intent(mContext,ServerActivity.class);
                 break;
         }
     }
