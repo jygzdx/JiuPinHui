@@ -3,8 +3,10 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rl_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/mainBackground"
     tools:context="com.jiupin.jiupinhui.activity.ChatActivity">
     <RelativeLayout
         android:id="@+id/rl_title"
@@ -36,11 +38,99 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="酒品会"
+                android:text="咨询记录"
                 android:textColor="@color/white"
                 android:textSize="16sp"
                 />
         </LinearLayout>
 
     </RelativeLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_chat"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/rl_title"
+        android:layout_above="@+id/ll_bottom"
+        >
+    </android.support.v7.widget.RecyclerView>
+
+    <LinearLayout
+        android:id="@+id/ll_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        >
+
+        <TextView
+            android:id="@+id/tv_reply"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:paddingLeft="50dp"
+            android:paddingRight="50dp"
+            android:paddingBottom="15dp"
+            android:paddingTop="15dp"
+            android:text="继续回复"
+            android:textColor="@color/mainTextColor"
+            android:textSize="10sp"
+            />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="25dp"
+            android:background="@color/thin_black"
+            />
+
+        <TextView
+            android:id="@+id/tv_close"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:paddingLeft="55dp"
+            android:paddingRight="55dp"
+            android:paddingBottom="15dp"
+            android:paddingTop="15dp"
+            android:text="关闭提问"
+            android:textColor="@color/black_66"
+            android:textSize="10sp"
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/ll_input_text"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:visibility="gone"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        >
+        <EditText
+            android:id="@+id/et_input_text"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:padding="8dp"
+            android:hint="请输入信息"
+            android:textSize="12sp"
+            android:textColor="@color/shallow_black"
+            />
+        <Button
+            android:id="@+id/btn_send"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@color/mainColor"
+            android:minHeight="0dp"
+            android:minWidth="0dp"
+            android:padding="8dp"
+            android:text="发送"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            />
+    </LinearLayout>
 </RelativeLayout>
