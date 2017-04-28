@@ -31,6 +31,7 @@ public class FamiliarQuestionActivity extends BaseActivity {
         switch (view.getId()){
             case R.id.tv_contact_service:
                 Intent intent = new Intent(mContext,ServerActivity.class);
+                startActivity(intent);
                 break;
         }
     }

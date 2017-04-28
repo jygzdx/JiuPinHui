@@ -11,6 +11,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jiupin.jiupinhui.R;
+import com.jiupin.jiupinhui.activity.IdeaBackActivity;
 import com.jiupin.jiupinhui.activity.MemberClubActivity;
 import com.jiupin.jiupinhui.activity.MyFormActivity;
 
@@ -30,6 +31,8 @@ public class MyFragment extends Fragment {
     RelativeLayout rlMemberService;
     @BindView(R.id.tv_look_form)
     TextView tvLookForm;
+    @BindView(R.id.rl_my_idea_back)
+    RelativeLayout rlMyIdeaBack;
     Unbinder unbinder;
     private View view;
 
@@ -47,7 +50,7 @@ public class MyFragment extends Fragment {
         unbinder.unbind();
     }
 
-    @OnClick({R.id.tv_member_club, R.id.rl_member_service,R.id.tv_look_form})
+    @OnClick({R.id.tv_member_club, R.id.rl_member_service, R.id.tv_look_form,R.id.rl_my_idea_back})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_member_club:
@@ -61,6 +64,10 @@ public class MyFragment extends Fragment {
             case R.id.tv_look_form:
                 Intent intent3 = new Intent(getActivity(), MyFormActivity.class);
                 getActivity().startActivity(intent3);
+                break;
+            case R.id.rl_my_idea_back:
+                Intent intent4 = new Intent(getActivity(), IdeaBackActivity.class);
+                getActivity().startActivity(intent4);
                 break;
         }
     }

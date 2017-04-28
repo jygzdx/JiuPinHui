@@ -30,9 +30,9 @@ public class ChatAdapter extends RecyclerView.Adapter {
     }
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
 
-        if (viewType == LEFT_TYPE) {
+        if (getItemViewType(i) == LEFT_TYPE) {
             View leftView = inflater.inflate(R.layout.left_chat_item, null);
             return new ChatViewHolder(leftView);
         } else {
@@ -70,7 +70,12 @@ public class ChatAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemViewType(int position) {
-        return forms.get(position).getStatus();
+        if (forms.get(position).getStatus()==LEFT_TYPE){
+            return LEFT_TYPE;
+        }else {
+            return RIGHT_TYPE;
+        }
+
     }
 
     @Override

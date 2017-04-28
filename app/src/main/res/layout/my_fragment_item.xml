@@ -7,15 +7,6 @@
     android:background="@color/mainBackground"
     android:orientation="vertical">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="44dp"
-        android:background="@color/mainTextColor"
-        android:gravity="center"
-        android:text="我的"
-        android:textColor="#ffffff"
-        android:textSize="16sp"
-        />
     <!--用户信息布局-->
     <RelativeLayout
         android:layout_width="match_parent"
@@ -295,6 +286,7 @@
             android:layout_marginLeft="12dp"
             android:drawableLeft="@drawable/icon_order"
             android:drawablePadding="4dp"
+            android:gravity="center_vertical"
             android:text="我的订单"
             android:textColor="@color/light_black"
             android:textSize="14sp"
@@ -702,6 +694,7 @@
             android:layout_marginLeft="12dp"
             android:drawableLeft="@drawable/icon_address"
             android:drawablePadding="4dp"
+            android:gravity="center_vertical"
             android:text="地址管理"
             android:textColor="@color/light_black"
             android:textSize="14sp"
@@ -770,6 +763,7 @@
             android:layout_marginLeft="12dp"
             android:drawableLeft="@drawable/feedback"
             android:drawablePadding="4dp"
+            android:gravity="center_vertical"
             android:text="意见反馈"
             android:textColor="@color/light_black"
             android:textSize="14sp"
@@ -792,6 +786,7 @@
             android:layout_marginLeft="12dp"
             android:drawableLeft="@drawable/icon_information"
             android:drawablePadding="4dp"
+            android:gravity="center_vertical"
             android:text="版本信息"
             android:textColor="@color/light_black"
             android:textSize="14sp"
