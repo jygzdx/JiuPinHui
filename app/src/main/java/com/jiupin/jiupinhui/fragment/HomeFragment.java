@@ -69,6 +69,7 @@ public class HomeFragment extends Fragment {
         rvHomeLove = (RecyclerView) view.findViewById(R.id.rv_home_love);
         RecyclerView.LayoutManager manager = new GridLayoutManager(getContext(), 2);
         rvHomeLove.setLayoutManager(manager);
+        rvHomeLove.setNestedScrollingEnabled(false);
         rvHomeLove.addItemDecoration(new DividerGridItemDecoration(getContext()));
         rvHomeLove.setAdapter(new HomeLoveAdapter(getContext()));
     }
