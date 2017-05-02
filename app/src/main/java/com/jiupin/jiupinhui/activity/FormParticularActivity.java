@@ -1,5 +1,6 @@
 package com.jiupin.jiupinhui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
@@ -37,6 +38,8 @@ public class FormParticularActivity extends BaseActivity {
     Button btnLeft;
     @BindView(R.id.btn_right)
     Button btnRight;
+    @BindView(R.id.ll_address)
+    View llAddress;
     /**
      * 保存取消订单弹出窗的radiobutton
      */
@@ -53,9 +56,14 @@ public class FormParticularActivity extends BaseActivity {
     }
 
 
-    @OnClick({R.id.btn_left, R.id.btn_right})
+    @OnClick({R.id.btn_left, R.id.btn_right,R.id.ll_address})
     public void onViewClicked(View view) {
         switch (view.getId()) {
+            case R.id.ll_address:
+                Intent intent = new Intent(mContext,CompileAddressActivity.class);
+                intent.putExtra("status",true);
+                startActivity(intent);
+                break;
             case R.id.btn_left:
                 switch (formStatus) {
                     case WAIT_PAY://取消订单

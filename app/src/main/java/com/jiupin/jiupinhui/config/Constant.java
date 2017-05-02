@@ -47,4 +47,5 @@ public class Constant {
     public static final int WAIT_GAIN_GOODS = 106;
 
 
+
 }

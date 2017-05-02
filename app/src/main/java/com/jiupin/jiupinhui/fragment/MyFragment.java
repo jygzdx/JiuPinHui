@@ -12,8 +12,10 @@ import android.widget.TextView;
 
 import com.jiupin.jiupinhui.R;
 import com.jiupin.jiupinhui.activity.IdeaBackActivity;
+import com.jiupin.jiupinhui.activity.ManageAddressActivity;
 import com.jiupin.jiupinhui.activity.MemberClubActivity;
 import com.jiupin.jiupinhui.activity.MyFormActivity;
+import com.jiupin.jiupinhui.activity.VersionActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -21,9 +23,8 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 
 /**
- * Created by Administrator on 2017/3/15.
+ * Created by czb on 2017/3/15.
  */
-
 public class MyFragment extends Fragment {
     @BindView(R.id.tv_member_club)
     TextView tvMemberClub;
@@ -33,6 +34,8 @@ public class MyFragment extends Fragment {
     TextView tvLookForm;
     @BindView(R.id.rl_my_idea_back)
     RelativeLayout rlMyIdeaBack;
+    @BindView(R.id.rl_my_indent)
+    RelativeLayout rlMyIndent;
     Unbinder unbinder;
     private View view;
 
@@ -50,7 +53,7 @@ public class MyFragment extends Fragment {
         unbinder.unbind();
     }
 
-    @OnClick({R.id.tv_member_club, R.id.rl_member_service, R.id.tv_look_form,R.id.rl_my_idea_back})
+    @OnClick({R.id.tv_member_club, R.id.rl_member_service, R.id.tv_look_form,R.id.rl_my_idea_back,R.id.rl_my_indent,R.id.rl_versions_info})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_member_club:
@@ -68,6 +71,14 @@ public class MyFragment extends Fragment {
             case R.id.rl_my_idea_back:
                 Intent intent4 = new Intent(getActivity(), IdeaBackActivity.class);
                 getActivity().startActivity(intent4);
+                break;
+            case R.id.rl_my_indent:
+                Intent intent5 = new Intent(getActivity(), ManageAddressActivity.class);
+                getActivity().startActivity(intent5);
+                break;
+            case R.id.rl_versions_info:
+                Intent intent6 = new Intent(getActivity(), VersionActivity.class);
+                getActivity().startActivity(intent6);
                 break;
         }
     }
