@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.jiupin.jiupinhui.R;
 import com.jiupin.jiupinhui.activity.IdeaBackActivity;
+import com.jiupin.jiupinhui.activity.LoginActivity;
 import com.jiupin.jiupinhui.activity.ManageAddressActivity;
 import com.jiupin.jiupinhui.activity.MemberClubActivity;
 import com.jiupin.jiupinhui.activity.MyFormActivity;
@@ -38,6 +39,8 @@ public class MyFragment extends Fragment {
     @BindView(R.id.rl_my_indent)
     RelativeLayout rlMyIndent;
     Unbinder unbinder;
+    @BindView(R.id.tv_my_login)
+    TextView tvMyLogin;
     private View view;
 
     @Nullable
@@ -54,7 +57,9 @@ public class MyFragment extends Fragment {
         unbinder.unbind();
     }
 
-    @OnClick({R.id.tv_member_club, R.id.rl_member_service, R.id.tv_look_form,R.id.rl_my_idea_back,R.id.rl_my_indent,R.id.rl_versions_info,R.id.civ_head})
+    @OnClick({R.id.tv_member_club, R.id.rl_member_service, R.id.tv_look_form,
+            R.id.rl_my_idea_back, R.id.rl_my_indent, R.id.rl_versions_info,
+            R.id.civ_head,R.id.tv_my_login})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_member_club:
@@ -85,6 +90,11 @@ public class MyFragment extends Fragment {
                 Intent intent7 = new Intent(getActivity(), PersonInfoActivity.class);
                 getActivity().startActivity(intent7);
                 break;
+            case R.id.tv_my_login:
+                Intent intent8 = new Intent(getActivity(), LoginActivity.class);
+                getActivity().startActivity(intent8);
+                break;
         }
     }
+
 }

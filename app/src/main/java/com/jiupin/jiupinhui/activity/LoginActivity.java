@@ -13,6 +13,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jiupin.jiupinhui.R;
+import com.jiupin.jiupinhui.utils.WindowUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -142,7 +143,8 @@ public class LoginActivity extends AppCompatActivity {
         hideAllBottomLayout();
         rlBottomRegister.setVisibility(View.VISIBLE);
         rlBottomRegister.clearAnimation();
-        ObjectAnimator rightToLeft = ObjectAnimator.ofFloat(rlBottomRegister, "translationX", rlBottomRegister.getWidth(), 0);
+        int wight = WindowUtils.getWindowWidth(this);
+        ObjectAnimator rightToLeft = ObjectAnimator.ofFloat(rlBottomRegister, "translationX", wight, 0);
         rightToLeft.setInterpolator(new DecelerateInterpolator());
         rightToLeft.setDuration(200);
         rightToLeft.start();
@@ -156,7 +158,8 @@ public class LoginActivity extends AppCompatActivity {
         hideAllBottomLayout();
         rlBottomLogin.setVisibility(View.VISIBLE);
         rlBottomLogin.clearAnimation();
-        ObjectAnimator leftToRight = ObjectAnimator.ofFloat(rlBottomLogin, "translationX", -rlBottomLogin.getWidth(), 0);//
+        int wight = WindowUtils.getWindowWidth(this);
+        ObjectAnimator leftToRight = ObjectAnimator.ofFloat(rlBottomLogin, "translationX", -wight, 0);
         leftToRight.setInterpolator(new DecelerateInterpolator());
         leftToRight.setDuration(200);
         leftToRight.start();

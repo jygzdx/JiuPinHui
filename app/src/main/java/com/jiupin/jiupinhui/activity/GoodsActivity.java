@@ -148,25 +148,25 @@ public class GoodsActivity extends BaseActivity {
                     float alpha = 255 * scale;
                     //滑动时改变标题栏的透明度
                     rlGoodsTitle.setBackgroundColor(Color.argb((int) alpha, 0xd3, 0xac, 0x65));
-
+//隐藏
                     //设置收藏和分享按钮是否可见
-                    if (ivGoodsCollectingEnd.getVisibility() == View.VISIBLE) {
-                        ivGoodsCollectingEnd.setVisibility(View.GONE);
-                    }
-                    if (ivGoodsShareEnd.getVisibility() == View.VISIBLE) {
-                        ivGoodsShareEnd.setVisibility(View.GONE);
-                    }
+//                    if (ivGoodsCollectingEnd.getVisibility() == View.VISIBLE) {
+//                        ivGoodsCollectingEnd.setVisibility(View.GONE);
+//                    }
+//                    if (ivGoodsShareEnd.getVisibility() == View.VISIBLE) {
+//                        ivGoodsShareEnd.setVisibility(View.GONE);
+//                    }
                 } else if (scrollY > height) {
                     //滑动时改变标题栏的透明度
                     rlGoodsTitle.getBackground().setAlpha(255);
 
                     //设置收藏和分享按钮是否可见
-                    if (ivGoodsCollectingEnd.getVisibility() == View.GONE) {
-                        ivGoodsCollectingEnd.setVisibility(View.VISIBLE);
-                    }
-                    if (ivGoodsShareEnd.getVisibility() == View.GONE) {
-                        ivGoodsShareEnd.setVisibility(View.VISIBLE);
-                    }
+//                    if (ivGoodsCollectingEnd.getVisibility() == View.GONE) {
+//                        ivGoodsCollectingEnd.setVisibility(View.VISIBLE);
+//                    }
+//                    if (ivGoodsShareEnd.getVisibility() == View.GONE) {
+//                        ivGoodsShareEnd.setVisibility(View.VISIBLE);
+//                    }
                 }
                 //                LogUtils.d("scrollX = "+scrollX+",scrollY = "+scrollY+",oldScrollX = "+oldScrollX+",oldScrollY = "+oldScrollY);
                 int childHeight = nestedScrollView.getChildAt(0).getHeight();

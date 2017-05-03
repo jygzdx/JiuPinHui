@@ -43,6 +43,7 @@
                 android:id="@+id/rb_home"
                 style="@style/main_radiobutton"
                 android:text="首页"
+                android:checked="true"
                 android:drawableTop="@drawable/selector_home"
                 />
 
