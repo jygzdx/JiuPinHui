@@ -2,9 +2,12 @@ package com.jiupin.jiupinhui.activity;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v4.widget.NestedScrollView;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -12,6 +15,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jiupin.jiupinhui.R;
+import com.jiupin.jiupinhui.utils.LogUtils;
 import com.jiupin.jiupinhui.widget.GoodsShowView;
 
 import butterknife.BindView;
@@ -101,6 +105,8 @@ public class GoodsActivity extends BaseActivity {
     RelativeLayout rlBuyCar;
     @BindView(R.id.ll_goods_bottom)
     LinearLayout llGoodsBottom;
+    @BindView(R.id.wv_webview)
+    WebView wvWebview;
 
 
     @Override
@@ -111,14 +117,31 @@ public class GoodsActivity extends BaseActivity {
 
         initGoodsShowView();
         initListener();
+        initWebView();
+    }
+
+    /**
+     * 初始化webview
+     */
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    private void initWebView() {
+        //禁止webview进行复制黏贴
+        wvWebview.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                return true;
+            }
+        });
+        wvWebview.setNestedScrollingEnabled(false);
+        wvWebview.loadUrl("http://192.168.0.110:8080/web/wxShopping");
     }
 
     private void initListener() {
+
         nsvGoodsScrollview.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
             @Override
             public void onScrollChange(NestedScrollView nestedScrollView, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
 
-//                float height = btnGoodsCollectingStart.getY();
                 float height = 300f;
                 if (scrollY <= height && scrollY >= 0) {
                     float scale = (float) scrollY / height;
@@ -127,10 +150,10 @@ public class GoodsActivity extends BaseActivity {
                     rlGoodsTitle.setBackgroundColor(Color.argb((int) alpha, 0xd3, 0xac, 0x65));
 
                     //设置收藏和分享按钮是否可见
-                    if(ivGoodsCollectingEnd.getVisibility()==View.VISIBLE){
+                    if (ivGoodsCollectingEnd.getVisibility() == View.VISIBLE) {
                         ivGoodsCollectingEnd.setVisibility(View.GONE);
                     }
-                    if(ivGoodsShareEnd.getVisibility()==View.VISIBLE){
+                    if (ivGoodsShareEnd.getVisibility() == View.VISIBLE) {
                         ivGoodsShareEnd.setVisibility(View.GONE);
                     }
                 } else if (scrollY > height) {
@@ -138,13 +161,17 @@ public class GoodsActivity extends BaseActivity {
                     rlGoodsTitle.getBackground().setAlpha(255);
 
                     //设置收藏和分享按钮是否可见
-                    if(ivGoodsCollectingEnd.getVisibility()==View.GONE){
+                    if (ivGoodsCollectingEnd.getVisibility() == View.GONE) {
                         ivGoodsCollectingEnd.setVisibility(View.VISIBLE);
                     }
-                    if(ivGoodsShareEnd.getVisibility()==View.GONE){
+                    if (ivGoodsShareEnd.getVisibility() == View.GONE) {
                         ivGoodsShareEnd.setVisibility(View.VISIBLE);
                     }
                 }
+                //                LogUtils.d("scrollX = "+scrollX+",scrollY = "+scrollY+",oldScrollX = "+oldScrollX+",oldScrollY = "+oldScrollY);
+                int childHeight = nestedScrollView.getChildAt(0).getHeight();
+                int scrollviewHeight = nestedScrollView.getHeight();
+                LogUtils.d("childHeight = " + childHeight + ",scrollY = " + scrollY + ",scrollviewHeight = " + scrollviewHeight);
             }
         });
     }
@@ -154,19 +181,19 @@ public class GoodsActivity extends BaseActivity {
         llGoodsShow.addView(goodsShowView);
     }
 
-    @OnClick({R.id.btn_contact_customer, R.id.rl_buy_car,R.id.btn_check_appraise})
+    @OnClick({R.id.btn_contact_customer, R.id.rl_buy_car, R.id.btn_check_appraise})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_contact_customer:
-                Intent intent2 = new Intent(mContext,FamiliarQuestionActivity.class);
+                Intent intent2 = new Intent(mContext, FamiliarQuestionActivity.class);
                 startActivity(intent2);
                 break;
             case R.id.rl_buy_car:
-                Intent intent1 = new Intent(mContext,BuyCartActivity.class);
+                Intent intent1 = new Intent(mContext, BuyCartActivity.class);
                 startActivity(intent1);
                 break;
             case R.id.btn_check_appraise:
-                Intent intent = new Intent(this,CommentActivity.class);
+                Intent intent = new Intent(this, CommentActivity.class);
                 startActivity(intent);
                 break;
         }

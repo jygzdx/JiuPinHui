@@ -15,6 +15,7 @@ import com.jiupin.jiupinhui.activity.IdeaBackActivity;
 import com.jiupin.jiupinhui.activity.ManageAddressActivity;
 import com.jiupin.jiupinhui.activity.MemberClubActivity;
 import com.jiupin.jiupinhui.activity.MyFormActivity;
+import com.jiupin.jiupinhui.activity.PersonInfoActivity;
 import com.jiupin.jiupinhui.activity.VersionActivity;
 
 import butterknife.BindView;
@@ -53,7 +54,7 @@ public class MyFragment extends Fragment {
         unbinder.unbind();
     }
 
-    @OnClick({R.id.tv_member_club, R.id.rl_member_service, R.id.tv_look_form,R.id.rl_my_idea_back,R.id.rl_my_indent,R.id.rl_versions_info})
+    @OnClick({R.id.tv_member_club, R.id.rl_member_service, R.id.tv_look_form,R.id.rl_my_idea_back,R.id.rl_my_indent,R.id.rl_versions_info,R.id.civ_head})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_member_club:
@@ -79,6 +80,10 @@ public class MyFragment extends Fragment {
             case R.id.rl_versions_info:
                 Intent intent6 = new Intent(getActivity(), VersionActivity.class);
                 getActivity().startActivity(intent6);
+                break;
+            case R.id.civ_head:
+                Intent intent7 = new Intent(getActivity(), PersonInfoActivity.class);
+                getActivity().startActivity(intent7);
                 break;
         }
     }
