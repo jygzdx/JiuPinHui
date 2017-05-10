@@ -43,4 +43,7 @@ dependencies {
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
     //搜索框
     compile 'com.github.chaychan:PowerfulViewLibrary:1.0'
+
+    //图片选择器
+    compile 'com.jph.takephoto:takephoto_library:4.0.3'
 }

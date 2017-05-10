@@ -42,7 +42,10 @@
         </activity>
         <activity android:name=".activity.MyFormActivity">
         </activity>
-        <activity android:name=".activity.SendCommentActivity">
+        <activity android:name=".activity.SendCommentActivity"
+                  android:screenOrientation="portrait"
+                  android:configChanges="orientation|keyboardHidden|screenSize"
+            >
         </activity>
         <activity android:name=".activity.FamiliarQuestionActivity">
         </activity>

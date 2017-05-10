@@ -33,12 +33,6 @@ public class LoginActivity extends AppCompatActivity {
     ImageView ivLoginWeibo;
     @BindView(R.id.et_login_mobile)
     EditText etLoginMobile;
-    @BindView(R.id.iv_login_mobile)
-    ImageView ivLoginMobile;
-    @BindView(R.id.et_login_password)
-    EditText etLoginPassword;
-    @BindView(R.id.iv_login_password)
-    ImageView ivLoginPassword;
     @BindView(R.id.btn_login_bottom)
     Button btnLoginBottom;
     @BindView(R.id.tv_reset_password)
@@ -47,20 +41,14 @@ public class LoginActivity extends AppCompatActivity {
     RelativeLayout rlBottomLogin;
     @BindView(R.id.et_register_mobile)
     EditText etRegisterMobile;
-    @BindView(R.id.iv_register_mobile)
-    ImageView ivRegisterMobile;
     @BindView(R.id.et_register_checkout)
     EditText etRegisterCheckout;
     @BindView(R.id.iv_register_checkout)
     Button ivRegisterCheckout;
     @BindView(R.id.et_register_password_one)
     EditText etRegisterPasswordOne;
-    @BindView(R.id.iv_register_password_one)
-    ImageView ivRegisterPasswordOne;
     @BindView(R.id.et_register_password_two)
     EditText etRegisterPasswordTwo;
-    @BindView(R.id.iv_register_password_two)
-    ImageView ivRegisterPasswordTwo;
     @BindView(R.id.btn_register_deal)
     Button btnRegisterDeal;
     @BindView(R.id.btn_register_bottom)
@@ -69,20 +57,14 @@ public class LoginActivity extends AppCompatActivity {
     RelativeLayout rlBottomRegister;
     @BindView(R.id.et_reset_mobile)
     EditText etResetMobile;
-    @BindView(R.id.iv_reset_mobile)
-    ImageView ivResetMobile;
     @BindView(R.id.et_reset_checkout)
     EditText etResetCheckout;
     @BindView(R.id.iv_reset_checkout)
     Button ivResetCheckout;
     @BindView(R.id.et_reset_password_one)
     EditText etResetPasswordOne;
-    @BindView(R.id.iv_reset_password_one)
-    ImageView ivResetPasswordOne;
     @BindView(R.id.et_reset_password_two)
     EditText etResetPasswordTwo;
-    @BindView(R.id.iv_reset_password_two)
-    ImageView ivResetPasswordTwo;
     @BindView(R.id.btn_reset_bottom)
     Button btnResetBottom;
     @BindView(R.id.rl_bottom_reset)
