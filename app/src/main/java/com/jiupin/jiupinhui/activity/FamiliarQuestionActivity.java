@@ -15,7 +15,6 @@ import butterknife.OnClick;
  * 常见问题界面
  */
 public class FamiliarQuestionActivity extends BaseActivity {
-
     @BindView(R.id.tv_contact_service)
     TextView tvContactService;
 

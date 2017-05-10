@@ -1,7 +1,6 @@
 package com.jiupin.jiupinhui.activity;
 
 import android.animation.ObjectAnimator;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -13,7 +12,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jiupin.jiupinhui.R;
+import com.jiupin.jiupinhui.config.Constant;
 import com.jiupin.jiupinhui.utils.WindowUtils;
+import com.tencent.mm.opensdk.modelmsg.SendAuth;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -69,12 +72,19 @@ public class LoginActivity extends AppCompatActivity {
     Button btnResetBottom;
     @BindView(R.id.rl_bottom_reset)
     RelativeLayout rlBottomReset;
+    private IWXAPI api;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
+        //微信登录的code
+        String code = getIntent().getStringExtra("code");
+
+        api = WXAPIFactory.createWXAPI(LoginActivity.this, Constant.APP_ID, true);
+        api.registerApp(Constant.APP_ID);
     }
 
     @OnClick({R.id.btn_login, R.id.btn_register, R.id.tv_reset_password,R.id.btn_login_bottom})
@@ -104,8 +114,11 @@ public class LoginActivity extends AppCompatActivity {
                 }
                 break;
             case R.id.btn_login_bottom:
-                Intent intent = new Intent(this,MainActivity.class);
-                startActivity(intent);
+                SendAuth.Req req = new SendAuth.Req();
+                req.scope = "snsapi_userinfo";
+                req.state = "123456";
+                boolean status = api.sendReq(req);
+                finish();
                 break;
         }
     }

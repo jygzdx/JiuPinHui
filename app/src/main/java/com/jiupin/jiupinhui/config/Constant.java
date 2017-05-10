@@ -5,6 +5,8 @@ package com.jiupin.jiupinhui.config;
  */
 
 public class Constant {
+
+    public static final String APP_ID = "wx420947e7a04ec1df";
     /**
      * 获取轮播图图片
      */

@@ -67,7 +67,7 @@ public class SendCommentActivity extends TakePhotoActivity {
                 takePhoto = getTakePhoto();
                 if (null == config) {
                     config = new CompressConfig.Builder()
-                            .setMaxSize(10 * 1024)
+                            .setMaxSize(5 * 1024)
                             .setMaxPixel(800)
                             .enableReserveRaw(true)
                             .create();
@@ -76,12 +76,6 @@ public class SendCommentActivity extends TakePhotoActivity {
                 takePhoto.onPickMultiple(3);
                 break;
         }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        takePhoto = getTakePhoto();
     }
 
     @Override

@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           xmlns:tools="http://schemas.android.com/tools"
           package="com.jiupin.jiupinhui">
+
     <uses-sdk tools:overrideLibrary="com.chaychan.viewlib"/>
 
     <uses-permission android:name="android.permission.INTERNET"/>
@@ -42,10 +43,10 @@
         </activity>
         <activity android:name=".activity.MyFormActivity">
         </activity>
-        <activity android:name=".activity.SendCommentActivity"
-                  android:screenOrientation="portrait"
-                  android:configChanges="orientation|keyboardHidden|screenSize"
-            >
+        <activity
+            android:name=".activity.SendCommentActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait">
         </activity>
         <activity android:name=".activity.FamiliarQuestionActivity">
         </activity>
@@ -72,6 +73,12 @@
         <activity android:name=".activity.CompileAddressActivity">
         </activity>
         <activity android:name=".activity.VersionActivity">
+        </activity>
+        <activity
+            android:name=".wxapi.WXEntryActivity"
+            android:exported="true"
+            android:launchMode="singleTop"
+            >
         </activity>
     </application>
 
