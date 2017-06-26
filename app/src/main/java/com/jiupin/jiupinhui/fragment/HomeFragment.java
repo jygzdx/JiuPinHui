@@ -28,6 +28,7 @@ public class HomeFragment extends Fragment {
     private View llTitleBar;
     private LinearLayout ll_advertis;
     private RecyclerView rvHomeLove;
+    private HomeLoveAdapter adapter;
 
     @Nullable
     @Override
@@ -68,10 +69,27 @@ public class HomeFragment extends Fragment {
         //初始化RecyclerView
         rvHomeLove = (RecyclerView) view.findViewById(R.id.rv_home_love);
         RecyclerView.LayoutManager manager = new GridLayoutManager(getContext(), 2);
+
+        ((GridLayoutManager)manager).setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(int i) {
+                switch (adapter.getItemViewType(i)){
+                    case HomeLoveAdapter.FOOT_VIEW:
+                        return 2;
+                    case HomeLoveAdapter.DEFAUL_VIEW:
+                        return 1;
+                }
+                return 0;
+            }
+        });
+
         rvHomeLove.setLayoutManager(manager);
+
+
         rvHomeLove.setNestedScrollingEnabled(false);
         rvHomeLove.addItemDecoration(new DividerGridItemDecoration(getContext()));
-        rvHomeLove.setAdapter(new HomeLoveAdapter(getContext()));
+        adapter = new HomeLoveAdapter(getContext());
+        rvHomeLove.setAdapter(adapter);
     }
 
     @Override

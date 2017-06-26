@@ -7,7 +7,9 @@ import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.v4.widget.NestedScrollView;
 import android.view.View;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -133,7 +135,19 @@ public class GoodsActivity extends BaseActivity {
             }
         });
         wvWebview.setNestedScrollingEnabled(false);
-        wvWebview.loadUrl("http://192.168.0.110:8080/web/wxShopping");
+        wvWebview.getSettings().setJavaScriptEnabled(true);
+        wvWebview.loadUrl("http://napp.9pin.com/wx/page/wxShoppingDetail.htm?id=6456");
+//        wvWebview.loadUrl("http://www.baidu.com");
+        wvWebview.setWebViewClient(new WebViewClient(){
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+//                wvWebview.loadUrl("http://napp.9pin.com/wx/page/wxShoppingDetail.htm?id=6456");
+                return true;
+            }
+        });
+
+//        String html = "";
+//        wvWebview.loadDataWithBaseURL(null, html, "text/html", "utf-8", null);
     }
 
     private void initListener() {

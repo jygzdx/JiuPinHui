@@ -6,20 +6,32 @@ package com.jiupin.jiupinhui.config;
 
 public class Constant {
 
+    public static final String MAIN_URL = "http://napp.9pin.com";
+
     public static final String APP_ID = "wx420947e7a04ec1df";
     /**
      * 获取轮播图图片
      */
-    public static final String CAROUSEL_URL = "https://napp.9pin.com/display/getCarouselList";
+    public static final String CAROUSEL_URL = MAIN_URL+"/display/getCarouselList";
 
     /**
      * 通过id查询所有酒的详细数据
      */
-    public static final String WINE_URL = "https://napp.9pin.com/display/getWinesByCid";
+    public static final String WINE_URL = MAIN_URL+"/display/getWinesByCid";
     /**
      * 获取热门品牌
      */
-    public static final String WINE_Brand_URL = "https://napp.9pin.com/display/getHotBrands";
+    public static final String WINE_BRAND_URL = MAIN_URL+"/display/getHotBrands";
+
+    /**
+     * 获取验证码
+     */
+    public static final String SECURITY_CODE_URL = MAIN_URL+"/appRegister/app/sendSmsMsg.json";
+
+    /**
+     * 注册用户
+     */
+    public static final String REGISTER_USER_URL = MAIN_URL+"/appRegister/app/registerUser.json";
 
 
 

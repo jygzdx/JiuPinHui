@@ -2,26 +2,29 @@ package com.jiupin.jiupinhui.model.impl;
 
 import com.google.gson.Gson;
 import com.jiupin.jiupinhui.config.Constant;
-import com.jiupin.jiupinhui.entity.Wine;
-import com.jiupin.jiupinhui.entity.WineBrand;
+import com.jiupin.jiupinhui.entity.RegisterEntity;
+import com.jiupin.jiupinhui.entity.SecurityCodeEntity;
+import com.jiupin.jiupinhui.model.ILoginActivityModel;
 import com.jiupin.jiupinhui.model.IModel;
-import com.jiupin.jiupinhui.model.IWineFragmentModel;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
 import okhttp3.Call;
 
 /**
- * Created by Administrator on 2017/3/31.
+ * 作者：czb on 2017/6/26 14:30
  */
 
-public class WineFragmentModelImpl implements IWineFragmentModel {
+public class LoginActivityModelImpl implements ILoginActivityModel {
+
+
+
     @Override
-    public void getData(final IModel.CallBack callBack) {
+    public void getSecurityCode(final String mobile, final IModel.CallBack callBack) {
         OkHttpUtils
-                .get()
-                .url(Constant.WINE_URL)
-                .addParams("categoryId","1")
+                .post()
+                .url(Constant.SECURITY_CODE_URL)
+                .addParams("mobile",mobile)
                 .build()
                 .execute(new StringCallback() {
                     @Override
@@ -32,17 +35,20 @@ public class WineFragmentModelImpl implements IWineFragmentModel {
                     @Override
                     public void onResponse(String response, int id) {
                         Gson gson = new Gson();
-                        Wine wine = gson.fromJson(response, Wine.class);
-                        callBack.onSuccess(wine);
+                        SecurityCodeEntity securityCodeEntity = gson.fromJson(response, SecurityCodeEntity.class);
+                        callBack.onSuccess(securityCodeEntity);
                     }
                 });
     }
 
     @Override
-    public void getBrandData(final IModel.CallBack callBack) {
+    public void registerUser(String mobile, String code, String pwd, final IModel.CallBack callBack) {
         OkHttpUtils
-                .get()
-                .url(Constant.WINE_BRAND_URL)
+                .post()
+                .url(Constant.REGISTER_USER_URL)
+                .addParams("mobile",mobile)
+                .addParams("pwd",pwd)
+                .addParams("sms",code)
                 .build()
                 .execute(new StringCallback() {
                     @Override
@@ -53,8 +59,8 @@ public class WineFragmentModelImpl implements IWineFragmentModel {
                     @Override
                     public void onResponse(String response, int id) {
                         Gson gson = new Gson();
-                        WineBrand brand = gson.fromJson(response, WineBrand.class);
-                        callBack.onSuccess(brand);
+                        RegisterEntity registerEntity = gson.fromJson(response, RegisterEntity.class);
+                        callBack.onSuccess(registerEntity);
                     }
                 });
     }
