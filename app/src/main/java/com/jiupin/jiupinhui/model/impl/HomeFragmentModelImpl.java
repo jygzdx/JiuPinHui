@@ -3,6 +3,7 @@ package com.jiupin.jiupinhui.model.impl;
 import com.google.gson.Gson;
 import com.jiupin.jiupinhui.config.Constant;
 import com.jiupin.jiupinhui.entity.HotRecommentEntity;
+import com.jiupin.jiupinhui.entity.MainShowEntity;
 import com.jiupin.jiupinhui.model.IHomeFragmentModel;
 import com.jiupin.jiupinhui.model.IModel;
 import com.jiupin.jiupinhui.utils.LogUtils;
@@ -39,6 +40,35 @@ public class HomeFragmentModelImpl implements IHomeFragmentModel {
                             callBack.onSuccess(hotRecommentEntity);
                         }else{
                             callBack.onFailed(hotRecommentEntity.getMsg());
+                        }
+
+                    }
+                });
+    }
+
+    @Override
+    public void getMainShow(final IModel.CallBack callBack) {
+        OkHttpUtils
+                .post()
+                .url(Constant.MAIN_SHOW_URL)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+                        LogUtils.d("网络出错" + e.getMessage());
+                        callBack.onFailed(e.getMessage());
+
+                    }
+
+                    @Override
+                    public void onResponse(String response, int id) {
+                        LogUtils.d("response = "+response);
+                        Gson gson = new Gson();
+                        MainShowEntity mainShowEntity = gson.fromJson(response,MainShowEntity.class);
+                        if ("OK".equals(mainShowEntity.getMsg())){
+                            callBack.onSuccess(mainShowEntity);
+                        }else{
+                            callBack.onFailed(mainShowEntity.getMsg());
                         }
 
                     }

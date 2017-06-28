@@ -10,4 +10,9 @@ public interface IHomeFragmentModel {
      * 获取热门推荐
      */
     void getHotRecomment(IModel.CallBack callBack);
+
+    /**
+     * 获取推荐套餐
+     */
+    void getMainShow(IModel.CallBack callBack);
 }

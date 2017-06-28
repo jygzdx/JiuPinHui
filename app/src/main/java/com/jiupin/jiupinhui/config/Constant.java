@@ -51,6 +51,16 @@ public class Constant {
     public static final String HOT_RECOMMENT_URL = TEST_URL+"/appGoods/home/getGoodsList.json";
 
     /**
+     * 推荐套餐
+     */
+    public static final String MAIN_SHOW_URL = TEST_URL+"/appGoods/home/getMealsList.json";
+
+    /**
+     * 猜你喜欢
+     */
+    public static final String GUESS_LOVE_URL = TEST_URL+"/appGoods/home/getYourFavorite.json";
+
+    /**
      * 等待付款
      */
     public static final int WAIT_PAY = 101;

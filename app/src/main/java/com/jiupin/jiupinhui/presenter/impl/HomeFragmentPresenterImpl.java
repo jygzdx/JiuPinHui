@@ -1,6 +1,7 @@
 package com.jiupin.jiupinhui.presenter.impl;
 
 import com.jiupin.jiupinhui.entity.HotRecommentEntity;
+import com.jiupin.jiupinhui.entity.MainShowEntity;
 import com.jiupin.jiupinhui.model.IHomeFragmentModel;
 import com.jiupin.jiupinhui.model.IModel;
 import com.jiupin.jiupinhui.model.impl.HomeFragmentModelImpl;
@@ -26,6 +27,21 @@ public class HomeFragmentPresenterImpl implements IHomeFragmentPresenter {
             @Override
             public void onSuccess(Object success) {
                 view.setHotRecommentData((HotRecommentEntity)success);
+            }
+
+            @Override
+            public void onFailed(Object error) {
+                LogUtils.d("error = "+error);
+            }
+        });
+    }
+
+    @Override
+    public void getMainShow() {
+        model.getMainShow(new IModel.CallBack() {
+            @Override
+            public void onSuccess(Object success) {
+                view.setMainShow((MainShowEntity)success);
             }
 
             @Override

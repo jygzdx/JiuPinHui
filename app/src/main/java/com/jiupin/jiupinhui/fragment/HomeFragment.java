@@ -15,7 +15,9 @@ import android.widget.LinearLayout;
 import com.jiupin.jiupinhui.R;
 import com.jiupin.jiupinhui.adapter.HomeLoveAdapter;
 import com.jiupin.jiupinhui.adapter.HotRecommentAdapter;
+import com.jiupin.jiupinhui.adapter.MainShowAdapter;
 import com.jiupin.jiupinhui.entity.HotRecommentEntity;
+import com.jiupin.jiupinhui.entity.MainShowEntity;
 import com.jiupin.jiupinhui.presenter.IHomeFragmentPresenter;
 import com.jiupin.jiupinhui.presenter.impl.HomeFragmentPresenterImpl;
 import com.jiupin.jiupinhui.utils.LogUtils;
@@ -49,6 +51,8 @@ public class HomeFragment extends Fragment implements IHomeFragmentView{
     private HomeLoveAdapter adapter;
     private HotRecommentAdapter mHotRecommentAdapter;
     private IHomeFragmentPresenter presenter;
+    private MainShowAdapter mMainShowAdapter;
+
 
     @Nullable
     @Override
@@ -71,9 +75,13 @@ public class HomeFragment extends Fragment implements IHomeFragmentView{
     private void initData() {
         //获取热门推荐商品
         presenter.getHotRecomment();
+        //获取主推套餐
+        presenter.getMainShow();
     }
 
     private void initListener() {
+
+
         nsvScorllView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
             @Override
             public void onScrollChange(NestedScrollView nestedScrollView, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
@@ -107,6 +115,9 @@ public class HomeFragment extends Fragment implements IHomeFragmentView{
     }
 
     private void initMainShow() {
+        RecyclerView.LayoutManager manager = new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false);
+        rvMianShow.setLayoutManager(manager);
+        rvMianShow.setNestedScrollingEnabled(false);
     }
 
     private void initHomeLoveRv() {
@@ -160,8 +171,17 @@ public class HomeFragment extends Fragment implements IHomeFragmentView{
         if(mHotRecommentAdapter == null){
             mHotRecommentAdapter = new HotRecommentAdapter(getContext(),hotRecommentEntity.getData());
         }
+
         rvHotRecommend.setAdapter(mHotRecommentAdapter);
-        mHotRecommentAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void setMainShow(MainShowEntity mainShowEntity) {
+        if(mMainShowAdapter == null){
+            mMainShowAdapter = new MainShowAdapter(getContext(),mainShowEntity.getData());
+        }
+
+        rvMianShow.setAdapter(mMainShowAdapter);
     }
 }
 

@@ -10,4 +10,10 @@ public interface IHomeFragmentPresenter {
      * 获取热门推荐
      */
     void getHotRecomment();
+
+    /**
+     * 获取推荐套餐
+     */
+    void getMainShow();
+
 }
