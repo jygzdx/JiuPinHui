@@ -8,6 +8,8 @@ public class Constant {
 
     public static final String MAIN_URL = "http://napp.9pin.com";
 
+    public static final String TEST_URL = "http://192.168.0.112:8080";
+
     public static final String APP_ID = "wx420947e7a04ec1df";
     /**
      * 获取轮播图图片
@@ -26,14 +28,22 @@ public class Constant {
     /**
      * 获取验证码
      */
-    public static final String SECURITY_CODE_URL = MAIN_URL+"/appRegister/app/sendSmsMsg.json";
+    public static final String SECURITY_CODE_URL = TEST_URL+"/appRegister/app/sendSmsMsg.json";
 
     /**
      * 注册用户
      */
-    public static final String REGISTER_USER_URL = MAIN_URL+"/appRegister/app/registerUser.json";
+    public static final String REGISTER_USER_URL = TEST_URL+"/appRegister/app/registerUser.json";
 
+    /**
+     * 用户登录
+     */
+    public static final String LOGIN_USER_URL = TEST_URL+"/appLogin/app/loginByMobilePwd.json";
 
+    /**
+     * 校验手机号码是否注册过
+     */
+    public static final String IS_MOBILE_UNIQUE_URL = TEST_URL+"/appRegister/app/isMobileUnique.json";
 
     /**
      * 等待付款

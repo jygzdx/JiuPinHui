@@ -50,7 +50,38 @@ public class LoginActivityPresenterImpl implements ILoginActivityPresenter {
 
             @Override
             public void onFailed(Object error) {
-                view.registerFail();
+                view.registerFail((String) error);
+            }
+        });
+    }
+
+    @Override
+    public void loginUser(String mobile,String pwd, String way) {
+        model.loginUser(mobile,pwd,way,new IModel.CallBack(){
+
+            @Override
+            public void onSuccess(Object success) {
+                view.loginSuccess((RegisterEntity.DataBean.UserBean)success);
+            }
+
+            @Override
+            public void onFailed(Object error) {
+                view.loginFail((String) error);
+            }
+        });
+    }
+
+    @Override
+    public void isMobileUnique(String mobile) {
+        model.isMobileUnique(mobile, new IModel.CallBack() {
+            @Override
+            public void onSuccess(Object success) {
+                view.isMobileUnique((String) success);
+            }
+
+            @Override
+            public void onFailed(Object error) {
+
             }
         });
     }

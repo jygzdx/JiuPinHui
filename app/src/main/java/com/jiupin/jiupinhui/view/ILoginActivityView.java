@@ -17,6 +17,31 @@ public interface ILoginActivityView {
 
     /**
      * 注册失败
+     * @param errorMsg 错误信息
      */
-    void registerFail();
+    void registerFail(String errorMsg);
+    /**
+     * 登录成功
+     *
+     * @param userBean 返回实体类
+     */
+    void loginSuccess(RegisterEntity.DataBean.UserBean userBean);
+
+    /**
+     * 登录失败
+     * @param errorMsg 错误信息
+     */
+    void loginFail(String errorMsg);
+
+    /**
+     * 手机号码是否注册过
+     *
+     * @param data 手机号码是否注册过：0->注册过   1->没注册过
+     */
+    void isMobileUnique(String data);
+
+    /**
+     * 网络错误
+     */
+    void isMobileUniqueFail();
 }

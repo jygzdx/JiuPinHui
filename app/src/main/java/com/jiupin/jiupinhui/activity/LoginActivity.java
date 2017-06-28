@@ -1,6 +1,7 @@
 package com.jiupin.jiupinhui.activity;
 
 import android.animation.ObjectAnimator;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -18,11 +19,11 @@ import com.jiupin.jiupinhui.config.Constant;
 import com.jiupin.jiupinhui.entity.RegisterEntity;
 import com.jiupin.jiupinhui.presenter.ILoginActivityPresenter;
 import com.jiupin.jiupinhui.presenter.impl.LoginActivityPresenterImpl;
+import com.jiupin.jiupinhui.utils.LogUtils;
 import com.jiupin.jiupinhui.utils.StringUtils;
 import com.jiupin.jiupinhui.utils.ToastUtils;
 import com.jiupin.jiupinhui.utils.WindowUtils;
 import com.jiupin.jiupinhui.view.ILoginActivityView;
-import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
@@ -47,6 +48,8 @@ public class LoginActivity extends AppCompatActivity implements ILoginActivityVi
     ImageView ivLoginWeibo;
     @BindView(R.id.et_login_mobile)
     EditText etLoginMobile;
+    @BindView(R.id.et_login_password)
+    EditText etLoginPassword;
     @BindView(R.id.btn_login_bottom)
     Button btnLoginBottom;
     @BindView(R.id.tv_reset_password)
@@ -86,6 +89,8 @@ public class LoginActivity extends AppCompatActivity implements ILoginActivityVi
     private IWXAPI api;
 
     private ILoginActivityPresenter presenter;
+    //手机号码是否注册过
+    private boolean isMobileUnique;
 
     private Timer timer;
     private TimerTask task;
@@ -142,6 +147,8 @@ public class LoginActivity extends AppCompatActivity implements ILoginActivityVi
         String registerCheckout = etRegisterCheckout.getText().toString();
         String registerPasswordOne = etRegisterPasswordOne.getText().toString();
         String registerPasswordTwo = etRegisterPasswordTwo.getText().toString();
+        String loginMobile = etLoginMobile.getText().toString();
+        String loginPassword = etLoginPassword.getText().toString();
         switch (view.getId()) {
             case R.id.btn_login:
                 btnLogin.setBackgroundResource(R.drawable.login_clicked);
@@ -166,14 +173,17 @@ public class LoginActivity extends AppCompatActivity implements ILoginActivityVi
                     showBottomReset();
                 }
                 break;
-            case R.id.btn_login_bottom:
-                SendAuth.Req req = new SendAuth.Req();
-                req.scope = "snsapi_userinfo";
-                req.state = "123456";
-                //向微信发送请求
-                boolean status = api.sendReq(req);
+            case R.id.btn_login_bottom://用户登录
+//                SendAuth.Req req = new SendAuth.Req();
+//                req.scope = "snsapi_userinfo";
+//                req.state = "123456";
+//                //向微信发送请求
+//                boolean status = api.sendReq(req);
+                presenter.loginUser(loginMobile,loginPassword,"2");
                 break;
             case R.id.btn_register_checkout:
+
+                presenter.isMobileUnique(registerMobile);
 
                 if (!StringUtils.isEmpty(registerMobile) && StringUtils.isMobileNO(registerMobile)) {
                     btnRegisterCheckout.setClickable(false);
@@ -204,7 +214,7 @@ public class LoginActivity extends AppCompatActivity implements ILoginActivityVi
                 }
 
                 break;
-            case R.id.btn_register_bottom:
+            case R.id.btn_register_bottom://用户注册
                 if (StringUtils.isEmpty(registerMobile) || !StringUtils.isMobileNO(registerMobile)) {
                     ToastUtils.showShort(this, "手机号码输入错误");
                     return;
@@ -223,8 +233,11 @@ public class LoginActivity extends AppCompatActivity implements ILoginActivityVi
                     return;
                 }
 
-                presenter.registerUser(registerMobile, registerCheckout, registerPasswordOne);
-
+                if(isMobileUnique){
+                    presenter.registerUser(registerMobile, registerCheckout, registerPasswordOne);
+                }else {
+                    ToastUtils.showShort(this, "手机号码已经被注册过了");
+                }
 
                 break;
         }
@@ -288,10 +301,43 @@ public class LoginActivity extends AppCompatActivity implements ILoginActivityVi
     @Override
     public void registerSuccess(RegisterEntity registerEntity) {
         ToastUtils.showShort(this, "注册成功");
+        LogUtils.d("token = "+registerEntity.getData().getToken());
+        Intent intent = new Intent(this,MainActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     @Override
-    public void registerFail() {
-        ToastUtils.showShort(this, "注册失败");
+    public void registerFail(String errorMsg) {
+        ToastUtils.showShort(this, errorMsg);
     }
+
+
+    @Override
+    public void loginSuccess(RegisterEntity.DataBean.UserBean userBean) {
+        LogUtils.d("======================"+userBean.getMobile());
+        Intent intent = new Intent(this,MainActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    @Override
+    public void loginFail(String errorMsg) {
+        ToastUtils.showShort(this, errorMsg);
+    }
+
+    @Override
+    public void isMobileUnique(String data) {
+        if("0".equals(data)){
+            isMobileUnique = false;
+        }else {
+            isMobileUnique=true;
+        }
+    }
+
+    @Override
+    public void isMobileUniqueFail() {
+
+    }
+
 }

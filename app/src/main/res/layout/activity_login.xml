@@ -171,7 +171,7 @@
         android:layout_alignParentBottom="true"
         android:layout_below="@+id/ll_login_and_register"
         android:layout_marginTop="14dp"
-        android:visibility="gone"
+        android:visibility="visible"
         >
 
         <ImageView
@@ -228,7 +228,7 @@
                     android:layout_marginTop="5dp"
                     android:paddingBottom="10dp"
                     android:paddingTop="10dp"
-                    android:inputType="number"
+                    android:inputType="textPassword"
                     app:funcType="canClear"
                     android:drawableRight="@drawable/login_cancel"
                     android:drawablePadding="4dp"
@@ -279,7 +279,7 @@
         android:layout_alignParentBottom="true"
         android:layout_below="@+id/ll_login_and_register"
         android:layout_marginTop="14dp"
-        android:visibility="visible"
+        android:visibility="gone"
         >
         <!--对准图-->
         <ImageView
