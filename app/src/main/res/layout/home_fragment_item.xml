@@ -48,10 +48,38 @@
             android:layout_marginRight="12dp"
             android:hint="搜索商品"/>
 
-        <include layout="@layout/home_main_show"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="— 主推套餐 —"
+            android:textColor="@color/mainTextColor"
+            android:textSize="20sp"
+            android:layout_gravity="center"
+            android:padding="10dp"
+            />
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_mian_show"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </android.support.v7.widget.RecyclerView>
 
         <include layout="@layout/home_second_buy"/>
-        <include layout="@layout/home_hot_recommend"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="— 热门推荐 —"
+            android:textColor="@color/mainTextColor"
+            android:textSize="20sp"
+            android:layout_gravity="center"
+            android:padding="10dp"
+            />
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_hot_recommend"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </android.support.v7.widget.RecyclerView>
         <include layout="@layout/home_hot_article"/>
         <TextView
             android:layout_width="wrap_content"

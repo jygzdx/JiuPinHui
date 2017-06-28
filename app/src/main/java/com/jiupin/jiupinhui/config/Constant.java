@@ -46,6 +46,11 @@ public class Constant {
     public static final String IS_MOBILE_UNIQUE_URL = TEST_URL+"/appRegister/app/isMobileUnique.json";
 
     /**
+     * 热门推荐商品
+     */
+    public static final String HOT_RECOMMENT_URL = TEST_URL+"/appGoods/home/getGoodsList.json";
+
+    /**
      * 等待付款
      */
     public static final int WAIT_PAY = 101;
