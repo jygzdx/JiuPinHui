@@ -34,15 +34,15 @@ public class HomeLoveAdapter extends RecyclerView.Adapter {
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         LogUtils.d("viewType =  "+viewType);
-        if(viewType == FOOT_VIEW){
-            View view = inflater.inflate(R.layout.foot_layout,viewGroup,false);
-            RecyclerView.ViewHolder holder = new FootViewHolder(view);
-            return holder;
-        }else{
+//        if(viewType == FOOT_VIEW){
+//            View view = inflater.inflate(R.layout.foot_layout,viewGroup,false);
+//            RecyclerView.ViewHolder holder = new FootViewHolder(view);
+//            return holder;
+//        }else{
             View viewFoot = inflater.inflate(R.layout.home_love_item,viewGroup,false);
             RecyclerView.ViewHolder holder = new HomeLoveViewHolder(viewFoot);
             return holder;
-        }
+//        }
 
     }
 
@@ -65,32 +65,34 @@ public class HomeLoveAdapter extends RecyclerView.Adapter {
                     }
                 }
             });
-        }else if(holder instanceof FootViewHolder){
-            ((FootViewHolder)holder).tvLoadMore.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ToastUtils.show(mContext,"加载更多", Toast.LENGTH_SHORT);
-                    ((FootViewHolder)holder).tvLoadMore.setVisibility(View.GONE);
-                    ((FootViewHolder)holder).rlFoot.setVisibility(View.VISIBLE);
-                }
-            });
         }
+//        else if(holder instanceof FootViewHolder){
+//            ((FootViewHolder)holder).tvLoadMore.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    ToastUtils.show(mContext,"加载更多", Toast.LENGTH_SHORT);
+//                    ((FootViewHolder)holder).tvLoadMore.setVisibility(View.GONE);
+//                    ((FootViewHolder)holder).rlFoot.setVisibility(View.VISIBLE);
+//                }
+//            });
+//        }
 
     }
 
     @Override
     public int getItemViewType(int position) {
-        if(position == getItemCount()-1){
-            return FOOT_VIEW;
-        }else{
-            return DEFAUL_VIEW;
-        }
+        return position;
+//        if(position == getItemCount()-1){
+//            return FOOT_VIEW;
+//        }else{
+//            return DEFAUL_VIEW;
+//        }
 
     }
 
     @Override
     public int getItemCount() {
-        return 50;
+        return 10;
     }
 
     class FootViewHolder extends RecyclerView.ViewHolder{
