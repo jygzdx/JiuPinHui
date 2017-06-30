@@ -110,8 +110,8 @@ public class LoginActivityModelImpl implements ILoginActivityModel {
 
                                 LogUtils.d("token = " + token + "  User = " + user);
                                 Gson gson = new Gson();
-                                RegisterEntity.DataBean.UserBean userBean = gson.fromJson(user, RegisterEntity.DataBean.UserBean.class);
-                                callBack.onSuccess(userBean);
+                                RegisterEntity registerEntity = gson.fromJson(response, RegisterEntity.class);
+                                callBack.onSuccess(registerEntity);
                             } else {
                                 callBack.onFailed("登录错误");
                             }

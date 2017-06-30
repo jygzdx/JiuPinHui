@@ -2,6 +2,7 @@ package com.jiupin.jiupinhui.model.impl;
 
 import com.google.gson.Gson;
 import com.jiupin.jiupinhui.config.Constant;
+import com.jiupin.jiupinhui.entity.HomeLoveEntity;
 import com.jiupin.jiupinhui.entity.HotRecommentEntity;
 import com.jiupin.jiupinhui.entity.MainShowEntity;
 import com.jiupin.jiupinhui.model.IHomeFragmentModel;
@@ -12,15 +13,19 @@ import com.zhy.http.okhttp.callback.StringCallback;
 
 import okhttp3.Call;
 
+import static com.zhy.http.okhttp.OkHttpUtils.post;
+
 /**
  * 作者：czb on 2017/6/28 11:17
  */
 
 public class HomeFragmentModelImpl implements IHomeFragmentModel {
+
+    private int page =1;
+
     @Override
     public void getHotRecomment(final IModel.CallBack callBack) {
-        OkHttpUtils
-                .post()
+        post()
                 .url(Constant.HOT_RECOMMENT_URL)
                 .build()
                 .execute(new StringCallback() {
@@ -48,8 +53,7 @@ public class HomeFragmentModelImpl implements IHomeFragmentModel {
 
     @Override
     public void getMainShow(final IModel.CallBack callBack) {
-        OkHttpUtils
-                .post()
+        post()
                 .url(Constant.MAIN_SHOW_URL)
                 .build()
                 .execute(new StringCallback() {
@@ -69,6 +73,37 @@ public class HomeFragmentModelImpl implements IHomeFragmentModel {
                             callBack.onSuccess(mainShowEntity);
                         }else{
                             callBack.onFailed(mainShowEntity.getMsg());
+                        }
+
+                    }
+                });
+    }
+
+    @Override
+    public void getHomeLove(final IModel.CallBack callBack) {
+        page++;
+        OkHttpUtils
+                .post()
+                .url(Constant.GUESS_LOVE_URL)
+                .addParams("page",page+"")
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+                        LogUtils.d("网络出错" + e.getMessage());
+                        callBack.onFailed(e.getMessage());
+
+                    }
+
+                    @Override
+                    public void onResponse(String response, int id) {
+                        LogUtils.d("response = "+response);
+                        Gson gson = new Gson();
+                        HomeLoveEntity homeLoveEntity = gson.fromJson(response,HomeLoveEntity.class);
+                        if ("OK".equals(homeLoveEntity.getMsg())){
+                            callBack.onSuccess(homeLoveEntity);
+                        }else{
+                            callBack.onFailed(homeLoveEntity.getMsg());
                         }
 
                     }

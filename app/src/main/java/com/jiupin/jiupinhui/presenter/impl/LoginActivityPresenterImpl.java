@@ -61,7 +61,7 @@ public class LoginActivityPresenterImpl implements ILoginActivityPresenter {
 
             @Override
             public void onSuccess(Object success) {
-                view.loginSuccess((RegisterEntity.DataBean.UserBean)success);
+                view.loginSuccess((RegisterEntity)success);
             }
 
             @Override

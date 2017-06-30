@@ -6,14 +6,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.jiupin.jiupinhui.R;
+import com.jiupin.jiupinhui.entity.HomeLoveEntity;
 import com.jiupin.jiupinhui.utils.LogUtils;
 import com.jiupin.jiupinhui.utils.ToastUtils;
+
+import java.util.List;
 
 /**
  * Created by Administrator on 2017/3/27.
@@ -22,11 +25,14 @@ import com.jiupin.jiupinhui.utils.ToastUtils;
 public class HomeLoveAdapter extends RecyclerView.Adapter {
     private LayoutInflater inflater;
     private Context mContext;
+    private List<HomeLoveEntity.DataBean.ListBean> stores;
+
     public static final int FOOT_VIEW = 0;
     public static final int DEFAUL_VIEW = 1;
 
-    public HomeLoveAdapter(Context context) {
+    public HomeLoveAdapter(Context context, List<HomeLoveEntity.DataBean.ListBean> stores) {
         this.mContext = context;
+        this.stores = stores;
         inflater = LayoutInflater.from(mContext);
 
     }
@@ -34,65 +40,62 @@ public class HomeLoveAdapter extends RecyclerView.Adapter {
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         LogUtils.d("viewType =  "+viewType);
-//        if(viewType == FOOT_VIEW){
-//            View view = inflater.inflate(R.layout.foot_layout,viewGroup,false);
-//            RecyclerView.ViewHolder holder = new FootViewHolder(view);
-//            return holder;
-//        }else{
+        if(viewType == FOOT_VIEW){
+            View view = inflater.inflate(R.layout.foot_layout,viewGroup,false);
+            RecyclerView.ViewHolder holder = new FootViewHolder(view);
+            return holder;
+        }else{
             View viewFoot = inflater.inflate(R.layout.home_love_item,viewGroup,false);
             RecyclerView.ViewHolder holder = new HomeLoveViewHolder(viewFoot);
             return holder;
-//        }
+        }
 
     }
 
     @Override
-    public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int i) {
-        LogUtils.d("i =  "+i);
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
+        LogUtils.d("position =  "+position);
+
+        if(stores.size()==0){
+            return;
+        }
+
         if(holder instanceof HomeLoveViewHolder){
-            ((HomeLoveViewHolder)holder).ivGuessLoveMore.setOnClickListener(new View.OnClickListener() {
+            HomeLoveViewHolder homeLoveViewHolder = (HomeLoveViewHolder)holder;
+            Glide.with(mContext)
+                    .load(stores.get(position).getPath())
+                    .crossFade()
+                    .into(homeLoveViewHolder.ivGuessLove);
+            homeLoveViewHolder.tvGuessLoveDes.setText(stores.get(position).getGoods_name());
+            homeLoveViewHolder.tvGuessLovePrice.setText(stores.get(position).getStore_price()+"");
+            homeLoveViewHolder.tvGuessLovePriceNext.setText(stores.get(position).getGoods_price()+"");
+        }
+        else if(holder instanceof FootViewHolder){
+            ((FootViewHolder)holder).tvLoadMore.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ToastUtils.show(mContext,"position = "+i, Toast.LENGTH_SHORT);
-                    ((HomeLoveViewHolder)holder).llLoveCover.setVisibility(View.VISIBLE);
-                }
-            });
-            ((HomeLoveViewHolder)holder).llLoveCover.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(((HomeLoveViewHolder)holder).llLoveCover.getVisibility()==View.VISIBLE){
-                        ((HomeLoveViewHolder)holder).llLoveCover.setVisibility(View.GONE);
-                    }
+                    ToastUtils.show(mContext,"加载更多", Toast.LENGTH_SHORT);
+                    ((FootViewHolder)holder).tvLoadMore.setVisibility(View.GONE);
+                    ((FootViewHolder)holder).rlFoot.setVisibility(View.VISIBLE);
                 }
             });
         }
-//        else if(holder instanceof FootViewHolder){
-//            ((FootViewHolder)holder).tvLoadMore.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    ToastUtils.show(mContext,"加载更多", Toast.LENGTH_SHORT);
-//                    ((FootViewHolder)holder).tvLoadMore.setVisibility(View.GONE);
-//                    ((FootViewHolder)holder).rlFoot.setVisibility(View.VISIBLE);
-//                }
-//            });
-//        }
 
     }
 
     @Override
     public int getItemViewType(int position) {
-        return position;
-//        if(position == getItemCount()-1){
-//            return FOOT_VIEW;
-//        }else{
-//            return DEFAUL_VIEW;
-//        }
+        if(position == getItemCount()-1){
+            return FOOT_VIEW;
+        }else{
+            return DEFAUL_VIEW;
+        }
 
     }
 
     @Override
     public int getItemCount() {
-        return 10;
+        return stores.size()+1;
     }
 
     class FootViewHolder extends RecyclerView.ViewHolder{
@@ -107,8 +110,8 @@ public class HomeLoveAdapter extends RecyclerView.Adapter {
 
     class HomeLoveViewHolder extends RecyclerView.ViewHolder {
         private ImageView ivGuessLove, ivGuessLoveMore;
-        private TextView tvGuessLoveDes, tvGuessLovePrice, tvGuessLovePriceNext, tvBuyNumber,tvShareLink,tvAddCart;
-        private LinearLayout llLoveCover;
+        private TextView tvGuessLoveDes, tvGuessLovePrice, tvGuessLovePriceNext, tvBuyNumber;
+
 
         public HomeLoveViewHolder(View itemView) {
             super(itemView);
@@ -119,10 +122,10 @@ public class HomeLoveAdapter extends RecyclerView.Adapter {
             tvGuessLoveDes = (TextView) itemView.findViewById(R.id.tv_guess_love_des);
             tvGuessLovePrice = (TextView) itemView.findViewById(R.id.tv_guess_love_price);
             tvGuessLovePriceNext = (TextView) itemView.findViewById(R.id.tv_guess_love_price_next);
-            tvShareLink = (TextView) itemView.findViewById(R.id.tv_share_link);
-            tvAddCart = (TextView) itemView.findViewById(R.id.tv_add_cart);
-
-            llLoveCover = (LinearLayout) itemView.findViewById(R.id.ll_love_cover);
+//            tvShareLink = (TextView) itemView.findViewById(R.id.tv_share_link);
+//            tvAddCart = (TextView) itemView.findViewById(R.id.tv_add_cart);
+//
+//            llLoveCover = (LinearLayout) itemView.findViewById(R.id.ll_love_cover);
         }
     }
 }

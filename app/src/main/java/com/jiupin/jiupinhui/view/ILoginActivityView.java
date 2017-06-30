@@ -23,9 +23,9 @@ public interface ILoginActivityView {
     /**
      * 登录成功
      *
-     * @param userBean 返回实体类
+     * @param registerEntity 返回实体类
      */
-    void loginSuccess(RegisterEntity.DataBean.UserBean userBean);
+    void loginSuccess(RegisterEntity registerEntity);
 
     /**
      * 登录失败

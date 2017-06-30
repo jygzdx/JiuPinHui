@@ -15,5 +15,8 @@ public interface IHomeFragmentPresenter {
      * 获取推荐套餐
      */
     void getMainShow();
-
+    /**
+     * 获取猜你喜欢商品
+     */
+    void getHomeLove();
 }

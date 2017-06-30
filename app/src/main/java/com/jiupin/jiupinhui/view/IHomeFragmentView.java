@@ -1,5 +1,6 @@
 package com.jiupin.jiupinhui.view;
 
+import com.jiupin.jiupinhui.entity.HomeLoveEntity;
 import com.jiupin.jiupinhui.entity.HotRecommentEntity;
 import com.jiupin.jiupinhui.entity.MainShowEntity;
 
@@ -20,5 +21,9 @@ public interface IHomeFragmentView {
      */
     void setMainShow(MainShowEntity mainShowEntity);
 
-
+    /**
+     * 获取猜你喜欢
+     * @param homeLoveEntity 获取猜你喜欢
+     */
+    void setHomeLove(HomeLoveEntity homeLoveEntity);
 }

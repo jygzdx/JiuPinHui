@@ -15,4 +15,9 @@ public interface IHomeFragmentModel {
      * 获取推荐套餐
      */
     void getMainShow(IModel.CallBack callBack);
+
+    /**
+     * 获取猜你喜欢
+     */
+    void getHomeLove(IModel.CallBack callBack);
 }

@@ -12,10 +12,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import com.github.jdsjlzx.ItemDecoration.GridItemDecoration;
+import com.github.jdsjlzx.recyclerview.LRecyclerView;
+import com.github.jdsjlzx.recyclerview.LRecyclerViewAdapter;
+import com.github.jdsjlzx.recyclerview.ProgressStyle;
 import com.jiupin.jiupinhui.R;
 import com.jiupin.jiupinhui.adapter.HomeLoveAdapter;
 import com.jiupin.jiupinhui.adapter.HotRecommentAdapter;
 import com.jiupin.jiupinhui.adapter.MainShowAdapter;
+import com.jiupin.jiupinhui.entity.HomeLoveEntity;
 import com.jiupin.jiupinhui.entity.HotRecommentEntity;
 import com.jiupin.jiupinhui.entity.MainShowEntity;
 import com.jiupin.jiupinhui.presenter.IHomeFragmentPresenter;
@@ -23,7 +28,9 @@ import com.jiupin.jiupinhui.presenter.impl.HomeFragmentPresenterImpl;
 import com.jiupin.jiupinhui.utils.LogUtils;
 import com.jiupin.jiupinhui.view.IHomeFragmentView;
 import com.jiupin.jiupinhui.widget.ADBannerView;
-import com.jiupin.jiupinhui.widget.DividerGridItemDecoration;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -40,7 +47,7 @@ public class HomeFragment extends Fragment implements IHomeFragmentView{
     @BindView(R.id.rv_hot_recommend)
     RecyclerView rvHotRecommend;
     @BindView(R.id.rv_home_love)
-    RecyclerView rvHomeLove;
+    LRecyclerView rvHomeLove;
 
     Unbinder unbinder;
 
@@ -52,6 +59,8 @@ public class HomeFragment extends Fragment implements IHomeFragmentView{
     private HotRecommentAdapter mHotRecommentAdapter;
     private IHomeFragmentPresenter presenter;
     private MainShowAdapter mMainShowAdapter;
+    private LRecyclerViewAdapter lRecyclerViewAdapter;
+    private List<HomeLoveEntity.DataBean.ListBean> stores = new ArrayList<>();
 
 
     @Nullable
@@ -77,6 +86,8 @@ public class HomeFragment extends Fragment implements IHomeFragmentView{
         presenter.getHotRecomment();
         //获取主推套餐
         presenter.getMainShow();
+        //获取猜你喜欢
+        presenter.getHomeLove();
     }
 
     private void initListener() {
@@ -124,26 +135,66 @@ public class HomeFragment extends Fragment implements IHomeFragmentView{
         //初始化RecyclerView
         RecyclerView.LayoutManager manager = new GridLayoutManager(getContext(), 2);
 
-        ((GridLayoutManager) manager).setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+//        ((GridLayoutManager) manager).setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+//            @Override
+//            public int getSpanSize(int i) {
+//                switch (adapter.getItemViewType(i)) {
+//                    case HomeLoveAdapter.FOOT_VIEW:
+//                        LogUtils.d("foot_view"+i);
+//                        return 2;
+//                    case HomeLoveAdapter.DEFAUL_VIEW:
+//                        LogUtils.d("DEFAUL_VIEW"+i);
+//                        return 1;
+//                }
+//                return 0;
+//            }
+//        });
+
+
+
+        rvHomeLove.setLayoutManager(manager);
+        rvHomeLove.setLoadingMoreProgressStyle(ProgressStyle.BallSpinFadeLoader);
+
+        rvHomeLove.setNestedScrollingEnabled(false);
+
+        //设置底部加载颜色
+        rvHomeLove.setFooterViewColor(R.color.colorAccent, android.R.color.holo_blue_dark ,android.R.color.white);
+        //设置底部加载文字提示
+        rvHomeLove.setFooterViewHint("拼命加载中","已经全部为你呈现了","网络不给力啊，点击再试一次吧");
+
+        int spacing = getResources().getDimensionPixelSize(R.dimen.dp_4);
+        GridItemDecoration divider = new GridItemDecoration.Builder(getContext())
+                .setHorizontal(R.dimen.dp_4)
+                .setVertical(R.dimen.dp_4)
+                .setColorResource(R.color.mainBackground)
+                .build();
+        rvHomeLove.addItemDecoration(divider);
+        adapter = new HomeLoveAdapter(getContext(),stores);
+
+        lRecyclerViewAdapter = new LRecyclerViewAdapter(adapter);
+
+        rvHomeLove.setAdapter(lRecyclerViewAdapter);
+
+        rvHomeLove.refresh();
+
+        rvHomeLove.setLoadMoreEnabled(false);
+        rvHomeLove.setPullRefreshEnabled(false);
+
+        lRecyclerViewAdapter.setSpanSizeLookup(new LRecyclerViewAdapter.SpanSizeLookup() {
             @Override
-            public int getSpanSize(int i) {
-                switch (adapter.getItemViewType(i)) {
+            public int getSpanSize(GridLayoutManager gridLayoutManager, int position) {
+                switch (adapter.getItemViewType(position)) {
                     case HomeLoveAdapter.FOOT_VIEW:
+                        LogUtils.d("foot_view" + position);
                         return 2;
                     case HomeLoveAdapter.DEFAUL_VIEW:
+                        LogUtils.d("DEFAUL_VIEW" + position);
                         return 1;
                 }
                 return 0;
             }
         });
 
-        rvHomeLove.setLayoutManager(manager);
-
-
-        rvHomeLove.setNestedScrollingEnabled(false);
-        rvHomeLove.addItemDecoration(new DividerGridItemDecoration(getContext()));
-        adapter = new HomeLoveAdapter(getContext());
-        rvHomeLove.setAdapter(adapter);
     }
 
     @Override
@@ -182,6 +233,28 @@ public class HomeFragment extends Fragment implements IHomeFragmentView{
         }
 
         rvMianShow.setAdapter(mMainShowAdapter);
+    }
+
+    @Override
+    public void setHomeLove(HomeLoveEntity homeLoveEntity) {
+
+        LogUtils.d("name = "+homeLoveEntity.getData().getList().get(1).getGoods_name());
+//        if(adapter ==null){
+//            adapter = new HomeLoveAdapter(getContext(),stores);
+//
+//            lRecyclerViewAdapter = new LRecyclerViewAdapter(adapter);
+//
+//
+//        }
+//        rvHomeLove.refresh();
+//
+//        rvHomeLove.setLoadMoreEnabled(false);
+//        rvHomeLove.setPullRefreshEnabled(false);
+//        rvHomeLove.setAdapter(lRecyclerViewAdapter);
+        adapter.notifyItemRangeInserted(stores.size(),homeLoveEntity.getData().getList().size());
+        stores.addAll(homeLoveEntity.getData().getList());
+        adapter.notifyDataSetChanged();
+        rvHomeLove.refreshComplete(4);
     }
 }
 

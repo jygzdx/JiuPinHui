@@ -77,63 +77,64 @@
             android:layout_height="22dp"
             android:layout_alignBottom="@+id/tv_buy_number"
             android:layout_alignRight="@+id/iv_guess_love"
+            android:visibility="gone"
             android:src="@drawable/more"
             />
     </RelativeLayout>
 
 
-    <LinearLayout
-        android:id="@+id/ll_love_cover"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:alpha="0.58"
-        android:background="#dacfbb"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:visibility="gone"
-        android:layout_alignParentTop="true"
-        android:layout_alignBottom="@+id/rl_relativeLayout"
-        >
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:gravity="center"
-            >
+    <!--<LinearLayout-->
+        <!--android:id="@+id/ll_love_cover"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:alpha="0.58"-->
+        <!--android:background="#dacfbb"-->
+        <!--android:gravity="center"-->
+        <!--android:orientation="vertical"-->
+        <!--android:visibility="gone"-->
+        <!--android:layout_alignParentTop="true"-->
+        <!--android:layout_alignBottom="@+id/rl_relativeLayout"-->
+        <!--&gt;-->
+        <!--<RelativeLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="0dp"-->
+            <!--android:layout_weight="1"-->
+            <!--android:gravity="center"-->
+            <!--&gt;-->
 
-            <TextView
-                android:id="@+id/tv_add_cart"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:background="@drawable/circle_home_love"
-                android:gravity="center"
-                android:text="加购物车"
-                android:textSize="10sp"
-                android:textColor="#fefefe"
-                android:alpha="0.7"
-                />
-        </RelativeLayout>
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:visibility="gone"
-            >
-            <TextView
-                android:id="@+id/tv_share_link"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/circle_home_love"
-                android:gravity="center"
-                android:text="分享链接"
-                android:textSize="10sp"
-                android:textColor="#fefefe"
-                android:alpha="0.7"
-                />
-        </RelativeLayout>
+            <!--<TextView-->
+                <!--android:id="@+id/tv_add_cart"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_gravity="center"-->
+                <!--android:background="@drawable/circle_home_love"-->
+                <!--android:gravity="center"-->
+                <!--android:text="加购物车"-->
+                <!--android:textSize="10sp"-->
+                <!--android:textColor="#fefefe"-->
+                <!--android:alpha="0.7"-->
+                <!--/>-->
+        <!--</RelativeLayout>-->
+        <!--<RelativeLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="0dp"-->
+            <!--android:layout_weight="1"-->
+            <!--android:gravity="center"-->
+            <!--android:visibility="gone"-->
+            <!--&gt;-->
+            <!--<TextView-->
+                <!--android:id="@+id/tv_share_link"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:background="@drawable/circle_home_love"-->
+                <!--android:gravity="center"-->
+                <!--android:text="分享链接"-->
+                <!--android:textSize="10sp"-->
+                <!--android:textColor="#fefefe"-->
+                <!--android:alpha="0.7"-->
+                <!--/>-->
+        <!--</RelativeLayout>-->
 
-    </LinearLayout>
+    <!--</LinearLayout>-->
 
 </RelativeLayout>

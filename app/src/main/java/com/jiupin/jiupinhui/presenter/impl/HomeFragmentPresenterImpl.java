@@ -1,5 +1,6 @@
 package com.jiupin.jiupinhui.presenter.impl;
 
+import com.jiupin.jiupinhui.entity.HomeLoveEntity;
 import com.jiupin.jiupinhui.entity.HotRecommentEntity;
 import com.jiupin.jiupinhui.entity.MainShowEntity;
 import com.jiupin.jiupinhui.model.IHomeFragmentModel;
@@ -47,6 +48,21 @@ public class HomeFragmentPresenterImpl implements IHomeFragmentPresenter {
             @Override
             public void onFailed(Object error) {
                 LogUtils.d("error = "+error);
+            }
+        });
+    }
+
+    @Override
+    public void getHomeLove() {
+        model.getHomeLove(new IModel.CallBack() {
+            @Override
+            public void onSuccess(Object success) {
+                view.setHomeLove((HomeLoveEntity) success);
+            }
+
+            @Override
+            public void onFailed(Object error) {
+
             }
         });
     }

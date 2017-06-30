@@ -1,7 +1,6 @@
 package com.jiupin.jiupinhui.activity;
 
 import android.animation.ObjectAnimator;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -20,6 +19,7 @@ import com.jiupin.jiupinhui.entity.RegisterEntity;
 import com.jiupin.jiupinhui.presenter.ILoginActivityPresenter;
 import com.jiupin.jiupinhui.presenter.impl.LoginActivityPresenterImpl;
 import com.jiupin.jiupinhui.utils.LogUtils;
+import com.jiupin.jiupinhui.utils.SPUtils;
 import com.jiupin.jiupinhui.utils.StringUtils;
 import com.jiupin.jiupinhui.utils.ToastUtils;
 import com.jiupin.jiupinhui.utils.WindowUtils;
@@ -301,9 +301,8 @@ public class LoginActivity extends AppCompatActivity implements ILoginActivityVi
     @Override
     public void registerSuccess(RegisterEntity registerEntity) {
         ToastUtils.showShort(this, "注册成功");
-        LogUtils.d("token = "+registerEntity.getData().getToken());
-        Intent intent = new Intent(this,MainActivity.class);
-        startActivity(intent);
+        SPUtils.put(this,"token",registerEntity.getData().getToken());
+        LogUtils.d(TAG+"token"+registerEntity.getData().getToken());
         finish();
     }
 
@@ -314,10 +313,12 @@ public class LoginActivity extends AppCompatActivity implements ILoginActivityVi
 
 
     @Override
-    public void loginSuccess(RegisterEntity.DataBean.UserBean userBean) {
-        LogUtils.d("======================"+userBean.getMobile());
-        Intent intent = new Intent(this,MainActivity.class);
-        startActivity(intent);
+    public void loginSuccess(RegisterEntity registerEntity) {
+        SPUtils.put(this,"token",registerEntity.getData().getToken());
+
+        ToastUtils.showShort(this,"登录成功");
+
+        LogUtils.d(TAG+"token"+registerEntity.getData().getToken());
         finish();
     }
 

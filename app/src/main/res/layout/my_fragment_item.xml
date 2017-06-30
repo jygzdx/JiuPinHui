@@ -35,6 +35,7 @@
             android:layout_marginTop="5dp"
             android:src="@drawable/banner"
             app:border_width="2dp"
+            android:visibility="gone"
             />
         <TextView
             android:id="@+id/tv_user_name"
@@ -45,7 +46,9 @@
             android:layout_toRightOf="@+id/civ_head"
             android:text="Coco-coffee"
             android:textColor="@color/light_black"
-            android:textSize="12sp"/>
+            android:textSize="12sp"
+            android:visibility="gone"
+            />
 
         <TextView
             android:id="@+id/tv_vip_grade"
@@ -64,6 +67,7 @@
             android:text="VIP4"
             android:textColor="#cccccc"
             android:textSize="8sp"
+            android:visibility="gone"
             />
 
         <TextView

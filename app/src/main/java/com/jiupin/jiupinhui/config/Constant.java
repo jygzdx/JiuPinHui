@@ -61,6 +61,11 @@ public class Constant {
     public static final String GUESS_LOVE_URL = TEST_URL+"/appGoods/home/getYourFavorite.json";
 
     /**
+     * 检查token是否可用
+     */
+    public static final String CHECK_TOKEN = TEST_URL+"/appLogin/app/isTokenAvailable.json";
+
+    /**
      * 等待付款
      */
     public static final int WAIT_PAY = 101;
