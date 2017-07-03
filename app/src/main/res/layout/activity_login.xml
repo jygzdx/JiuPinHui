@@ -382,7 +382,7 @@
                     android:textColorHint="#cccccc"
                     android:textColor="@color/light_black"
                     android:textSize="12sp"
-                    android:hint="创建密码（6-16位数字或字母）"
+                    android:hint="创建密码（8-16位数字或字母）"
                     />
 
                 <View

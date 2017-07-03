@@ -224,10 +224,15 @@ public class LoginActivity extends AppCompatActivity implements ILoginActivityVi
                     return;
                 }
                 if (StringUtils.isEmpty(registerPasswordTwo) || StringUtils.isEmpty(registerPasswordOne)
-                        || registerPasswordOne.length() > 16 || registerPasswordOne.length() < 6) {
-                    ToastUtils.showShort(this, "密码格式不正确");
+                        ) {
+                    ToastUtils.showShort(this, "密码不能为空");
                     return;
                 }
+                if(registerPasswordOne.length() > 16 || registerPasswordOne.length() < 8){
+                    ToastUtils.showShort(this, "请输入8-16位数字或字母的密码");
+                    return;
+                }
+
                 if (!StringUtils.equals(registerPasswordOne, registerPasswordTwo)) {
                     ToastUtils.showShort(this, "密码输入不一致");
                     return;
@@ -301,7 +306,7 @@ public class LoginActivity extends AppCompatActivity implements ILoginActivityVi
     @Override
     public void registerSuccess(RegisterEntity registerEntity) {
         ToastUtils.showShort(this, "注册成功");
-        SPUtils.put(this,"token",registerEntity.getData().getToken());
+        SPUtils.put(this,SPUtils.LOGIN_TOKEN,registerEntity.getData().getToken());
         LogUtils.d(TAG+"token"+registerEntity.getData().getToken());
         finish();
     }
@@ -314,7 +319,7 @@ public class LoginActivity extends AppCompatActivity implements ILoginActivityVi
 
     @Override
     public void loginSuccess(RegisterEntity registerEntity) {
-        SPUtils.put(this,"token",registerEntity.getData().getToken());
+        SPUtils.put(this,SPUtils.LOGIN_TOKEN,registerEntity.getData().getToken());
 
         ToastUtils.showShort(this,"登录成功");
 

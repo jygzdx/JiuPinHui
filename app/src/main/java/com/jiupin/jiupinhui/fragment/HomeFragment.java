@@ -87,12 +87,10 @@ public class HomeFragment extends Fragment implements IHomeFragmentView{
         //获取主推套餐
         presenter.getMainShow();
         //获取猜你喜欢
-        presenter.getHomeLove();
+        presenter.getHomeLove(1);
     }
 
     private void initListener() {
-
-
         nsvScorllView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
             @Override
             public void onScrollChange(NestedScrollView nestedScrollView, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
@@ -135,23 +133,6 @@ public class HomeFragment extends Fragment implements IHomeFragmentView{
         //初始化RecyclerView
         RecyclerView.LayoutManager manager = new GridLayoutManager(getContext(), 2);
 
-//        ((GridLayoutManager) manager).setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
-//            @Override
-//            public int getSpanSize(int i) {
-//                switch (adapter.getItemViewType(i)) {
-//                    case HomeLoveAdapter.FOOT_VIEW:
-//                        LogUtils.d("foot_view"+i);
-//                        return 2;
-//                    case HomeLoveAdapter.DEFAUL_VIEW:
-//                        LogUtils.d("DEFAUL_VIEW"+i);
-//                        return 1;
-//                }
-//                return 0;
-//            }
-//        });
-
-
-
         rvHomeLove.setLayoutManager(manager);
         rvHomeLove.setLoadingMoreProgressStyle(ProgressStyle.BallSpinFadeLoader);
 
@@ -185,10 +166,8 @@ public class HomeFragment extends Fragment implements IHomeFragmentView{
             public int getSpanSize(GridLayoutManager gridLayoutManager, int position) {
                 switch (adapter.getItemViewType(position)) {
                     case HomeLoveAdapter.FOOT_VIEW:
-                        LogUtils.d("foot_view" + position);
                         return 2;
                     case HomeLoveAdapter.DEFAUL_VIEW:
-                        LogUtils.d("DEFAUL_VIEW" + position);
                         return 1;
                 }
                 return 0;
@@ -239,18 +218,7 @@ public class HomeFragment extends Fragment implements IHomeFragmentView{
     public void setHomeLove(HomeLoveEntity homeLoveEntity) {
 
         LogUtils.d("name = "+homeLoveEntity.getData().getList().get(1).getGoods_name());
-//        if(adapter ==null){
-//            adapter = new HomeLoveAdapter(getContext(),stores);
-//
-//            lRecyclerViewAdapter = new LRecyclerViewAdapter(adapter);
-//
-//
-//        }
-//        rvHomeLove.refresh();
-//
-//        rvHomeLove.setLoadMoreEnabled(false);
-//        rvHomeLove.setPullRefreshEnabled(false);
-//        rvHomeLove.setAdapter(lRecyclerViewAdapter);
+        stores.clear();
         adapter.notifyItemRangeInserted(stores.size(),homeLoveEntity.getData().getList().size());
         stores.addAll(homeLoveEntity.getData().getList());
         adapter.notifyDataSetChanged();

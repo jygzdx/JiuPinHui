@@ -17,6 +17,7 @@ public interface IHomeFragmentPresenter {
     void getMainShow();
     /**
      * 获取猜你喜欢商品
+     * @param pager 商品页数
      */
-    void getHomeLove();
+    void getHomeLove(int pager);
 }

@@ -40,17 +40,26 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 
+    //material design
+    //glide 图片加载
+    //网络框架
+    //json框架
+    //控件注入
+    //搜索框
+    //图片选择器
+    //微信开放平台
+    //下拉刷新上拉加载
     compile 'com.android.support:appcompat-v7:25.2.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile 'com.android.support:design:25.2.0'//material design
-    compile 'com.github.bumptech.glide:glide:3.7.0'//glide 图片加载
-    compile 'com.zhy:okhttputils:2.6.2'//网络框架
-    compile 'com.google.code.gson:gson:2.8.0'//json框架
-    compile 'com.jakewharton:butterknife:8.5.1'//控件注入
-    compile 'com.github.chaychan:PowerfulViewLibrary:1.0'//搜索框
-    compile 'com.jph.takephoto:takephoto_library:4.0.3'//图片选择器
-    compile 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'//微信开放平台
+    compile 'com.android.support:design:25.2.0'
+    compile 'com.github.bumptech.glide:glide:3.7.0'
+    compile 'com.zhy:okhttputils:2.6.2'
+    compile 'com.google.code.gson:gson:2.8.0'
+    compile 'com.jakewharton:butterknife:8.5.1'
+    compile 'com.github.chaychan:PowerfulViewLibrary:1.0'
+    compile 'com.jph.takephoto:takephoto_library:4.0.3'
+    compile 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
+    compile 'com.github.jdsjlzx:LRecyclerView:1.4.3'
     testCompile 'junit:junit:4.12'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
-    compile 'com.github.jdsjlzx:LRecyclerView:1.4.3'//下拉刷新上拉加载
 }

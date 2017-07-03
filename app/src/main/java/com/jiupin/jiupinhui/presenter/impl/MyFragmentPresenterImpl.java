@@ -5,6 +5,7 @@ import com.jiupin.jiupinhui.model.IModel;
 import com.jiupin.jiupinhui.model.IMyFragmentModel;
 import com.jiupin.jiupinhui.model.impl.MyFragmentModelImpl;
 import com.jiupin.jiupinhui.presenter.IMyFragmentPresenter;
+import com.jiupin.jiupinhui.utils.LogUtils;
 import com.jiupin.jiupinhui.view.IMyFragmentView;
 
 /**
@@ -21,6 +22,7 @@ public class MyFragmentPresenterImpl implements IMyFragmentPresenter {
 
     @Override
     public void getTokenStatus(String token) {
+        LogUtils.d("getTokenStatus");
         model.getTokenStatus(token, new IModel.CallBack() {
             @Override
             public void onSuccess(Object success) {
@@ -29,7 +31,7 @@ public class MyFragmentPresenterImpl implements IMyFragmentPresenter {
 
             @Override
             public void onFailed(Object error) {
-
+                LogUtils.d("error = "+error);
             }
         });
     }

@@ -4,6 +4,7 @@
               android:layout_height="match_parent"
               android:background="@color/mainBackground"
               android:orientation="vertical"
+              android:descendantFocusability="blocksDescendants"
     >
     <!--顶部商品详细信息-->
     <RelativeLayout

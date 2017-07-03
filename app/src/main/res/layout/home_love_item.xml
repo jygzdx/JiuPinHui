@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/rl_home_guess_love"
     android:layout_width="match_parent"
-    android:layout_height="255dp"
+    android:layout_height="wrap_content"
     >
 
     <RelativeLayout
@@ -16,8 +16,8 @@
 
         <ImageView
             android:id="@+id/iv_guess_love"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="140dp"
+            android:layout_height="140dp"
             android:src="@drawable/guess_love"
             />
 
@@ -71,15 +71,15 @@
             android:textSize="10sp"
             />
 
-        <ImageView
-            android:id="@+id/iv_guess_love_more"
-            android:layout_width="22dp"
-            android:layout_height="22dp"
-            android:layout_alignBottom="@+id/tv_buy_number"
-            android:layout_alignRight="@+id/iv_guess_love"
-            android:visibility="gone"
-            android:src="@drawable/more"
-            />
+        <!--<ImageView-->
+            <!--android:id="@+id/iv_guess_love_more"-->
+            <!--android:layout_width="22dp"-->
+            <!--android:layout_height="22dp"-->
+            <!--android:layout_alignBottom="@+id/tv_buy_number"-->
+            <!--android:layout_alignRight="@+id/iv_guess_love"-->
+            <!--android:visibility="gone"-->
+            <!--android:src="@drawable/more"-->
+            <!--/>-->
     </RelativeLayout>
 
 

@@ -53,8 +53,8 @@ public class HomeFragmentPresenterImpl implements IHomeFragmentPresenter {
     }
 
     @Override
-    public void getHomeLove() {
-        model.getHomeLove(new IModel.CallBack() {
+    public void getHomeLove(int pager) {
+        model.getHomeLove(pager,new IModel.CallBack() {
             @Override
             public void onSuccess(Object success) {
                 view.setHomeLove((HomeLoveEntity) success);

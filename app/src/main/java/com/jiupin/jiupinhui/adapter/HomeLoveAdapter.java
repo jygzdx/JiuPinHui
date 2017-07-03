@@ -8,13 +8,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.jiupin.jiupinhui.R;
 import com.jiupin.jiupinhui.entity.HomeLoveEntity;
 import com.jiupin.jiupinhui.utils.LogUtils;
-import com.jiupin.jiupinhui.utils.ToastUtils;
 
 import java.util.List;
 
@@ -74,7 +72,6 @@ public class HomeLoveAdapter extends RecyclerView.Adapter {
             ((FootViewHolder)holder).tvLoadMore.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ToastUtils.show(mContext,"加载更多", Toast.LENGTH_SHORT);
                     ((FootViewHolder)holder).tvLoadMore.setVisibility(View.GONE);
                     ((FootViewHolder)holder).rlFoot.setVisibility(View.VISIBLE);
                 }

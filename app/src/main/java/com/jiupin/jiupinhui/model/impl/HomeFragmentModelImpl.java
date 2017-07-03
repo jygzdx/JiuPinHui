@@ -21,8 +21,6 @@ import static com.zhy.http.okhttp.OkHttpUtils.post;
 
 public class HomeFragmentModelImpl implements IHomeFragmentModel {
 
-    private int page =1;
-
     @Override
     public void getHotRecomment(final IModel.CallBack callBack) {
         post()
@@ -80,8 +78,7 @@ public class HomeFragmentModelImpl implements IHomeFragmentModel {
     }
 
     @Override
-    public void getHomeLove(final IModel.CallBack callBack) {
-        page++;
+    public void getHomeLove(int page,final IModel.CallBack callBack) {
         OkHttpUtils
                 .post()
                 .url(Constant.GUESS_LOVE_URL)

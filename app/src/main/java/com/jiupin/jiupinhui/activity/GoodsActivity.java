@@ -17,7 +17,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jiupin.jiupinhui.R;
+import com.jiupin.jiupinhui.entity.GoodsEntity;
+import com.jiupin.jiupinhui.presenter.IGoodsActivityPresenter;
+import com.jiupin.jiupinhui.presenter.impl.GoodsActivityPresenterImpl;
 import com.jiupin.jiupinhui.utils.LogUtils;
+import com.jiupin.jiupinhui.view.IGoodsActivityView;
 import com.jiupin.jiupinhui.widget.GoodsShowView;
 
 import butterknife.BindView;
@@ -27,7 +31,7 @@ import butterknife.OnClick;
 /**
  * 商品详情页
  */
-public class GoodsActivity extends BaseActivity {
+public class GoodsActivity extends BaseActivity implements IGoodsActivityView{
     private static final String TAG = "GoodsActivity";
     @BindView(R.id.ll_goods_show)
     LinearLayout llGoodsShow;
@@ -109,6 +113,8 @@ public class GoodsActivity extends BaseActivity {
     LinearLayout llGoodsBottom;
     @BindView(R.id.wv_webview)
     WebView wvWebview;
+    private GoodsShowView goodsShowView;
+    private IGoodsActivityPresenter presenter;
 
 
     @Override
@@ -116,6 +122,11 @@ public class GoodsActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_goods);
         ButterKnife.bind(this);
+
+
+        presenter = new GoodsActivityPresenterImpl(this);
+        int id = getIntent().getExtras().getInt("id");
+        presenter.getGoodsInfo(id);
 
         initGoodsShowView();
         initListener();
@@ -134,14 +145,12 @@ public class GoodsActivity extends BaseActivity {
                 return true;
             }
         });
-        wvWebview.setNestedScrollingEnabled(false);
+//        wvWebview.setNestedScrollingEnabled(false);
         wvWebview.getSettings().setJavaScriptEnabled(true);
-        wvWebview.loadUrl("http://napp.9pin.com/wx/page/wxShoppingDetail.htm?id=6456");
-//        wvWebview.loadUrl("http://www.baidu.com");
+
         wvWebview.setWebViewClient(new WebViewClient(){
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-//                wvWebview.loadUrl("http://napp.9pin.com/wx/page/wxShoppingDetail.htm?id=6456");
                 return true;
             }
         });
@@ -191,7 +200,7 @@ public class GoodsActivity extends BaseActivity {
     }
 
     private void initGoodsShowView() {
-        GoodsShowView goodsShowView = new GoodsShowView(this, false);
+        goodsShowView = new GoodsShowView(this, false);
         llGoodsShow.addView(goodsShowView);
     }
 
@@ -211,5 +220,31 @@ public class GoodsActivity extends BaseActivity {
                 startActivity(intent);
                 break;
         }
+    }
+
+    @Override
+    public void setData(GoodsEntity goodsEntity) {
+
+        wvWebview.loadData(getHtmlData(goodsEntity.getData().getGoods_details()), "text/html; charset=utf-8", "utf-8");
+
+        goodsShowView.loadAD(goodsEntity.getData());
+
+        tvGoodsDownPrice.setText(goodsEntity.getData().getStore_price()+"");
+        tvGoodsRealPrice.setText(goodsEntity.getData().getGoods_price()+"");
+        tvGoodsName.setText(goodsEntity.getData().getGoods_name());
+        tvCompanyName.setText(goodsEntity.getData().getStore_name());
+    }
+
+    /**
+     * 设置webview头部
+     * @param bodyHTML
+     * @return
+     */
+    private String getHtmlData(String bodyHTML) {
+        String head = "<head>" +
+                "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, user-scalable=no\"> " +
+                "<style>img{max-width: 100%; width:auto; height:auto;}</style>" +
+                "</head>";
+        return "<html>" + head + "<body>" + bodyHTML + "</body></html>";
     }
 }

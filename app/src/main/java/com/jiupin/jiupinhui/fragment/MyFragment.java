@@ -21,9 +21,9 @@ import com.jiupin.jiupinhui.activity.VersionActivity;
 import com.jiupin.jiupinhui.entity.ResponseBase;
 import com.jiupin.jiupinhui.presenter.IMyFragmentPresenter;
 import com.jiupin.jiupinhui.presenter.impl.MyFragmentPresenterImpl;
-import com.jiupin.jiupinhui.view.IMyFragmentView;
 import com.jiupin.jiupinhui.utils.LogUtils;
 import com.jiupin.jiupinhui.utils.SPUtils;
+import com.jiupin.jiupinhui.view.IMyFragmentView;
 import com.jiupin.jiupinhui.widget.CircleImageView;
 
 import butterknife.BindView;
@@ -67,18 +67,7 @@ public class MyFragment extends Fragment implements IMyFragmentView {
 
         presenter = new MyFragmentPresenterImpl(this);
 
-        String token = (String) SPUtils.get(getContext(), "token", "");
-        LogUtils.d("token = "+token);
-        if (token == "") {
-            tvMyLogin.setVisibility(View.VISIBLE);
-            civHead.setVisibility(View.GONE);
-            tvUserName.setVisibility(View.GONE);
-            tvVipGrade.setVisibility(View.GONE);
-        }else{
-            LogUtils.d("------getTokenStatus");
-            //查看token是否可用
-            presenter.getTokenStatus(token);
-        }
+
 
 
         LogUtils.d(TAG + "    oncreateView");
@@ -132,15 +121,47 @@ public class MyFragment extends Fragment implements IMyFragmentView {
     }
 
     @Override
+    public void onPause() {
+        super.onPause();
+        LogUtils.d("onPause");
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        LogUtils.d("onResume");
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        //更新用户的状态
+        LogUtils.d("onStart");
+        String token = (String) SPUtils.get(getContext(), SPUtils.LOGIN_TOKEN, "");
+        LogUtils.d("token = "+token);
+        if (token == "") {
+            tvMyLogin.setVisibility(View.VISIBLE);
+            civHead.setVisibility(View.GONE);
+            tvUserName.setVisibility(View.GONE);
+            tvVipGrade.setVisibility(View.GONE);
+        }else{
+            LogUtils.d("------getTokenStatus");
+            //查看token是否可用
+            presenter.getTokenStatus(token);
+        }
+    }
+
+    @Override
     public void checkTokenBack(ResponseBase responseBase) {
-        boolean status = (String)responseBase.getData()=="1"?true:false;
+        boolean status = "1".equals((String)responseBase.getData())?true:false;
         LogUtils.d("status = "+status+"    data = "+(String)responseBase.getData());
-        if(status){
+        if(status){//登录状态
             tvMyLogin.setVisibility(View.GONE);
             civHead.setVisibility(View.VISIBLE);
             tvUserName.setVisibility(View.VISIBLE);
             tvVipGrade.setVisibility(View.VISIBLE);
-        }else{
+        }else{//未登录状态
             tvMyLogin.setVisibility(View.VISIBLE);
             civHead.setVisibility(View.GONE);
             tvUserName.setVisibility(View.GONE);

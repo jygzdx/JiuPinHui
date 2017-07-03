@@ -5,6 +5,7 @@ import com.jiupin.jiupinhui.config.Constant;
 import com.jiupin.jiupinhui.entity.ResponseBase;
 import com.jiupin.jiupinhui.model.IModel;
 import com.jiupin.jiupinhui.model.IMyFragmentModel;
+import com.jiupin.jiupinhui.utils.LogUtils;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -19,7 +20,7 @@ public class MyFragmentModelImpl implements IMyFragmentModel {
     @Override
     public void getTokenStatus(String token, final IModel.CallBack callBack) {
         OkHttpUtils
-                .get()
+                .post()
                 .url(Constant.CHECK_TOKEN)
                 .addParams("token",token)
                 .build()
@@ -31,6 +32,7 @@ public class MyFragmentModelImpl implements IMyFragmentModel {
 
                     @Override
                     public void onResponse(String response, int id) {
+                        LogUtils.d("onResponse.response = "+response);
                         Gson gson = new Gson();
                         ResponseBase responseBase = gson.fromJson(response, ResponseBase.class);
                         callBack.onSuccess(responseBase);

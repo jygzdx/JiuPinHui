@@ -66,6 +66,11 @@ public class Constant {
     public static final String CHECK_TOKEN = TEST_URL+"/appLogin/app/isTokenAvailable.json";
 
     /**
+     * 获取商品信息
+     */
+    public static final String GOODS_INFO = TEST_URL+"/appGoods/home/getGoodsDetail.json";
+
+    /**
      * 等待付款
      */
     public static final int WAIT_PAY = 101;

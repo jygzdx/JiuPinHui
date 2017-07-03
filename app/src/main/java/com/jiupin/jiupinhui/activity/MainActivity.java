@@ -107,9 +107,15 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction transaction = fm.beginTransaction();
         if(requestCode == 1){
             rgMain.check(R.id.rb_my);
+            if (fgMy == null) {
+                fgMy = new MyFragment();
+            }
+            transaction.replace(R.id.fl_main_container, fgMy);
+            transaction.commit();
         }
     }
 }

@@ -18,6 +18,7 @@ public interface IHomeFragmentModel {
 
     /**
      * 获取猜你喜欢
+     * @param pager 商品页数
      */
-    void getHomeLove(IModel.CallBack callBack);
+    void getHomeLove(int pager,IModel.CallBack callBack);
 }
