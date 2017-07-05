@@ -78,9 +78,18 @@ public class GoodsEntity {
         private int goods_click;
         private int is_meal;
         private String goods_details;
-        private List<GoodsInventoryDetailBean> goods_inventory_detail;
+        private String goods_inventory_detail;
         private List<SpecificationsBean> specifications;
         private List<ProdPhotoBean> prodPhoto;
+        private List<Detail> details;
+
+        public List<Detail> getDetails() {
+            return details;
+        }
+
+        public void setDetails(List<Detail> details) {
+            this.details = details;
+        }
 
         public int getId() {
             return id;
@@ -194,11 +203,11 @@ public class GoodsEntity {
             this.goods_details = goods_details;
         }
 
-        public List<GoodsInventoryDetailBean> getGoods_inventory_detail() {
+        public String getGoods_inventory_detail() {
             return goods_inventory_detail;
         }
 
-        public void setGoods_inventory_detail(List<GoodsInventoryDetailBean> goods_inventory_detail) {
+        public void setGoods_inventory_detail(String goods_inventory_detail) {
             this.goods_inventory_detail = goods_inventory_detail;
         }
 
@@ -218,12 +227,14 @@ public class GoodsEntity {
             this.prodPhoto = prodPhoto;
         }
 
-        public static class GoodsInventoryDetailBean {
+        public static class Detail {
+
+
             /**
              * id : 32775_
-             * price : 399.0
+             * price : 178
              * count : 100000
-             * memberPrice : 399.0
+             * memberPrice : 178
              */
 
             private String id;

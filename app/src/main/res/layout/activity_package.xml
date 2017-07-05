@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.jiupin.jiupinhui.activity.PackageActivity">
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            >
+
+            <!--顶部商品详细信息-->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                >
+
+                <LinearLayout
+                    android:id="@+id/ll_goods_show"
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"
+                    android:orientation="vertical"
+                    />
+
+                <TextView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_alignBottom="@+id/ll_goods_show"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/goods_show_text_bg"
+                    android:gravity="center"
+                    android:lines="2"
+                    android:text="图文\n详情"
+                    android:textColor="@color/light_black"
+                    android:textSize="8sp"
+                    />
+
+                <TextView
+                    android:id="@+id/tv_goods_down_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_below="@+id/ll_goods_show"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="15dp"
+                    android:text="￥666.00"
+                    android:textColor="@color/mainTextColor"
+                    android:textSize="15sp"
+                    />
+
+                <TextView
+                    android:id="@+id/tv_goods_real_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/tv_goods_down_price"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@+id/tv_goods_down_price"
+                    android:text="￥688.00"
+                    android:textColor="#cccccc"
+                    android:textSize="10sp"
+                    />
+
+                <Button
+                    android:id="@+id/btn_goods_collecting_start"
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@+id/tv_goods_down_price"
+                    android:layout_marginRight="28dp"
+                    android:layout_toLeftOf="@+id/btn_goods_share_start"
+                    android:background="@null"
+                    android:drawablePadding="2dp"
+                    android:drawableTop="@drawable/collecting_start"
+                    android:paddingTop="5dp"
+                    android:text="收藏"
+                    android:textColor="@color/light_black"
+                    android:textSize="8sp"
+                    android:visibility="gone"
+                    />
+
+                <Button
+                    android:id="@+id/btn_goods_share_start"
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignTop="@+id/tv_goods_down_price"
+                    android:layout_marginRight="12dp"
+                    android:background="@null"
+                    android:drawablePadding="2dp"
+                    android:drawableTop="@drawable/share_start"
+                    android:paddingTop="5dp"
+                    android:text="分享"
+                    android:textColor="@color/light_black"
+                    android:textSize="8sp"
+                    android:visibility="gone"
+                    />
+
+                <TextView
+                    android:id="@+id/tv_goods_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/tv_goods_down_price"
+                    android:layout_below="@+id/tv_goods_down_price"
+                    android:layout_marginTop="14dp"
+                    android:layout_toLeftOf="@+id/btn_goods_collecting_start"
+                    android:lines="1"
+                    android:text="酒名酒名酒名酒名酒名酒名酒名酒名酒名酒名酒名酒名酒名"
+                    android:textColor="@color/light_black"
+                    android:textSize="10sp"
+                    />
+
+                <TextView
+                    android:id="@+id/tv_express_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/tv_goods_down_price"
+                    android:layout_below="@+id/tv_goods_name"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="14dp"
+                    android:text="快递：10.00"
+                    android:textColor="#cccccc"
+                    android:textSize="10sp"
+                    />
+
+                <TextView
+                    android:id="@+id/tv_sale_number"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_goods_name"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="14dp"
+                    android:text="月销12221笔"
+                    android:textColor="#cccccc"
+                    android:textSize="10sp"
+                    />
+
+                <TextView
+                    android:id="@+id/tv_company_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@+id/tv_goods_name"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginRight="12dp"
+                    android:layout_marginTop="14dp"
+                    android:text="酒品网络科技公司"
+                    android:textColor="#cccccc"
+                    android:textSize="10sp"
+                    />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="12dp"
+                android:background="@color/mainBackground"
+                />
+            //购买会员
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingTop="@dimen/dp_10"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="购买会员"
+                    android:textSize="12sp"
+                    />
+
+                <RadioGroup
+                    android:id="@+id/rg_main"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    >
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="10dp"
+                        >
+
+                        <RadioButton
+                            android:id="@+id/rb_month"
+                            android:layout_width="0dp"
+                            android:layout_height="30dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/package_rb_bg_selector"
+                            android:button="@null"
+                            android:gravity="center"
+                            android:text="月度会员（3次）"
+                            android:textColor="@color/package_rb_text_selector"
+                            android:textSize="12sp"
+                            android:checked="true"
+                            />
+
+                        <RadioButton
+                            android:id="@+id/rb_quarter"
+                            android:layout_width="0dp"
+                            android:layout_height="30dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/package_rb_bg_selector"
+                            android:button="@null"
+                            android:gravity="center"
+                            android:text="季度会员（6次）"
+                            android:textColor="@color/package_rb_text_selector"
+                            android:textSize="12sp"
+                            />
+
+                        <RadioButton
+                            android:id="@+id/rb_half_year"
+                            android:layout_width="0dp"
+                            android:layout_height="30dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/package_rb_bg_selector"
+                            android:button="@null"
+                            android:gravity="center"
+                            android:text="半年会员（18次）"
+                            android:textColor="@color/package_rb_text_selector"
+                            android:textSize="12sp"
+                            />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="@dimen/dp_10"
+                        android:paddingLeft="@dimen/dp_10"
+                        android:paddingRight="@dimen/dp_10"
+                        >
+
+                        <RadioButton
+                            android:id="@+id/rb_year"
+                            android:layout_width="0dp"
+                            android:layout_height="30dp"
+                            android:layout_marginRight="@dimen/dp_10"
+                            android:layout_weight="1"
+                            android:background="@drawable/package_rb_bg_selector"
+                            android:button="@null"
+                            android:gravity="center"
+                            android:text="全年会员（36次）"
+                            android:textColor="@color/package_rb_text_selector"
+                            android:textSize="12sp"
+                            />
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="30dp"
+                            android:layout_marginRight="@dimen/dp_10"
+                            android:layout_weight="2"
+                            android:button="@null"
+                            />
+                    </LinearLayout>
+                </RadioGroup>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="12dp"
+                android:background="@color/mainBackground"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/dp_10"
+                android:orientation="vertical"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="酒款偏好"
+                    android:textSize="12sp"
+                    />
+                <RadioGroup
+                    android:id="@+id/rg_love"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="@dimen/dp_10"
+                    >
+                    <RadioButton
+                        android:id="@+id/rb_man"
+                        android:layout_width="0dp"
+                        android:layout_height="30dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/package_rb_bg_selector"
+                        android:button="@null"
+                        android:gravity="center"
+                        android:text="男神专属"
+                        android:textColor="@color/package_rb_text_selector"
+                        android:textSize="12sp"
+                        android:checked="true"
+                        />
+
+                    <RadioButton
+                        android:id="@+id/rb_woman"
+                        android:layout_width="0dp"
+                        android:layout_height="30dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/package_rb_bg_selector"
+                        android:button="@null"
+                        android:gravity="center"
+                        android:text="女神专属"
+                        android:textColor="@color/package_rb_text_selector"
+                        android:textSize="12sp"
+                        />
+
+                    <RadioButton
+                        android:layout_width="0dp"
+                        android:layout_height="30dp"
+                        android:layout_weight="1"
+                        android:button="@null"
+                        />
+                </RadioGroup>
+
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="12dp"
+                android:background="@color/mainBackground"
+                />
+
+            <WebView
+                android:id="@+id/wv_webview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            </WebView>
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+
+
+</LinearLayout>

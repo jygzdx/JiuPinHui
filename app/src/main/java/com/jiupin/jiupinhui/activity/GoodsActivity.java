@@ -200,7 +200,7 @@ public class GoodsActivity extends BaseActivity implements IGoodsActivityView{
     }
 
     private void initGoodsShowView() {
-        goodsShowView = new GoodsShowView(this, false);
+        goodsShowView = new GoodsShowView(this, true);
         llGoodsShow.addView(goodsShowView);
     }
 

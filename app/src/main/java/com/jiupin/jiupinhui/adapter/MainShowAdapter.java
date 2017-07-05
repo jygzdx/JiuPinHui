@@ -1,6 +1,7 @@
 package com.jiupin.jiupinhui.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.jiupin.jiupinhui.R;
+import com.jiupin.jiupinhui.activity.PackageActivity;
 import com.jiupin.jiupinhui.entity.MainShowEntity;
 import com.jiupin.jiupinhui.utils.LogUtils;
 
@@ -41,12 +43,15 @@ public class MainShowAdapter extends RecyclerView.Adapter{
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         MainShowViewHolder mainShowViewHolder = (MainShowViewHolder) holder;
-        MainShowEntity.DataBean.ListBean bean = datas.getList().get(position);
+        final MainShowEntity.DataBean.ListBean bean = datas.getList().get(position);
 
         mainShowViewHolder.view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 LogUtils.d("position = "+position);
+                Intent intent = new Intent(mContext, PackageActivity.class);
+                intent.putExtra("id",bean.getId());
+                mContext.startActivity(intent);
             }
         });
         
