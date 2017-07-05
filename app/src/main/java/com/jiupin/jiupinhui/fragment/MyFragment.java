@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.jiupin.jiupinhui.R;
 import com.jiupin.jiupinhui.activity.IdeaBackActivity;
 import com.jiupin.jiupinhui.activity.LoginActivity;
@@ -19,6 +20,7 @@ import com.jiupin.jiupinhui.activity.MyFormActivity;
 import com.jiupin.jiupinhui.activity.PersonInfoActivity;
 import com.jiupin.jiupinhui.activity.VersionActivity;
 import com.jiupin.jiupinhui.entity.ResponseBase;
+import com.jiupin.jiupinhui.entity.UserEntity;
 import com.jiupin.jiupinhui.presenter.IMyFragmentPresenter;
 import com.jiupin.jiupinhui.presenter.impl.MyFragmentPresenterImpl;
 import com.jiupin.jiupinhui.utils.LogUtils;
@@ -58,6 +60,7 @@ public class MyFragment extends Fragment implements IMyFragmentView {
     private View view;
 
     private IMyFragmentPresenter presenter;
+    private String token;
 
     @Nullable
     @Override
@@ -138,7 +141,7 @@ public class MyFragment extends Fragment implements IMyFragmentView {
 
         //更新用户的状态
         LogUtils.d("onStart");
-        String token = (String) SPUtils.get(getContext(), SPUtils.LOGIN_TOKEN, "");
+        token = (String) SPUtils.get(getContext(), SPUtils.LOGIN_TOKEN, "");
         LogUtils.d("token = "+token);
         if (token == "") {
             tvMyLogin.setVisibility(View.VISIBLE);
@@ -161,11 +164,28 @@ public class MyFragment extends Fragment implements IMyFragmentView {
             civHead.setVisibility(View.VISIBLE);
             tvUserName.setVisibility(View.VISIBLE);
             tvVipGrade.setVisibility(View.VISIBLE);
+            //获取用户数据
+            presenter.getUserInfoByToken(token);
+
+
         }else{//未登录状态
             tvMyLogin.setVisibility(View.VISIBLE);
             civHead.setVisibility(View.GONE);
             tvUserName.setVisibility(View.GONE);
             tvVipGrade.setVisibility(View.GONE);
         }
+    }
+
+    @Override
+    public void setUserInfo(UserEntity userEntity) {
+        LogUtils.d("setUserInfo");
+
+        Glide.with(this)
+                .load(userEntity.getData().getImageUrl())
+                .placeholder(R.drawable.ic_launcher_round)
+                .crossFade()
+                .into(civHead);
+
+        tvUserName.setText(userEntity.getData().getUserName());
     }
 }

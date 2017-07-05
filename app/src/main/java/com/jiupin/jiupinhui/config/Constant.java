@@ -66,6 +66,26 @@ public class Constant {
     public static final String CHECK_TOKEN = TEST_URL+"/appLogin/app/isTokenAvailable.json";
 
     /**
+     * 根据token获取用户数据
+     */
+    public static final String GET_USER_INFO = TEST_URL+"/appLogin/app/getUserInfoByToken.json";
+
+    /**
+     * 获取绑定手机验证码
+     */
+    public static final String BINDING_PHONE_SECURITY_CODE_URL = TEST_URL+"/app/user/sendSmsMsg.json";
+
+    /**
+     * 修改手机号码
+     */
+    public static final String UPDATE_MOBILE_URL = TEST_URL+"/app/user/updateMobile.json";
+
+    /**
+     * 重置密码
+     */
+    public static final String RESET_PASSWORD = TEST_URL+"/appLogin/app/resetPwd.json";
+
+    /**
      * 获取商品信息
      */
     public static final String GOODS_INFO = TEST_URL+"/appGoods/home/getGoodsDetail.json";

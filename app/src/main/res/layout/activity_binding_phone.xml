@@ -64,24 +64,23 @@
             android:textSize="12sp"
             />
 
-        <EditText
+        <com.chaychan.viewlib.PowerfulEditText
             android:id="@+id/et_phone"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@null"
+            android:layout_height="match_parent"
             android:paddingLeft="10dp"
-            android:lines="1"
-            android:hint="请输入手机号码"
-            android:textColorHint="@color/thin_black"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
+            android:inputType="number"
+            app:funcType="canClear"
+            android:drawableRight="@drawable/login_cancel"
+            android:drawablePadding="4dp"
+            android:background="@null"
+            android:textColorHint="#cccccc"
             android:textColor="@color/light_black"
             android:textSize="12sp"
-            />
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="6dp"
-            android:src="@drawable/login_cancel"
+            android:hint="输入手机号码"
             />
     </LinearLayout>
     <LinearLayout
@@ -94,7 +93,7 @@
         >
 
         <EditText
-            android:id="@+id/et_register_checkout"
+            android:id="@+id/et_checkout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
