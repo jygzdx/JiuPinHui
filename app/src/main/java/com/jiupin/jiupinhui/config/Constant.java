@@ -81,6 +81,11 @@ public class Constant {
     public static final String UPDATE_MOBILE_URL = TEST_URL+"/app/user/updateMobile.json";
 
     /**
+     * 修改昵称
+     */
+    public static final String UPDATE_NICKNAME_URL = TEST_URL+"/app/user/updateNickName.json";
+
+    /**
      * 重置密码
      */
     public static final String RESET_PASSWORD = TEST_URL+"/appLogin/app/resetPwd.json";
