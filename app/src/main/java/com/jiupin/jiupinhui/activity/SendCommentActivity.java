@@ -26,6 +26,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+/**
+ * 商品评价界面
+ */
 public class SendCommentActivity extends TakePhotoActivity {
     private static final String TAG = "SendCommentActivity";
     private final String IMAGE_TYPE = "image/*";

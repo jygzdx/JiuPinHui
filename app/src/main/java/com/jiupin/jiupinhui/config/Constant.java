@@ -84,6 +84,10 @@ public class Constant {
      * 修改昵称
      */
     public static final String UPDATE_NICKNAME_URL = TEST_URL+"/app/user/updateNickName.json";
+    /**
+     * 上传图片
+     */
+    public static final String PUSH_HEAD_URL = TEST_URL+"/app/user/updateHeadImg.json";
 
     /**
      * 重置密码
