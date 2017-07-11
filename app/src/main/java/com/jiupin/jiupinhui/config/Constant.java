@@ -68,7 +68,12 @@ public class Constant {
     /**
      * 根据token获取用户数据
      */
-    public static final String GET_USER_INFO = TEST_URL+"/appLogin/app/getUserInfoByToken.json";
+    public static final String GET_USER_INFO = TEST_URL+"/app/user/getUserInfo.json";
+
+    /**
+     * 根据token查找买家的各种状态订单的数量
+     */
+    public static final String GET_FORM_INFO = TEST_URL+"/app/order/getUserOrderStatusCount.json";
 
     /**
      * 获取绑定手机验证码
@@ -92,7 +97,22 @@ public class Constant {
     /**
      * 重置密码
      */
-    public static final String RESET_PASSWORD = TEST_URL+"/appLogin/app/resetPwd.json";
+    public static final String RESET_PASSWORD_URL = TEST_URL+"/appLogin/app/resetPwd.json";
+
+    /**
+     * 获取重置密码验证码
+     */
+    public static final String RESET_CODE_URL = TEST_URL+"/appLogin/app/sendSmsMsg.json";
+
+    /**
+     * 获取用户地址列表
+     */
+    public static final String ADDRESS_LIST = TEST_URL+"/app/order/getUserAddress.json";
+
+    /**
+     * 获取省市区地址
+     */
+    public static final String SHENG_SHI_QU_AREA = TEST_URL+"/app/order/loadCascadeAreaList.json";
 
     /**
      * 获取商品信息

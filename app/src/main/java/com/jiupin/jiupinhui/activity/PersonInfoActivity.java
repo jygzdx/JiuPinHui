@@ -91,7 +91,7 @@ public class PersonInfoActivity extends BaseActivity implements IPersonInfoActiv
                 ToastUtils.showShort(this, "退出登录成功");
                 break;
             case R.id.ll_head:
-                File file = new File(Environment.getExternalStorageDirectory(), "/images/head.jpg");
+                File file = new File(Environment.getExternalStorageDirectory(), "/images/"+ System.currentTimeMillis()+".jpg");
                 if (!file.getParentFile().exists())
                     file.getParentFile().mkdirs();
                 Uri imageUri = Uri.fromFile(file);
@@ -133,17 +133,17 @@ public class PersonInfoActivity extends BaseActivity implements IPersonInfoActiv
     }
 
     @Override
-    public void takeSuccess(TResult result) {
+    public void takeSuccess(TResult result) {//选择头像成功
         LogUtils.i(TAG, "takeSuccess：" + result);
         if(result!=null){
-            //图片路径被我写死，头像没有改变。。。可以先清空路径。。。。
-            //或者上传完成之后在设置头像。。。
+
             Glide.with(this)
                     .load(new File(result.getImage().getOriginalPath()))
                     .into(civHead);
             //上传图片
-            String name = "head.jpg";
-            File file = new File(Environment.getExternalStorageDirectory(), "/images/head.jpg");
+            String path = result.getImage().getOriginalPath();
+            String name = path.substring(path.lastIndexOf("/")+1);
+            File file = new File(Environment.getExternalStorageDirectory(), "/images/"+name);
             String token = (String) SPUtils.get(this, SPUtils.LOGIN_TOKEN, "");
             presenter.pushPicture(file,name,token);
         }

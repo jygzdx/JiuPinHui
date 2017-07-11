@@ -171,7 +171,7 @@
         android:layout_alignParentBottom="true"
         android:layout_below="@+id/ll_login_and_register"
         android:layout_marginTop="14dp"
-        android:visibility="visible"
+        android:visibility="gone"
         >
 
         <ImageView
@@ -526,7 +526,7 @@
                         />
 
                     <Button
-                        android:id="@+id/iv_reset_checkout"
+                        android:id="@+id/btn_reset_checkout"
                         android:layout_width="wrap_content"
                         android:layout_height="35dp"
                         android:layout_gravity="center_vertical"
@@ -548,7 +548,7 @@
                     android:layout_marginTop="5dp"
                     android:paddingBottom="10dp"
                     android:paddingTop="10dp"
-                    android:inputType="number"
+                    android:inputType="textPassword"
                     app:funcType="canClear"
                     android:drawableRight="@drawable/login_cancel"
                     android:drawablePadding="4dp"
@@ -571,7 +571,7 @@
                     android:layout_marginTop="5dp"
                     android:paddingBottom="10dp"
                     android:paddingTop="10dp"
-                    android:inputType="number"
+                    android:inputType="textPassword"
                     app:funcType="canClear"
                     android:drawableRight="@drawable/login_cancel"
                     android:drawablePadding="4dp"

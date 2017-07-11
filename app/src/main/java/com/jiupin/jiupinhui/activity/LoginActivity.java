@@ -1,6 +1,7 @@
 package com.jiupin.jiupinhui.activity;
 
 import android.animation.ObjectAnimator;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 import com.jiupin.jiupinhui.R;
 import com.jiupin.jiupinhui.config.Constant;
 import com.jiupin.jiupinhui.entity.RegisterEntity;
+import com.jiupin.jiupinhui.entity.ResponseBase;
 import com.jiupin.jiupinhui.presenter.ILoginActivityPresenter;
 import com.jiupin.jiupinhui.presenter.impl.LoginActivityPresenterImpl;
 import com.jiupin.jiupinhui.utils.LogUtils;
@@ -76,8 +78,6 @@ public class LoginActivity extends AppCompatActivity implements ILoginActivityVi
     EditText etResetMobile;
     @BindView(R.id.et_reset_checkout)
     EditText etResetCheckout;
-    @BindView(R.id.iv_reset_checkout)
-    Button ivResetCheckout;
     @BindView(R.id.et_reset_password_one)
     EditText etResetPasswordOne;
     @BindView(R.id.et_reset_password_two)
@@ -86,6 +86,8 @@ public class LoginActivity extends AppCompatActivity implements ILoginActivityVi
     Button btnResetBottom;
     @BindView(R.id.rl_bottom_reset)
     RelativeLayout rlBottomReset;
+    @BindView(R.id.btn_reset_checkout)
+    Button btnResetCheckout;
     private IWXAPI api;
 
     private ILoginActivityPresenter presenter;
@@ -96,7 +98,13 @@ public class LoginActivity extends AppCompatActivity implements ILoginActivityVi
     private TimerTask task;
     private int checkoutTime = 60;
 
+    private int resetCheckoutTime = 60;
+
+    private TimerTask resetTask;
+    private Timer resetTimer;
+
     final int WHAT = 102;
+    final int WHAT_RESET = 103;
     final Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -112,6 +120,20 @@ public class LoginActivity extends AppCompatActivity implements ILoginActivityVi
                         task.cancel();
                     } else if (time > 0) {
                         btnRegisterCheckout.setText(msg.obj + "s");
+                    }
+
+                    break;
+                case WHAT_RESET:
+                    int time1 = (int) msg.obj;
+                    if (time1 == 0) {
+                        resetCheckoutTime = 60;
+                        btnResetCheckout.setClickable(true);
+                        btnResetCheckout.setText("获取验证码");
+                        btnResetCheckout.setBackgroundResource(R.drawable.uncheckouted);
+                        resetTimer.cancel();
+                        resetTask.cancel();
+                    } else if (time1 > 0) {
+                        btnResetCheckout.setText(msg.obj + "s");
                     }
 
                     break;
@@ -138,7 +160,7 @@ public class LoginActivity extends AppCompatActivity implements ILoginActivityVi
     }
 
     @OnClick({R.id.btn_login, R.id.btn_register, R.id.tv_reset_password, R.id.btn_login_bottom, R.id.btn_register_checkout,
-            R.id.btn_register_bottom
+            R.id.btn_register_bottom, R.id.btn_reset_checkout, R.id.btn_reset_bottom
     })
     void onButtonClick(View view) {
 
@@ -147,8 +169,15 @@ public class LoginActivity extends AppCompatActivity implements ILoginActivityVi
         String registerCheckout = etRegisterCheckout.getText().toString();
         String registerPasswordOne = etRegisterPasswordOne.getText().toString();
         String registerPasswordTwo = etRegisterPasswordTwo.getText().toString();
+
+        //登录信息
         String loginMobile = etLoginMobile.getText().toString();
         String loginPassword = etLoginPassword.getText().toString();
+        //重置密码信息
+        String resetMobile = etResetMobile.getText().toString();
+        String resetCheckout = etResetCheckout.getText().toString();
+        String resetPasswordOne = etResetPasswordOne.getText().toString();
+        String resetPasswordTwo = etResetPasswordTwo.getText().toString();
         switch (view.getId()) {
             case R.id.btn_login:
                 btnLogin.setBackgroundResource(R.drawable.login_clicked);
@@ -174,12 +203,12 @@ public class LoginActivity extends AppCompatActivity implements ILoginActivityVi
                 }
                 break;
             case R.id.btn_login_bottom://用户登录
-//                SendAuth.Req req = new SendAuth.Req();
-//                req.scope = "snsapi_userinfo";
-//                req.state = "123456";
-//                //向微信发送请求
-//                boolean status = api.sendReq(req);
-                presenter.loginUser(loginMobile,loginPassword,"2");
+                //                SendAuth.Req req = new SendAuth.Req();
+                //                req.scope = "snsapi_userinfo";
+                //                req.state = "123456";
+                //                //向微信发送请求
+                //                boolean status = api.sendReq(req);
+                presenter.loginUser(loginMobile, loginPassword, "2");
                 break;
             case R.id.btn_register_checkout:
 
@@ -228,7 +257,7 @@ public class LoginActivity extends AppCompatActivity implements ILoginActivityVi
                     ToastUtils.showShort(this, "密码不能为空");
                     return;
                 }
-                if(registerPasswordOne.length() > 16 || registerPasswordOne.length() < 8){
+                if (registerPasswordOne.length() > 16 || registerPasswordOne.length() < 8) {
                     ToastUtils.showShort(this, "请输入8-16位数字或字母的密码");
                     return;
                 }
@@ -238,11 +267,69 @@ public class LoginActivity extends AppCompatActivity implements ILoginActivityVi
                     return;
                 }
 
-                if(isMobileUnique){
+                if (isMobileUnique) {
                     presenter.registerUser(registerMobile, registerCheckout, registerPasswordOne);
-                }else {
+                } else {
                     ToastUtils.showShort(this, "手机号码已经被注册过了");
                 }
+
+                break;
+
+            case R.id.btn_reset_checkout://点击获取重置密码验证码
+                if (!StringUtils.isEmpty(resetMobile) && StringUtils.isMobileNO(resetMobile)) {
+                    btnResetCheckout.setClickable(false);
+                    btnResetCheckout.setBackgroundResource(R.drawable.checkouted);
+
+                    //获取验证码
+                    presenter.getResetSecurityCode(resetMobile);
+
+                    //60秒倒计时
+                    resetTask = new TimerTask() {
+                        @Override
+                        public void run() {
+                            resetCheckoutTime--;
+                            Message message = new Message();
+                            message.what = WHAT_RESET;
+                            message.obj = resetCheckoutTime;
+                            handler.sendMessage(message);
+                        }
+                    };
+
+                    resetTimer = new Timer();
+                    // 参数：
+                    // 10，延时1秒后执行。
+                    // 1000，每隔1秒执行1次task。
+                    resetTimer.schedule(resetTask, 10, 1000);
+                } else {
+                    ToastUtils.showShort(this, "手机号码输入错误");
+                }
+                break;
+            case R.id.btn_reset_bottom://点击重置密码
+                if (StringUtils.isEmpty(resetMobile) || !StringUtils.isMobileNO(resetMobile)) {
+                    ToastUtils.showShort(this, "手机号码输入错误");
+                    return;
+                }
+                if (StringUtils.isEmpty(resetCheckout) || resetCheckout.length() < 6) {
+                    ToastUtils.showShort(this, "验证码输入错误");
+                    return;
+                }
+                if (StringUtils.isEmpty(resetPasswordTwo) || StringUtils.isEmpty(resetPasswordOne)
+                        ) {
+                    ToastUtils.showShort(this, "密码不能为空");
+                    return;
+                }
+                if (resetPasswordOne.length() > 16 || resetPasswordOne.length() < 8) {
+                    ToastUtils.showShort(this, "输入的密码要为8-16位数字或字母的字符串");
+                    return;
+                }
+
+                if (!StringUtils.equals(resetPasswordOne, resetPasswordTwo)) {
+                    ToastUtils.showShort(this, "密码输入不一致");
+                    return;
+                }
+
+                //重置密码
+                presenter.resetPwd(resetMobile, resetCheckout, resetPasswordOne);
 
                 break;
         }
@@ -306,8 +393,11 @@ public class LoginActivity extends AppCompatActivity implements ILoginActivityVi
     @Override
     public void registerSuccess(RegisterEntity registerEntity) {
         ToastUtils.showShort(this, "注册成功");
-        SPUtils.put(this,SPUtils.LOGIN_TOKEN,registerEntity.getData().getToken());
-        LogUtils.d(TAG+"token"+registerEntity.getData().getToken());
+        SPUtils.put(this, SPUtils.LOGIN_TOKEN, registerEntity.getData().getToken());
+        LogUtils.d(TAG + "token" + registerEntity.getData().getToken());
+        Intent intent = new Intent(this,MainActivity.class);
+        intent.putExtra("login","login");
+        startActivity(intent);
         finish();
     }
 
@@ -319,11 +409,14 @@ public class LoginActivity extends AppCompatActivity implements ILoginActivityVi
 
     @Override
     public void loginSuccess(RegisterEntity registerEntity) {
-        SPUtils.put(this,SPUtils.LOGIN_TOKEN,registerEntity.getData().getToken());
+        SPUtils.put(this, SPUtils.LOGIN_TOKEN, registerEntity.getData().getToken());
 
-        ToastUtils.showShort(this,"登录成功");
+        ToastUtils.showShort(this, "登录成功");
 
-        LogUtils.d(TAG+"token"+registerEntity.getData().getToken());
+        LogUtils.d(TAG + "token" + registerEntity.getData().getToken());
+        Intent intent = new Intent(this,MainActivity.class);
+        intent.putExtra("login","login");
+        startActivity(intent);
         finish();
     }
 
@@ -334,16 +427,21 @@ public class LoginActivity extends AppCompatActivity implements ILoginActivityVi
 
     @Override
     public void isMobileUnique(String data) {
-        if("0".equals(data)){
+        if ("0".equals(data)) {
             isMobileUnique = false;
-        }else {
-            isMobileUnique=true;
+        } else {
+            isMobileUnique = true;
         }
     }
 
     @Override
     public void isMobileUniqueFail() {
 
+    }
+
+    @Override
+    public void resetPwdSuccess(ResponseBase responseBase) {
+        ToastUtils.showShort(this,"重置密码成功");
     }
 
 }

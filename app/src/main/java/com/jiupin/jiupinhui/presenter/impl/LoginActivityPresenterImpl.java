@@ -1,6 +1,7 @@
 package com.jiupin.jiupinhui.presenter.impl;
 
 import com.jiupin.jiupinhui.entity.RegisterEntity;
+import com.jiupin.jiupinhui.entity.ResponseBase;
 import com.jiupin.jiupinhui.entity.SecurityCodeEntity;
 import com.jiupin.jiupinhui.model.ILoginActivityModel;
 import com.jiupin.jiupinhui.model.IModel;
@@ -82,6 +83,37 @@ public class LoginActivityPresenterImpl implements ILoginActivityPresenter {
             @Override
             public void onFailed(Object error) {
 
+            }
+        });
+    }
+
+    @Override
+    public void getResetSecurityCode(String mobile) {
+        model.getResetSecurityCode(mobile, new IModel.CallBack() {
+            @Override
+            public void onSuccess(Object success) {
+                LogUtils.d(TAG,"返回信息= "+((ResponseBase)success).getMsg());
+            }
+
+            @Override
+            public void onFailed(Object error) {
+                LogUtils.d(TAG,"返回信息= "+error.toString());
+            }
+        });
+    }
+
+    @Override
+    public void resetPwd(String mobile, String code, String pwd) {
+        model.resetPwd(mobile, code,pwd,new IModel.CallBack() {
+            @Override
+            public void onSuccess(Object success) {
+                LogUtils.d(TAG,"返回信息= "+((ResponseBase)success).getMsg());
+                view.resetPwdSuccess((ResponseBase)success);
+            }
+
+            @Override
+            public void onFailed(Object error) {
+                LogUtils.d(TAG,"返回信息= "+error.toString());
             }
         });
     }

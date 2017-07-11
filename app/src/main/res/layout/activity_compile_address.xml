@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
+    android:id="@+id/ll_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -115,6 +116,41 @@
                 android:background="@null"
                 android:layout_marginLeft="12dp"
                 android:hint="请输入收货人电话号码"
+                android:textColor="@color/light_black"
+                android:textSize="12sp"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_address_area"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:background="@color/white"
+            android:orientation="horizontal"
+            >
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="所在地区"
+                android:paddingTop="14dp"
+                android:paddingBottom="14dp"
+                android:textColor="@color/light_black"
+                android:textSize="12sp"
+                />
+            <TextView
+                android:id="@+id/tv_address_area"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:drawablePadding="10dp"
+                android:lines="1"
+                android:drawableRight="@drawable/right_zhishiqi"
+                android:text=""
                 android:textColor="@color/light_black"
                 android:textSize="12sp"
                 />

@@ -1,6 +1,7 @@
 package com.jiupin.jiupinhui.view;
 
 import com.jiupin.jiupinhui.entity.RegisterEntity;
+import com.jiupin.jiupinhui.entity.ResponseBase;
 
 /**
  * 作者：czb on 2017/6/26 17:03
@@ -44,4 +45,10 @@ public interface ILoginActivityView {
      * 网络错误
      */
     void isMobileUniqueFail();
+    /**
+     * 重置密码成功
+     *
+     * @param responseBase 返回实体类
+     */
+    void resetPwdSuccess(ResponseBase responseBase);
 }

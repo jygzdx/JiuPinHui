@@ -50,85 +50,94 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="39dp"
-                android:gravity="center_vertical"
-                >
-
-                <TextView
-                    android:id="@+id/textView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="14dp"
-                    android:layout_marginTop="14dp"
-                    android:text="收货人："
-                    android:textColor="@color/light_black"
-                    android:textSize="12sp"/>
-
-                <TextView
-                    android:id="@+id/tv_consignee_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_toRightOf="@+id/textView"
-                    android:text="玛卡"
-                    android:textColor="@color/light_black"
-                    android:textSize="12sp"
-                    />
-
-                <TextView
-                    android:id="@+id/tv_phone_number"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="12dp"
-                    android:lines="1"
-                    android:text="15923567478"
-                    android:textColor="@color/light_black"
-                    android:textSize="12sp"
-                    />
-            </RelativeLayout>
-
             <LinearLayout
+                android:id="@+id/ll_address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
+                android:orientation="vertical"
                 >
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="39dp"
+                    android:gravity="center_vertical"
+                    >
 
-                <ImageView
-                    android:layout_width="wrap_content"
+                    <TextView
+                        android:id="@+id/textView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="14dp"
+                        android:layout_marginTop="14dp"
+                        android:text="收货人："
+                        android:textColor="@color/light_black"
+                        android:textSize="12sp"/>
+
+                    <TextView
+                        android:id="@+id/tv_consignee_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toRightOf="@+id/textView"
+                        android:text="玛卡"
+                        android:textColor="@color/light_black"
+                        android:textSize="12sp"
+                        />
+
+                    <TextView
+                        android:id="@+id/tv_phone_number"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="12dp"
+                        android:lines="1"
+                        android:text="15923567478"
+                        android:textColor="@color/light_black"
+                        android:textSize="12sp"
+                        />
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginRight="12dp"
-                    android:layout_marginTop="10dp"
-                    android:src="@drawable/address"
-                    />
+                    >
 
-                <TextView
-                    android:id="@+id/tv_address"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="1"
-                    android:lines="2"
-                    android:text="收货地址：广东省广州市海珠区小岗村龙兴大街465号广州荣光大厦5楼514"
-                    android:textColor="@color/light_black"
-                    android:textSize="12sp"
-                    />
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="12dp"
+                        android:layout_marginTop="10dp"
+                        android:src="@drawable/address"
+                        />
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="13dp"
-                    android:layout_marginRight="12dp"
-                    android:src="@drawable/right_zhishiqi"
-                    />
+                    <TextView
+                        android:id="@+id/tv_address"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:lines="2"
+                        android:text="收货地址：广东省广州市海珠区小岗村龙兴大街465号广州荣光大厦5楼514"
+                        android:textColor="@color/light_black"
+                        android:textSize="12sp"
+                        />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="13dp"
+                        android:layout_marginRight="12dp"
+                        android:src="@drawable/right_zhishiqi"
+                        />
+                </LinearLayout>
             </LinearLayout>
+
+
 
             <View
                 android:layout_width="match_parent"

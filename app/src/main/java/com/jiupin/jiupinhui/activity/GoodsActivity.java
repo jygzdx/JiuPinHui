@@ -21,6 +21,7 @@ import com.jiupin.jiupinhui.entity.GoodsEntity;
 import com.jiupin.jiupinhui.presenter.IGoodsActivityPresenter;
 import com.jiupin.jiupinhui.presenter.impl.GoodsActivityPresenterImpl;
 import com.jiupin.jiupinhui.utils.LogUtils;
+import com.jiupin.jiupinhui.utils.ToastUtils;
 import com.jiupin.jiupinhui.view.IGoodsActivityView;
 import com.jiupin.jiupinhui.widget.GoodsShowView;
 
@@ -204,20 +205,27 @@ public class GoodsActivity extends BaseActivity implements IGoodsActivityView{
         llGoodsShow.addView(goodsShowView);
     }
 
-    @OnClick({R.id.btn_contact_customer, R.id.rl_buy_car, R.id.btn_check_appraise})
+    @OnClick({R.id.btn_contact_customer, R.id.rl_buy_car, R.id.btn_check_appraise,R.id.btn_now_pay,R.id.btn_add_car})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_contact_customer:
                 Intent intent2 = new Intent(mContext, FamiliarQuestionActivity.class);
                 startActivity(intent2);
                 break;
-            case R.id.rl_buy_car:
+            case R.id.rl_buy_car://进入购物车
                 Intent intent1 = new Intent(mContext, BuyCartActivity.class);
                 startActivity(intent1);
                 break;
             case R.id.btn_check_appraise:
                 Intent intent = new Intent(this, CommentActivity.class);
                 startActivity(intent);
+                break;
+            case R.id.btn_now_pay://立即购买
+                Intent intent3 = new Intent(this, OrderActivity.class);
+                startActivity(intent3);
+                break;
+            case R.id.btn_add_car://加入购物车
+                ToastUtils.showShort(this,"已加入购物车");
                 break;
         }
     }

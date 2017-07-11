@@ -10,6 +10,14 @@ import android.widget.ImageView;
 
 import com.jiupin.jiupinhui.R;
 import com.jiupin.jiupinhui.adapter.ManageAddressAdapter;
+import com.jiupin.jiupinhui.entity.AddressEntity;
+import com.jiupin.jiupinhui.presenter.IManageAddressActivityPresenter;
+import com.jiupin.jiupinhui.presenter.impl.ManageAddressActivityPresenterImpl;
+import com.jiupin.jiupinhui.utils.LogUtils;
+import com.jiupin.jiupinhui.utils.SPUtils;
+import com.jiupin.jiupinhui.view.IManageAddressActivityView;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -18,18 +26,24 @@ import butterknife.OnClick;
 /**
  * 管理地址
  */
-public class ManageAddressActivity extends BaseActivity {
+public class ManageAddressActivity extends BaseActivity implements IManageAddressActivityView{
+    private static final String TAG = "ManageAddressActivity";
 
     @BindView(R.id.iv_back)
     ImageView ivBack;
     @BindView(R.id.rv_address)
     RecyclerView rvAddress;
 
+    private IManageAddressActivityPresenter presenter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manage_address);
         ButterKnife.bind(this);
+        String token = (String) SPUtils.get(this, SPUtils.LOGIN_TOKEN, "");
+        presenter = new ManageAddressActivityPresenterImpl(this);
+        presenter.getAddressList(token);
 
         RecyclerView.LayoutManager layout = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
         rvAddress.addItemDecoration(new DividerItemDecoration(mContext, DividerItemDecoration.VERTICAL));
@@ -51,4 +65,11 @@ public class ManageAddressActivity extends BaseActivity {
         }
     }
 
+    @Override
+    public void setData(List<AddressEntity> adds) {
+        if(adds.size()>0){
+            LogUtils.d(TAG,adds.get(0).toString());
+        }
+
+    }
 }

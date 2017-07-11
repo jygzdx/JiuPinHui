@@ -19,6 +19,7 @@ import com.jiupin.jiupinhui.activity.MemberClubActivity;
 import com.jiupin.jiupinhui.activity.MyFormActivity;
 import com.jiupin.jiupinhui.activity.PersonInfoActivity;
 import com.jiupin.jiupinhui.activity.VersionActivity;
+import com.jiupin.jiupinhui.entity.MyFormEntity;
 import com.jiupin.jiupinhui.entity.ResponseBase;
 import com.jiupin.jiupinhui.entity.UserEntity;
 import com.jiupin.jiupinhui.presenter.IMyFragmentPresenter;
@@ -57,6 +58,16 @@ public class MyFragment extends Fragment implements IMyFragmentView {
     TextView tvUserName;
     @BindView(R.id.tv_vip_grade)
     TextView tvVipGrade;
+    @BindView(R.id.tv_wait_pay)
+    TextView tvWaitPay;
+    @BindView(R.id.tv_wait_send_goods)
+    TextView tvWaitSendGoods;
+    @BindView(R.id.tv_wait_gain_goods)
+    TextView tvWaitGainGoods;
+    @BindView(R.id.tv_wait_appraise)
+    TextView tvWaitAppraise;
+    @BindView(R.id.tv_refund_and_after_sale)
+    TextView tvRefundAndAfterSale;
     private View view;
 
     private IMyFragmentPresenter presenter;
@@ -70,11 +81,41 @@ public class MyFragment extends Fragment implements IMyFragmentView {
 
         presenter = new MyFragmentPresenterImpl(this);
 
-
-
+        token = (String) SPUtils.get(getContext(), SPUtils.LOGIN_TOKEN, "");
+        LogUtils.d("token = " + token);
+        if (token == "") {
+            tvMyLogin.setVisibility(View.VISIBLE);
+            civHead.setVisibility(View.GONE);
+            tvUserName.setVisibility(View.GONE);
+            tvVipGrade.setVisibility(View.GONE);
+        } else {
+            LogUtils.d("------getTokenStatus");
+            //查看token是否可用
+            presenter.getTokenStatus(token);
+        }
 
         LogUtils.d(TAG + "    oncreateView");
         return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+//        //更新用户的状态
+//        LogUtils.d("onStart");
+//        token = (String) SPUtils.get(getContext(), SPUtils.LOGIN_TOKEN, "");
+//        LogUtils.d("token = " + token);
+//        if (token == "") {
+//            tvMyLogin.setVisibility(View.VISIBLE);
+//            civHead.setVisibility(View.GONE);
+//            tvUserName.setVisibility(View.GONE);
+//            tvVipGrade.setVisibility(View.GONE);
+//        } else {
+//            LogUtils.d("------getTokenStatus");
+//            //查看token是否可用
+//            presenter.getTokenStatus(token);
+//        }
     }
 
     @Override
@@ -135,40 +176,22 @@ public class MyFragment extends Fragment implements IMyFragmentView {
         LogUtils.d("onResume");
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
 
-        //更新用户的状态
-        LogUtils.d("onStart");
-        token = (String) SPUtils.get(getContext(), SPUtils.LOGIN_TOKEN, "");
-        LogUtils.d("token = "+token);
-        if (token == "") {
-            tvMyLogin.setVisibility(View.VISIBLE);
-            civHead.setVisibility(View.GONE);
-            tvUserName.setVisibility(View.GONE);
-            tvVipGrade.setVisibility(View.GONE);
-        }else{
-            LogUtils.d("------getTokenStatus");
-            //查看token是否可用
-            presenter.getTokenStatus(token);
-        }
-    }
 
     @Override
     public void checkTokenBack(ResponseBase responseBase) {
-        boolean status = "1".equals((String)responseBase.getData())?true:false;
-        LogUtils.d("status = "+status+"    data = "+(String)responseBase.getData());
-        if(status){//登录状态
+        LogUtils.d("checkTokenBack = "+responseBase.getMsg());
+        boolean status = "1".equals((String) responseBase.getData()) ? true : false;
+        LogUtils.d("status = " + status + "    data = " + (String) responseBase.getData());
+        if (status) {//登录状态
             tvMyLogin.setVisibility(View.GONE);
             civHead.setVisibility(View.VISIBLE);
             tvUserName.setVisibility(View.VISIBLE);
             tvVipGrade.setVisibility(View.VISIBLE);
             //获取用户数据
             presenter.getUserInfoByToken(token);
-
-
-        }else{//未登录状态
+            presenter.getformInfoByToken(token);
+        } else {//未登录状态
             tvMyLogin.setVisibility(View.VISIBLE);
             civHead.setVisibility(View.GONE);
             tvUserName.setVisibility(View.GONE);
@@ -178,14 +201,23 @@ public class MyFragment extends Fragment implements IMyFragmentView {
 
     @Override
     public void setUserInfo(UserEntity userEntity) {
-        LogUtils.d("setUserInfo");
+        LogUtils.d("setUserInfo"+userEntity.getData().getImageUrl());
 
         Glide.with(this)
                 .load(userEntity.getData().getImageUrl())
-                .placeholder(R.drawable.ic_launcher_round)
                 .crossFade()
                 .into(civHead);
 
         tvUserName.setText(userEntity.getData().getUserName());
+    }
+
+    @Override
+    public void setFormNumber(MyFormEntity myFormEntity) {
+        LogUtils.d("setFormNumber"+myFormEntity.toString());
+        tvWaitPay.setText(myFormEntity.getData().getUnpay()+"");
+        tvWaitSendGoods.setText(myFormEntity.getData().getWaitDelivery()+"");
+        tvWaitGainGoods.setText(myFormEntity.getData().getWaitPickup()+"");
+        tvWaitAppraise.setText(myFormEntity.getData().getWaitComment()+"");
+        tvRefundAndAfterSale.setText(myFormEntity.getData().getAfterSale()+"");
     }
 }

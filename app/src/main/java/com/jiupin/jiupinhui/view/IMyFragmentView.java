@@ -1,5 +1,6 @@
 package com.jiupin.jiupinhui.view;
 
+import com.jiupin.jiupinhui.entity.MyFormEntity;
 import com.jiupin.jiupinhui.entity.ResponseBase;
 import com.jiupin.jiupinhui.entity.UserEntity;
 
@@ -19,4 +20,10 @@ public interface IMyFragmentView {
      * 根据token获取用户信息
      */
     void setUserInfo(UserEntity userEntity);
+
+    /**
+     * 设置订单的数量
+     * @param myFormEntity
+     */
+    void setFormNumber(MyFormEntity myFormEntity);
 }

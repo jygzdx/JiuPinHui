@@ -352,8 +352,8 @@
 
                 <ImageView
                     android:id="@+id/iv_wait_pay"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:layout_alignParentBottom="true"
                     android:layout_centerHorizontal="true"
                     android:layout_marginBottom="10dp"
@@ -363,7 +363,7 @@
                 <TextView
                     android:id="@+id/tv_wait_pay"
                     android:layout_width="wrap_content"
-                    android:layout_height="8dp"
+                    android:layout_height="10dp"
                     android:layout_alignRight="@id/iv_wait_pay"
                     android:layout_alignTop="@id/iv_wait_pay"
                     android:layout_marginRight="-5dp"
@@ -395,8 +395,8 @@
 
                 <ImageView
                     android:id="@+id/iv_wait_send_goods"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:layout_alignParentBottom="true"
                     android:layout_centerHorizontal="true"
                     android:layout_marginBottom="10dp"
@@ -404,7 +404,7 @@
                     />
 
                 <TextView
-                    android:id="@+id/tv_wait_pay"
+                    android:id="@+id/tv_wait_send_goods"
                     android:layout_width="wrap_content"
                     android:layout_height="8dp"
                     android:layout_alignRight="@id/iv_wait_send_goods"
@@ -438,8 +438,8 @@
 
                 <ImageView
                     android:id="@+id/iv_wait_get_goods"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:layout_alignParentBottom="true"
                     android:layout_centerHorizontal="true"
                     android:layout_marginBottom="10dp"
@@ -447,7 +447,7 @@
                     />
 
                 <TextView
-                    android:id="@+id/tv_wait_pay"
+                    android:id="@+id/tv_wait_gain_goods"
                     android:layout_width="wrap_content"
                     android:layout_height="8dp"
                     android:layout_alignRight="@id/iv_wait_get_goods"
@@ -481,8 +481,8 @@
 
                 <ImageView
                     android:id="@+id/iv_wait_appraise"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:layout_alignParentBottom="true"
                     android:layout_centerHorizontal="true"
                     android:layout_marginBottom="10dp"
@@ -490,7 +490,7 @@
                     />
 
                 <TextView
-                    android:id="@+id/tv_wait_pay"
+                    android:id="@+id/tv_wait_appraise"
                     android:layout_width="wrap_content"
                     android:layout_height="8dp"
                     android:layout_alignRight="@id/iv_wait_appraise"
@@ -524,8 +524,8 @@
 
                 <ImageView
                     android:id="@+id/iv_refund_and_after_sale"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:layout_alignParentBottom="true"
                     android:layout_centerHorizontal="true"
                     android:layout_marginBottom="10dp"

@@ -8,7 +8,7 @@ public interface ILoginActivityPresenter {
 
     /**
      * mobile:手机号码
-     * 获取美酒详细数据
+     * 获取注册验证码
      */
     void getSecurityCode(String mobile);
 
@@ -33,4 +33,17 @@ public interface ILoginActivityPresenter {
      * @param mobile 电话号码
      */
     void isMobileUnique(String mobile);
+
+    /**
+     * mobile:手机号码
+     * 获取重置密码验证码
+     */
+    void getResetSecurityCode(String mobile);
+    /**
+     * 用户重置密码
+     * @param mobile 电话号码
+     * @param code 验证码
+     * @param pwd 密码
+     */
+    void resetPwd(String mobile,String code,String pwd);
 }

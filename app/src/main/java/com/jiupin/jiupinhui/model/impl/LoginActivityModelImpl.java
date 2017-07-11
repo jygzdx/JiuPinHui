@@ -3,6 +3,7 @@ package com.jiupin.jiupinhui.model.impl;
 import com.google.gson.Gson;
 import com.jiupin.jiupinhui.config.Constant;
 import com.jiupin.jiupinhui.entity.RegisterEntity;
+import com.jiupin.jiupinhui.entity.ResponseBase;
 import com.jiupin.jiupinhui.entity.SecurityCodeEntity;
 import com.jiupin.jiupinhui.model.ILoginActivityModel;
 import com.jiupin.jiupinhui.model.IModel;
@@ -148,6 +149,74 @@ public class LoginActivityModelImpl implements ILoginActivityModel {
                                 callBack.onSuccess(data);
                             } else {
                                 callBack.onFailed("验证号码唯一失败");
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+    }
+
+    @Override
+    public void getResetSecurityCode(String mobile, final IModel.CallBack callBack) {
+        OkHttpUtils
+                .post()
+                .url(Constant.RESET_CODE_URL)
+                .addParams("mobile", mobile)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+                        callBack.onFailed(e.getMessage());
+                    }
+
+                    @Override
+                    public void onResponse(String response, int id) {
+
+                        JSONObject jsonObject = null;
+                        try {
+                            jsonObject = new JSONObject(response);
+                            if ("OK".equals(jsonObject.getString("msg"))) {
+                                Gson gson = new Gson();
+                                ResponseBase responseBase = gson.fromJson(response, ResponseBase.class);
+                                callBack.onSuccess(responseBase);
+                            } else {
+                                callBack.onFailed(jsonObject.getString("msg")+"");
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+    }
+
+    @Override
+    public void resetPwd(String mobile, String code, String pwd, final IModel.CallBack callBack) {
+        OkHttpUtils
+                .post()
+                .url(Constant.RESET_PASSWORD_URL)
+                .addParams("mobile", mobile)
+                .addParams("pwd", pwd)
+                .addParams("sms", code)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+                        callBack.onFailed(e.getMessage());
+                    }
+
+                    @Override
+                    public void onResponse(String response, int id) {
+
+                        JSONObject jsonObject = null;
+                        try {
+                            jsonObject = new JSONObject(response);
+                            if ("OK".equals(jsonObject.getString("msg"))) {
+                                Gson gson = new Gson();
+                                ResponseBase responseBase = gson.fromJson(response, ResponseBase.class);
+                                callBack.onSuccess(responseBase);
+                            } else {
+                                callBack.onFailed(jsonObject.getString("msg")+"");
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

@@ -1,5 +1,6 @@
 package com.jiupin.jiupinhui.presenter.impl;
 
+import com.jiupin.jiupinhui.entity.MyFormEntity;
 import com.jiupin.jiupinhui.entity.ResponseBase;
 import com.jiupin.jiupinhui.entity.UserEntity;
 import com.jiupin.jiupinhui.model.IModel;
@@ -42,6 +43,21 @@ public class MyFragmentPresenterImpl implements IMyFragmentPresenter {
             @Override
             public void onSuccess(Object success) {
                 view.setUserInfo((UserEntity) success);
+            }
+
+            @Override
+            public void onFailed(Object error) {
+                LogUtils.d("error = "+error);
+            }
+        });
+    }
+
+    @Override
+    public void getformInfoByToken(String token) {
+        model.getformInfoByToken(token, new IModel.CallBack() {
+            @Override
+            public void onSuccess(Object success) {
+                view.setFormNumber((MyFormEntity)success);
             }
 
             @Override

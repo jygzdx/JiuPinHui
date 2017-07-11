@@ -16,4 +16,9 @@ public interface IMyFragmentPresenter {
      * @param token token
      */
     void getUserInfoByToken(String token);
+    /**
+     * 根据token获取用户所有的订单信息
+     * @param token token
+     */
+    void getformInfoByToken(String token);
 }

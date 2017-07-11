@@ -2,6 +2,7 @@ package com.jiupin.jiupinhui.activity;
 
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -105,12 +106,19 @@ public class OrderActivity extends BaseActivity {
 
     @OnClick({R.id.iv_back, R.id.tv_express_way, R.id.btn_close,
             R.id.view_bg, R.id.tv_transport_insurance,
-            R.id.btn_negative, R.id.btn_positive,R.id.tv_submit_order})
+            R.id.btn_negative, R.id.btn_positive,R.id.tv_submit_order,
+            R.id.ll_address
+    })
     public void onViewClicked(View view) {
         int screenHeight = WindowUtils.getWindowHeight(this);
         switch (view.getId()) {
 
             case R.id.iv_back:
+                finish();
+                break;
+            case R.id.ll_address:
+                Intent intent = new Intent(OrderActivity.this,ManageAddressActivity.class);
+                startActivity(intent);
                 break;
             case R.id.tv_submit_order:
                 //弹出选择保险弹出窗

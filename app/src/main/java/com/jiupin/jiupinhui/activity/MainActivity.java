@@ -14,6 +14,7 @@ import com.jiupin.jiupinhui.fragment.HomeFragment;
 import com.jiupin.jiupinhui.fragment.MyFragment;
 import com.jiupin.jiupinhui.fragment.StoreFragment;
 import com.jiupin.jiupinhui.fragment.WineFragment;
+import com.jiupin.jiupinhui.utils.LogUtils;
 
 public class MainActivity extends AppCompatActivity implements RadioGroup.OnCheckedChangeListener {
     private static final String TAG = "MainActivity";
@@ -107,6 +108,7 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        LogUtils.d("mainactivity.onActivityResult");
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction transaction = fm.beginTransaction();
         if(requestCode == 1){
