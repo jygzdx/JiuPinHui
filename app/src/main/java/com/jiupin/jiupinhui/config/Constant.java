@@ -114,6 +114,12 @@ public class Constant {
      */
     public static final String SHENG_SHI_QU_AREA = TEST_URL+"/app/order/loadCascadeAreaList.json";
 
+
+    /**
+     * 上传地址
+     */
+    public static final String PUSH_ADDRESS = TEST_URL+"/app/order/saveOrUpdateAddress.json";
+
     /**
      * 获取商品信息
      */

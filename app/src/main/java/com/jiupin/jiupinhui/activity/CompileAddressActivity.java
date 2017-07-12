@@ -3,6 +3,7 @@ package com.jiupin.jiupinhui.activity;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -25,7 +26,14 @@ import com.jiupin.jiupinhui.R;
 import com.jiupin.jiupinhui.adapter.AreaAdapter;
 import com.jiupin.jiupinhui.config.Constant;
 import com.jiupin.jiupinhui.entity.AreaEntity;
+import com.jiupin.jiupinhui.presenter.ICompileAddressActivityPresenter;
+import com.jiupin.jiupinhui.presenter.impl.CompileAddressActivityPresenterImpl;
 import com.jiupin.jiupinhui.utils.LogUtils;
+import com.jiupin.jiupinhui.utils.ProgressUtils;
+import com.jiupin.jiupinhui.utils.SPUtils;
+import com.jiupin.jiupinhui.utils.StringUtils;
+import com.jiupin.jiupinhui.utils.ToastUtils;
+import com.jiupin.jiupinhui.view.ICompileAddressActivityView;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -43,7 +51,7 @@ import okhttp3.Call;
 /**
  * 编辑地址
  */
-public class CompileAddressActivity extends AppCompatActivity {
+public class CompileAddressActivity extends AppCompatActivity implements ICompileAddressActivityView{
 
     @BindView(R.id.iv_back)
     ImageView ivBack;
@@ -63,17 +71,25 @@ public class CompileAddressActivity extends AppCompatActivity {
     LinearLayout llParent;
     @BindView(R.id.tv_address_area)
     TextView tvAddressArea;
+    @BindView(R.id.et_particular_address)
+    EditText etParticularAddress;
+
     private PopupWindow popupWindow;
     private TabLayout tabLayout;
     private RecyclerView rvAddress;
     List<String> areas = new ArrayList<>();
     private AreaAdapter adapter;
+    private AlertDialog ad;
+    private ICompileAddressActivityPresenter presenter;
+    private int areaId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_compile_address);
         ButterKnife.bind(this);
+
+        presenter = new CompileAddressActivityPresenterImpl(this);
 
         initPop();
 
@@ -85,6 +101,7 @@ public class CompileAddressActivity extends AppCompatActivity {
             tvTitleName.setText("添加新地址");
             btnDeleteAddress.setVisibility(View.GONE);
         }
+
     }
 
     //初始化popupwindows
@@ -102,18 +119,18 @@ public class CompileAddressActivity extends AppCompatActivity {
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-//                Toast.makeText(CompileAddressActivity.this, "select tab = " + tab.getText(), Toast.LENGTH_SHORT).show();
-//                adapter.setData(tab.get);
+                //                Toast.makeText(CompileAddressActivity.this, "select tab = " + tab.getText(), Toast.LENGTH_SHORT).show();
+                //                adapter.setData(tab.get);
             }
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-//                Toast.makeText(CompileAddressActivity.this, "Unselected tab = " + tab.getText(), Toast.LENGTH_SHORT).show();
+                //                Toast.makeText(CompileAddressActivity.this, "Unselected tab = " + tab.getText(), Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-//                Toast.makeText(CompileAddressActivity.this, "Reselected tab = " + tab.getText(), Toast.LENGTH_SHORT).show();
+                //                Toast.makeText(CompileAddressActivity.this, "Reselected tab = " + tab.getText(), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -145,11 +162,35 @@ public class CompileAddressActivity extends AppCompatActivity {
 
     @OnClick({R.id.iv_back, R.id.tv_right, R.id.btn_delete_address, R.id.ll_address_area})
     public void onViewClicked(View view) {
+        String userName = etUserName.getText().toString();
+        String phone = etUserPhone.getText().toString();
+        String area = "";
+        if (areas.size() > 0) {
+            for (int i = 0; i < areas.size(); i++) {
+                area = area + areas.get(i) + " ";
+            }
+            area = area.trim();
+        }
+        String address = etParticularAddress.getText().toString();
+        boolean isDefault = scSettingDefault.isChecked();
+
         switch (view.getId()) {
             case R.id.iv_back:
                 finish();
                 break;
-            case R.id.tv_right:
+            case R.id.tv_right://保存地址
+                if (StringUtils.isEmpty(phone) || !StringUtils.isMobileNO(phone)) {
+                    ToastUtils.showShort(this, "手机号码输入错误");
+                    return;
+                }
+                if (StringUtils.isEmpty(address) || StringUtils.isEmpty(userName) ||StringUtils.isEmpty(area)) {
+                    ToastUtils.showShort(this, "请输入完整信息");
+                    return;
+                }
+                ad = ProgressUtils.show(this);
+                String token = (String) SPUtils.get(CompileAddressActivity.this, SPUtils.LOGIN_TOKEN, "");
+                int area_id = areaId;
+                presenter.saveAddress(token,area_id+"","",userName,address,"" ,phone,area,isDefault);
 
                 break;
             case R.id.btn_delete_address:
@@ -168,7 +209,8 @@ public class CompileAddressActivity extends AppCompatActivity {
         }
     }
 
-    public void selectedSuccess() {
+    public void selectedSuccess(int areaId) {
+        this.areaId = areaId;
         popupWindow.dismiss();
         tvAddressArea.setText("");
         for (int i = 0; i < areas.size(); i++) {
@@ -178,7 +220,7 @@ public class CompileAddressActivity extends AppCompatActivity {
     }
 
     public void setTabLayout(List<String> areas) {
-//        this.areas.clear();
+        //        this.areas.clear();
         this.areas = areas;
         tabLayout.removeAllTabs();
         for (int i = 0; i < areas.size(); i++) {
@@ -211,7 +253,7 @@ public class CompileAddressActivity extends AppCompatActivity {
                                 String list = dataObj.getString("list");
                                 List<AreaEntity> adds = gson.fromJson(list, new TypeToken<List<AreaEntity>>() {
                                 }.getType());
-                                if (adds != null || adds.size() > 0) {
+                                if (adds != null && adds.size() > 0) {
                                     if (adapter == null) {
                                         adapter = new AreaAdapter(CompileAddressActivity.this, adds);
                                         adapter.setTag(1);
@@ -242,5 +284,16 @@ public class CompileAddressActivity extends AppCompatActivity {
         WindowManager.LayoutParams lp = getWindow().getAttributes();
         lp.alpha = bgAlpha; //0.0-1.0
         getWindow().setAttributes(lp);
+    }
+
+    @Override
+    public void saveAddressSuccess() {
+        ad.dismiss();
+        ToastUtils.showShort(this,"上传地址成功");
+    }
+
+    @Override
+    public void saveAddressFailed() {
+        ad.dismiss();
     }
 }

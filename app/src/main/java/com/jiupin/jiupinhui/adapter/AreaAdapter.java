@@ -81,7 +81,7 @@ public class AreaAdapter extends RecyclerView.Adapter {
                         areas.remove(areas.size()-1);
                         areas.add(adds.get(position).getAreaName());
                         ((CompileAddressActivity)mContext).setTabLayout(areas);
-                        ((CompileAddressActivity)mContext).selectedSuccess();
+                        ((CompileAddressActivity)mContext).selectedSuccess(adds.get(position).getId());
                         break;
                 }
             }
