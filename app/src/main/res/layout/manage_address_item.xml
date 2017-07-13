@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="14dp"
         android:layout_marginLeft="12dp"
-        android:text="收货人姓名"
+        android:text=""
         android:textSize="12sp"
         android:textColor="@color/light_black"
         />
@@ -26,7 +26,7 @@
         android:layout_alignTop="@+id/tv_user_name"
         android:layout_marginEnd="12dp"
         android:layout_marginRight="12dp"
-        android:text="13800000000"
+        android:text=""
         android:textSize="12sp"
         android:textColor="@color/light_black"
         />
@@ -40,7 +40,7 @@
         android:layout_below="@+id/tv_user_phone"
         android:layout_marginTop="12dp"
         android:maxLines="2"
-        android:text="TextView"
+        android:text=""
         android:textSize="12sp"
         android:textColor="@color/light_black"
         android:layout_alignRight="@+id/tv_user_phone"

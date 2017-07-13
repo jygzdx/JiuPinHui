@@ -25,6 +25,10 @@ import com.jiupin.jiupinhui.utils.ToastUtils;
 import com.jiupin.jiupinhui.view.IGoodsActivityView;
 import com.jiupin.jiupinhui.widget.GoodsShowView;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -116,6 +120,7 @@ public class GoodsActivity extends BaseActivity implements IGoodsActivityView{
     WebView wvWebview;
     private GoodsShowView goodsShowView;
     private IGoodsActivityPresenter presenter;
+    private GoodsEntity goodsEntity;
 
 
     @Override
@@ -222,6 +227,12 @@ public class GoodsActivity extends BaseActivity implements IGoodsActivityView{
                 break;
             case R.id.btn_now_pay://立即购买
                 Intent intent3 = new Intent(this, OrderActivity.class);
+                Bundle bundle = new Bundle();
+                goodsEntity.getData().setCount(1);
+                List<GoodsEntity> goodsEntityList = new ArrayList<>();
+                goodsEntityList.add(goodsEntity);
+                bundle.putSerializable("list",(Serializable) goodsEntityList);
+                intent3.putExtras(bundle);
                 startActivity(intent3);
                 break;
             case R.id.btn_add_car://加入购物车
@@ -232,7 +243,7 @@ public class GoodsActivity extends BaseActivity implements IGoodsActivityView{
 
     @Override
     public void setData(GoodsEntity goodsEntity) {
-
+        this.goodsEntity = goodsEntity;
         wvWebview.loadData(getHtmlData(goodsEntity.getData().getGoods_details()), "text/html; charset=utf-8", "utf-8");
 
         goodsShowView.loadAD(goodsEntity.getData());

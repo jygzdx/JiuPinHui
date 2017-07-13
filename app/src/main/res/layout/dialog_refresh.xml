@@ -9,5 +9,9 @@
         android:id="@+id/progressBar2"
         style="@style/Widget.AppCompat.ProgressBar"
         android:layout_width="40dp"
-        android:layout_height="40dp"/>
+        android:layout_height="40dp"
+        android:layout_gravity="center"
+        android:minHeight="40dp"
+        android:minWidth="40dp"
+        />
 </LinearLayout>

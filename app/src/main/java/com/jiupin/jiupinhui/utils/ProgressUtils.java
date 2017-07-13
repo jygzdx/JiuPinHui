@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.jiupin.jiupinhui.R;
 
@@ -19,12 +20,16 @@ public class ProgressUtils {
     }
 
     public static AlertDialog show(Context context){
-        View view = LayoutInflater.from(context).inflate(R.layout.dialog_cancel_form, null);
+        View view = LayoutInflater.from(context).inflate(R.layout.dialog_refresh, null);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setView(view);
         dialog = builder.create();
+        dialog.setCanceledOnTouchOutside(false);
         dialog.show();
+        //设置窗口的大小
+        dialog.getWindow().setLayout((int)DensityUtils.dp2px(context,80), ViewGroup.LayoutParams.WRAP_CONTENT);
+
         return dialog;
     }
 

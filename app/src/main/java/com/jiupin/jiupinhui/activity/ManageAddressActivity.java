@@ -13,7 +13,6 @@ import com.jiupin.jiupinhui.adapter.ManageAddressAdapter;
 import com.jiupin.jiupinhui.entity.AddressEntity;
 import com.jiupin.jiupinhui.presenter.IManageAddressActivityPresenter;
 import com.jiupin.jiupinhui.presenter.impl.ManageAddressActivityPresenterImpl;
-import com.jiupin.jiupinhui.utils.LogUtils;
 import com.jiupin.jiupinhui.utils.SPUtils;
 import com.jiupin.jiupinhui.view.IManageAddressActivityView;
 
@@ -35,6 +34,7 @@ public class ManageAddressActivity extends BaseActivity implements IManageAddres
     RecyclerView rvAddress;
 
     private IManageAddressActivityPresenter presenter;
+    private ManageAddressAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +48,8 @@ public class ManageAddressActivity extends BaseActivity implements IManageAddres
         RecyclerView.LayoutManager layout = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
         rvAddress.addItemDecoration(new DividerItemDecoration(mContext, DividerItemDecoration.VERTICAL));
         rvAddress.setLayoutManager(layout);
-        rvAddress.setAdapter(new ManageAddressAdapter(mContext));
+        adapter = new ManageAddressAdapter(mContext);
+        rvAddress.setAdapter(adapter);
     }
 
     @OnClick({R.id.iv_back,R.id.btn_add_address})
@@ -68,7 +69,7 @@ public class ManageAddressActivity extends BaseActivity implements IManageAddres
     @Override
     public void setData(List<AddressEntity> adds) {
         if(adds.size()>0){
-            LogUtils.d(TAG,adds.get(0).toString());
+            adapter.setData(adds);
         }
 
     }

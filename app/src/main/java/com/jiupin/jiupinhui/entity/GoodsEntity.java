@@ -1,12 +1,13 @@
 package com.jiupin.jiupinhui.entity;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * 作者：czb on 2017/7/3 15:57
  */
 
-public class GoodsEntity {
+public class GoodsEntity implements Serializable {
 
 
     /**
@@ -43,7 +44,7 @@ public class GoodsEntity {
         this.data = data;
     }
 
-    public static class DataBean {
+    public static class DataBean implements Serializable {
         /**
          * id : 6451
          * goods_name : 葡萄酒类中级会员
@@ -82,6 +83,15 @@ public class GoodsEntity {
         private List<SpecificationsBean> specifications;
         private List<ProdPhotoBean> prodPhoto;
         private List<Detail> details;
+        private int count;
+
+        public int getCount() {
+            return count;
+        }
+
+        public void setCount(int count) {
+            this.count = count;
+        }
 
         public List<Detail> getDetails() {
             return details;
@@ -227,7 +237,7 @@ public class GoodsEntity {
             this.prodPhoto = prodPhoto;
         }
 
-        public static class Detail {
+        public static class Detail implements Serializable{
 
 
             /**
@@ -275,7 +285,7 @@ public class GoodsEntity {
             }
         }
 
-        public static class SpecificationsBean {
+        public static class SpecificationsBean implements Serializable{
             /**
              * id : 32769
              * name : 购买会员
@@ -310,7 +320,7 @@ public class GoodsEntity {
                 this.properties = properties;
             }
 
-            public static class PropertiesBean {
+            public static class PropertiesBean implements Serializable{
                 /**
                  * id : 32775
                  * value : 月度会员（3次）
@@ -347,7 +357,7 @@ public class GoodsEntity {
             }
         }
 
-        public static class ProdPhotoBean {
+        public static class ProdPhotoBean implements Serializable{
             /**
              * id : 432044
              * path : http://jiupin-pic.oss-cn-zhangjiakou.aliyuncs.com/app/store/20170601/2686d97a-b717-46b7-8b35-def35f691c7b.jpg

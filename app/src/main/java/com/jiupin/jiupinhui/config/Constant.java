@@ -110,6 +110,11 @@ public class Constant {
     public static final String ADDRESS_LIST = TEST_URL+"/app/order/getUserAddress.json";
 
     /**
+     * 获取用户默认地址
+     */
+    public static final String GET_DEFAULT_ADDRESS = TEST_URL+"/app/order/getDefaultAddress.json";
+
+    /**
      * 获取省市区地址
      */
     public static final String SHENG_SHI_QU_AREA = TEST_URL+"/app/order/loadCascadeAreaList.json";
