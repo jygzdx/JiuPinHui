@@ -84,6 +84,24 @@ public class GoodsEntity implements Serializable {
         private List<ProdPhotoBean> prodPhoto;
         private List<Detail> details;
         private int count;
+        private int selectedMemberId;
+        private int selectedTypeId;
+
+        public int getSelectedMemberId() {
+            return selectedMemberId;
+        }
+
+        public void setSelectedMemberId(int selectedMemberId) {
+            this.selectedMemberId = selectedMemberId;
+        }
+
+        public int getSelectedTypeId() {
+            return selectedTypeId;
+        }
+
+        public void setSelectedTypeId(int selectedTypeId) {
+            this.selectedTypeId = selectedTypeId;
+        }
 
         public int getCount() {
             return count;

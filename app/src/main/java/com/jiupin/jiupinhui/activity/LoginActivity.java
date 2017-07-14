@@ -394,6 +394,7 @@ public class LoginActivity extends AppCompatActivity implements ILoginActivityVi
     public void registerSuccess(RegisterEntity registerEntity) {
         ToastUtils.showShort(this, "注册成功");
         SPUtils.put(this, SPUtils.LOGIN_TOKEN, registerEntity.getData().getToken());
+        SPUtils.put(this, SPUtils.USER_ID, registerEntity.getData().getUser().getId()+"");
         LogUtils.d(TAG + "token" + registerEntity.getData().getToken());
         Intent intent = new Intent(this,MainActivity.class);
         intent.putExtra("login","login");
@@ -410,7 +411,7 @@ public class LoginActivity extends AppCompatActivity implements ILoginActivityVi
     @Override
     public void loginSuccess(RegisterEntity registerEntity) {
         SPUtils.put(this, SPUtils.LOGIN_TOKEN, registerEntity.getData().getToken());
-
+        SPUtils.put(this, SPUtils.USER_ID, registerEntity.getData().getUser().getId()+"");
         ToastUtils.showShort(this, "登录成功");
 
         LogUtils.d(TAG + "token" + registerEntity.getData().getToken());

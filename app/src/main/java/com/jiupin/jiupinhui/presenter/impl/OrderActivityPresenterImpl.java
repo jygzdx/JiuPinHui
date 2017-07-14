@@ -1,6 +1,7 @@
 package com.jiupin.jiupinhui.presenter.impl;
 
 import com.jiupin.jiupinhui.entity.AddressEntity;
+import com.jiupin.jiupinhui.entity.OrderSubmitEntity;
 import com.jiupin.jiupinhui.model.IModel;
 import com.jiupin.jiupinhui.model.IOrderActivityModel;
 import com.jiupin.jiupinhui.model.impl.OrderActivityModelImpl;
@@ -35,6 +36,22 @@ public class OrderActivityPresenterImpl implements IOrderActivityPresenter {
             @Override
             public void onFailed(Object error) {
                 LogUtils.d("getDefaultAddress-->onFailed"+error);
+            }
+        });
+    }
+
+    @Override
+    public void submitForm(String userId, String storeId, String token, String msg,
+                           String couponInfoId, String order_type, String addressId, String goodList) {
+        model.submitForm(userId, storeId, token, msg, couponInfoId, order_type, addressId, goodList, new IModel.CallBack() {
+            @Override
+            public void onSuccess(Object success) {
+                view.submitFormSuccess((OrderSubmitEntity)success);
+            }
+
+            @Override
+            public void onFailed(Object error) {
+                view.submitFormFail();
             }
         });
     }

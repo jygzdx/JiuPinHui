@@ -11,4 +11,11 @@ public interface IOrderActivityPresenter {
      * @param token token
      */
     void getDefaultAddress(String token);
+
+    /**
+     * 提交订单
+     * @param token token
+     */
+    void submitForm(String userId,String storeId,String token,String msg,
+                    String couponInfoId,String order_type,String addressId,String goodList);
 }

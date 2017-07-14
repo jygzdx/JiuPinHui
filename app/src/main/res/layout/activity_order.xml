@@ -155,6 +155,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/ll_express_way"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
@@ -182,7 +183,7 @@
                     android:background="@null"
                     android:drawablePadding="10dp"
                     android:drawableRight="@drawable/right_zhishiqi"
-                    android:text="快递免邮"
+                    android:text="未选择"
                     android:textColor="@color/light_black"
                     android:textSize="12sp"
                     />
@@ -194,6 +195,7 @@
                 android:background="@color/mainBackground"/>
 
             <LinearLayout
+                android:id="@+id/ll_transport_insurance"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
@@ -237,6 +239,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
+                android:visibility="gone"
                 >
 
                 <TextView
@@ -254,7 +257,7 @@
                 <EditText
                     android:id="@+id/et_buyer_msg"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_marginRight="10dp"
                     android:layout_weight="1"
                     android:background="@color/white"
@@ -373,8 +376,8 @@
                     android:textSize="14sp"
                     />
 
-                <RadioButton
-                    android:id="@+id/rb_express_radio"
+                <CheckBox
+                    android:id="@+id/cb_express_radio"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
@@ -454,8 +457,8 @@
                     android:textSize="14sp"
                     />
 
-                <RadioButton
-                    android:id="@+id/rb_insurance_radio"
+                <CheckBox
+                    android:id="@+id/cb_insurance_radio"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
@@ -525,7 +528,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="500dp"
+            android:layout_height="400dp"
             android:layout_alignParentBottom="true"
             android:background="@color/white"
             android:clickable="true"
@@ -599,6 +602,7 @@
                 android:id="@+id/rl_union_pay"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 >
 
                 <TextView
@@ -677,6 +681,7 @@
                 android:id="@+id/rl_swiping_card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 >
 
                 <TextView
@@ -716,6 +721,7 @@
                 android:id="@+id/rl_money_pay"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 >
 
                 <TextView
@@ -772,7 +778,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@+id/textView"
-                    android:text="599.00"
+                    android:text=""
                     android:textColor="@color/light_black"
                     android:textSize="17sp"
                     />

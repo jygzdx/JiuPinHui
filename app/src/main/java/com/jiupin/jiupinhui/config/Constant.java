@@ -131,6 +131,11 @@ public class Constant {
     public static final String GOODS_INFO = TEST_URL+"/appGoods/home/getGoodsDetail.json";
 
     /**
+     * 提交订单
+     */
+    public static final String SUBMIT_FORM = TEST_URL+"/app/order/submitOrder.json";
+
+    /**
      * 等待付款
      */
     public static final int WAIT_PAY = 101;

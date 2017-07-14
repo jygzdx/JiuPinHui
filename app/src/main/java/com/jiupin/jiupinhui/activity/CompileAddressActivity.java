@@ -1,6 +1,5 @@
 package com.jiupin.jiupinhui.activity;
 
-import android.content.Context;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -13,7 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -33,6 +31,7 @@ import com.jiupin.jiupinhui.presenter.impl.CompileAddressActivityPresenterImpl;
 import com.jiupin.jiupinhui.utils.LogUtils;
 import com.jiupin.jiupinhui.utils.ProgressUtils;
 import com.jiupin.jiupinhui.utils.SPUtils;
+import com.jiupin.jiupinhui.utils.SoftKeyboardUtils;
 import com.jiupin.jiupinhui.utils.StringUtils;
 import com.jiupin.jiupinhui.utils.ToastUtils;
 import com.jiupin.jiupinhui.view.ICompileAddressActivityView;
@@ -217,10 +216,7 @@ public class CompileAddressActivity extends AppCompatActivity implements ICompil
 
     //隐藏软键盘
     private void hideSoftInput() {
-        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        if (imm != null) {
-            imm.hideSoftInputFromWindow(getWindow().getDecorView().getWindowToken(), 0);
-        }
+        SoftKeyboardUtils.hideSoftKeyboard(CompileAddressActivity.this);
     }
 
     public void selectedSuccess(int areaId) {

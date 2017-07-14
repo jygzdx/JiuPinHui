@@ -63,6 +63,7 @@ public class ManageAddressAdapter extends RecyclerView.Adapter {
                 bundle.putString("address",addressInfo);
                 bundle.putString("phone", address.getMobile());//添加要返回给页面1的数据
                 bundle.putString("name", address.getTrueName());
+                bundle.putString("id",address.getId()+"");
                 intent.putExtras(bundle);
                 ((ManageAddressActivity)mContext).setResult(Activity.RESULT_OK, intent);//返回页面1
                 ((ManageAddressActivity)mContext).finish();
