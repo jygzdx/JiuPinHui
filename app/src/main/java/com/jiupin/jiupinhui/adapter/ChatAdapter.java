@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.jiupin.jiupinhui.R;
-import com.jiupin.jiupinhui.entity.Form;
+import com.jiupin.jiupinhui.entity.FormEntity;
 import com.jiupin.jiupinhui.utils.ToastUtils;
 
 import java.util.List;
@@ -19,13 +19,13 @@ import java.util.List;
 public class ChatAdapter extends RecyclerView.Adapter {
     private final LayoutInflater inflater;
     private Context mContext;
-    private List<Form> forms;
+    private List<FormEntity> formEntities;
     private static final int LEFT_TYPE = 0;
     private static final int RIGHT_TYPE = 1;
 
-    public ChatAdapter(Context mContext, List<Form> forms) {
+    public ChatAdapter(Context mContext, List<FormEntity> formEntities) {
         this.mContext = mContext;
-        this.forms = forms;
+        this.formEntities = formEntities;
         inflater = LayoutInflater.from(mContext);
     }
 
@@ -65,16 +65,17 @@ public class ChatAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemCount() {
-        return forms.size();
+        return formEntities.size();
     }
 
     @Override
     public int getItemViewType(int position) {
-        if (forms.get(position).getStatus()==LEFT_TYPE){
-            return LEFT_TYPE;
-        }else {
-            return RIGHT_TYPE;
-        }
+//        if (formEntities.get(position).getStatus()==LEFT_TYPE){
+//            return LEFT_TYPE;
+//        }else {
+//            return RIGHT_TYPE;
+//        }
+        return position;
 
     }
 

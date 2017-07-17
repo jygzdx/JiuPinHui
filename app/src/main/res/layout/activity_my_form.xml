@@ -57,14 +57,14 @@
             android:src="@drawable/more"
             />
     </RelativeLayout>
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_my_form"
+    <com.github.jdsjlzx.recyclerview.LRecyclerView
+        android:id="@+id/lrv_my_form"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/rl_title"
         >
 
-    </android.support.v7.widget.RecyclerView>
+    </com.github.jdsjlzx.recyclerview.LRecyclerView>
     <!--下拉菜单-->
     <include layout="@layout/chunk_form_pull"
         />

@@ -136,29 +136,39 @@ public class Constant {
     public static final String SUBMIT_FORM = TEST_URL+"/app/order/submitOrder.json";
 
     /**
+     * 获取订单信息
+     */
+    public static final String GET_ALL_FORM_INFO = TEST_URL+"/app/order/getUserOrderListByCond.json";
+
+    /**
      * 等待付款
      */
-    public static final int WAIT_PAY = 101;
+    public static final String WAIT_PAY = 10+"";
     /**
      * 交易关闭
      */
-    public static final int TRANSACTION_CLOSED = 102;
+    public static final String TRANSACTION_CLOSED = 0+"";
     /**
      * 交易成功(有评论)
      */
-    public static final int TRANSACTION_SUCCESS_HAS_COMMENT = 103;
+    public static final String TRANSACTION_SUCCESS_HAS_COMMENT = 50+"";
     /**
      * 交易成功（还未评论）
      */
-    public static final int TRANSACTION_SUCCESS_NO_COMMENT = 104;
+    public static final String TRANSACTION_SUCCESS_NO_COMMENT = 40+"";
     /**
      * 等待发货
      */
-    public static final int WAIT_DELIVER_GOODS = 105;
+    public static final String WAIT_DELIVER_GOODS = 20+"";
     /**
      * 等待收货
      */
-    public static final int WAIT_GAIN_GOODS = 106;
+    public static final String WAIT_GAIN_GOODS = 30+"";
+
+    /**
+     * 退款和售后
+     */
+    public static final String SALE_AFTER = 45+"";
 
 
 

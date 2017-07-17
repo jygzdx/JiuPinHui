@@ -45,7 +45,7 @@ public class FormParticularActivity extends BaseActivity {
      */
     private RadioButton[] rbArray = new RadioButton[5];
 
-    private int formStatus = WAIT_PAY;
+    private String formStatus = WAIT_PAY;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

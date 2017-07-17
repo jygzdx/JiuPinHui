@@ -12,10 +12,18 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 
+import com.github.jdsjlzx.recyclerview.LRecyclerView;
+import com.github.jdsjlzx.recyclerview.LRecyclerViewAdapter;
 import com.jiupin.jiupinhui.R;
 import com.jiupin.jiupinhui.adapter.MyFormAdapter;
-import com.jiupin.jiupinhui.entity.Form;
+import com.jiupin.jiupinhui.config.Constant;
+import com.jiupin.jiupinhui.entity.FormEntity;
+import com.jiupin.jiupinhui.manage.UserInfoManager;
+import com.jiupin.jiupinhui.presenter.IMyFormActivityPresenter;
+import com.jiupin.jiupinhui.presenter.impl.MyFormActivityPresenterImpl;
 import com.jiupin.jiupinhui.utils.DensityUtils;
+import com.jiupin.jiupinhui.utils.LogUtils;
+import com.jiupin.jiupinhui.view.IMyFormActivityView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +34,7 @@ import butterknife.OnClick;
 /**
  * 我的订单
  */
-public class MyFormActivity extends BaseActivity {
+public class MyFormActivity extends BaseActivity implements IMyFormActivityView{
 
     @BindView(R.id.iv_back)
     ImageView ivBack;
@@ -40,8 +48,8 @@ public class MyFormActivity extends BaseActivity {
     ImageView ivPullDown;
     @BindView(R.id.rl_title)
     RelativeLayout rlTitle;
-    @BindView(R.id.rv_my_form)
-    RecyclerView rvMyForm;
+    @BindView(R.id.lrv_my_form)
+    LRecyclerView lrvMyForm;
     @BindView(R.id.id_view)
     View idView;
     @BindView(R.id.rb_all_form)
@@ -61,28 +69,39 @@ public class MyFormActivity extends BaseActivity {
     @BindView(R.id.rg_control_bottom)
     RadioGroup rgControlBottom;
     private MyFormAdapter adapter;
+    private LRecyclerViewAdapter lRecyclerViewAdapter;
+
+    private IMyFormActivityPresenter presenter;
+
+    private List<FormEntity> forms;
+    private List<FormEntity> container = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_form);
 
-        //测试
-        List<Form> forms = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            Form form = new Form();
-            form.setStatus(101+i%6);
-            form.setName("这是瓶美酒"+i);
-            forms.add(form);
-        }
-        RecyclerView.LayoutManager layout = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
-        rvMyForm.setLayoutManager(layout);
 
-        adapter = new MyFormAdapter(mContext,forms);
-        rvMyForm.setAdapter(adapter);
+
+        RecyclerView.LayoutManager layout = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
+        lrvMyForm.setLayoutManager(layout);
+
+        adapter = new MyFormAdapter(mContext);
+        lRecyclerViewAdapter = new LRecyclerViewAdapter(adapter);
+
+        lrvMyForm.setAdapter(lRecyclerViewAdapter);
+        lrvMyForm.setPullRefreshEnabled(false);
+
+        presenter = new MyFormActivityPresenterImpl(this);
+        String token = UserInfoManager.getInstance().getToken(this);
+        LogUtils.d("token = "+token);
+        String orderStatus = "";
+        String page = 1+"";
+        String rows = 10+"";
+        presenter.getFormInfo(token,orderStatus,page,rows);
     }
 
-    @OnClick({R.id.iv_back, R.id.ll_title, R.id.iv_more, R.id.rl_title, R.id.rv_my_form, R.id.rb_all_form, R.id.id_view, R.id.rb_wait_pay, R.id.rb_wait_deliver_goods, R.id.rb_wait_gain_goods, R.id.rb_wait_comment})
+    @OnClick({R.id.iv_back, R.id.ll_title, R.id.iv_more, R.id.rl_title, R.id.rb_all_form, R.id.id_view, R.id.rb_wait_pay, R.id.rb_wait_deliver_goods, R.id.rb_wait_gain_goods, R.id.rb_wait_comment})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_back:
@@ -103,8 +122,6 @@ public class MyFormActivity extends BaseActivity {
                 break;
             case R.id.rl_title:
                 break;
-            case R.id.rv_my_form:
-                break;
             case R.id.id_view:
                 hidePopupWindow(llFormPull);
                 showRotationAnimator(ivPullDown, 180f, 0f);
@@ -113,26 +130,81 @@ public class MyFormActivity extends BaseActivity {
                 rgControlTop.clearCheck();
                 rgControlBottom.clearCheck();
                 rbAllForm.setChecked(true);
+                hidePopupWindow(llFormPull);
+                showRotationAnimator(ivPullDown, 180f, 0f);
+                if(forms!=null){
+                    container.clear();
+                    container = forms;
+                    adapter.setData(container);
+                    LogUtils.d("all.size = "+container.size());
+                }
                 break;
             case R.id.rb_wait_pay:
                 rgControlTop.clearCheck();
                 rgControlBottom.clearCheck();
                 rbWaitPay.setChecked(true);
+                hidePopupWindow(llFormPull);
+                showRotationAnimator(ivPullDown, 180f, 0f);
+                if(forms!=null){
+                    container.clear();
+                    for (int i = 0; i < forms.size(); i++) {
+                        if(forms.get(i).getOrder_status().equals(Constant.WAIT_PAY)){
+                            container.add(forms.get(i));
+                        }
+                    }LogUtils.d("WAIT_PAY.size = "+container.size());
+                    adapter.setData(container);
+                }
+
                 break;
             case R.id.rb_wait_deliver_goods:
                 rgControlTop.clearCheck();
                 rgControlBottom.clearCheck();
                 rbWaitDeliverGoods.setChecked(true);
+                hidePopupWindow(llFormPull);
+                showRotationAnimator(ivPullDown, 180f, 0f);
+                if(forms!=null){
+                    container.clear();
+                    for (int i = 0; i < forms.size(); i++) {
+                        if(forms.get(i).getOrder_status().equals(Constant.WAIT_DELIVER_GOODS)){
+                            container.add(forms.get(i));
+                        }
+                    }
+                    LogUtils.d("WAIT_DELIVER_GOODS.size = "+container.size());
+                    adapter.setData(container);
+                }
                 break;
             case R.id.rb_wait_gain_goods:
                 rgControlTop.clearCheck();
                 rgControlBottom.clearCheck();
                 rbWaitGainGoods.setChecked(true);
+                hidePopupWindow(llFormPull);
+                showRotationAnimator(ivPullDown, 180f, 0f);
+                if(forms!=null){
+                    container.clear();
+                    for (int i = 0; i < forms.size(); i++) {
+                        if(forms.get(i).getOrder_status().equals(Constant.WAIT_GAIN_GOODS)){
+                            container.add(forms.get(i));
+                        }
+                    }
+                    LogUtils.d("WAIT_GAIN_GOODS.size = "+container.size());
+                    adapter.setData(container);
+                }
                 break;
             case R.id.rb_wait_comment:
                 rgControlTop.clearCheck();
                 rgControlBottom.clearCheck();
                 rbWaitComment.setChecked(true);
+                hidePopupWindow(llFormPull);
+                showRotationAnimator(ivPullDown, 180f, 0f);
+                if(forms!=null){
+                    container.clear();
+                    for (int i = 0; i < forms.size(); i++) {
+                        if(forms.get(i).getOrder_status().equals(Constant.TRANSACTION_SUCCESS_NO_COMMENT)){
+                            container.add(forms.get(i));
+                        }
+                    }
+                    adapter.setData(container);
+                }
                 break;
         }
     }
@@ -205,5 +277,13 @@ public class MyFormActivity extends BaseActivity {
         ObjectAnimator animator = ObjectAnimator.ofFloat(idView, "alpha", fromAlpha, toAlpha);
         animator.setDuration(300)
                 .start();
+    }
+
+    @Override
+    public void getFormInfoSuccess(List<FormEntity> forms) {
+        this.forms = forms;
+        if(forms!=null){
+            adapter.setData(forms);
+        }
     }
 }

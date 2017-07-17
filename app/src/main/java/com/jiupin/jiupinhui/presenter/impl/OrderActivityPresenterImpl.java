@@ -15,7 +15,7 @@ import com.jiupin.jiupinhui.view.IOrderActivityView;
 
 public class OrderActivityPresenterImpl implements IOrderActivityPresenter {
 
-    private static final String TAG = "LoginActivityPresenterI";
+    private static final String TAG = "OrderActivityPresenterImpl";
 
     private IOrderActivityModel model;
     private IOrderActivityView view;

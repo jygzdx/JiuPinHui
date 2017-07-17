@@ -4,7 +4,6 @@ import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.graphics.Rect;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -16,14 +15,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jiupin.jiupinhui.R;
-import com.jiupin.jiupinhui.adapter.ChatAdapter;
-import com.jiupin.jiupinhui.entity.Form;
 import com.jiupin.jiupinhui.utils.DensityUtils;
 import com.jiupin.jiupinhui.utils.LogUtils;
 import com.jiupin.jiupinhui.utils.WindowUtils;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -64,18 +58,18 @@ public class ChatActivity extends BaseActivity {
 
         showEditText();
 
-        List<Form> forms = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            Form form = new Form();
-            form.setStatus(i%2);
-            LogUtils.d("chat","status = "+i%2);
-            form.setName("这是聊天内容^_^"+i);
-            forms.add(form);
-        }
+//        List<FormEntity> formEntities = new ArrayList<>();
+//        for (int i = 0; i < 10; i++) {
+//            FormEntity formEntity = new FormEntity();
+//            formEntity.setStatus(i%2);
+//            LogUtils.d("chat","status = "+i%2);
+//            formEntity.setName("这是聊天内容^_^"+i);
+//            formEntities.add(formEntity);
+//        }
 
-        RecyclerView.LayoutManager manager = new LinearLayoutManager(mContext,LinearLayoutManager.VERTICAL,false);
-        rvChat.setLayoutManager(manager);
-        rvChat.setAdapter(new ChatAdapter(mContext,forms));
+//        RecyclerView.LayoutManager manager = new LinearLayoutManager(mContext,LinearLayoutManager.VERTICAL,false);
+//        rvChat.setLayoutManager(manager);
+//        rvChat.setAdapter(new ChatAdapter(mContext, formEntities));
 
     }
 

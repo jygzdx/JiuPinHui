@@ -137,7 +137,7 @@ public class MyFragment extends Fragment implements IMyFragmentView {
                 Intent intent2 = new Intent(getActivity(), MemberClubActivity.class);//该功能暂时隐藏
                 getActivity().startActivity(intent2);
                 break;
-            case R.id.tv_look_form:
+            case R.id.tv_look_form://进入我的订单
                 Intent intent3 = new Intent(getActivity(), MyFormActivity.class);
                 getActivity().startActivity(intent3);
                 break;
