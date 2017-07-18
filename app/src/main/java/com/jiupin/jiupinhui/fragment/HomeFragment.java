@@ -210,7 +210,6 @@ public class HomeFragment extends Fragment implements IHomeFragmentView{
         if(mMainShowAdapter == null){
             mMainShowAdapter = new MainShowAdapter(getContext(),mainShowEntity.getData());
         }
-
         rvMianShow.setAdapter(mMainShowAdapter);
     }
 

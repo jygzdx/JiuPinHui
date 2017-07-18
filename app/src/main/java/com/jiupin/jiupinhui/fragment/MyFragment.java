@@ -101,21 +101,6 @@ public class MyFragment extends Fragment implements IMyFragmentView {
     @Override
     public void onStart() {
         super.onStart();
-
-//        //更新用户的状态
-//        LogUtils.d("onStart");
-//        token = (String) SPUtils.get(getContext(), SPUtils.LOGIN_TOKEN, "");
-//        LogUtils.d("token = " + token);
-//        if (token == "") {
-//            tvMyLogin.setVisibility(View.VISIBLE);
-//            civHead.setVisibility(View.GONE);
-//            tvUserName.setVisibility(View.GONE);
-//            tvVipGrade.setVisibility(View.GONE);
-//        } else {
-//            LogUtils.d("------getTokenStatus");
-//            //查看token是否可用
-//            presenter.getTokenStatus(token);
-//        }
     }
 
     @Override
@@ -214,6 +199,31 @@ public class MyFragment extends Fragment implements IMyFragmentView {
     @Override
     public void setFormNumber(MyFormEntity myFormEntity) {
         LogUtils.d("setFormNumber"+myFormEntity.toString());
+        if(myFormEntity.getData().getUnpay()==0){
+            tvWaitPay.setVisibility(View.GONE);
+        }else{
+            tvWaitPay.setVisibility(View.VISIBLE);
+        }
+        if(myFormEntity.getData().getWaitDelivery()==0){
+            tvWaitSendGoods.setVisibility(View.GONE);
+        }else{
+            tvWaitSendGoods.setVisibility(View.VISIBLE);
+        }
+        if(myFormEntity.getData().getWaitPickup()==0){
+            tvWaitGainGoods.setVisibility(View.GONE);
+        }else{
+            tvWaitGainGoods.setVisibility(View.VISIBLE);
+        }
+        if(myFormEntity.getData().getWaitComment()==0){
+            tvWaitAppraise.setVisibility(View.GONE);
+        }else{
+            tvWaitAppraise.setVisibility(View.VISIBLE);
+        }
+        if(myFormEntity.getData().getAfterSale()==0){
+            tvRefundAndAfterSale.setVisibility(View.GONE);
+        }else{
+            tvRefundAndAfterSale.setVisibility(View.VISIBLE);
+        }
         tvWaitPay.setText(myFormEntity.getData().getUnpay()+"");
         tvWaitSendGoods.setText(myFormEntity.getData().getWaitDelivery()+"");
         tvWaitGainGoods.setText(myFormEntity.getData().getWaitPickup()+"");
