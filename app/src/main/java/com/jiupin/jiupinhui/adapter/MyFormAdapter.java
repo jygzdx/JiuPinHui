@@ -45,7 +45,7 @@ public class MyFormAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
-        FormEntity form = forms.get(position);
+        final FormEntity form = forms.get(position);
         String status = form.getOrder_status();
         MyFormViewHolder myFormViewHolder = (MyFormViewHolder) holder;
 
@@ -68,17 +68,28 @@ public class MyFormAdapter extends RecyclerView.Adapter {
                 ToastUtils.showShort(mContext, "position = " + position);
             }
         });
+        //根据status，显示item的不同状态
         switch (status) {
             case Constant.WAIT_PAY:
                 myFormViewHolder.tvFormStatus.setTextColor(ContextCompat.getColor(mContext, R.color.light_black));
                 myFormViewHolder.tvFormStatus.setText("待付款");
                 myFormViewHolder.tvRefundSuccess.setVisibility(View.GONE);
                 myFormViewHolder.ivBottom.setImageResource(R.drawable.to_pay);
+                myFormViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(mContext, FormParticularActivity.class);
+                        intent.putExtra("status",Constant.WAIT_PAY);
+                        intent.putExtra("orderId",form.getId());
+                        mContext.startActivity(intent);
+                    }
+                });
                 myFormViewHolder.ivBottom.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         ToastUtils.showShort(mContext, "待付款");
                         Intent intent = new Intent(mContext, FormParticularActivity.class);
+                        intent.putExtra("status",Constant.WAIT_PAY);
                         mContext.startActivity(intent);
                     }
                 });
@@ -88,6 +99,16 @@ public class MyFormAdapter extends RecyclerView.Adapter {
                 myFormViewHolder.tvFormStatus.setText("交易关闭");
                 myFormViewHolder.tvRefundSuccess.setVisibility(View.VISIBLE);
                 myFormViewHolder.ivBottom.setImageResource(R.drawable.delete_form);
+                myFormViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //待定======================================================
+                        Intent intent = new Intent(mContext, FormParticularActivity.class);
+                        intent.putExtra("status",Constant.WAIT_PAY);
+                        intent.putExtra("orderId",form.getId());
+                        mContext.startActivity(intent);
+                    }
+                });
                 myFormViewHolder.ivBottom.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -100,6 +121,15 @@ public class MyFormAdapter extends RecyclerView.Adapter {
                 myFormViewHolder.tvFormStatus.setText("已完成");
                 myFormViewHolder.tvRefundSuccess.setVisibility(View.GONE);
                 myFormViewHolder.ivBottom.setImageResource(R.drawable.btn_oncemore);
+                myFormViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(mContext, FormParticularActivity.class);
+                        intent.putExtra("status",Constant.TRANSACTION_SUCCESS_HAS_COMMENT);
+                        intent.putExtra("orderId",form.getId());
+                        mContext.startActivity(intent);
+                    }
+                });
                 myFormViewHolder.ivBottom.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -112,6 +142,15 @@ public class MyFormAdapter extends RecyclerView.Adapter {
                 myFormViewHolder.tvFormStatus.setText("待评价");
                 myFormViewHolder.tvRefundSuccess.setVisibility(View.GONE);
                 myFormViewHolder.ivBottom.setImageResource(R.drawable.btn_to_comment);
+                myFormViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(mContext, FormParticularActivity.class);
+                        intent.putExtra("status",Constant.TRANSACTION_SUCCESS_NO_COMMENT);
+                        intent.putExtra("orderId",form.getId());
+                        mContext.startActivity(intent);
+                    }
+                });
                 myFormViewHolder.ivBottom.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -126,6 +165,15 @@ public class MyFormAdapter extends RecyclerView.Adapter {
                 myFormViewHolder.tvFormStatus.setText("待发货");
                 myFormViewHolder.tvRefundSuccess.setVisibility(View.GONE);
                 myFormViewHolder.ivBottom.setImageResource(R.drawable.btn_oncemore);
+                myFormViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(mContext, FormParticularActivity.class);
+                        intent.putExtra("status",Constant.WAIT_DELIVER_GOODS);
+                        intent.putExtra("orderId",form.getId());
+                        mContext.startActivity(intent);
+                    }
+                });
                 myFormViewHolder.ivBottom.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -138,6 +186,15 @@ public class MyFormAdapter extends RecyclerView.Adapter {
                 myFormViewHolder.tvFormStatus.setText("待收货");
                 myFormViewHolder.tvRefundSuccess.setVisibility(View.GONE);
                 myFormViewHolder.ivBottom.setImageResource(R.drawable.wait_gain_goods);
+                myFormViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(mContext, FormParticularActivity.class);
+                        intent.putExtra("status",Constant.WAIT_GAIN_GOODS);
+                        intent.putExtra("orderId",form.getId());
+                        mContext.startActivity(intent);
+                    }
+                });
                 myFormViewHolder.ivBottom.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -161,9 +218,11 @@ public class MyFormAdapter extends RecyclerView.Adapter {
     private class MyFormViewHolder extends RecyclerView.ViewHolder {
         TextView tvFormStatus, tvGoodsName, tvRefundSuccess,tvGoodsNumber,tvPayMoney;
         ImageView ivDelete, ivPic, ivBottom,ivLogo;
+        View itemView;
 
         public MyFormViewHolder(View itemView) {
             super(itemView);
+            this.itemView = itemView;
             tvFormStatus = (TextView) itemView.findViewById(R.id.tv_form_status);
             tvGoodsName = (TextView) itemView.findViewById(R.id.tv_goods_name);
             tvRefundSuccess = (TextView) itemView.findViewById(R.id.tv_refund_success);

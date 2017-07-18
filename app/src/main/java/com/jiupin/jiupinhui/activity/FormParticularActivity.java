@@ -1,18 +1,27 @@
 package com.jiupin.jiupinhui.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.jiupin.jiupinhui.R;
+import com.jiupin.jiupinhui.entity.FormParticularEntity;
+import com.jiupin.jiupinhui.manage.UserInfoManager;
+import com.jiupin.jiupinhui.presenter.IFormParticularActivityPresenter;
+import com.jiupin.jiupinhui.presenter.impl.FormParticularActivityPresenterImpl;
 import com.jiupin.jiupinhui.utils.LogUtils;
+import com.jiupin.jiupinhui.utils.TimeUtils;
 import com.jiupin.jiupinhui.utils.ToastUtils;
+import com.jiupin.jiupinhui.view.IFormParticularActivityView;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -28,41 +37,84 @@ import static com.jiupin.jiupinhui.config.Constant.WAIT_PAY;
 /**
  * 订单详情页
  */
-public class FormParticularActivity extends BaseActivity {
-
+public class FormParticularActivity extends BaseActivity implements IFormParticularActivityView {
+    private static final String TAG = "FormParticularActivity";
+    @BindView(R.id.iv_back)
+    ImageView ivBack;
+    @BindView(R.id.iv_more)
+    ImageView ivMore;
     @BindView(R.id.tv_show_status)
     TextView tvShowStatus;
     @BindView(R.id.tv_remain_time)
     TextView tvRemainTime;
+    @BindView(R.id.tv_consignee_name)
+    TextView tvConsigneeName;
+    @BindView(R.id.tv_phone_number)
+    TextView tvPhoneNumber;
+    @BindView(R.id.tv_address)
+    TextView tvAddress;
+    @BindView(R.id.ll_container)
+    LinearLayout llContainer;
+    @BindView(R.id.tv_insurance_price)
+    TextView tvInsurancePrice;
+    @BindView(R.id.tv_insurance_number)
+    TextView tvInsuranceNumber;
+    @BindView(R.id.tv_form_number)
+    TextView tvFormNumber;
+    @BindView(R.id.tv_form_time)
+    TextView tvFormTime;
+    @BindView(R.id.tv_transportation_price)
+    TextView tvTransportationPrice;
+    @BindView(R.id.tv_payment_money)
+    TextView tvPaymentMoney;
+    @BindView(R.id.tv_contact_customer)
+    TextView tvContactCustomer;
+    @BindView(R.id.tv_making_phone)
+    TextView tvMakingPhone;
     @BindView(R.id.btn_left)
     Button btnLeft;
     @BindView(R.id.btn_right)
     Button btnRight;
-    @BindView(R.id.ll_address)
-    View llAddress;
+
     /**
      * 保存取消订单弹出窗的radiobutton
      */
     private RadioButton[] rbArray = new RadioButton[5];
 
-    private String formStatus = WAIT_PAY;
+    private String formStatus = "";
+
+    private IFormParticularActivityPresenter presenter;
+    private String token;
+    private String orderId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_form_particular);
         ButterKnife.bind(this);
+
+        formStatus = getIntent().getExtras().getString("status");
+
         updateView();
+
+        presenter = new FormParticularActivityPresenterImpl(this);
+
+        token = UserInfoManager.getInstance().getToken(this);
+
+        orderId = getIntent().getExtras().getString("orderId");
+
+        LogUtils.d("orderId=" + orderId + " ,token = " + token);
+        presenter.getFormInfo(orderId, token);
+
+
     }
 
-
-    @OnClick({R.id.btn_left, R.id.btn_right,R.id.ll_address})
+    @OnClick({R.id.btn_left, R.id.btn_right, R.id.tv_contact_customer, R.id.tv_making_phone})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.ll_address:
-                Intent intent = new Intent(mContext,CompileAddressActivity.class);
-                intent.putExtra("status",true);
-                startActivity(intent);
+            case R.id.tv_contact_customer://联系供应商
+                break;
+            case R.id.tv_making_phone://拨打电话
                 break;
             case R.id.btn_left:
                 switch (formStatus) {
@@ -171,6 +223,7 @@ public class FormParticularActivity extends BaseActivity {
                 for (int i = 0; i < 5; i++) {
                     if (rbArray[i].isChecked()) {//根据i值得不同，传递不同的取消订单的原因
                         LogUtils.d("i= " + i);
+                        presenter.cancelForm(orderId,token);
                     }
 
                 }
@@ -272,4 +325,57 @@ public class FormParticularActivity extends BaseActivity {
     private void setRadioChecked(RadioButton radioButton) {
 
     }
+
+    @Override
+    public void getFormSuccess(FormParticularEntity formParticularEntity) {
+        LogUtils.d(TAG, formParticularEntity.toString());
+        if (formParticularEntity != null) {
+            tvRemainTime.setText(formParticularEntity.getDeadline());
+            tvConsigneeName.setText(formParticularEntity.getAddress().getTrueName());
+            tvPhoneNumber.setText(formParticularEntity.getAddress().getMobile());
+            tvAddress.setText("收货地址：" + formParticularEntity.getAddress().getArea_main().replace(" ", "")
+                    + formParticularEntity.getAddress().getArea_info());
+            LayoutInflater inflater = LayoutInflater.from(this);
+
+            double price = 0;
+            //添加订单商品
+            if (formParticularEntity.getCart() != null) {
+                List<FormParticularEntity.CartBean> cartBeanList = formParticularEntity.getCart();
+
+                for (int i = 0; i < cartBeanList.size(); i++) {
+                    View view = inflater.inflate(R.layout.form_goods_item, null);
+                    TextView tvStoreName = (TextView) view.findViewById(R.id.tv_store_name);
+                    TextView tvGoodsName = (TextView) view.findViewById(R.id.tv_goods_name);
+                    TextView tvGoodsPrice = (TextView) view.findViewById(R.id.tv_goods_price);
+                    TextView tvGoodsFormerPrice = (TextView) view.findViewById(R.id.tv_goods_former_price);
+                    TextView tvGoodsNumber = (TextView) view.findViewById(R.id.tv_goods_number);
+
+                    tvStoreName.setText(formParticularEntity.getStore().getStore_name());
+                    tvGoodsName.setText(cartBeanList.get(i).getGoods_name());
+                    tvGoodsPrice.setText("￥"+cartBeanList.get(i).getPrice());
+                    tvGoodsFormerPrice.setText("￥"+cartBeanList.get(i).getOrigin_price());
+                    tvGoodsNumber.setText("x"+cartBeanList.get(i).getCount());
+
+                    price = price + cartBeanList.get(i).getPrice()*cartBeanList.get(i).getCount();
+
+                    llContainer.addView(view);
+                }
+            }
+            tvFormNumber.setText(formParticularEntity.getOrder().getOrder_id());
+
+            String time = TimeUtils.getTime(formParticularEntity.getOrder().getAddTime());
+            tvFormTime.setText(time);
+            tvTransportationPrice.setText(formParticularEntity.getOrder().getShip_price()+"");
+
+            tvPaymentMoney.setText((price-formParticularEntity.getOrder().getShip_price())+"");
+        }
+
+    }
+
+    @Override
+    public void cancelFormSuccess() {
+        ToastUtils.showShort(this,"取消订单成功");
+    }
+
+
 }

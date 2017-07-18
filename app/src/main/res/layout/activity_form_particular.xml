@@ -191,99 +191,13 @@
                 android:paddingTop="12dp"
                 >
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginLeft="12dp"
-                    android:background="@null"
-                    android:drawableLeft="@drawable/goods_store"
-                    android:drawablePadding="10dp"
-                    android:text="酒品会旗舰店"
-                    android:textColor="@color/light_black"
-                    android:textSize="12sp"
-                    />
-                <!--商品信息-->
                 <LinearLayout
+                    android:id="@+id/ll_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="#FAFAFA"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:paddingLeft="12dp"
-                    >
+                    android:orientation="vertical"
+                    ></LinearLayout>
 
-                    <ImageView
-                        android:id="@+id/iv_goods_pic"
-                        android:layout_width="90dp"
-                        android:layout_height="90dp"
-                        android:layout_marginBottom="5dp"
-                        android:layout_marginTop="5dp"
-                        android:src="@drawable/pic1"
-                        />
-
-                    <RelativeLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1">
-
-                        <TextView
-                            android:id="@+id/tv_goods_name"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginRight="12dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_toLeftOf="@+id/tv_goods_price"
-                            android:lines="2"
-                            android:text="这是一款美酒这是一款美酒这是一款美酒这是一款美酒这是一款美酒"
-                            android:textColor="@color/light_black"
-                            android:textSize="12sp"
-                            />
-
-                        <TextView
-                            android:id="@+id/tv_goods_price"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
-                            android:layout_alignTop="@+id/tv_goods_name"
-                            android:layout_marginRight="12dp"
-                            android:lines="1"
-                            android:text="￥599"
-                            android:textColor="@color/mainTextColor"
-                            android:textSize="12sp"
-                            />
-
-                        <TextView
-                            android:id="@+id/tv_goods_former_price"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
-                            android:layout_below="@+id/tv_goods_price"
-                            android:layout_marginRight="12dp"
-                            android:layout_marginTop="10dp"
-                            android:lines="1"
-                            android:text="￥799"
-                            android:textColor="@color/shallow_black"
-                            android:textSize="10sp"
-                            />
-
-                        <TextView
-                            android:id="@+id/tv_goods_number"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentBottom="true"
-                            android:layout_alignParentRight="true"
-                            android:layout_marginBottom="10dp"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginRight="12dp"
-                            android:lines="1"
-                            android:text="x1"
-                            android:textColor="@color/light_black"
-                            android:textSize="10sp"
-                            />
-                    </RelativeLayout>
-                </LinearLayout>
                 <!--保险服务-->
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -292,6 +206,7 @@
                     android:paddingLeft="12dp"
                     android:paddingRight="12dp"
                     android:paddingTop="5dp"
+                    android:visibility="gone"
                     >
 
                     <TextView
@@ -341,8 +256,61 @@
                     >
 
                     <TextView
+                        android:id="@+id/textview1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:text="订单号："
+                        android:textColor="@color/light_black"
+                        android:textSize="12sp"
+                        />
+
+                    <TextView
+                        android:id="@+id/tv_form_number"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@+id/textview1"
+                        android:lines="1"
+                        android:text=""
+                        android:textColor="@color/light_black"
+                        android:textSize="12sp"
+                        />
+
+                    <TextView
+                        android:id="@+id/textview"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="下单时间："
+                        android:layout_marginTop="8dp"
+                        android:layout_below="@+id/textview1"
+                        android:textColor="@color/light_black"
+                        android:textSize="12sp"
+                        />
+
+
+
+                    <TextView
+                        android:id="@+id/tv_form_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@+id/textview"
+                        android:layout_alignTop="@+id/textview"
+                        android:lines="1"
+                        android:text=""
+                        android:textColor="@color/light_black"
+                        android:textSize="12sp"
+                        />
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/mainBackground"
+                        android:layout_below="@+id/tv_form_time"
+                        android:layout_marginTop="8dp"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignTop="@+id/tv_transportation_price"
                         android:text="运费"
                         android:textColor="@color/light_black"
                         android:textSize="12sp"
@@ -353,7 +321,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
-                        android:text="￥0.00"
+                        android:layout_marginTop="16dp"
+                        android:layout_below="@+id/textview"
+                        android:text=""
                         android:textColor="@color/light_black"
                         android:textSize="12sp"
                         />
@@ -374,7 +344,7 @@
                         android:layout_alignParentRight="true"
                         android:layout_below="@+id/tv_transportation_price"
                         android:layout_marginTop="8dp"
-                        android:text="￥599"
+                        android:text=""
                         android:textColor="@color/mainTextColor"
                         android:textSize="12sp"
                         />
@@ -400,9 +370,10 @@
                         android:layout_weight="1"
                         android:drawableLeft="@drawable/contact_big"
                         android:drawablePadding="10dp"
+                        android:lines="1"
                         android:gravity="center"
-                        android:paddingLeft="50dp"
-                        android:paddingRight="50dp"
+                        android:paddingLeft="45dp"
+                        android:paddingRight="45dp"
                         android:paddingBottom="15dp"
                         android:paddingTop="15dp"
                         android:text="联系供应商"

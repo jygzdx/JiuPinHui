@@ -136,9 +136,19 @@ public class Constant {
     public static final String SUBMIT_FORM = TEST_URL+"/app/order/submitOrder.json";
 
     /**
-     * 获取订单信息
+     * 获取用户所有的订单信息
      */
     public static final String GET_ALL_FORM_INFO = TEST_URL+"/app/order/getUserOrderListByCond.json";
+
+    /**
+     * 获取单个订单信息
+     */
+    public static final String GET_SINGLE_FORM_INFO = TEST_URL+"/app/order/getOrderInfoById.json";
+
+    /**
+     * 取消订单
+     */
+    public static final String CANCEL_FORM = TEST_URL+"/app/order/cancelOrder.json";
 
     /**
      * 等待付款

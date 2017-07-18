@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical"
+              android:paddingBottom="8dp"
+              android:paddingTop="12dp">
+
+    <TextView
+        android:id="@+id/tv_store_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="12dp"
+        android:background="@null"
+        android:drawableLeft="@drawable/goods_store"
+        android:drawablePadding="10dp"
+        android:text=""
+        android:textColor="@color/light_black"
+        android:textSize="12sp"
+        />
+    <!--商品信息-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#FAFAFA"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="12dp"
+        >
+
+        <ImageView
+            android:id="@+id/iv_goods_pic"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:src="@drawable/pic1"
+            />
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/tv_goods_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="12dp"
+                android:layout_marginTop="10dp"
+                android:layout_toLeftOf="@+id/tv_goods_price"
+                android:lines="2"
+                android:text="这是一款美酒这是一款美酒这是一款美酒这是一款美酒这是一款美酒"
+                android:textColor="@color/light_black"
+                android:textSize="12sp"
+                />
+
+            <TextView
+                android:id="@+id/tv_goods_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignTop="@+id/tv_goods_name"
+                android:layout_marginRight="12dp"
+                android:lines="1"
+                android:text="￥599"
+                android:textColor="@color/mainTextColor"
+                android:textSize="12sp"
+                />
+
+            <TextView
+                android:id="@+id/tv_goods_former_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/tv_goods_price"
+                android:layout_marginRight="12dp"
+                android:layout_marginTop="10dp"
+                android:lines="1"
+                android:text="￥799"
+                android:textColor="@color/shallow_black"
+                android:textSize="10sp"
+                />
+
+            <TextView
+                android:id="@+id/tv_goods_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="12dp"
+                android:lines="1"
+                android:text="x1"
+                android:textColor="@color/light_black"
+                android:textSize="10sp"
+                />
+        </RelativeLayout>
+    </LinearLayout>
+</LinearLayout>

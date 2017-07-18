@@ -14,7 +14,7 @@ import com.jiupin.jiupinhui.view.IGoodsActivityView;
 
 public class GoodsActivityPresenterImpl implements IGoodsActivityPresenter {
 
-    private static final String TAG = "LoginActivityPresenterI";
+    private static final String TAG = "GoodsActivityPresenterImpl";
 
     private IGoodsActivityModel model;
     private IGoodsActivityView view;
