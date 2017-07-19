@@ -19,6 +19,7 @@ import com.jiupin.jiupinhui.activity.MemberClubActivity;
 import com.jiupin.jiupinhui.activity.MyFormActivity;
 import com.jiupin.jiupinhui.activity.PersonInfoActivity;
 import com.jiupin.jiupinhui.activity.VersionActivity;
+import com.jiupin.jiupinhui.config.Constant;
 import com.jiupin.jiupinhui.entity.MyFormEntity;
 import com.jiupin.jiupinhui.entity.ResponseBase;
 import com.jiupin.jiupinhui.entity.UserEntity;
@@ -111,9 +112,25 @@ public class MyFragment extends Fragment implements IMyFragmentView {
 
     @OnClick({R.id.tv_member_club, R.id.rl_member_service, R.id.tv_look_form,
             R.id.rl_my_idea_back, R.id.rl_my_indent, R.id.rl_versions_info,
-            R.id.civ_head, R.id.tv_my_login})
+            R.id.civ_head, R.id.tv_my_login, R.id.rl_my_wait_pay, R.id.rl_my_wait_send_goods,
+            R.id.rl_my_wait_get_goods, R.id.rl_my_wait_appraise, R.id.rl_refund_and_after_sale})
     public void onViewClicked(View view) {
         switch (view.getId()) {
+            case R.id.rl_my_wait_pay://等待付款
+                gotoMyFormActivity(Constant.WAIT_PAY);
+                break;
+            case R.id.rl_my_wait_send_goods://等待发货
+                gotoMyFormActivity(Constant.WAIT_DELIVER_GOODS);
+                break;
+            case R.id.rl_my_wait_get_goods://等待收货
+                gotoMyFormActivity(Constant.WAIT_GAIN_GOODS);
+                break;
+            case R.id.rl_my_wait_appraise://等待评论
+                gotoMyFormActivity(Constant.TRANSACTION_SUCCESS_NO_COMMENT);
+                break;
+            case R.id.rl_refund_and_after_sale://退款售后
+                gotoMyFormActivity(Constant.SALE_AFTER);
+                break;
             case R.id.tv_member_club:
                 Intent intent1 = new Intent(getActivity(), MemberClubActivity.class);//该功能暂时隐藏
                 getActivity().startActivity(intent1);
@@ -123,8 +140,7 @@ public class MyFragment extends Fragment implements IMyFragmentView {
                 getActivity().startActivity(intent2);
                 break;
             case R.id.tv_look_form://进入我的订单
-                Intent intent3 = new Intent(getActivity(), MyFormActivity.class);
-                getActivity().startActivity(intent3);
+                gotoMyFormActivity("");
                 break;
             case R.id.rl_my_idea_back:
                 Intent intent4 = new Intent(getActivity(), IdeaBackActivity.class);
@@ -149,6 +165,13 @@ public class MyFragment extends Fragment implements IMyFragmentView {
         }
     }
 
+    private void gotoMyFormActivity(String orderStatus) {
+        Intent intent = new Intent(getActivity(), MyFormActivity.class);
+        intent.putExtra("orderStatus", orderStatus);
+        getActivity().startActivity(intent);
+
+    }
+
     @Override
     public void onPause() {
         super.onPause();
@@ -162,10 +185,9 @@ public class MyFragment extends Fragment implements IMyFragmentView {
     }
 
 
-
     @Override
     public void checkTokenBack(ResponseBase responseBase) {
-        LogUtils.d("checkTokenBack = "+responseBase.getMsg());
+        LogUtils.d("checkTokenBack = " + responseBase.getMsg());
         boolean status = "1".equals((String) responseBase.getData()) ? true : false;
         LogUtils.d("status = " + status + "    data = " + (String) responseBase.getData());
         if (status) {//登录状态
@@ -186,7 +208,7 @@ public class MyFragment extends Fragment implements IMyFragmentView {
 
     @Override
     public void setUserInfo(UserEntity userEntity) {
-        LogUtils.d("setUserInfo"+userEntity.getData().getImageUrl());
+        LogUtils.d("setUserInfo" + userEntity.getData().getImageUrl());
 
         Glide.with(this)
                 .load(userEntity.getData().getImageUrl())
@@ -198,36 +220,36 @@ public class MyFragment extends Fragment implements IMyFragmentView {
 
     @Override
     public void setFormNumber(MyFormEntity myFormEntity) {
-        LogUtils.d("setFormNumber"+myFormEntity.toString());
-        if(myFormEntity.getData().getUnpay()==0){
+        LogUtils.d("setFormNumber" + myFormEntity.toString());
+        if (myFormEntity.getData().getUnpay() == 0) {
             tvWaitPay.setVisibility(View.GONE);
-        }else{
+        } else {
             tvWaitPay.setVisibility(View.VISIBLE);
         }
-        if(myFormEntity.getData().getWaitDelivery()==0){
+        if (myFormEntity.getData().getWaitDelivery() == 0) {
             tvWaitSendGoods.setVisibility(View.GONE);
-        }else{
+        } else {
             tvWaitSendGoods.setVisibility(View.VISIBLE);
         }
-        if(myFormEntity.getData().getWaitPickup()==0){
+        if (myFormEntity.getData().getWaitPickup() == 0) {
             tvWaitGainGoods.setVisibility(View.GONE);
-        }else{
+        } else {
             tvWaitGainGoods.setVisibility(View.VISIBLE);
         }
-        if(myFormEntity.getData().getWaitComment()==0){
+        if (myFormEntity.getData().getWaitComment() == 0) {
             tvWaitAppraise.setVisibility(View.GONE);
-        }else{
+        } else {
             tvWaitAppraise.setVisibility(View.VISIBLE);
         }
-        if(myFormEntity.getData().getAfterSale()==0){
+        if (myFormEntity.getData().getAfterSale() == 0) {
             tvRefundAndAfterSale.setVisibility(View.GONE);
-        }else{
+        } else {
             tvRefundAndAfterSale.setVisibility(View.VISIBLE);
         }
-        tvWaitPay.setText(myFormEntity.getData().getUnpay()+"");
-        tvWaitSendGoods.setText(myFormEntity.getData().getWaitDelivery()+"");
-        tvWaitGainGoods.setText(myFormEntity.getData().getWaitPickup()+"");
-        tvWaitAppraise.setText(myFormEntity.getData().getWaitComment()+"");
-        tvRefundAndAfterSale.setText(myFormEntity.getData().getAfterSale()+"");
+        tvWaitPay.setText(myFormEntity.getData().getUnpay() + "");
+        tvWaitSendGoods.setText(myFormEntity.getData().getWaitDelivery() + "");
+        tvWaitGainGoods.setText(myFormEntity.getData().getWaitPickup() + "");
+        tvWaitAppraise.setText(myFormEntity.getData().getWaitComment() + "");
+        tvRefundAndAfterSale.setText(myFormEntity.getData().getAfterSale() + "");
     }
 }

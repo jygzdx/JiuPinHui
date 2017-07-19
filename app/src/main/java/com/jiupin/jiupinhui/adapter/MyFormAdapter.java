@@ -104,7 +104,7 @@ public class MyFormAdapter extends RecyclerView.Adapter {
                     public void onClick(View v) {
                         //待定======================================================
                         Intent intent = new Intent(mContext, FormParticularActivity.class);
-                        intent.putExtra("status",Constant.WAIT_PAY);
+                        intent.putExtra("status",Constant.TRANSACTION_CLOSED);
                         intent.putExtra("orderId",form.getId());
                         mContext.startActivity(intent);
                     }
@@ -213,6 +213,18 @@ public class MyFormAdapter extends RecyclerView.Adapter {
     public void setData(List<FormEntity> forms) {
         this.forms = forms;
         notifyDataSetChanged();
+    }
+
+    public void clear() {
+        forms.clear();
+        notifyDataSetChanged();
+    }
+
+    public void addAll(List<FormEntity> forms){
+        int lastIndex = this.forms.size();
+        if(this.forms.addAll(forms)){
+            notifyItemRangeInserted(lastIndex, forms.size());
+        }
     }
 
     private class MyFormViewHolder extends RecyclerView.ViewHolder {

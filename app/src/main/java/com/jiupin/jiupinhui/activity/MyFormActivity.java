@@ -12,8 +12,11 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 
+import com.github.jdsjlzx.interfaces.OnLoadMoreListener;
+import com.github.jdsjlzx.interfaces.OnRefreshListener;
 import com.github.jdsjlzx.recyclerview.LRecyclerView;
 import com.github.jdsjlzx.recyclerview.LRecyclerViewAdapter;
+import com.github.jdsjlzx.recyclerview.ProgressStyle;
 import com.jiupin.jiupinhui.R;
 import com.jiupin.jiupinhui.adapter.MyFormAdapter;
 import com.jiupin.jiupinhui.config.Constant;
@@ -73,15 +76,19 @@ public class MyFormActivity extends BaseActivity implements IMyFormActivityView{
 
     private IMyFormActivityPresenter presenter;
 
-    private List<FormEntity> forms;
     private List<FormEntity> container = new ArrayList<>();
+    private String token;
+    private String orderStatus;//订单状态
+    private int page;//页数
+    private static final int  TOTAL_COUNTER = 100;
+    /**每一页展示多少条数据*/
+    private static final int REQUEST_COUNT = 10;
+    private int mCurrentCounter;//已经获取到多少数据
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_form);
-
-
 
         RecyclerView.LayoutManager layout = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
         lrvMyForm.setLayoutManager(layout);
@@ -90,15 +97,52 @@ public class MyFormActivity extends BaseActivity implements IMyFormActivityView{
         lRecyclerViewAdapter = new LRecyclerViewAdapter(adapter);
 
         lrvMyForm.setAdapter(lRecyclerViewAdapter);
-        lrvMyForm.setPullRefreshEnabled(false);
+        lrvMyForm.setPullRefreshEnabled(true);
+        lrvMyForm.setLoadMoreEnabled(true);
+        lrvMyForm.setRefreshProgressStyle(ProgressStyle.LineSpinFadeLoader);
+        lrvMyForm.setArrowImageView(R.drawable.ic_pulltorefresh_arrow);
+        lrvMyForm.setLoadingMoreProgressStyle(ProgressStyle.BallSpinFadeLoader);
+
+        lrvMyForm.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getFirstData();
+            }
+        });
+
+        lrvMyForm.setOnLoadMoreListener(new OnLoadMoreListener() {
+            @Override
+            public void onLoadMore() {
+
+                if (mCurrentCounter < TOTAL_COUNTER) {
+                    // loading more
+                    page++;
+                    requestData();
+                } else {
+                    //the end
+                    lrvMyForm.setNoMore(true);
+                }
+            }
+        });
+
+        //设置头部加载颜色
+        lrvMyForm.setHeaderViewColor(R.color.colorAccent, R.color.colorPrimaryDark ,android.R.color.white);
+        //设置底部加载颜色
+        lrvMyForm.setFooterViewColor(R.color.colorAccent, R.color.colorPrimaryDark ,android.R.color.white);
+        //设置底部加载文字提示
+        lrvMyForm.setFooterViewHint("拼命加载中","已经全部为你呈现了","网络不给力啊，点击再试一次吧");
+
 
         presenter = new MyFormActivityPresenterImpl(this);
-        String token = UserInfoManager.getInstance().getToken(this);
+        token = UserInfoManager.getInstance().getToken(this);
         LogUtils.d("token = "+token);
-        String orderStatus = "";
-        String page = 1+"";
-        String rows = 10+"";
-        presenter.getFormInfo(token,orderStatus,page,rows);
+        orderStatus = getIntent().getExtras().getString("orderStatus");
+        getFirstData();
+    }
+
+    private void requestData() {
+        presenter.getFormInfo(token,orderStatus,page+"",10+"");
+
     }
 
     @OnClick({R.id.iv_back, R.id.ll_title, R.id.iv_more, R.id.rl_title, R.id.rb_all_form, R.id.id_view, R.id.rb_wait_pay, R.id.rb_wait_deliver_goods, R.id.rb_wait_gain_goods, R.id.rb_wait_comment})
@@ -132,12 +176,10 @@ public class MyFormActivity extends BaseActivity implements IMyFormActivityView{
                 rbAllForm.setChecked(true);
                 hidePopupWindow(llFormPull);
                 showRotationAnimator(ivPullDown, 180f, 0f);
-                if(forms!=null){
-                    container.clear();
-                    container = forms;
-                    adapter.setData(container);
-                    LogUtils.d("all.size = "+container.size());
-                }
+
+                //获取数据
+                orderStatus = "";
+                getFirstData();
                 break;
             case R.id.rb_wait_pay:
                 rgControlTop.clearCheck();
@@ -145,15 +187,10 @@ public class MyFormActivity extends BaseActivity implements IMyFormActivityView{
                 rbWaitPay.setChecked(true);
                 hidePopupWindow(llFormPull);
                 showRotationAnimator(ivPullDown, 180f, 0f);
-                if(forms!=null){
-                    container.clear();
-                    for (int i = 0; i < forms.size(); i++) {
-                        if(forms.get(i).getOrder_status().equals(Constant.WAIT_PAY)){
-                            container.add(forms.get(i));
-                        }
-                    }LogUtils.d("WAIT_PAY.size = "+container.size());
-                    adapter.setData(container);
-                }
+
+                //获取数据
+                orderStatus = Constant.WAIT_PAY;
+                getFirstData();
 
                 break;
             case R.id.rb_wait_deliver_goods:
@@ -162,16 +199,10 @@ public class MyFormActivity extends BaseActivity implements IMyFormActivityView{
                 rbWaitDeliverGoods.setChecked(true);
                 hidePopupWindow(llFormPull);
                 showRotationAnimator(ivPullDown, 180f, 0f);
-                if(forms!=null){
-                    container.clear();
-                    for (int i = 0; i < forms.size(); i++) {
-                        if(forms.get(i).getOrder_status().equals(Constant.WAIT_DELIVER_GOODS)){
-                            container.add(forms.get(i));
-                        }
-                    }
-                    LogUtils.d("WAIT_DELIVER_GOODS.size = "+container.size());
-                    adapter.setData(container);
-                }
+
+                //获取数据
+                orderStatus = Constant.WAIT_DELIVER_GOODS;
+                getFirstData();
                 break;
             case R.id.rb_wait_gain_goods:
                 rgControlTop.clearCheck();
@@ -179,16 +210,10 @@ public class MyFormActivity extends BaseActivity implements IMyFormActivityView{
                 rbWaitGainGoods.setChecked(true);
                 hidePopupWindow(llFormPull);
                 showRotationAnimator(ivPullDown, 180f, 0f);
-                if(forms!=null){
-                    container.clear();
-                    for (int i = 0; i < forms.size(); i++) {
-                        if(forms.get(i).getOrder_status().equals(Constant.WAIT_GAIN_GOODS)){
-                            container.add(forms.get(i));
-                        }
-                    }
-                    LogUtils.d("WAIT_GAIN_GOODS.size = "+container.size());
-                    adapter.setData(container);
-                }
+
+                //获取数据
+                orderStatus = Constant.WAIT_GAIN_GOODS;
+                getFirstData();
                 break;
             case R.id.rb_wait_comment:
                 rgControlTop.clearCheck();
@@ -196,17 +221,23 @@ public class MyFormActivity extends BaseActivity implements IMyFormActivityView{
                 rbWaitComment.setChecked(true);
                 hidePopupWindow(llFormPull);
                 showRotationAnimator(ivPullDown, 180f, 0f);
-                if(forms!=null){
-                    container.clear();
-                    for (int i = 0; i < forms.size(); i++) {
-                        if(forms.get(i).getOrder_status().equals(Constant.TRANSACTION_SUCCESS_NO_COMMENT)){
-                            container.add(forms.get(i));
-                        }
-                    }
-                    adapter.setData(container);
-                }
+
+                //获取数据
+                orderStatus = Constant.TRANSACTION_SUCCESS_NO_COMMENT;
+                getFirstData();
                 break;
         }
+    }
+
+    /**
+     * 重新刷新数据
+     */
+    private void getFirstData() {
+        adapter.clear();
+        lRecyclerViewAdapter.notifyDataSetChanged();//fix bug:crapped or attached views may not be recycled. isScrap:false isAttached:true
+        mCurrentCounter = 0;
+        page = 1;
+        requestData();
     }
 
     /**
@@ -281,9 +312,15 @@ public class MyFormActivity extends BaseActivity implements IMyFormActivityView{
 
     @Override
     public void getFormInfoSuccess(List<FormEntity> forms) {
-        this.forms = forms;
-        if(forms!=null){
-            adapter.setData(forms);
+        this.container = forms;
+        if(container!=null){
+            adapter.addAll(container);
+            mCurrentCounter +=forms.size();
+            lrvMyForm.refreshComplete(REQUEST_COUNT);
         }
+        if(forms.size()==0){
+            lrvMyForm.setNoMore(true);
+        }
+
     }
 }
