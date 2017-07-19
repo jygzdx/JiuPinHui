@@ -21,4 +21,20 @@ public interface IFormParticularActivityPresenter {
      * @param token   token
      */
     void cancelForm(String orderId, String token);
+
+    /**
+     * 确定收货
+     *
+     * @param orderId 订单id
+     * @param token   token
+     */
+    void ensureGainGoods(String orderId, String token);
+
+    /**
+     * 删除订单
+     *
+     * @param orderId 订单id
+     * @param token   token
+     */
+    void deleteForm(String orderId, String token);
 }

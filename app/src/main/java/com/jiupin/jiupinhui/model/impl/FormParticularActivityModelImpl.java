@@ -78,11 +78,78 @@ public class FormParticularActivityModelImpl implements IFormParticularActivityM
                         try {
                             jsonObject = new JSONObject(response);
                             if ("OK".equals(jsonObject.getString("msg"))) {
-                                Gson gson = new Gson();
                                 String data = jsonObject.getString("data");
                                 callBack.onSuccess(data);
                             } else {
                                 callBack.onFailed("cancelForm-->onFailed = "+jsonObject.getString("msg"));
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+    }
+
+    @Override
+    public void ensureGainGoods(String orderId, String token, final IModel.CallBack callBack) {
+        OkHttpUtils
+                .post()
+                .url(Constant.ENSURE_GAIN_GOODS)
+                .addParams("orderId", orderId)
+                .addParams("token",token)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+                        LogUtils.d("ensureGainGoods" + e.getMessage());
+                        callBack.onFailed("ensureGainGoods-->onFailed = "+e.toString());
+
+                    }
+
+                    @Override
+                    public void onResponse(String response, int id) {
+                        JSONObject jsonObject = null;
+                        try {
+                            jsonObject = new JSONObject(response);
+                            if ("OK".equals(jsonObject.getString("msg"))) {
+                                String data = jsonObject.getString("data");
+                                callBack.onSuccess(data);
+                            } else {
+                                callBack.onFailed("ensureGainGoods-->onFailed = "+jsonObject.getString("msg"));
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+    }
+
+    @Override
+    public void deleteForm(String orderId, String token, final IModel.CallBack callBack) {
+        OkHttpUtils
+                .post()
+                .url(Constant.DELETE_FORM)
+                .addParams("orderId", orderId)
+                .addParams("token",token)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+                        LogUtils.d("deleteForm" + e.getMessage());
+                        callBack.onFailed("deleteForm-->onFailed = "+e.toString());
+
+                    }
+
+                    @Override
+                    public void onResponse(String response, int id) {
+                        JSONObject jsonObject = null;
+                        try {
+                            jsonObject = new JSONObject(response);
+                            if ("OK".equals(jsonObject.getString("msg"))) {
+                                String data = jsonObject.getString("data");
+                                callBack.onSuccess(data);
+                            } else {
+                                callBack.onFailed("deleteForm-->onFailed = "+jsonObject.getString("msg"));
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

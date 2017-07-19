@@ -22,4 +22,20 @@ public interface IFormParticularActivityModel {
      * @param callBack callback
      */
     void cancelForm(String orderId, String token, IModel.CallBack callBack);
+
+    /**
+     * 确定收货
+     *
+     * @param orderId 订单id
+     * @param token   token
+     */
+    void ensureGainGoods(String orderId, String token, IModel.CallBack callBack);
+
+    /**
+     * 删除订单
+     *
+     * @param orderId 订单id
+     * @param token   token
+     */
+    void deleteForm(String orderId, String token, IModel.CallBack callBack);
 }

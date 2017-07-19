@@ -53,4 +53,34 @@ public class FormParticularActivityPresenterImpl implements IFormParticularActiv
             }
         });
     }
+
+    @Override
+    public void ensureGainGoods(String orderId, String token) {
+        model.ensureGainGoods(orderId, token, new IModel.CallBack() {
+            @Override
+            public void onSuccess(Object success) {
+                view.ensureGainGoodsSuccess();
+            }
+
+            @Override
+            public void onFailed(Object error) {
+                LogUtils.d(error.toString());
+            }
+        });
+    }
+
+    @Override
+    public void deleteForm(String orderId, String token) {
+        model.deleteForm(orderId, token, new IModel.CallBack() {
+            @Override
+            public void onSuccess(Object success) {
+                view.deleteFormSuccess();
+            }
+
+            @Override
+            public void onFailed(Object error) {
+                LogUtils.d(error.toString());
+            }
+        });
+    }
 }

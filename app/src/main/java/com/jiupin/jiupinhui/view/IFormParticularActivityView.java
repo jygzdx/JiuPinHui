@@ -17,4 +17,14 @@ public interface IFormParticularActivityView {
      * 取消订单
      */
     void cancelFormSuccess();
+
+    /**
+     * 确定收货
+     */
+    void ensureGainGoodsSuccess();
+
+    /**
+     * 删除订单
+     */
+    void deleteFormSuccess();
 }

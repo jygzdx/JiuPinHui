@@ -151,6 +151,21 @@ public class Constant {
     public static final String CANCEL_FORM = TEST_URL+"/app/order/cancelOrder.json";
 
     /**
+     * 确定收货
+     */
+    public static final String ENSURE_GAIN_GOODS = TEST_URL+"/app/order/confirmReceiving.json";
+
+    /**
+     * 删除订单
+     */
+    public static final String DELETE_FORM = TEST_URL+"/app/order/deleteOrder.json";
+
+    /**
+     * 保存用户评价
+     */
+    public static final String SEND_COMMENT = TEST_URL+"/app/order/userEvaluate.json";
+
+    /**
      * 等待付款
      */
     public static final String WAIT_PAY = 10+"";

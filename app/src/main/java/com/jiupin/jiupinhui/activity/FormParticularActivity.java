@@ -1,5 +1,6 @@
 package com.jiupin.jiupinhui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
@@ -86,6 +87,8 @@ public class FormParticularActivity extends BaseActivity implements IFormParticu
     private IFormParticularActivityPresenter presenter;
     private String token;
     private String orderId;
+
+    private FormParticularEntity formParticularEntity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -175,7 +178,10 @@ public class FormParticularActivity extends BaseActivity implements IFormParticu
     /**
      * 付款
      */
-    private void payMoney() {
+    private void payMoney() {//测试下评论
+        Intent intent = new Intent(this,SendCommentActivity.class);
+        intent.putExtra("orderId",formParticularEntity.getOrder().getId()+"");
+        startActivity(intent);
     }
 
     /**
@@ -236,7 +242,7 @@ public class FormParticularActivity extends BaseActivity implements IFormParticu
      * 删除订单
      */
     private void deleteForm() {
-
+        presenter.deleteForm(formParticularEntity.getOrder().getId()+"",UserInfoManager.getInstance().getToken(this));
     }
 
     /**
@@ -255,13 +261,16 @@ public class FormParticularActivity extends BaseActivity implements IFormParticu
      * 确定收货
      */
     private void ensureGainGoods() {
+        presenter.ensureGainGoods(formParticularEntity.getOrder().getId()+"",UserInfoManager.getInstance().getToken(this));
     }
 
     /**
      * 立即评论
      */
     private void nowComment() {
-
+        Intent intent = new Intent(this,SendCommentActivity.class);
+        intent.putExtra("orderId",formParticularEntity.getOrder().getId()+"");
+        startActivity(intent);
 
     }
 
@@ -333,6 +342,7 @@ public class FormParticularActivity extends BaseActivity implements IFormParticu
     public void getFormSuccess(FormParticularEntity formParticularEntity) {
         LogUtils.d(TAG, formParticularEntity.toString());
         if (formParticularEntity != null) {
+            this.formParticularEntity = formParticularEntity;
             tvRemainTime.setText(formParticularEntity.getDeadline());
             tvConsigneeName.setText(formParticularEntity.getAddress().getTrueName());
             tvPhoneNumber.setText(formParticularEntity.getAddress().getMobile());
@@ -378,6 +388,16 @@ public class FormParticularActivity extends BaseActivity implements IFormParticu
     @Override
     public void cancelFormSuccess() {
         ToastUtils.showShort(this,"取消订单成功");
+    }
+
+    @Override
+    public void ensureGainGoodsSuccess() {
+        ToastUtils.showShort(this,"确定收货");
+    }
+
+    @Override
+    public void deleteFormSuccess() {
+        ToastUtils.showShort(this,"删除订单成功");
     }
 
 
