@@ -32,6 +32,8 @@ public class ManageAddressAdapter extends RecyclerView.Adapter {
 
     private List<AddressEntity> adds = new ArrayList<>();
 
+    private int radioclick = 0;
+
     public ManageAddressAdapter(Context mContext) {
         this.mContext = mContext;
         inflater = LayoutInflater.from(mContext);
@@ -54,10 +56,25 @@ public class ManageAddressAdapter extends RecyclerView.Adapter {
         holder.tvAddress.setText(addressInfo);
         holder.rbDefaultAddress.setChecked(address.getIs_default() == 1 ? true : false);
 
+        holder.rbDefaultAddress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                for (int i = 0; i < adds.size(); i++) {
+                    adds.get(i).setIs_default(0);
+                }
+                address.setIs_default(1);
+                notifyDataSetChanged();
+                ((ManageAddressActivity)mContext).changeDefaultAddress(address.getId());
+            }
+        });
+
         //点击item返回地址数据
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if("MyFragment".equals(((ManageAddressActivity)mContext).fromActivity)){
+                    return;
+                }
                 Intent intent = ((ManageAddressActivity)mContext).getIntent();
                 Bundle bundle = new Bundle();
                 bundle.putString("address",addressInfo);
