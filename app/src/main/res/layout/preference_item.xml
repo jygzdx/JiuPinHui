@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/white"
+    >
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="12dp"
+        android:background="@color/mainBackground"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="酒款偏好"
+        android:textSize="12sp"
+        android:padding="@dimen/dp_10"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/dp_10"
+        android:orientation="horizontal"
+        >
+
+            <CheckBox
+                android:id="@+id/cb_man"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_marginRight="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/package_rb_bg_selector"
+                android:button="@null"
+                android:gravity="center"
+                android:text="男神专属"
+                android:textColor="@color/package_rb_text_selector"
+                android:textSize="12sp"
+                />
+
+            <CheckBox
+                android:id="@+id/cb_woman"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_marginRight="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/package_rb_bg_selector"
+                android:button="@null"
+                android:gravity="center"
+                android:text="女神专属"
+                android:textColor="@color/package_rb_text_selector"
+                android:textSize="12sp"
+                />
+
+            <RadioButton
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_weight="1"
+                android:button="@null"
+                />
+    </LinearLayout>
+
+</LinearLayout>

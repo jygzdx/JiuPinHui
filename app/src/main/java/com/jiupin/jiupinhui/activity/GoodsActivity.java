@@ -6,16 +6,20 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.v4.widget.NestedScrollView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.jiupin.jiupinhui.R;
 import com.jiupin.jiupinhui.entity.GoodsEntity;
 import com.jiupin.jiupinhui.presenter.IGoodsActivityPresenter;
@@ -44,6 +48,10 @@ public class GoodsActivity extends BaseActivity implements IGoodsActivityView{
     TextView tvGoodsDownPrice;
     @BindView(R.id.tv_goods_real_price)
     TextView tvGoodsRealPrice;
+    @BindView(R.id.tv_goods_count)
+    TextView tvGoodsCount;
+    @BindView(R.id.ll_package_container)
+    LinearLayout llPackageContainer;
     @BindView(R.id.btn_goods_collecting_start)
     Button btnGoodsCollectingStart;
     @BindView(R.id.btn_goods_share_start)
@@ -52,10 +60,6 @@ public class GoodsActivity extends BaseActivity implements IGoodsActivityView{
     TextView tvGoodsName;
     @BindView(R.id.tv_express_price)
     TextView tvExpressPrice;
-    @BindView(R.id.tv_sale_number)
-    TextView tvSaleNumber;
-    @BindView(R.id.tv_company_name)
-    TextView tvCompanyName;
     @BindView(R.id.tv_get_grade)
     TextView tvGetGrade;
     @BindView(R.id.ll_get_grade)
@@ -121,6 +125,12 @@ public class GoodsActivity extends BaseActivity implements IGoodsActivityView{
     private GoodsShowView goodsShowView;
     private IGoodsActivityPresenter presenter;
     private GoodsEntity goodsEntity;
+    private LayoutInflater inflater;
+    private boolean isQuarter;
+    private boolean isPreference;
+    private int quarterChecked;
+    private int preferenceChecked;
+    private List<GoodsEntity.DataBean.Detail> details;
 
 
     @Override
@@ -128,6 +138,8 @@ public class GoodsActivity extends BaseActivity implements IGoodsActivityView{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_goods);
         ButterKnife.bind(this);
+
+        inflater = LayoutInflater.from(this);
 
 
         presenter = new GoodsActivityPresenterImpl(this);
@@ -171,7 +183,7 @@ public class GoodsActivity extends BaseActivity implements IGoodsActivityView{
             @Override
             public void onScrollChange(NestedScrollView nestedScrollView, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
 
-                float height = 300f;
+                float height = 900f;
                 if (scrollY <= height && scrollY >= 0) {
                     float scale = (float) scrollY / height;
                     float alpha = 255 * scale;
@@ -188,7 +200,6 @@ public class GoodsActivity extends BaseActivity implements IGoodsActivityView{
                 } else if (scrollY > height) {
                     //滑动时改变标题栏的透明度
                     rlGoodsTitle.getBackground().setAlpha(255);
-
                     //设置收藏和分享按钮是否可见
 //                    if (ivGoodsCollectingEnd.getVisibility() == View.GONE) {
 //                        ivGoodsCollectingEnd.setVisibility(View.VISIBLE);
@@ -197,10 +208,6 @@ public class GoodsActivity extends BaseActivity implements IGoodsActivityView{
 //                        ivGoodsShareEnd.setVisibility(View.VISIBLE);
 //                    }
                 }
-                //                LogUtils.d("scrollX = "+scrollX+",scrollY = "+scrollY+",oldScrollX = "+oldScrollX+",oldScrollY = "+oldScrollY);
-                int childHeight = nestedScrollView.getChildAt(0).getHeight();
-                int scrollviewHeight = nestedScrollView.getHeight();
-                LogUtils.d("childHeight = " + childHeight + ",scrollY = " + scrollY + ",scrollviewHeight = " + scrollviewHeight);
             }
         });
     }
@@ -251,7 +258,198 @@ public class GoodsActivity extends BaseActivity implements IGoodsActivityView{
         tvGoodsDownPrice.setText(goodsEntity.getData().getStore_price()+"");
         tvGoodsRealPrice.setText(goodsEntity.getData().getGoods_price()+"");
         tvGoodsName.setText(goodsEntity.getData().getGoods_name());
-        tvCompanyName.setText(goodsEntity.getData().getStore_name());
+        tvGoodsCount.setText("库存："+goodsEntity.getData().getGoods_inventory());
+        String expressPrice = goodsEntity.getData().getGoods_transfee()==1?"免邮":"自费";
+        tvExpressPrice.setText("快递："+expressPrice);
+
+
+        final GoodsEntity.DataBean goods = goodsEntity.getData();
+        if(goods.getIs_meal()==1){
+
+            String detail = goodsEntity.getData().getGoods_inventory_detail();
+            String newDetail = detail.replace("\\", "");
+            LogUtils.d("newDetail = " + newDetail);
+            Gson gson = new Gson();
+            details = gson.fromJson(newDetail, new TypeToken<List<GoodsEntity.DataBean.Detail>>() {
+            }.getType());
+
+            if(goods.getSpecifications().size()>0){
+                for (int i = 0; i < goods.getSpecifications().size(); i++) {
+                    if(goods.getSpecifications().get(i).getId()==32769){//购买会员
+                        isQuarter = true;
+                        View view = inflater.inflate(R.layout.quarter_item,null);
+                        final CheckBox cbMonth = (CheckBox) view.findViewById(R.id.cb_month);
+                        final CheckBox cbQuarter = (CheckBox) view.findViewById(R.id.cb_quarter);
+                        final CheckBox cbHalfYear = (CheckBox) view.findViewById(R.id.cb_half_year);
+                        final CheckBox cbYear = (CheckBox) view.findViewById(R.id.cb_year);
+                        final int finalI = i;
+                        cbMonth.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                quarterChecked = goods.getSpecifications().get(finalI).getProperties().get(0).getId();
+                                cbQuarter.setChecked(false);
+                                cbHalfYear.setChecked(false);
+                                cbYear.setChecked(false);
+                                GoodsEntity.DataBean.Detail showDetail = null;
+                                if(preferenceChecked==0){
+                                    if(!isPreference){
+                                        showDetail = getDetail2(quarterChecked);
+                                    }
+                                }else{
+                                    showDetail = getDetail1(quarterChecked,preferenceChecked);
+                                }
+                                if(showDetail!=null){
+                                    tvGoodsDownPrice.setText(showDetail.getPrice());
+                                    tvGoodsRealPrice.setText(showDetail.getMemberPrice());
+                                    tvGoodsCount.setText("库存："+showDetail.getCount());
+                                }
+
+                            }
+                        });
+
+                        cbQuarter.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                quarterChecked = goods.getSpecifications().get(finalI).getProperties().get(1).getId();
+                                cbMonth.setChecked(false);
+                                cbHalfYear.setChecked(false);
+                                cbYear.setChecked(false);
+                                GoodsEntity.DataBean.Detail showDetail = null;
+                                if(preferenceChecked==0){
+                                    if(!isPreference){
+                                        showDetail = getDetail2(quarterChecked);
+                                    }
+                                }else{
+                                    showDetail = getDetail1(quarterChecked,preferenceChecked);
+                                }
+                                if(showDetail!=null){
+                                    tvGoodsDownPrice.setText(showDetail.getPrice());
+                                    tvGoodsRealPrice.setText(showDetail.getMemberPrice());
+                                    tvGoodsCount.setText("库存："+showDetail.getCount());
+                                }
+                            }
+                        });
+                        cbHalfYear.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                quarterChecked = goods.getSpecifications().get(finalI).getProperties().get(2).getId();
+                                cbMonth.setChecked(false);
+                                cbQuarter.setChecked(false);
+                                cbYear.setChecked(false);
+                                GoodsEntity.DataBean.Detail showDetail = null;
+                                if(preferenceChecked==0){
+                                    if(!isPreference){
+                                        showDetail = getDetail2(quarterChecked);
+                                    }
+                                }else{
+                                    showDetail = getDetail1(quarterChecked,preferenceChecked);
+                                }
+                                if(showDetail!=null){
+                                    tvGoodsDownPrice.setText(showDetail.getPrice());
+                                    tvGoodsRealPrice.setText(showDetail.getMemberPrice());
+                                    tvGoodsCount.setText("库存："+showDetail.getCount());
+                                }
+                            }
+                        });
+                        cbYear.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                quarterChecked = goods.getSpecifications().get(finalI).getProperties().get(3).getId();
+                                cbMonth.setChecked(false);
+                                cbHalfYear.setChecked(false);
+                                cbQuarter.setChecked(false);
+                                GoodsEntity.DataBean.Detail showDetail = null;
+                                if(preferenceChecked==0){
+                                    if(!isPreference){
+                                        showDetail = getDetail2(quarterChecked);
+                                    }
+                                }else{
+                                    showDetail = getDetail1(quarterChecked,preferenceChecked);
+                                }
+                                if(showDetail!=null){
+                                    tvGoodsDownPrice.setText(showDetail.getPrice());
+                                    tvGoodsRealPrice.setText(showDetail.getMemberPrice());
+                                    tvGoodsCount.setText("库存："+showDetail.getCount());
+                                }
+                            }
+                        });
+
+                        llPackageContainer.addView(view);
+                    }else if(goods.getSpecifications().get(i).getId()==32770){//酒款偏好
+                        isPreference = true;
+                        View view = inflater.inflate(R.layout.preference_item,null);
+                        final CheckBox cbMan = (CheckBox) view.findViewById(R.id.cb_man);
+                        final CheckBox cbWomen = (CheckBox) view.findViewById(R.id.cb_woman);
+                        final int finalI = i;
+                        cbMan.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                preferenceChecked = goods.getSpecifications().get(finalI).getProperties().get(0).getId();
+                                cbWomen.setChecked(false);
+                                GoodsEntity.DataBean.Detail showDetail = null;
+                                if(quarterChecked==0){
+                                    if(!isQuarter){
+                                        showDetail = getDetail2(quarterChecked);
+                                    }
+                                }else{
+                                    showDetail = getDetail1(quarterChecked,preferenceChecked);
+                                }
+                                if(showDetail!=null){
+                                    tvGoodsDownPrice.setText(showDetail.getPrice());
+                                    tvGoodsRealPrice.setText(showDetail.getMemberPrice());
+                                    tvGoodsCount.setText("库存："+showDetail.getCount());
+                                }
+
+                            }
+                        });
+
+                        cbWomen.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                preferenceChecked = goods.getSpecifications().get(finalI).getProperties().get(1).getId();
+                                cbMan.setChecked(false);
+                                GoodsEntity.DataBean.Detail showDetail = null;
+                                if(quarterChecked==0){
+                                    if(!isQuarter){
+                                        showDetail = getDetail2(quarterChecked);
+                                    }
+                                }else{
+                                    showDetail = getDetail1(quarterChecked,preferenceChecked);
+                                }
+                                if(showDetail!=null){
+                                    tvGoodsDownPrice.setText(showDetail.getPrice());
+                                    tvGoodsRealPrice.setText(showDetail.getMemberPrice());
+                                    tvGoodsCount.setText("库存："+showDetail.getCount());
+                                }
+
+                            }
+                        });
+
+                        llPackageContainer.addView(view);
+                    }
+
+                }
+            }
+        }
+
+    }
+
+    private GoodsEntity.DataBean.Detail getDetail1(int id, int id1) {
+        for (int i = 0; i < details.size(); i++) {
+            if (details.get(i).getId().contains(id + "") && details.get(i).getId().contains(id1 + "")) {
+                return details.get(i);
+            }
+        }
+        return null;
+    }
+
+    private GoodsEntity.DataBean.Detail getDetail2(int id) {
+        for (int i = 0; i < details.size(); i++) {
+            if (details.get(i).getId().contains(id + "")) {
+                return details.get(i);
+            }
+        }
+        return new GoodsEntity.DataBean.Detail();
     }
 
     /**

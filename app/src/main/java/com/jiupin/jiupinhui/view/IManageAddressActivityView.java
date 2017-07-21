@@ -14,4 +14,9 @@ public interface IManageAddressActivityView {
      * @param adds 地址列表
      */
     void setData(List<AddressEntity> adds);
+
+    /**
+     * 改变默认地址成功
+     */
+    void changeDefaultAddressSuccess();
 }

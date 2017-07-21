@@ -10,7 +10,7 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.jiupin.jiupinhui.R;
-import com.jiupin.jiupinhui.activity.PackageActivity;
+import com.jiupin.jiupinhui.activity.GoodsActivity;
 import com.jiupin.jiupinhui.entity.MainShowEntity;
 import com.jiupin.jiupinhui.utils.LogUtils;
 
@@ -49,7 +49,7 @@ public class MainShowAdapter extends RecyclerView.Adapter{
             @Override
             public void onClick(View v) {
                 LogUtils.d("position = "+position);
-                Intent intent = new Intent(mContext, PackageActivity.class);
+                Intent intent = new Intent(mContext, GoodsActivity.class);
                 intent.putExtra("id",bean.getId());
                 mContext.startActivity(intent);
             }

@@ -89,6 +89,7 @@
             android:paddingBottom="10dp"
             android:paddingTop="10dp"
             android:lines="1"
+            android:maxLines="1"
             app:funcType="canClear"
             android:drawableRight="@drawable/login_cancel"
             android:drawablePadding="4dp"

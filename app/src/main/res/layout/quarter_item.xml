@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/white"
+    >
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="12dp"
+        android:background="@color/mainBackground"
+        />
+    //购买会员
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingTop="@dimen/dp_10"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="购买会员"
+            android:textSize="12sp"
+            />
+        
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="10dp"
+            >
+
+            <CheckBox
+                android:id="@+id/cb_month"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_marginRight="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/package_rb_bg_selector"
+                android:button="@null"
+                android:gravity="center"
+                android:text="月度会员（3次）"
+                android:textColor="@color/package_rb_text_selector"
+                android:textSize="12sp"
+                />
+
+            <CheckBox
+                android:id="@+id/cb_quarter"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_marginRight="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/package_rb_bg_selector"
+                android:button="@null"
+                android:gravity="center"
+                android:text="季度会员（6次）"
+                android:textColor="@color/package_rb_text_selector"
+                android:textSize="12sp"
+                />
+
+            <CheckBox
+                android:id="@+id/cb_half_year"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_weight="1"
+                android:background="@drawable/package_rb_bg_selector"
+                android:button="@null"
+                android:gravity="center"
+                android:text="半年会员（18次）"
+                android:textColor="@color/package_rb_text_selector"
+                android:textSize="12sp"
+                />
+        </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/dp_10"
+                android:paddingLeft="@dimen/dp_10"
+                android:paddingRight="@dimen/dp_10"
+                >
+
+                <CheckBox
+                    android:id="@+id/cb_year"
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    android:layout_marginRight="@dimen/dp_10"
+                    android:layout_weight="1"
+                    android:background="@drawable/package_rb_bg_selector"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:text="全年会员（36次）"
+                    android:textColor="@color/package_rb_text_selector"
+                    android:textSize="12sp"
+                    />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    android:layout_marginRight="@dimen/dp_10"
+                    android:layout_weight="2"
+                    android:button="@null"
+                    />
+            </LinearLayout>
+       
+    </LinearLayout>
+
+</LinearLayout>

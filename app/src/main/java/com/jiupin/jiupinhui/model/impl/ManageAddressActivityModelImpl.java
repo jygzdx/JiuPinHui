@@ -60,4 +60,39 @@ public class ManageAddressActivityModelImpl implements IManageAddressActivityMod
                     }
                 });
     }
+
+    @Override
+    public void changeDefaultAddress(String token, String id, final IModel.CallBack callBack) {
+        OkHttpUtils
+                .post()
+                .url(Constant.CHANGE_DEFAULT_ADDRESS)
+                .addParams("token", token)
+                .addParams("id",id)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+                        LogUtils.d("changeDefaultAddress" + e.getMessage());
+                        callBack.onFailed("changeDefaultAddress-->onFailed");
+
+                    }
+
+                    @Override
+                    public void onResponse(String response, int id) {
+                        LogUtils.d("changeDefaultAddress" + response);
+                        JSONObject jsonObject = null;
+                        try {
+                            jsonObject = new JSONObject(response);
+                            if ("OK".equals(jsonObject.getString("msg"))) {
+                                String data = jsonObject.getString("data");
+                                callBack.onSuccess(data);
+                            } else {
+                                callBack.onFailed("changeDefaultAddress-->onFailed");
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+    }
 }

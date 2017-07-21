@@ -15,7 +15,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jiupin.jiupinhui.R;
-import com.jiupin.jiupinhui.config.Constant;
 import com.jiupin.jiupinhui.entity.RegisterEntity;
 import com.jiupin.jiupinhui.entity.ResponseBase;
 import com.jiupin.jiupinhui.presenter.ILoginActivityPresenter;
@@ -26,8 +25,6 @@ import com.jiupin.jiupinhui.utils.StringUtils;
 import com.jiupin.jiupinhui.utils.ToastUtils;
 import com.jiupin.jiupinhui.utils.WindowUtils;
 import com.jiupin.jiupinhui.view.ILoginActivityView;
-import com.tencent.mm.opensdk.openapi.IWXAPI;
-import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -88,7 +85,7 @@ public class LoginActivity extends AppCompatActivity implements ILoginActivityVi
     RelativeLayout rlBottomReset;
     @BindView(R.id.btn_reset_checkout)
     Button btnResetCheckout;
-    private IWXAPI api;
+//    private IWXAPI api;
 
     private ILoginActivityPresenter presenter;
     //手机号码是否注册过
@@ -153,8 +150,8 @@ public class LoginActivity extends AppCompatActivity implements ILoginActivityVi
         //微信登录的code
         String code = getIntent().getStringExtra("code");
 
-        api = WXAPIFactory.createWXAPI(LoginActivity.this, Constant.APP_ID, true);
-        api.registerApp(Constant.APP_ID);
+//        api = WXAPIFactory.createWXAPI(LoginActivity.this, Constant.APP_ID, true);
+//        api.registerApp(Constant.APP_ID);
 
 
     }

@@ -11,9 +11,10 @@ import android.widget.ImageView;
 import com.jiupin.jiupinhui.R;
 import com.jiupin.jiupinhui.adapter.ManageAddressAdapter;
 import com.jiupin.jiupinhui.entity.AddressEntity;
+import com.jiupin.jiupinhui.manage.UserInfoManager;
 import com.jiupin.jiupinhui.presenter.IManageAddressActivityPresenter;
 import com.jiupin.jiupinhui.presenter.impl.ManageAddressActivityPresenterImpl;
-import com.jiupin.jiupinhui.utils.SPUtils;
+import com.jiupin.jiupinhui.utils.ToastUtils;
 import com.jiupin.jiupinhui.view.IManageAddressActivityView;
 
 import java.util.List;
@@ -35,13 +36,17 @@ public class ManageAddressActivity extends BaseActivity implements IManageAddres
 
     private IManageAddressActivityPresenter presenter;
     private ManageAddressAdapter adapter;
+    public String fromActivity;
+    private String token;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manage_address);
         ButterKnife.bind(this);
-        String token = (String) SPUtils.get(this, SPUtils.LOGIN_TOKEN, "");
+        token = UserInfoManager.getInstance().getToken(this);
+        fromActivity = getIntent().getExtras().getString("fromActivity");
+
         presenter = new ManageAddressActivityPresenterImpl(this);
         presenter.getAddressList(token);
 
@@ -66,11 +71,20 @@ public class ManageAddressActivity extends BaseActivity implements IManageAddres
         }
     }
 
+    public void changeDefaultAddress(int id){
+        presenter.changeDefaultAddress(token,id+"");
+    }
+
     @Override
     public void setData(List<AddressEntity> adds) {
         if(adds.size()>0){
             adapter.setData(adds);
         }
 
+    }
+
+    @Override
+    public void changeDefaultAddressSuccess() {
+        ToastUtils.showShort(this,"修改默认地址成功");
     }
 }

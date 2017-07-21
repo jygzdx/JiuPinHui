@@ -115,6 +115,11 @@ public class Constant {
     public static final String GET_DEFAULT_ADDRESS = TEST_URL+"/app/order/getDefaultAddress.json";
 
     /**
+     * 改变用户默认地址
+     */
+    public static final String CHANGE_DEFAULT_ADDRESS = TEST_URL+"/app/order/setDefaultAddress.json";
+
+    /**
      * 获取省市区地址
      */
     public static final String SHENG_SHI_QU_AREA = TEST_URL+"/app/order/loadCascadeAreaList.json";

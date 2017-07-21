@@ -37,6 +37,7 @@ public class GoodsActivityModelImpl implements IGoodsActivityModel {
 
                     @Override
                     public void onResponse(String response, int id) {
+                        LogUtils.d(response);
                         JSONObject jsonObject = null;
                         try {
                             jsonObject = new JSONObject(response);

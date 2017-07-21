@@ -31,12 +31,27 @@ public class ManageAddressActivityPresenterImpl implements IManageAddressActivit
         model.getAddressList(token, new IModel.CallBack() {
             @Override
             public void onSuccess(Object success) {
-                view.setData((List<AddressEntity>)success);
+                view.setData((List<AddressEntity>) success);
             }
 
             @Override
             public void onFailed(Object error) {
-                LogUtils.d(TAG,"error = "+error);
+                LogUtils.d(TAG, "error = " + error);
+            }
+        });
+    }
+
+    @Override
+    public void changeDefaultAddress(String token, String id) {
+        model.changeDefaultAddress(token, id, new IModel.CallBack() {
+            @Override
+            public void onSuccess(Object success) {
+                view.changeDefaultAddressSuccess();
+            }
+
+            @Override
+            public void onFailed(Object error) {
+                LogUtils.d(error.toString());
             }
         });
     }

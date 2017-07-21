@@ -188,8 +188,9 @@ public class OrderActivity extends BaseActivity implements IOrderActivityView {
             case R.id.cb_express_radio://点击运费
 
                 break;
-            case R.id.ll_address:
+            case R.id.ll_address://修改地址
                 Intent intent = new Intent(OrderActivity.this, ManageAddressActivity.class);
+                intent.putExtra("fromActivity","OrderActivity");
                 startActivityForResult(intent, REQUEST_ADDRESS_CODE);
                 break;
             case R.id.tv_submit_order://提交订单

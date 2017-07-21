@@ -11,4 +11,11 @@ public interface IManageAddressActivityPresenter {
      * @param token 用户token
      */
     void getAddressList(String token);
+
+    /**
+     * 改变默认地址
+     * @param token 用户token
+     *              @param id
+     */
+    void changeDefaultAddress(String token,String id);
 }

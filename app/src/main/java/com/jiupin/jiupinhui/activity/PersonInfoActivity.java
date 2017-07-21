@@ -12,6 +12,7 @@ import com.bumptech.glide.Glide;
 import com.jiupin.jiupinhui.R;
 import com.jiupin.jiupinhui.entity.ResponseBase;
 import com.jiupin.jiupinhui.entity.UserEntity;
+import com.jiupin.jiupinhui.manage.UserInfoManager;
 import com.jiupin.jiupinhui.presenter.IPersonInfoActivityPresenter;
 import com.jiupin.jiupinhui.presenter.impl.PersonInfoActivityPresenterImpl;
 import com.jiupin.jiupinhui.utils.LogUtils;
@@ -45,12 +46,18 @@ public class PersonInfoActivity extends BaseActivity implements IPersonInfoActiv
     Button btnExitLogin;
     @BindView(R.id.tv_user_nickname)
     TextView tvUserNickname;
+    @BindView(R.id.tv_user_name)
+    TextView tvUserName;
     @BindView(R.id.civ_head)
     CircleImageView civHead;
 
     private IPersonInfoActivityPresenter presenter;
     private TakePhoto takePhoto;
     private InvokeParam invokeParam;
+    private String token;
+
+    private static final int REVISE_NICKNAME_CODE = 1;
+    private static final int BINDING_PHONE_CODE = 2;
 
 
     @Override
@@ -58,9 +65,15 @@ public class PersonInfoActivity extends BaseActivity implements IPersonInfoActiv
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_person_info);
         ButterKnife.bind(this);
-
         presenter = new PersonInfoActivityPresenterImpl(this);
-        String token = (String) SPUtils.get(this, SPUtils.LOGIN_TOKEN, "");
+        token = UserInfoManager.getInstance().getToken(this);
+        refreshData();
+
+
+    }
+
+    //刷新数据
+    private void refreshData() {
         presenter.getUserInfoByToken(token);
     }
 
@@ -79,11 +92,11 @@ public class PersonInfoActivity extends BaseActivity implements IPersonInfoActiv
                 break;
             case R.id.ll_user_nickname:
                 Intent intent1 = new Intent(mContext, ReviseNicknameActivity.class);
-                startActivity(intent1);
+                startActivityForResult(intent1,REVISE_NICKNAME_CODE);
                 break;
             case R.id.tv_binding_phone:
                 Intent intent2 = new Intent(mContext, BindingPhoneActivity.class);
-                startActivity(intent2);
+                startActivityForResult(intent2,BINDING_PHONE_CODE);
                 break;
             case R.id.btn_exit_login:
 
@@ -91,7 +104,7 @@ public class PersonInfoActivity extends BaseActivity implements IPersonInfoActiv
                 ToastUtils.showShort(this, "退出登录成功");
                 break;
             case R.id.ll_head:
-                File file = new File(Environment.getExternalStorageDirectory(), "/images/"+ System.currentTimeMillis()+".jpg");
+                File file = new File(Environment.getExternalStorageDirectory(), "/images/" + System.currentTimeMillis() + ".jpg");
                 if (!file.getParentFile().exists())
                     file.getParentFile().mkdirs();
                 Uri imageUri = Uri.fromFile(file);
@@ -111,6 +124,11 @@ public class PersonInfoActivity extends BaseActivity implements IPersonInfoActiv
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         getTakePhoto().onActivityResult(requestCode, resultCode, data);
         super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==REVISE_NICKNAME_CODE){
+            refreshData();
+        }else if(requestCode==BINDING_PHONE_CODE){
+            refreshData();
+        }
     }
 
     @Override
@@ -135,17 +153,17 @@ public class PersonInfoActivity extends BaseActivity implements IPersonInfoActiv
     @Override
     public void takeSuccess(TResult result) {//选择头像成功
         LogUtils.i(TAG, "takeSuccess：" + result);
-        if(result!=null){
+        if (result != null) {
 
             Glide.with(this)
                     .load(new File(result.getImage().getOriginalPath()))
                     .into(civHead);
             //上传图片
             String path = result.getImage().getOriginalPath();
-            String name = path.substring(path.lastIndexOf("/")+1);
-            File file = new File(Environment.getExternalStorageDirectory(), "/images/"+name);
+            String name = path.substring(path.lastIndexOf("/") + 1);
+            File file = new File(Environment.getExternalStorageDirectory(), "/images/" + name);
             String token = (String) SPUtils.get(this, SPUtils.LOGIN_TOKEN, "");
-            presenter.pushPicture(file,name,token);
+            presenter.pushPicture(file, name, token);
         }
 
     }
@@ -171,23 +189,23 @@ public class PersonInfoActivity extends BaseActivity implements IPersonInfoActiv
 
     @Override
     public void setUserInfo(UserEntity userEntity) {
-        LogUtils.d(TAG,"setUserInfo.url = "+userEntity.getData().getImageUrl());
+        LogUtils.d(TAG, "setUserInfo.url = " + userEntity.getData().getImageUrl());
         //初始化控件
         tvUserNickname.setText(userEntity.getData().getNickName());
         Glide.with(this)
                 .load(userEntity.getData().getImageUrl())
                 .crossFade()
                 .into(civHead);
-
+        tvUserName.setText(userEntity.getData().getUserName());
 
     }
 
     @Override
     public void pushPicture(ResponseBase responseBase) {
-        LogUtils.d(TAG+responseBase.getMsg());
-//        Glide.with(this)
-//                .load((String) responseBase.getData())
-//                .crossFade()
-//                .into(civHead);
+        LogUtils.d(TAG + responseBase.getMsg());
+        //        Glide.with(this)
+        //                .load((String) responseBase.getData())
+        //                .crossFade()
+        //                .into(civHead);
     }
 }

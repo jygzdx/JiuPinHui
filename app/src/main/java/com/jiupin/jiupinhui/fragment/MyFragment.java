@@ -82,6 +82,13 @@ public class MyFragment extends Fragment implements IMyFragmentView {
 
         presenter = new MyFragmentPresenterImpl(this);
 
+        refreshData();
+
+        LogUtils.d(TAG + "    oncreateView");
+        return view;
+    }
+
+    private void refreshData(){
         token = (String) SPUtils.get(getContext(), SPUtils.LOGIN_TOKEN, "");
         LogUtils.d("token = " + token);
         if (token == "") {
@@ -94,9 +101,6 @@ public class MyFragment extends Fragment implements IMyFragmentView {
             //查看token是否可用
             presenter.getTokenStatus(token);
         }
-
-        LogUtils.d(TAG + "    oncreateView");
-        return view;
     }
 
     @Override
@@ -144,23 +148,24 @@ public class MyFragment extends Fragment implements IMyFragmentView {
                 break;
             case R.id.rl_my_idea_back:
                 Intent intent4 = new Intent(getActivity(), IdeaBackActivity.class);
-                getActivity().startActivity(intent4);
+                this.startActivity(intent4);
                 break;
             case R.id.rl_my_indent:
                 Intent intent5 = new Intent(getActivity(), ManageAddressActivity.class);
-                getActivity().startActivity(intent5);
+                intent5.putExtra("fromActivity","MyFragment");
+                this.startActivity(intent5);
                 break;
             case R.id.rl_versions_info:
                 Intent intent6 = new Intent(getActivity(), VersionActivity.class);
-                getActivity().startActivity(intent6);
+                this.startActivity(intent6);
                 break;
             case R.id.civ_head:
                 Intent intent7 = new Intent(getActivity(), PersonInfoActivity.class);
-                getActivity().startActivity(intent7);
+                this.startActivityForResult(intent7,1);
                 break;
             case R.id.tv_my_login:
                 Intent intent8 = new Intent(getActivity(), LoginActivity.class);
-                getActivity().startActivityForResult(intent8, 1);
+                this.startActivityForResult(intent8, 3);
                 break;
         }
     }
@@ -168,7 +173,7 @@ public class MyFragment extends Fragment implements IMyFragmentView {
     private void gotoMyFormActivity(String orderStatus) {
         Intent intent = new Intent(getActivity(), MyFormActivity.class);
         intent.putExtra("orderStatus", orderStatus);
-        getActivity().startActivity(intent);
+        this.startActivityForResult(intent,2);
 
     }
 
@@ -184,6 +189,21 @@ public class MyFragment extends Fragment implements IMyFragmentView {
         LogUtils.d("onResume");
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        LogUtils.d("onActivityResult");
+        if(requestCode==1){
+            LogUtils.d("onActivityResult.refreshData");
+            refreshData();
+        }else if(requestCode==2){
+            getformInfoByToken();
+        }
+    }
+
+    public void getformInfoByToken(){
+        presenter.getformInfoByToken(token);
+    }
 
     @Override
     public void checkTokenBack(ResponseBase responseBase) {
@@ -197,7 +217,7 @@ public class MyFragment extends Fragment implements IMyFragmentView {
             tvVipGrade.setVisibility(View.VISIBLE);
             //获取用户数据
             presenter.getUserInfoByToken(token);
-            presenter.getformInfoByToken(token);
+            getformInfoByToken();
         } else {//未登录状态
             tvMyLogin.setVisibility(View.VISIBLE);
             civHead.setVisibility(View.GONE);
