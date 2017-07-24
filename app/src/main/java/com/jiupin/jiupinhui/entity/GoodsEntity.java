@@ -87,13 +87,7 @@ public class GoodsEntity implements Serializable {
         private int selectedMemberId;
         private int selectedTypeId;
 
-        public int getSelectedMemberId() {
-            return selectedMemberId;
-        }
-
-        public void setSelectedMemberId(int selectedMemberId) {
-            this.selectedMemberId = selectedMemberId;
-        }
+        private StoreInfoBean storeInfo;//店铺信息
 
         public int getSelectedTypeId() {
             return selectedTypeId;
@@ -101,6 +95,14 @@ public class GoodsEntity implements Serializable {
 
         public void setSelectedTypeId(int selectedTypeId) {
             this.selectedTypeId = selectedTypeId;
+        }
+
+        public int getSelectedMemberId() {
+            return selectedMemberId;
+        }
+
+        public void setSelectedMemberId(int selectedMemberId) {
+            this.selectedMemberId = selectedMemberId;
         }
 
         public int getCount() {
@@ -245,6 +247,74 @@ public class GoodsEntity implements Serializable {
 
         public void setSpecifications(List<SpecificationsBean> specifications) {
             this.specifications = specifications;
+        }
+
+        public StoreInfoBean getStoreInfo() {
+            return storeInfo;
+        }
+
+        public void setStoreInfo(StoreInfoBean storeInfo) {
+            this.storeInfo = storeInfo;
+        }
+
+        public static class StoreInfoBean implements Serializable{
+            private int id;
+
+            private String store_name;
+
+            private String store_img;
+
+            private String store_info;
+
+            private int attention_num;
+
+            private int goods_num;
+
+            private int dynamic_num;
+
+            public void setId(int id){
+                this.id = id;
+            }
+            public int getId(){
+                return this.id;
+            }
+            public void setStore_name(String store_name){
+                this.store_name = store_name;
+            }
+            public String getStore_name(){
+                return this.store_name;
+            }
+            public void setStore_img(String store_img){
+                this.store_img = store_img;
+            }
+            public String getStore_img(){
+                return this.store_img;
+            }
+            public void setStore_info(String store_info){
+                this.store_info = store_info;
+            }
+            public String getStore_info(){
+                return this.store_info;
+            }
+            public void setAttention_num(int attention_num){
+                this.attention_num = attention_num;
+            }
+            public int getAttention_num(){
+                return this.attention_num;
+            }
+            public void setGoods_num(int goods_num){
+                this.goods_num = goods_num;
+            }
+            public int getGoods_num(){
+                return this.goods_num;
+            }
+            public void setDynamic_num(int dynamic_num){
+                this.dynamic_num = dynamic_num;
+            }
+            public int getDynamic_num(){
+                return this.dynamic_num;
+            }
+
         }
 
         public List<ProdPhotoBean> getProdPhoto() {

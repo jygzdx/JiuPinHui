@@ -193,9 +193,10 @@ public class HomeAdapter extends RecyclerView.Adapter {
      * @param holder
      */
     private void initBannerHolder(BannerViewHolder holder) {
-        bannerView = new ADBannerView(mContext, true);
-        holder.llBanner.addView(bannerView);
-
+        if(bannerView==null){//
+            bannerView = new ADBannerView(mContext, true);
+            holder.llBanner.addView(bannerView);
+        }
 }
 
     @Override
@@ -276,10 +277,12 @@ public class HomeAdapter extends RecyclerView.Adapter {
         LogUtils.d("setBannerData");
         this.bannerList = bannerList;
         bannerView.loadAD(bannerList);
+        notifyDataSetChanged();
     }
 
     //设置猜你喜欢数据
     public void setHomeLoveData(List<HomeLoveEntity.DataBean.ListBean> loveList) {
+        this.stores.clear();
         this.stores = loveList;
         notifyDataSetChanged();
     }

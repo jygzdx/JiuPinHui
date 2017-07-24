@@ -22,6 +22,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.jiupin.jiupinhui.R;
 import com.jiupin.jiupinhui.entity.GoodsEntity;
+import com.jiupin.jiupinhui.manage.UserInfoManager;
 import com.jiupin.jiupinhui.presenter.IGoodsActivityPresenter;
 import com.jiupin.jiupinhui.presenter.impl.GoodsActivityPresenterImpl;
 import com.jiupin.jiupinhui.utils.LogUtils;
@@ -131,6 +132,7 @@ public class GoodsActivity extends BaseActivity implements IGoodsActivityView{
     private int quarterChecked;
     private int preferenceChecked;
     private List<GoodsEntity.DataBean.Detail> details;
+    private GoodsEntity.DataBean.Detail showDetail;
 
 
     @Override
@@ -238,14 +240,50 @@ public class GoodsActivity extends BaseActivity implements IGoodsActivityView{
                 startActivity(intent);
                 break;
             case R.id.btn_now_pay://立即购买
-                Intent intent3 = new Intent(this, OrderActivity.class);
-                Bundle bundle = new Bundle();
-                goodsEntity.getData().setCount(1);
-                List<GoodsEntity> goodsEntityList = new ArrayList<>();
-                goodsEntityList.add(goodsEntity);
-                bundle.putSerializable("list",(Serializable) goodsEntityList);
-                intent3.putExtras(bundle);
-                startActivity(intent3);
+                if(UserInfoManager.getInstance().isLogin()){
+                    if(goodsEntity.getData().getIs_meal()==1){
+                        if(isQuarter&&isPreference){
+                            if(quarterChecked!=0&&preferenceChecked!=0){
+                                Intent intent3 = new Intent(this, OrderActivity.class);
+                                Bundle bundle = new Bundle();
+                                goodsEntity.getData().setCount(1);
+                                List<GoodsEntity> goodsEntityList = new ArrayList<>();
+                                goodsEntityList.add(goodsEntity);
+                                bundle.putString("selectedPrice",showDetail.getPrice());
+                                bundle.putSerializable("list",(Serializable) goodsEntityList);
+                                intent3.putExtras(bundle);
+                                startActivity(intent3);
+                            }else{
+                                ToastUtils.showShort(this,"请选择商品属性");
+                            }
+                            return;
+                        }
+                        if(isQuarter){
+                            if(!isPreference){
+                                if(quarterChecked!=0){
+                                    Intent intent3 = new Intent(this, OrderActivity.class);
+                                    Bundle bundle = new Bundle();
+                                    goodsEntity.getData().setCount(1);
+                                    List<GoodsEntity> goodsEntityList = new ArrayList<>();
+                                    goodsEntityList.add(goodsEntity);
+                                    bundle.putString("selectedPrice",showDetail.getPrice());
+                                    bundle.putSerializable("list",(Serializable) goodsEntityList);
+                                    intent3.putExtras(bundle);
+                                    startActivity(intent3);
+                                }else{
+                                    ToastUtils.showShort(this,"请选择商品属性");
+                                }
+                                return;
+                            }
+                        }
+
+
+                    }
+                }else {//没有登录
+                    gotoLoginActivity();
+                }
+
+
                 break;
             case R.id.btn_add_car://加入购物车
                 ToastUtils.showShort(this,"已加入购物车");
@@ -253,8 +291,13 @@ public class GoodsActivity extends BaseActivity implements IGoodsActivityView{
         }
     }
 
+    private void gotoLoginActivity() {
+        Intent intentLogin = new Intent(this, LoginActivity.class);
+        this.startActivity(intentLogin);
+    }
+
     @Override
-    public void setData(GoodsEntity goodsEntity) {
+    public void setData(final GoodsEntity goodsEntity) {
         this.goodsEntity = goodsEntity;
         wvWebview.loadData(getHtmlData(goodsEntity.getData().getGoods_details()), "text/html; charset=utf-8", "utf-8");
 
@@ -269,7 +312,8 @@ public class GoodsActivity extends BaseActivity implements IGoodsActivityView{
 
 
         final GoodsEntity.DataBean goods = goodsEntity.getData();
-        if(goods.getIs_meal()==1){
+        if(goods.getIs_meal()==1){//套餐商品
+            llGoodsBottom.setVisibility(View.VISIBLE);
 
             String detail = goodsEntity.getData().getGoods_inventory_detail();
             String newDetail = detail.replace("\\", "");
@@ -292,10 +336,10 @@ public class GoodsActivity extends BaseActivity implements IGoodsActivityView{
                             @Override
                             public void onClick(View v) {
                                 quarterChecked = goods.getSpecifications().get(finalI).getProperties().get(0).getId();
+                                goodsEntity.getData().setSelectedMemberId(quarterChecked);
                                 cbQuarter.setChecked(false);
                                 cbHalfYear.setChecked(false);
                                 cbYear.setChecked(false);
-                                GoodsEntity.DataBean.Detail showDetail = null;
                                 if(preferenceChecked==0){
                                     if(!isPreference){
                                         showDetail = getDetail2(quarterChecked);
@@ -316,10 +360,11 @@ public class GoodsActivity extends BaseActivity implements IGoodsActivityView{
                             @Override
                             public void onClick(View v) {
                                 quarterChecked = goods.getSpecifications().get(finalI).getProperties().get(1).getId();
+                                goodsEntity.getData().setSelectedMemberId(quarterChecked);
                                 cbMonth.setChecked(false);
                                 cbHalfYear.setChecked(false);
                                 cbYear.setChecked(false);
-                                GoodsEntity.DataBean.Detail showDetail = null;
+
                                 if(preferenceChecked==0){
                                     if(!isPreference){
                                         showDetail = getDetail2(quarterChecked);
@@ -338,10 +383,10 @@ public class GoodsActivity extends BaseActivity implements IGoodsActivityView{
                             @Override
                             public void onClick(View v) {
                                 quarterChecked = goods.getSpecifications().get(finalI).getProperties().get(2).getId();
+                                goodsEntity.getData().setSelectedMemberId(quarterChecked);
                                 cbMonth.setChecked(false);
                                 cbQuarter.setChecked(false);
                                 cbYear.setChecked(false);
-                                GoodsEntity.DataBean.Detail showDetail = null;
                                 if(preferenceChecked==0){
                                     if(!isPreference){
                                         showDetail = getDetail2(quarterChecked);
@@ -360,10 +405,10 @@ public class GoodsActivity extends BaseActivity implements IGoodsActivityView{
                             @Override
                             public void onClick(View v) {
                                 quarterChecked = goods.getSpecifications().get(finalI).getProperties().get(3).getId();
+                                goodsEntity.getData().setSelectedMemberId(quarterChecked);
                                 cbMonth.setChecked(false);
                                 cbHalfYear.setChecked(false);
                                 cbQuarter.setChecked(false);
-                                GoodsEntity.DataBean.Detail showDetail = null;
                                 if(preferenceChecked==0){
                                     if(!isPreference){
                                         showDetail = getDetail2(quarterChecked);
@@ -390,8 +435,8 @@ public class GoodsActivity extends BaseActivity implements IGoodsActivityView{
                             @Override
                             public void onClick(View v) {
                                 preferenceChecked = goods.getSpecifications().get(finalI).getProperties().get(0).getId();
+                                goodsEntity.getData().setSelectedTypeId(preferenceChecked);
                                 cbWomen.setChecked(false);
-                                GoodsEntity.DataBean.Detail showDetail = null;
                                 if(quarterChecked==0){
                                     if(!isQuarter){
                                         showDetail = getDetail2(quarterChecked);
@@ -412,8 +457,8 @@ public class GoodsActivity extends BaseActivity implements IGoodsActivityView{
                             @Override
                             public void onClick(View v) {
                                 preferenceChecked = goods.getSpecifications().get(finalI).getProperties().get(1).getId();
+                                goodsEntity.getData().setSelectedTypeId(preferenceChecked);
                                 cbMan.setChecked(false);
-                                GoodsEntity.DataBean.Detail showDetail = null;
                                 if(quarterChecked==0){
                                     if(!isQuarter){
                                         showDetail = getDetail2(quarterChecked);
@@ -435,6 +480,8 @@ public class GoodsActivity extends BaseActivity implements IGoodsActivityView{
 
                 }
             }
+        }else{
+            llGoodsBottom.setVisibility(View.GONE);
         }
 
     }

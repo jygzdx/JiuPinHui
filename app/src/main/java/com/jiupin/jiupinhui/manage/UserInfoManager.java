@@ -10,6 +10,8 @@ import com.jiupin.jiupinhui.utils.SPUtils;
  */
 
 public class UserInfoManager {
+    private boolean isLogin;
+
     private String token;
     private static UserInfoManager mUserInfoManager = null;
     private UserInfoManager() { }
@@ -36,10 +38,11 @@ public class UserInfoManager {
         this.token = token;
     }
 
+    public void setLogin(boolean login) {
+        isLogin = login;
+    }
+
     public boolean isLogin() {
-        if (token != null) {
-            return true;
-        }
-        return false;
+        return isLogin;
     }
 }

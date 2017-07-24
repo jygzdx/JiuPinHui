@@ -23,6 +23,7 @@ import com.jiupin.jiupinhui.config.Constant;
 import com.jiupin.jiupinhui.entity.MyFormEntity;
 import com.jiupin.jiupinhui.entity.ResponseBase;
 import com.jiupin.jiupinhui.entity.UserEntity;
+import com.jiupin.jiupinhui.manage.UserInfoManager;
 import com.jiupin.jiupinhui.presenter.IMyFragmentPresenter;
 import com.jiupin.jiupinhui.presenter.impl.MyFragmentPresenterImpl;
 import com.jiupin.jiupinhui.utils.LogUtils;
@@ -147,13 +148,22 @@ public class MyFragment extends Fragment implements IMyFragmentView {
                 gotoMyFormActivity("");
                 break;
             case R.id.rl_my_idea_back:
-                Intent intent4 = new Intent(getActivity(), IdeaBackActivity.class);
-                this.startActivity(intent4);
+                if(UserInfoManager.getInstance().isLogin()){
+                    Intent intent4 = new Intent(getActivity(), IdeaBackActivity.class);
+                    this.startActivity(intent4);
+                }else {
+                    gotoLoginActivity();
+                }
                 break;
             case R.id.rl_my_indent:
-                Intent intent5 = new Intent(getActivity(), ManageAddressActivity.class);
-                intent5.putExtra("fromActivity","MyFragment");
-                this.startActivity(intent5);
+                if(UserInfoManager.getInstance().isLogin()){
+                    Intent intent5 = new Intent(getActivity(), ManageAddressActivity.class);
+                    intent5.putExtra("fromActivity","MyFragment");
+                    this.startActivity(intent5);
+                }else {
+                    gotoLoginActivity();
+                }
+
                 break;
             case R.id.rl_versions_info:
                 Intent intent6 = new Intent(getActivity(), VersionActivity.class);
@@ -168,6 +178,11 @@ public class MyFragment extends Fragment implements IMyFragmentView {
                 this.startActivityForResult(intent8, 3);
                 break;
         }
+    }
+
+    private void gotoLoginActivity() {
+        Intent intentLogin = new Intent(getActivity(), LoginActivity.class);
+        this.startActivity(intentLogin);
     }
 
     private void gotoMyFormActivity(String orderStatus) {
@@ -217,6 +232,7 @@ public class MyFragment extends Fragment implements IMyFragmentView {
             tvVipGrade.setVisibility(View.VISIBLE);
             //获取用户数据
             presenter.getUserInfoByToken(token);
+            UserInfoManager.getInstance().setLogin(true);
             getformInfoByToken();
         } else {//未登录状态
             tvMyLogin.setVisibility(View.VISIBLE);
