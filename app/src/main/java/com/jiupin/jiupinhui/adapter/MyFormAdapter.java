@@ -16,6 +16,7 @@ import com.jiupin.jiupinhui.activity.FormParticularActivity;
 import com.jiupin.jiupinhui.activity.SendCommentActivity;
 import com.jiupin.jiupinhui.config.Constant;
 import com.jiupin.jiupinhui.entity.FormEntity;
+import com.jiupin.jiupinhui.utils.LogUtils;
 import com.jiupin.jiupinhui.utils.ToastUtils;
 
 import java.util.ArrayList;
@@ -26,6 +27,7 @@ import java.util.List;
  */
 
 public class MyFormAdapter extends RecyclerView.Adapter {
+    private static final String TAG = "MyFormAdapter";
     private LayoutInflater inflater;
     private Context mContext;
     private List<FormEntity> forms = new ArrayList<>();
@@ -81,6 +83,7 @@ public class MyFormAdapter extends RecyclerView.Adapter {
                         Intent intent = new Intent(mContext, FormParticularActivity.class);
                         intent.putExtra("status",Constant.WAIT_PAY);
                         intent.putExtra("orderId",form.getId());
+                        LogUtils.d(TAG,"orderId = " +form.getId());
                         mContext.startActivity(intent);
                     }
                 });
@@ -88,9 +91,9 @@ public class MyFormAdapter extends RecyclerView.Adapter {
                     @Override
                     public void onClick(View v) {
                         ToastUtils.showShort(mContext, "待付款");
-                        Intent intent = new Intent(mContext, FormParticularActivity.class);
-                        intent.putExtra("status",Constant.WAIT_PAY);
-                        mContext.startActivity(intent);
+//                        Intent intent = new Intent(mContext, FormParticularActivity.class);
+//                        intent.putExtra("status",Constant.WAIT_PAY);
+//                        mContext.startActivity(intent);
                     }
                 });
                 break;

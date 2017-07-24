@@ -15,6 +15,8 @@ import com.jiupin.jiupinhui.activity.GoodsActivity;
 import com.jiupin.jiupinhui.entity.HotRecommentEntity;
 import com.jiupin.jiupinhui.utils.LogUtils;
 
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -25,11 +27,11 @@ import butterknife.ButterKnife;
 public class HotRecommentAdapter extends RecyclerView.Adapter {
 
     private Context mContext;
-    private HotRecommentEntity.DataBean datas;
+    private List<HotRecommentEntity.DataBean.ListBean> recommentList;
     private LayoutInflater inflater;
 
-    public HotRecommentAdapter(Context context, HotRecommentEntity.DataBean datas) {
-        this.datas = datas;
+    public HotRecommentAdapter(Context context, List<HotRecommentEntity.DataBean.ListBean> recommentList) {
+        this.recommentList = recommentList;
         this.mContext = context;
         inflater = LayoutInflater.from(context);
     }
@@ -45,7 +47,7 @@ public class HotRecommentAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         HotRecommentViewHolder hotRecomentViewHolder = (HotRecommentViewHolder) holder;
-        final HotRecommentEntity.DataBean.ListBean bean = datas.getList().get(position);
+        final HotRecommentEntity.DataBean.ListBean bean = recommentList.get(position);
 
         hotRecomentViewHolder.view.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,7 +72,7 @@ public class HotRecommentAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemCount() {
-        return datas.getList().size();
+        return recommentList.size();
     }
 
 

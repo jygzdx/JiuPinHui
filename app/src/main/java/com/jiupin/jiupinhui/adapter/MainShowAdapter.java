@@ -14,6 +14,8 @@ import com.jiupin.jiupinhui.activity.GoodsActivity;
 import com.jiupin.jiupinhui.entity.MainShowEntity;
 import com.jiupin.jiupinhui.utils.LogUtils;
 
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -23,10 +25,10 @@ import butterknife.ButterKnife;
 
 public class MainShowAdapter extends RecyclerView.Adapter{
     private Context mContext;
-    private MainShowEntity.DataBean datas;
+    private List<MainShowEntity.DataBean.ListBean> mealList;
     private LayoutInflater inflater;
-    public MainShowAdapter(Context context, MainShowEntity.DataBean datas) {
-        this.datas = datas;
+    public MainShowAdapter(Context context, List<MainShowEntity.DataBean.ListBean> mealList) {
+        this.mealList = mealList;
         this.mContext = context;
         inflater = LayoutInflater.from(context);
 
@@ -43,7 +45,7 @@ public class MainShowAdapter extends RecyclerView.Adapter{
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         MainShowViewHolder mainShowViewHolder = (MainShowViewHolder) holder;
-        final MainShowEntity.DataBean.ListBean bean = datas.getList().get(position);
+        final MainShowEntity.DataBean.ListBean bean = mealList.get(position);
 
         mainShowViewHolder.view.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,7 +66,7 @@ public class MainShowAdapter extends RecyclerView.Adapter{
 
     @Override
     public int getItemCount() {
-        return datas.getList().size();
+        return mealList.size();
     }
 
 

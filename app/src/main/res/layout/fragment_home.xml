@@ -5,15 +5,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 tools:context="com.jiupin.jiupinhui.activity.MainActivity">
-    <android.support.v4.widget.NestedScrollView
-        android:id="@+id/nv_home_scrollview"
+    <com.github.jdsjlzx.recyclerview.LRecyclerView
+        android:id="@+id/lrv_home"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scrollbars="none"
-        >
+        android:layout_height="match_parent">
 
-        <include layout="@layout/home_fragment_item"/>
-    </android.support.v4.widget.NestedScrollView>
+    </com.github.jdsjlzx.recyclerview.LRecyclerView>
 
     <include layout="@layout/title_bar"></include>
 </RelativeLayout>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginTop="10dp"
+        >
+
+        <ImageView
+            android:id="@+id/iv_article"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:src="@drawable/hot_article1"
+            />
+
+        <TextView
+            android:id="@+id/tv_hot_article_describe"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/iv_article"
+            android:text="年度回顾|一整年的套路都在这里了，当然也有礼物"
+            android:textSize="15sp"
+            android:textColor="#4D3F25"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="20dp"
+            />
+        <TextView
+            android:id="@+id/tv_hot_article_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2017年03月03日"
+            android:layout_toRightOf="@+id/iv_article"
+            android:layout_alignBottom="@+id/iv_article"
+            android:layout_marginLeft="20dp"
+            android:layout_marginBottom="10dp"
+            android:textColor="#999999"
+            android:textSize="12sp"
+            />
+        <TextView
+            android:id="@+id/tv_hot_article_more"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignBottom="@+id/tv_hot_article_time"
+            android:text="更多>>"
+            android:textColor="#999999"
+            android:textSize="12sp"
+            />
+
+
+    </RelativeLayout>
+</LinearLayout>

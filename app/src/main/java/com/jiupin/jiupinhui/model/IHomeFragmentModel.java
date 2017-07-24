@@ -21,4 +21,8 @@ public interface IHomeFragmentModel {
      * @param pager 商品页数
      */
     void getHomeLove(int pager,IModel.CallBack callBack);
+    /**
+     * 获取广告位数据
+     */
+    void getBanner(IModel.CallBack callBack);
 }

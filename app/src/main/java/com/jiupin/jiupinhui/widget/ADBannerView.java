@@ -14,20 +14,14 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.google.gson.Gson;
 import com.jiupin.jiupinhui.R;
-import com.jiupin.jiupinhui.config.Constant;
-import com.jiupin.jiupinhui.entity.Carousel;
+import com.jiupin.jiupinhui.entity.BannerEntity;
 import com.jiupin.jiupinhui.utils.LogUtils;
-import com.zhy.http.okhttp.OkHttpUtils;
-import com.zhy.http.okhttp.callback.StringCallback;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
-
-import okhttp3.Call;
 
 /**
  * Created by Administrator on 2017/3/16.
@@ -93,37 +87,14 @@ public class ADBannerView extends LinearLayout {
 
         addView(view);
         initViewPager();
-        loadAD();
     }
 
     /**
      * 请求服务端，从服务端加载广告图片
      */
-    private void loadAD() {
-        tv_loading.setVisibility(View.VISIBLE);
-        String requstUrl = Constant.CAROUSEL_URL;
-        OkHttpUtils
-                .get()
-                .url(requstUrl)
-                .build()
-                .execute(new StringCallback() {
-                    @Override
-                    public void onError(Call call, Exception e, int id) {
-                        LogUtils.i(TAG, "网络请求失败" + call.toString());
-                    }
-
-                    @Override
-                    public void onResponse(String response, int id) {
-                        tv_loading.setVisibility(View.GONE);
-                        Gson gson = new Gson();
-                        Carousel carousel = gson.fromJson(response.toString(), Carousel.class);
-                        String msg = carousel.getMsg();
-                        if ("OK".equals(msg)) {
-                            createADImageView(carousel.getData());
-                           setTimer();
-                        }
-                    }
-                });
+    public void loadAD(List<BannerEntity> bannerList) {
+        createADImageView(bannerList);
+        setTimer();
 
     }
 
@@ -131,17 +102,17 @@ public class ADBannerView extends LinearLayout {
     /**
      * 创建广告位图片
      */
-    public void createADImageView(Carousel.DataBean data) {
+    public void createADImageView(List<BannerEntity> bannerList) {
         try {
             viewPager.removeAllViews();
             ll_icon.removeAllViews();
             icons.clear();
             viewsList.clear();
 
-            for (int j = 0; j < data.getInfo().size(); j++) {
-                Carousel.DataBean.InfoBean info = data.getInfo().get(j);
+            for (int j = 0; j < bannerList.size(); j++) {
+                BannerEntity bannerEntity = bannerList.get(j);
 
-                if (data.getInfo().size() >= 2) {
+                if (bannerList.size() >= 2) {
                     ImageView ivIcon = new ImageView(mContext);
                     if (j == 0) {
                         ivIcon.setBackgroundResource(R.drawable.circle_selected);
@@ -160,24 +131,24 @@ public class ADBannerView extends LinearLayout {
                 // 大于2张图片时才需要滑动
                 // TODO:无限滚动
                 if (unlimitedPageScrolled) {
-                    if (data.getInfo().size() >= 2 && j == 0) {
+                    if (bannerList.size() >= 2 && j == 0) {
                         // 把末张图片添加至首位
-                        addImageView(data.getInfo().get(
-                                data.getInfo().size() - 1));
+                        addImageView(bannerList.get(
+                                bannerList.size() - 1));
                     }
                 }
 
                 // 正常添加ImageView
-                addImageView(info);
+                addImageView(bannerEntity);
 
                 // 首末添加一个View, 用来实现无限循环滑动效果，如实际3张图片的时候这样添加：(3)123(1)
                 // 大于2张图片时才需要滑动
                 // TODO:无限滚动
                 if (unlimitedPageScrolled) {
-                    if (data.getInfo().size() >= 2
-                            && j == data.getInfo().size() - 1) {
+                    if (bannerList.size() >= 2
+                            && j == bannerList.size() - 1) {
                         // 把首张图片添加到末位
-                        addImageView(data.getInfo().get(0));
+                        addImageView(bannerList.get(0));
                     }
                 }
             }
@@ -197,13 +168,13 @@ public class ADBannerView extends LinearLayout {
         }
     }
 
-    private void addImageView(final Carousel.DataBean.InfoBean info) {
+    private void addImageView(final BannerEntity bannerEntity) {
         final ImageView iv = new ImageView(mContext);
 //        iv.setTag(info);
         iv.setScaleType(ImageView.ScaleType.FIT_XY);
 
         Glide.with(mContext.getApplicationContext())
-                .load(info.getImageUrl())
+                .load(bannerEntity.getImg_url())
                 .placeholder(R.drawable.middlebanner1)
                 .crossFade()
                 .into(iv);
@@ -214,7 +185,7 @@ public class ADBannerView extends LinearLayout {
         iv.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                LogUtils.i(TAG, "点击了--" + info.getDescText());
+                LogUtils.i(TAG, "点击了--" + bannerEntity.getGoods_id());
             }
         });
     }

@@ -3,23 +3,19 @@ package com.jiupin.jiupinhui.fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 
-import com.github.jdsjlzx.ItemDecoration.GridItemDecoration;
+import com.github.jdsjlzx.interfaces.OnLoadMoreListener;
 import com.github.jdsjlzx.recyclerview.LRecyclerView;
 import com.github.jdsjlzx.recyclerview.LRecyclerViewAdapter;
 import com.github.jdsjlzx.recyclerview.ProgressStyle;
 import com.jiupin.jiupinhui.R;
-import com.jiupin.jiupinhui.adapter.HomeLoveAdapter;
-import com.jiupin.jiupinhui.adapter.HotRecommentAdapter;
-import com.jiupin.jiupinhui.adapter.MainShowAdapter;
+import com.jiupin.jiupinhui.adapter.HomeAdapter;
+import com.jiupin.jiupinhui.entity.BannerEntity;
 import com.jiupin.jiupinhui.entity.HomeLoveEntity;
 import com.jiupin.jiupinhui.entity.HotRecommentEntity;
 import com.jiupin.jiupinhui.entity.MainShowEntity;
@@ -27,9 +23,7 @@ import com.jiupin.jiupinhui.presenter.IHomeFragmentPresenter;
 import com.jiupin.jiupinhui.presenter.impl.HomeFragmentPresenterImpl;
 import com.jiupin.jiupinhui.utils.LogUtils;
 import com.jiupin.jiupinhui.view.IHomeFragmentView;
-import com.jiupin.jiupinhui.widget.ADBannerView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -40,27 +34,20 @@ import butterknife.Unbinder;
  * Created by Administrator on 2017/3/15.
  */
 
-public class HomeFragment extends Fragment implements IHomeFragmentView{
+public class HomeFragment extends Fragment implements IHomeFragmentView {
     private static final String TAG = "HomeFragment";
-    @BindView(R.id.rv_mian_show)
-    RecyclerView rvMianShow;
-    @BindView(R.id.rv_hot_recommend)
-    RecyclerView rvHotRecommend;
-    @BindView(R.id.rv_home_love)
-    LRecyclerView rvHomeLove;
+    @BindView(R.id.lrv_home)
+    LRecyclerView lrvHome;
 
     Unbinder unbinder;
 
     private View view;
-    private NestedScrollView nsvScorllView;
-    private View llTitleBar;
-    private LinearLayout ll_advertis;
-    private HomeLoveAdapter adapter;
-    private HotRecommentAdapter mHotRecommentAdapter;
+    private HomeAdapter adapter;
     private IHomeFragmentPresenter presenter;
-    private MainShowAdapter mMainShowAdapter;
     private LRecyclerViewAdapter lRecyclerViewAdapter;
-    private List<HomeLoveEntity.DataBean.ListBean> stores = new ArrayList<>();
+    private int page = 1;
+    private int requestSize = -1;
+    private int loveCount = 0;
 
 
     @Nullable
@@ -82,95 +69,76 @@ public class HomeFragment extends Fragment implements IHomeFragmentView{
     }
 
     private void initData() {
+        adapter.clear();
         //获取热门推荐商品
         presenter.getHotRecomment();
         //获取主推套餐
         presenter.getMainShow();
         //获取猜你喜欢
         presenter.getHomeLove(1);
+        //获取banner数据
+        presenter.getBanner();
     }
 
     private void initListener() {
-        nsvScorllView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
-            @Override
-            public void onScrollChange(NestedScrollView nestedScrollView, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-                int height = ll_advertis.getHeight();
-                if (scrollY <= height) {
-                    float scale = (float) scrollY / height;
-                    //滑动时改变标题栏的透明度
-                    llTitleBar.setAlpha(scale);
-                }
-            }
-        });
+
     }
 
     private void initView() {
-        ll_advertis = (LinearLayout) view.findViewById(R.id.advertis);
-        ADBannerView bannerView = new ADBannerView(getContext(), true);
-        ll_advertis.addView(bannerView);
 
-        nsvScorllView = (NestedScrollView) view.findViewById(R.id.nv_home_scrollview);
-        llTitleBar = view.findViewById(R.id.ll_title_bar);
-        initHomeLoveRv();
-        initMainShow();
-        initHotRecomment();
-
-    }
-
-    private void initHotRecomment() {
-        RecyclerView.LayoutManager manager = new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false);
-        rvHotRecommend.setLayoutManager(manager);
-        rvHotRecommend.setNestedScrollingEnabled(false);
-    }
-
-    private void initMainShow() {
-        RecyclerView.LayoutManager manager = new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false);
-        rvMianShow.setLayoutManager(manager);
-        rvMianShow.setNestedScrollingEnabled(false);
-    }
-
-    private void initHomeLoveRv() {
         //初始化RecyclerView
         RecyclerView.LayoutManager manager = new GridLayoutManager(getContext(), 2);
 
-        rvHomeLove.setLayoutManager(manager);
-        rvHomeLove.setLoadingMoreProgressStyle(ProgressStyle.BallSpinFadeLoader);
+        lrvHome.setLayoutManager(manager);
 
-        rvHomeLove.setNestedScrollingEnabled(false);
-
-        //设置底部加载颜色
-        rvHomeLove.setFooterViewColor(R.color.colorAccent, android.R.color.holo_blue_dark ,android.R.color.white);
-        //设置底部加载文字提示
-        rvHomeLove.setFooterViewHint("拼命加载中","已经全部为你呈现了","网络不给力啊，点击再试一次吧");
-
-        int spacing = getResources().getDimensionPixelSize(R.dimen.dp_4);
-        GridItemDecoration divider = new GridItemDecoration.Builder(getContext())
-                .setHorizontal(R.dimen.dp_4)
-                .setVertical(R.dimen.dp_4)
-                .setColorResource(R.color.mainBackground)
-                .build();
-        rvHomeLove.addItemDecoration(divider);
-        adapter = new HomeLoveAdapter(getContext(),stores);
-
+//        int spacing = getResources().getDimensionPixelSize(R.dimen.dp_4);
+//        GridItemDecoration divider = new GridItemDecoration.Builder(getContext())
+//                .setHorizontal(R.dimen.dp_4)
+//                .setVertical(R.dimen.dp_4)
+//                .setColorResource(R.color.mainBackground)
+//                .build();
+//        lrvHome.addItemDecoration(divider);
+        adapter = new HomeAdapter(getContext());
         lRecyclerViewAdapter = new LRecyclerViewAdapter(adapter);
+        lrvHome.setAdapter(lRecyclerViewAdapter);
 
-        rvHomeLove.setAdapter(lRecyclerViewAdapter);
+        lrvHome.setLoadingMoreProgressStyle(ProgressStyle.BallSpinFadeLoader);
+        //设置底部加载颜色
+        lrvHome.setFooterViewColor(android.R.color.darker_gray, android.R.color.darker_gray, android.R.color.white);
+        //设置底部加载文字提示
+        lrvHome.setFooterViewHint("拼命加载中", "已经全部为你呈现了", "网络不给力啊，点击再试一次吧");
 
-        rvHomeLove.refresh();
-
-        rvHomeLove.setLoadMoreEnabled(false);
-        rvHomeLove.setPullRefreshEnabled(false);
+        lrvHome.setLoadMoreEnabled(true);
+        lrvHome.setPullRefreshEnabled(false);
 
         lRecyclerViewAdapter.setSpanSizeLookup(new LRecyclerViewAdapter.SpanSizeLookup() {
             @Override
             public int getSpanSize(GridLayoutManager gridLayoutManager, int position) {
-                switch (adapter.getItemViewType(position)) {
-                    case HomeLoveAdapter.FOOT_VIEW:
+                int type = adapter.getItemViewType(position);
+                switch (type) {
+                    case HomeAdapter.TYPE_TITLE:
+                    case HomeAdapter.TYPE_BANNER:
+                    case HomeAdapter.TYPE_MEAL:
+                    case HomeAdapter.TYPE_RECOMMEND:
+                    case HomeAdapter.TYPE_ARTICLE:
                         return 2;
-                    case HomeLoveAdapter.DEFAUL_VIEW:
+                    default :
                         return 1;
                 }
-                return 0;
+            }
+        });
+
+        lrvHome.setOnLoadMoreListener(new OnLoadMoreListener() {
+            @Override
+            public void onLoadMore() {
+                LogUtils.d("loadMore'");
+                if(loveCount<12){
+                    page++;
+                    presenter.getHomeLove(page);
+                }else {
+                    lrvHome.setNoMore(true);
+                }
+
             }
         });
 
@@ -193,35 +161,61 @@ public class HomeFragment extends Fragment implements IHomeFragmentView{
         super.onDestroyView();
         LogUtils.d(TAG, "onDestroyview");
         unbinder.unbind();
+        page = 1;
+        loveCount = 0;
     }
 
 
     @Override
     public void setHotRecommentData(HotRecommentEntity hotRecommentEntity) {
-        if(mHotRecommentAdapter == null){
-            mHotRecommentAdapter = new HotRecommentAdapter(getContext(),hotRecommentEntity.getData());
-        }
+        if(hotRecommentEntity!=null){
+            if(hotRecommentEntity.getData()!=null){
+                if(hotRecommentEntity.getData().getList().size()>0){
+                    adapter.setRecommentData(hotRecommentEntity.getData().getList());
 
-        rvHotRecommend.setAdapter(mHotRecommentAdapter);
+                }
+
+            }
+
+        }
     }
 
     @Override
     public void setMainShow(MainShowEntity mainShowEntity) {
-        if(mMainShowAdapter == null){
-            mMainShowAdapter = new MainShowAdapter(getContext(),mainShowEntity.getData());
+        if(mainShowEntity!=null){
+            if(mainShowEntity.getData()!=null){
+                if(mainShowEntity.getData().getList().size()>0){
+                    adapter.setMealData(mainShowEntity.getData().getList());
+                }
+
+            }
+
         }
-        rvMianShow.setAdapter(mMainShowAdapter);
     }
 
     @Override
     public void setHomeLove(HomeLoveEntity homeLoveEntity) {
+        if(homeLoveEntity!=null){
+            if(homeLoveEntity.getData()!=null){
+                if(homeLoveEntity.getData().getList().size()>0){
+                    LogUtils.d("size = "+homeLoveEntity.getData().getList().size());
+//                    requestSize = homeLoveEntity.getData().getList().size();
+                    loveCount = loveCount+4;
+                    adapter.addAll(homeLoveEntity.getData().getList());
+                    lrvHome.refreshComplete(requestSize);
+                }
+            }
+        }
 
-        LogUtils.d("name = "+homeLoveEntity.getData().getList().get(1).getGoods_name());
-        stores.clear();
-        adapter.notifyItemRangeInserted(stores.size(),homeLoveEntity.getData().getList().size());
-        stores.addAll(homeLoveEntity.getData().getList());
-        adapter.notifyDataSetChanged();
-        rvHomeLove.refreshComplete(4);
+    }
+
+    @Override
+    public void setBannerData(List<BannerEntity> bannerList) {
+        if(bannerList!=null){
+            if(bannerList.size()>0){
+                adapter.setBannerData(bannerList);
+            }
+        }
     }
 }
 

@@ -20,4 +20,9 @@ public interface IHomeFragmentPresenter {
      * @param pager 商品页数
      */
     void getHomeLove(int pager);
+
+    /**
+     * 获取广告位数据
+     */
+    void getBanner();
 }

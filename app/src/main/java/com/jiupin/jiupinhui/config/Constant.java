@@ -12,9 +12,14 @@ public class Constant {
 
     public static final String APP_ID = "wx420947e7a04ec1df";
     /**
-     * 获取轮播图图片
+     * 获取轮播图图片   废弃
      */
     public static final String CAROUSEL_URL = MAIN_URL+"/display/getCarouselList";
+
+    /**
+     * 获取首页轮播图图片
+     */
+    public static final String BANNER_URL = MAIN_URL+"/appGoods/home/getBannerList.json";
 
     /**
      * 通过id查询所有酒的详细数据

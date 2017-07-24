@@ -106,7 +106,7 @@ public class FormParticularActivity extends BaseActivity implements IFormParticu
 
         orderId = getIntent().getExtras().getString("orderId");
 
-        LogUtils.d("orderId=" + orderId + " ,token = " + token);
+        LogUtils.d(TAG ,"orderId=" + orderId + " ,token = " + token);
         presenter.getFormInfo(orderId, token);
 
 

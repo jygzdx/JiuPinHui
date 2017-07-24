@@ -217,9 +217,14 @@ public class GoodsActivity extends BaseActivity implements IGoodsActivityView{
         llGoodsShow.addView(goodsShowView);
     }
 
-    @OnClick({R.id.btn_contact_customer, R.id.rl_buy_car, R.id.btn_check_appraise,R.id.btn_now_pay,R.id.btn_add_car})
+    @OnClick({R.id.btn_contact_customer, R.id.rl_buy_car, R.id.btn_check_appraise,R.id.btn_now_pay,R.id.btn_add_car,
+            R.id.iv_goods_back
+    })
     public void onViewClicked(View view) {
         switch (view.getId()) {
+            case R.id.iv_goods_back:
+                finish();
+                break;
             case R.id.btn_contact_customer:
                 Intent intent2 = new Intent(mContext, FamiliarQuestionActivity.class);
                 startActivity(intent2);

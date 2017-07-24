@@ -149,6 +149,7 @@ public class MyFormActivity extends BaseActivity implements IMyFormActivityView{
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_back:
+                finish();
                 break;
             case R.id.ll_title:
                 if (rlFormPull.getVisibility() == View.GONE) {
