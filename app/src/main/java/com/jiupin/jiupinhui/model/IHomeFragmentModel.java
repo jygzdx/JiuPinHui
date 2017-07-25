@@ -25,4 +25,9 @@ public interface IHomeFragmentModel {
      * 获取广告位数据
      */
     void getBanner(IModel.CallBack callBack);
+
+    /**
+     * 获取热门文章
+     */
+    void getArticle(IModel.CallBack callBack);
 }

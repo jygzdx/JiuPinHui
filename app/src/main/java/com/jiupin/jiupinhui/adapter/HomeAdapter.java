@@ -1,6 +1,7 @@
 package com.jiupin.jiupinhui.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,11 +13,15 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.jiupin.jiupinhui.R;
+import com.jiupin.jiupinhui.activity.ArticleActivity;
+import com.jiupin.jiupinhui.activity.MainActivity;
+import com.jiupin.jiupinhui.entity.ArticleEntity;
 import com.jiupin.jiupinhui.entity.BannerEntity;
 import com.jiupin.jiupinhui.entity.HomeLoveEntity;
 import com.jiupin.jiupinhui.entity.HotRecommentEntity;
 import com.jiupin.jiupinhui.entity.MainShowEntity;
 import com.jiupin.jiupinhui.utils.LogUtils;
+import com.jiupin.jiupinhui.utils.TimeUtils;
 import com.jiupin.jiupinhui.widget.ADBannerView;
 
 import java.util.ArrayList;
@@ -65,6 +70,7 @@ public class HomeAdapter extends RecyclerView.Adapter {
     private LayoutInflater inflater;
     private Context mContext;
     private ADBannerView bannerView;
+    private List<ArticleEntity> articleList;
 
 
     public HomeAdapter(Context context) {
@@ -72,6 +78,7 @@ public class HomeAdapter extends RecyclerView.Adapter {
         recommentList = new ArrayList<>();
         bannerList = new ArrayList<>();
         stores = new ArrayList<>();
+        articleList = new ArrayList<>();
         this.mContext = context;
         inflater = LayoutInflater.from(mContext);
 
@@ -128,6 +135,8 @@ public class HomeAdapter extends RecyclerView.Adapter {
             } else if (position == 3) {
                 titleViewHolder.tvItemTitle.setText("— 热门推荐 —");
             } else if (position == 5) {
+                titleViewHolder.tvItemTitle.setText("— 热门文章 —");
+            } else if (position == 7) {
                 titleViewHolder.tvItemTitle.setText("— 猜你喜欢 —");
             }
 
@@ -144,10 +153,10 @@ public class HomeAdapter extends RecyclerView.Adapter {
 
     }
 
-    public int getTruePositonByPosition(int position){
+    public int getTruePositonByPosition(int position) {
         int type = getItemViewType(position);
-        if(type == TYPE_LOVE){
-            return position-7;
+        if (type == TYPE_LOVE) {
+            return position - 8;
         }
         return 0;
     }
@@ -158,8 +167,35 @@ public class HomeAdapter extends RecyclerView.Adapter {
      * @param holder
      */
     private void initArticleHolder(ArticleViewHolder holder) {
+        if (articleList.size() > 0) {
+            holder.llArticleContainer.removeAllViews();
+            for (int i = 0; i < articleList.size(); i++) {
+                View view = inflater.inflate(R.layout.item_article_item, null);
 
+                ImageView ivArticle = (ImageView) view.findViewById(R.id.iv_article);
+                TextView tvHotArticleDescribe = (TextView) view.findViewById(R.id.tv_hot_article_describe);
+                TextView tvHotArticleTime = (TextView) view.findViewById(R.id.tv_hot_article_time);
+                Glide.with(mContext)
+                        .load(articleList.get(i).getImageUrl())
+                        .crossFade()
+                        .into(ivArticle);
+                tvHotArticleDescribe.setText(articleList.get(i).getTitle());
+                tvHotArticleTime.setText(TimeUtils.getTime(articleList.get(i).getCreateTime(), TimeUtils.DATE_FORMAT_DATE));
+                final int finalI = i;
+                view.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+//                        ToastUtils.showShort(mContext, articleList.get(finalI).getContent() + articleList.get(finalI).getId());
+                        Intent intent = new Intent(mContext, ArticleActivity.class);
+                        intent.putExtra("url",articleList.get(finalI).getContent() + articleList.get(finalI).getId());
+                        ((MainActivity) mContext).startActivity(intent);
 
+                    }
+                });
+
+                holder.llArticleContainer.addView(view);
+            }
+        }
     }
 
     /**
@@ -170,7 +206,7 @@ public class HomeAdapter extends RecyclerView.Adapter {
     private void initRecommendHolder(RecommendViewHolder holder) {
         RecyclerView.LayoutManager manager = new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false);
         holder.rvRecommend.setLayoutManager(manager);
-        holder.rvRecommend.setAdapter(new HotRecommentAdapter(mContext,recommentList));
+        holder.rvRecommend.setAdapter(new HotRecommentAdapter(mContext, recommentList));
         holder.rvRecommend.setNestedScrollingEnabled(false);
     }
 
@@ -182,7 +218,7 @@ public class HomeAdapter extends RecyclerView.Adapter {
     private void initMealHolder(MealViewHolder holder) {
         RecyclerView.LayoutManager manager = new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false);
         holder.rvMeal.setLayoutManager(manager);
-        holder.rvMeal.setAdapter(new MainShowAdapter(mContext,mealList));
+        holder.rvMeal.setAdapter(new MainShowAdapter(mContext, mealList));
 
         holder.rvMeal.setNestedScrollingEnabled(false);
     }
@@ -193,11 +229,11 @@ public class HomeAdapter extends RecyclerView.Adapter {
      * @param holder
      */
     private void initBannerHolder(BannerViewHolder holder) {
-        if(bannerView==null){//
+        if (bannerView == null) {//
             bannerView = new ADBannerView(mContext, true);
             holder.llBanner.addView(bannerView);
         }
-}
+    }
 
     @Override
     public int getItemViewType(int position) {
@@ -208,6 +244,8 @@ public class HomeAdapter extends RecyclerView.Adapter {
         } else if (position == 3) {
             return TYPE_TITLE;
         } else if (position == 5) {
+            return TYPE_TITLE;
+        } else if (position == 7) {
             return TYPE_TITLE;
         } else if (position == 2) {
             return TYPE_MEAL;
@@ -223,37 +261,8 @@ public class HomeAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemCount() {
-        return 7+stores.size();
+        return 8 + stores.size();
     }
-//
-//    @Override
-//    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
-//        super.onAttachedToRecyclerView(recyclerView);
-//        RecyclerView.LayoutManager manager = recyclerView.getLayoutManager();
-//        if (manager instanceof GridLayoutManager) {
-//            final GridLayoutManager gridManager = ((GridLayoutManager) manager);
-//            gridManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
-//                @Override
-//                public int getSpanSize(int position) {
-//                    int type = getItemViewType(position);
-//                    switch (type) {
-//                        case TYPE_TITLE:
-//                        case TYPE_BANNER:
-//                        case TYPE_MEAL:
-//                        case TYPE_RECOMMEND:
-//                        case TYPE_ARTICLE:
-//                            return 2;
-//                        case TYPE_LOVE:
-//                            return 1;
-//                        default:
-//                            return 2;
-//                    }
-//                }
-//            });
-//        }
-//    }
-
-
 
 
     class HomeLoveViewHolder extends RecyclerView.ViewHolder {
@@ -272,12 +281,23 @@ public class HomeAdapter extends RecyclerView.Adapter {
             tvGuessLovePriceNext = (TextView) itemView.findViewById(R.id.tv_guess_love_price_next);
         }
     }
+
+    //设置热门文章数据
+    public void setArticleData(List<ArticleEntity> articleList) {
+        this.articleList = articleList;
+        notifyDataSetChanged();
+    }
+
+
     //设置banner数据
     public void setBannerData(List<BannerEntity> bannerList) {
         LogUtils.d("setBannerData");
-        this.bannerList = bannerList;
-        bannerView.loadAD(bannerList);
-        notifyDataSetChanged();
+        if(bannerView!=null){
+            this.bannerList = bannerList;
+            bannerView.loadAD(bannerList);
+            notifyDataSetChanged();
+        }
+
     }
 
     //设置猜你喜欢数据

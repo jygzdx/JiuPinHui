@@ -84,7 +84,8 @@
         <activity android:name=".activity.TestActivity">
         </activity>
         <activity android:name=".activity.PackageActivity">
-
+        </activity>
+        <activity android:name=".activity.ArticleActivity">
         </activity>
     </application>
 

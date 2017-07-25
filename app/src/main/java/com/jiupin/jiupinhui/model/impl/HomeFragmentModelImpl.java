@@ -3,6 +3,7 @@ package com.jiupin.jiupinhui.model.impl;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.jiupin.jiupinhui.config.Constant;
+import com.jiupin.jiupinhui.entity.ArticleEntity;
 import com.jiupin.jiupinhui.entity.BannerEntity;
 import com.jiupin.jiupinhui.entity.HomeLoveEntity;
 import com.jiupin.jiupinhui.entity.HotRecommentEntity;
@@ -143,6 +144,45 @@ public class HomeFragmentModelImpl implements IHomeFragmentModel {
                                 callBack.onSuccess(bannerList);
                             } else {
                                 callBack.onFailed("getBanner-->onFailed");
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+    }
+
+    @Override
+    public void getArticle(final IModel.CallBack callBack) {
+        OkHttpUtils
+                .post()
+                .url(Constant.ARTICLE_URL)
+                .addParams("page",1+"")
+                .addParams("rows",3+"")
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+                        LogUtils.d("getArticle" + e.getMessage());
+                        callBack.onFailed("getArticle-->onFailed");
+
+                    }
+
+                    @Override
+                    public void onResponse(String response, int id) {
+                        LogUtils.d("getArticle" + response);
+                        JSONObject jsonObject = null;
+                        try {
+                            jsonObject = new JSONObject(response);
+                            if ("OK".equals(jsonObject.getString("msg"))) {
+                                Gson gson = new Gson();
+                                String data = jsonObject.getString("data");
+                                JSONObject dataObj = new JSONObject(data);
+                                String list = dataObj.getString("list");
+                                List<ArticleEntity> articleList = gson.fromJson(list,new TypeToken<List<ArticleEntity>>(){}.getType());
+                                callBack.onSuccess(articleList);
+                            } else {
+                                callBack.onFailed("getArticle-->onFailed");
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

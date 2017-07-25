@@ -25,4 +25,8 @@ public interface IHomeFragmentPresenter {
      * 获取广告位数据
      */
     void getBanner();
+    /**
+     * 获取热门文章
+     */
+    void getArticle();
 }

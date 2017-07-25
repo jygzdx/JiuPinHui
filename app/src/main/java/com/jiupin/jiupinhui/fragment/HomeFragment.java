@@ -15,6 +15,7 @@ import com.github.jdsjlzx.recyclerview.LRecyclerViewAdapter;
 import com.github.jdsjlzx.recyclerview.ProgressStyle;
 import com.jiupin.jiupinhui.R;
 import com.jiupin.jiupinhui.adapter.HomeAdapter;
+import com.jiupin.jiupinhui.entity.ArticleEntity;
 import com.jiupin.jiupinhui.entity.BannerEntity;
 import com.jiupin.jiupinhui.entity.HomeLoveEntity;
 import com.jiupin.jiupinhui.entity.HotRecommentEntity;
@@ -78,6 +79,8 @@ public class HomeFragment extends Fragment implements IHomeFragmentView {
         presenter.getHomeLove(1);
         //获取banner数据
         presenter.getBanner();
+        //获取文章数据
+        presenter.getArticle();
     }
 
     private void initListener() {
@@ -217,5 +220,15 @@ public class HomeFragment extends Fragment implements IHomeFragmentView {
             }
         }
     }
+
+    @Override
+    public void setArticleData(List<ArticleEntity> articleList) {
+        if(articleList!=null){
+            if(articleList.size()>0){
+                adapter.setArticleData(articleList);
+            }
+        }
+    }
+
 }
 

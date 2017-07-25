@@ -1,5 +1,6 @@
 package com.jiupin.jiupinhui.presenter.impl;
 
+import com.jiupin.jiupinhui.entity.ArticleEntity;
 import com.jiupin.jiupinhui.entity.BannerEntity;
 import com.jiupin.jiupinhui.entity.HomeLoveEntity;
 import com.jiupin.jiupinhui.entity.HotRecommentEntity;
@@ -76,6 +77,21 @@ public class HomeFragmentPresenterImpl implements IHomeFragmentPresenter {
             @Override
             public void onSuccess(Object success) {
                 view.setBannerData((List<BannerEntity>) success);
+            }
+
+            @Override
+            public void onFailed(Object error) {
+                LogUtils.d("error = "+error);
+            }
+        });
+    }
+
+    @Override
+    public void getArticle() {
+        model.getArticle(new IModel.CallBack() {
+            @Override
+            public void onSuccess(Object success) {
+                view.setArticleData((List<ArticleEntity>)success);
             }
 
             @Override

@@ -1,5 +1,6 @@
 package com.jiupin.jiupinhui.view;
 
+import com.jiupin.jiupinhui.entity.ArticleEntity;
 import com.jiupin.jiupinhui.entity.BannerEntity;
 import com.jiupin.jiupinhui.entity.HomeLoveEntity;
 import com.jiupin.jiupinhui.entity.HotRecommentEntity;
@@ -35,5 +36,11 @@ public interface IHomeFragmentView {
      * @param bannerList 广告位实体类数组
      */
     void setBannerData(List<BannerEntity> bannerList);
+
+    /**
+     * 获取热门文章数据
+     * @param articleList 热门文章实体类数组
+     */
+    void setArticleData(List<ArticleEntity> articleList);
 
 }
