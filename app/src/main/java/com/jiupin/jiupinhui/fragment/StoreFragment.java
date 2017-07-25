@@ -1,20 +1,27 @@
 package com.jiupin.jiupinhui.fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import com.github.jdsjlzx.recyclerview.LRecyclerView;
+import com.github.jdsjlzx.recyclerview.LRecyclerViewAdapter;
 import com.jiupin.jiupinhui.R;
-import com.jiupin.jiupinhui.activity.GoodsActivity;
+import com.jiupin.jiupinhui.adapter.MealAdapter;
+import com.jiupin.jiupinhui.entity.BannerEntity;
+import com.jiupin.jiupinhui.entity.MainShowEntity;
+import com.jiupin.jiupinhui.entity.MealTypeEntity;
+import com.jiupin.jiupinhui.presenter.IStoreFragmentPresenter;
+import com.jiupin.jiupinhui.presenter.impl.StoreFragmentPresenterImpl;
 import com.jiupin.jiupinhui.utils.LogUtils;
+import com.jiupin.jiupinhui.view.IStoreFragmentView;
 import com.jiupin.jiupinhui.widget.ADBannerView;
 
 import java.util.ArrayList;
@@ -25,21 +32,22 @@ import java.util.List;
  * 商城模块
  */
 
-public class StoreFragment extends Fragment {
+public class StoreFragment extends Fragment implements IStoreFragmentView {
     private static final String TAG = "StoreFragment";
     private View view;
     private TabLayout tabLayout;
-    private ViewPager vpFunction;
-    private List<View> mViewList;
-    private LayoutInflater mInflater;
-    private View view1, view2, view3;
 
     private List<String> mTitleList;
 
-    private MyPagerAdapter adapter;
+    private LinearLayout ll_advertis;
+    private ADBannerView bannerView;
+    private IStoreFragmentPresenter presenter;
+    private LRecyclerView lrvStore;
+    private MealAdapter adapter;
+    private LRecyclerViewAdapter lrvAdapter;
+    private boolean isFirst = true;
 
     public StoreFragment() {
-        mViewList = new ArrayList<>();
         mTitleList = new ArrayList<>();
     }
 
@@ -47,90 +55,104 @@ public class StoreFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_store, container, false);
-        LinearLayout ll_advertis = (LinearLayout) view.findViewById(R.id.advertis);
-        ADBannerView bannerView = new ADBannerView(getContext(), true);
-        ll_advertis.addView(bannerView);
-        tabLayout = (TabLayout) view.findViewById(R.id.tl_store_tablayout);
-        vpFunction = (ViewPager) view.findViewById(R.id.vp_function);
 
-        mInflater = LayoutInflater.from(getContext());
-        view1 = mInflater.inflate(R.layout.store_func_frag_place, null);
-        view2 = mInflater.inflate(R.layout.store_func_frag_place, null);
-        view3 = mInflater.inflate(R.layout.store_func_frag_place, null);
+        presenter = new StoreFragmentPresenterImpl(this);
 
-        setViewClick();
+        initBannerView();
+        initTabLayout();
+        initRecyclerView();
 
-
-        //添加页卡视图
-        mViewList.clear();
-        mViewList.add(view1);
-        mViewList.add(view2);
-        mViewList.add(view3);
-
-        //添加tab文字
-        mTitleList.clear();
-        mTitleList.add("场合");
-        mTitleList.add("对象");
-        mTitleList.add("功效");
-
-        tabLayout.setTabMode(TabLayout.MODE_FIXED);
-        tabLayout.addTab(tabLayout.newTab().setText(mTitleList.get(0)));
-        tabLayout.addTab(tabLayout.newTab().setText(mTitleList.get(1)));
-        tabLayout.addTab(tabLayout.newTab().setText(mTitleList.get(2)));
-
-
-        adapter = new MyPagerAdapter(mViewList);
-        vpFunction.setAdapter(adapter);
-        tabLayout.setupWithViewPager(vpFunction);
+        initData();
         LogUtils.d(TAG, "onCreateView");
         return view;
     }
 
-    /**
-     * 设置click事件
-     */
-    private void setViewClick() {
-        View llSceneDate = view1.findViewById(R.id.ll_scene_date);
-        llSceneDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), GoodsActivity.class);
-                startActivity(intent);
-            }
-        });
+    private void initRecyclerView() {
+        lrvStore = (LRecyclerView) view.findViewById(R.id.lrv_store);
+        RecyclerView.LayoutManager layout = new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false);
+        lrvStore.setLayoutManager(layout);
+        adapter = new MealAdapter(getContext());
+        lrvAdapter = new LRecyclerViewAdapter(adapter);
+        lrvStore.setAdapter(lrvAdapter);
+        lrvStore.setNestedScrollingEnabled(false);
+        lrvStore.setLoadMoreEnabled(false);
+        lrvStore.setPullRefreshEnabled(false);
     }
 
-    class MyPagerAdapter extends PagerAdapter {
-        private List<View> mViewList;
+    private void initData() {
+        presenter.getBanner();
+        presenter.getMealType();
+    }
 
-        public MyPagerAdapter(List<View> ViewList) {
-            mViewList = ViewList;
+    private void initTabLayout() {
+        tabLayout = (TabLayout) view.findViewById(R.id.tl_store_tablayout);
+
+        tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
+        tabLayout.setTabGravity(TabLayout.GRAVITY_CENTER);
+
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                //第一次进入storeFragment，禁止调用
+                if(isFirst){
+                    isFirst = false;
+                    return;
+                }
+                //获取套餐数据
+                presenter.getMealInfo(tab.getTag().toString());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+                LogUtils.d(TAG,"onTabUnselected");
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+                LogUtils.d(TAG,"onTabUnselected");
+            }
+        });
+
+    }
+
+    private void initBannerView() {
+        ll_advertis = (LinearLayout) view.findViewById(R.id.advertis);
+
+    }
+
+    @Override
+    public void setBannerData(List<BannerEntity> bannerList) {
+        LogUtils.d(TAG, "bannerList = " + bannerList);
+        if (bannerList != null && bannerList.size() > 0) {
+            bannerView = new ADBannerView(getContext(), true);
+            bannerView.loadAD(bannerList);
+            ll_advertis.addView(bannerView);
         }
 
-        @Override
-        public int getCount() {
-            return mViewList.size();
+    }
+
+    @Override
+    public void setMealTypeData(List<MealTypeEntity> mealTypeList) {
+        if (mealTypeList != null && mealTypeList.size() > 0) {
+
+            //获取到套餐id之后展示套餐信息
+            presenter.getMealInfo(mealTypeList.get(0).getId()+"");
+
+            for (int i = 0; i < mealTypeList.size(); i++) {
+                TabLayout.Tab tab = tabLayout.newTab();
+                tab.setTag(mealTypeList.get(i).getId()+"");
+                tabLayout.addTab(tab.setText(mealTypeList.get(i).getClassName()));
+            }
         }
 
-        @Override
-        public boolean isViewFromObject(View view, Object object) {
-            return view == object;
-        }
+    }
 
-        @Override
-        public Object instantiateItem(ViewGroup container, int position) {
-            container.addView(mViewList.get(position));
-            return mViewList.get(position);
-        }
-
-        @Override
-        public void destroyItem(ViewGroup container, int position, Object object) {
-            container.removeView(mViewList.get(position));
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return mTitleList.get(position);
+    @Override
+    public void setMealInfoData(List<MainShowEntity.DataBean.ListBean> mainShowList) {
+        if (mainShowList != null && mainShowList.size() > 0) {
+            for (int i = 0; i < mainShowList.size(); i++) {
+                adapter.setData(mainShowList);
+            }
         }
     }
 
@@ -143,12 +165,12 @@ public class StoreFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        LogUtils.d(TAG, "onDestroy");
+        LogUtils.d(TAG, "onDestroy" + ll_advertis.getChildAt(0));
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        LogUtils.d(TAG, "onDestroyview");
+        LogUtils.d(TAG, "onDestroyview" + ll_advertis.getChildAt(0));
     }
 }

@@ -58,7 +58,7 @@
     </style>
     <!--tablayout样式-->
     <style name="tabLayout_design">
-        <item name="android:textSize">17sp</item>
+        <item name="android:textSize">14sp</item>
     </style>
     <!--progressbar样式-->
     <style name="mProgress_horizontal">

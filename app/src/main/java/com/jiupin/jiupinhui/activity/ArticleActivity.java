@@ -16,6 +16,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+/**
+ * 展示热门文章
+ */
 public class ArticleActivity extends AppCompatActivity {
 
     @BindView(R.id.wv_article)

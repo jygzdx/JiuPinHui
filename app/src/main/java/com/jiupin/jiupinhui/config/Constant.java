@@ -25,6 +25,22 @@ public class Constant {
      * 通过id查询所有酒的详细数据
      */
     public static final String WINE_URL = MAIN_URL+"/display/getWinesByCid";
+
+    /**
+     * 商城顶部轮播图
+     */
+    public static final String STORE_BANNER_URL = MAIN_URL+"/appGoods/mall/getBannerList.json";
+
+    /**
+     * 获取套餐分类
+     */
+    public static final String MEAL_TYPE_URL = MAIN_URL+"/appGoods/mall/getMealClass.json";
+
+    /**
+     * 获取套餐信息
+     */
+    public static final String MEAL_INFO_URL = MAIN_URL+"/appGoods/mall/getMealByClassId.json";
+
     /**
      * 获取热门品牌
      */
