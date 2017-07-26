@@ -20,13 +20,17 @@ public class ProgressUtils {
     }
 
     public static AlertDialog show(Context context){
+
         View view = LayoutInflater.from(context).inflate(R.layout.dialog_refresh, null);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setView(view);
         dialog = builder.create();
         dialog.setCanceledOnTouchOutside(false);
-        dialog.show();
+        if(!dialog.isShowing()){
+            dialog.show();
+        }
+
         //设置窗口的大小
         dialog.getWindow().setLayout((int)DensityUtils.dp2px(context,80), ViewGroup.LayoutParams.WRAP_CONTENT);
 

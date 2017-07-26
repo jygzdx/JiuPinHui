@@ -21,6 +21,7 @@ import com.jiupin.jiupinhui.entity.MealTypeEntity;
 import com.jiupin.jiupinhui.presenter.IStoreFragmentPresenter;
 import com.jiupin.jiupinhui.presenter.impl.StoreFragmentPresenterImpl;
 import com.jiupin.jiupinhui.utils.LogUtils;
+import com.jiupin.jiupinhui.utils.ProgressUtils;
 import com.jiupin.jiupinhui.view.IStoreFragmentView;
 import com.jiupin.jiupinhui.widget.ADBannerView;
 
@@ -80,6 +81,7 @@ public class StoreFragment extends Fragment implements IStoreFragmentView {
     }
 
     private void initData() {
+        ProgressUtils.show(getContext());
         presenter.getBanner();
         presenter.getMealType();
     }
@@ -93,11 +95,12 @@ public class StoreFragment extends Fragment implements IStoreFragmentView {
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                //第一次进入storeFragment，禁止调用
-                if(isFirst){
-                    isFirst = false;
-                    return;
-                }
+//                //第一次进入storeFragment，禁止调用
+//                if(isFirst){
+//                    isFirst = false;
+//                    return;
+//                }
+//                ProgressUtils.show(getContext());
                 //获取套餐数据
                 presenter.getMealInfo(tab.getTag().toString());
             }
@@ -133,10 +136,11 @@ public class StoreFragment extends Fragment implements IStoreFragmentView {
 
     @Override
     public void setMealTypeData(List<MealTypeEntity> mealTypeList) {
+        ProgressUtils.dismiss();
         if (mealTypeList != null && mealTypeList.size() > 0) {
 
-            //获取到套餐id之后展示套餐信息
-            presenter.getMealInfo(mealTypeList.get(0).getId()+"");
+//            //获取到套餐id之后展示套餐信息
+//            presenter.getMealInfo(mealTypeList.get(0).getId()+"");
 
             for (int i = 0; i < mealTypeList.size(); i++) {
                 TabLayout.Tab tab = tabLayout.newTab();
@@ -149,6 +153,8 @@ public class StoreFragment extends Fragment implements IStoreFragmentView {
 
     @Override
     public void setMealInfoData(List<MainShowEntity.DataBean.ListBean> mainShowList) {
+        ProgressUtils.dismiss();
+        LogUtils.d("isFirst = "+isFirst);
         if (mainShowList != null && mainShowList.size() > 0) {
             for (int i = 0; i < mainShowList.size(); i++) {
                 adapter.setData(mainShowList);

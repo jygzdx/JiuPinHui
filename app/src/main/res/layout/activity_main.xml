@@ -22,7 +22,7 @@
         android:id="@+id/tv_main_bottom_bg"
         android:layout_width="match_parent"
         android:layout_height="57dp"
-        android:background="@color/mainBackground"
+        android:background="@color/white"
         android:layout_alignParentBottom="true"
         />
     <!--底部菜单栏-->
