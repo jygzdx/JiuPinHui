@@ -1,12 +1,15 @@
 package com.jiupin.jiupinhui.presenter.impl;
 
-import com.jiupin.jiupinhui.entity.Wine;
-import com.jiupin.jiupinhui.entity.WineBrand;
+import com.jiupin.jiupinhui.entity.WineBrandEntity;
+import com.jiupin.jiupinhui.entity.WineInfoEntity;
 import com.jiupin.jiupinhui.model.IModel;
 import com.jiupin.jiupinhui.model.IWineFragmentModel;
 import com.jiupin.jiupinhui.model.impl.WineFragmentModelImpl;
 import com.jiupin.jiupinhui.presenter.IWineFragmentPresenter;
+import com.jiupin.jiupinhui.utils.LogUtils;
 import com.jiupin.jiupinhui.view.IWineFragmentView;
+
+import java.util.List;
 
 /**
  * Created by Administrator on 2017/3/31.
@@ -22,17 +25,31 @@ public class WineFragmentPresenterImpl implements IWineFragmentPresenter {
     }
 
     @Override
-    public void getData() {
-        model.getData(new IModel.CallBack() {
+    public void getWineList(String page, String rows) {
+        model.getWineList(page, rows, new IModel.CallBack() {
             @Override
             public void onSuccess(Object success) {
-                view.setData((Wine) success);
-                view.SetAdapter();
+                view.setWineInfo(((List<WineInfoEntity>) success));
             }
 
             @Override
             public void onFailed(Object error) {
+                LogUtils.d(error.toString());
+            }
+        });
+    }
 
+    @Override
+    public void getWineListByBrandId(String brandId, String page, String rows) {
+        model.getWineListByBrandId(brandId, page, rows, new IModel.CallBack() {
+            @Override
+            public void onSuccess(Object success) {
+                view.setWineInfoById((List<WineInfoEntity>) success);
+            }
+
+            @Override
+            public void onFailed(Object error) {
+                LogUtils.d(error.toString());
             }
         });
     }
@@ -42,13 +59,12 @@ public class WineFragmentPresenterImpl implements IWineFragmentPresenter {
         model.getBrandData(new IModel.CallBack() {
             @Override
             public void onSuccess(Object success) {
-                view.setBrandData((WineBrand) success);
-                view.SetBrandAdapter();
+                view.setBrandData(((List<WineBrandEntity>) success));
             }
 
             @Override
             public void onFailed(Object error) {
-                //打印错误信息
+                LogUtils.d(error.toString());
             }
         });
     }

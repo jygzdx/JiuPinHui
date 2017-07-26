@@ -5,15 +5,26 @@ package com.jiupin.jiupinhui.model;
  */
 
 public interface IWineFragmentModel {
+
     /**
      * 获取美酒详细数据
-     * @param callBack 获取到数据之后的回调
+     *
+     * @param page 页数
+     * @param rows 每页数量
      */
-    void getData(IModel.CallBack callBack);
+    void getWineList(String page, String rows,IModel.CallBack callBack);
+
+    /**
+     * 获取美酒详细数据
+     *
+     * @param brandId 品牌id
+     * @param page    页数
+     * @param rows    每页数量
+     */
+    void getWineListByBrandId(String brandId, String page, String rows,IModel.CallBack callBack);
 
     /**
      * 获取品牌数据
-     * @param callBack 获取到数据之后的回调
      */
     void getBrandData(IModel.CallBack callBack);
 }

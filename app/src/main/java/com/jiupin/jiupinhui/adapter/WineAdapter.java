@@ -5,50 +5,84 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.jiupin.jiupinhui.R;
-import com.jiupin.jiupinhui.entity.Wine;
+import com.jiupin.jiupinhui.entity.WineInfoEntity;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * Created by Administrator on 2017/3/31.
  */
 
 public class WineAdapter extends RecyclerView.Adapter {
+    private LayoutInflater inflater;
     private Context mContext;
-    private List<Wine.DataBean.InfoBean> info;
+    private List<WineInfoEntity> wineInfoList;
 
-    public WineAdapter(Context mContext, List<Wine.DataBean.InfoBean> info) {
+    public WineAdapter(Context mContext) {
+        wineInfoList = new ArrayList<>();
         this.mContext = mContext;
-        this.info = info;
+        inflater = LayoutInflater.from(mContext);
     }
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.wine_show_item,viewGroup,false);
-        wineHolder wineHolder = new wineHolder(view);
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int type) {
+        View view = inflater.inflate(R.layout.wine_show_item, viewGroup, false);
+        WineHolder wineHolder = new WineHolder(view);
         return wineHolder;
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int i) {
-        ((wineHolder)holder).tvName.setText(info.get(i).getName());
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        WineHolder wineHolder = (WineHolder) holder;
+        wineHolder.tvWineName.setText(wineInfoList.get(position).getGoods_name());
+        Glide.with(mContext)
+                .load(wineInfoList.get(position).getPath())
+                .crossFade()
+                .into(wineHolder.ivWineShow);
     }
 
     @Override
     public int getItemCount() {
-        return info.size();
+        return wineInfoList.size();
     }
 
-    class wineHolder extends RecyclerView.ViewHolder {
-        TextView tvName;
+    class WineHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.iv_wine_show)
+        ImageView ivWineShow;
+        @BindView(R.id.tv_wine_name)
+        TextView tvWineName;
+        @BindView(R.id.tv_wine_time)
+        TextView tvWineTime;
 
-        public wineHolder(View itemView) {
+        public WineHolder(View itemView) {
             super(itemView);
-            tvName = (TextView) itemView.findViewById(R.id.tv_wine_name);
+            ButterKnife.bind(this, itemView);
         }
     }
 
+    public void setData(List<WineInfoEntity> wineInfoList) {
+        this.wineInfoList = wineInfoList;
+        notifyDataSetChanged();
+    }
+
+    public void addAll(List<WineInfoEntity> wineInfoList) {
+        int lastIndex = this.wineInfoList.size();
+        if (this.wineInfoList.addAll(wineInfoList)) {
+            notifyItemRangeInserted(lastIndex, wineInfoList.size());
+        }
+    }
+
+    public void clear() {
+        wineInfoList.clear();
+        notifyDataSetChanged();
+    }
 }

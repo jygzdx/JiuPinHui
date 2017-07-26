@@ -7,31 +7,30 @@
               android:background="@color/mainBackground"
               android:orientation="vertical"
               tools:context="com.jiupin.jiupinhui.activity.MainActivity">
-    <!--搜索栏-->
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        >
+    <!--&lt;!&ndash;搜索栏&ndash;&gt;-->
+    <!--<RelativeLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:background="@color/white"-->
+        <!--&gt;-->
 
-        <EditText
-            android:id="@+id/et_store_search"
-            style="@style/base_search_edittext"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginLeft="12dp"
-            android:layout_marginRight="12dp"
-            android:layout_marginTop="8dp"
-            android:background="@drawable/search_wine_shape"
-            android:drawableLeft="@drawable/icon_search"
-            android:hint="高级搜索"/>
-    </RelativeLayout>
+        <!--<EditText-->
+            <!--android:id="@+id/et_store_search"-->
+            <!--style="@style/base_search_edittext"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginBottom="8dp"-->
+            <!--android:layout_marginLeft="12dp"-->
+            <!--android:layout_marginRight="12dp"-->
+            <!--android:layout_marginTop="8dp"-->
+            <!--android:background="@drawable/search_wine_shape"-->
+            <!--android:drawableLeft="@drawable/icon_search"-->
+            <!--android:hint="高级搜索"/>-->
+    <!--</RelativeLayout>-->
     <!--热门品牌-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
         android:background="@color/white"
         android:orientation="vertical"
         >
@@ -61,6 +60,7 @@
         android:background="@color/white"
         android:gravity="center"
         android:orientation="horizontal"
+        android:visibility="gone"
         >
 
         <RelativeLayout
@@ -167,13 +167,14 @@
         </RelativeLayout>
     </LinearLayout>
     <!--酒类展示-->
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_Wine_show"
+    <com.github.jdsjlzx.recyclerview.LRecyclerView
+        android:id="@+id/lrv_Wine_show"
         android:layout_width="match_parent"
+        android:layout_marginTop="10dp"
         android:layout_height="match_parent"
         android:background="@color/white"
         >
 
-    </android.support.v7.widget.RecyclerView>
+    </com.github.jdsjlzx.recyclerview.LRecyclerView>
 
 </LinearLayout>

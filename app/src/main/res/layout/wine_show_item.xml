@@ -29,7 +29,7 @@
         android:layout_toRightOf="@+id/iv_wine_show"
         android:layout_toLeftOf="@+id/iv_wine_pay"
         android:lines="1"
-        android:text="卡洛斯"
+        android:text=""
         android:textColor="@color/light_black"
         android:textSize="12sp"
         />
@@ -44,19 +44,16 @@
         android:layout_marginTop="10dp"
         android:layout_marginRight="5dp"
         android:layout_marginBottom="3dp"
-        android:text="始于1930年"
+        android:text=""
         android:lines="1"
         android:textSize="10sp"
         android:textColor="#666666"
         />
-
-    <ImageView
-        android:id="@+id/iv_wine_pay"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:layout_marginRight="20dp"
-        android:visibility="gone"
-        app:srcCompat="@drawable/btn_shopping"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:background="@color/mainBackground"
+        android:layout_marginTop="4dp"
+        android:layout_below="@+id/iv_wine_show"
+        />
 </RelativeLayout>

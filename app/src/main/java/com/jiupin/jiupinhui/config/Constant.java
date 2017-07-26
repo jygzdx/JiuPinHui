@@ -22,11 +22,6 @@ public class Constant {
     public static final String ARTICLE_URL = MAIN_URL+"/app/article/getHotArticle.json";
 
     /**
-     * 通过id查询所有酒的详细数据
-     */
-    public static final String WINE_URL = MAIN_URL+"/display/getWinesByCid";
-
-    /**
      * 商城顶部轮播图
      */
     public static final String STORE_BANNER_URL = MAIN_URL+"/appGoods/mall/getBannerList.json";
@@ -44,7 +39,16 @@ public class Constant {
     /**
      * 获取热门品牌
      */
-    public static final String WINE_BRAND_URL = MAIN_URL+"/display/getHotBrands";
+    public static final String WINE_BRAND_URL = MAIN_URL+"/appGoods/wine/getHotBrand.json";
+
+    /**
+     * 获取美酒商品列表
+     */
+    public static final String WINE_INFO_URL = MAIN_URL+"/appGoods/wine/getGoodWineList.json";
+    /**
+     * 根据品牌id获取商品列表
+     */
+    public static final String WINE_INFO_BY_ID_URL = MAIN_URL+"/appGoods/wine/getGoodsByBrandId.json";
 
     /**
      * 获取验证码
