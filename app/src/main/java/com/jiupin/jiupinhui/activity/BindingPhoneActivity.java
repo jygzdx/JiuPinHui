@@ -9,7 +9,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.jiupin.jiupinhui.R;
-import com.jiupin.jiupinhui.entity.ResponseBase;
 import com.jiupin.jiupinhui.presenter.IBindingPhoneActivityPresenter;
 import com.jiupin.jiupinhui.presenter.impl.BindingPhoneActivityPresenterImpl;
 import com.jiupin.jiupinhui.utils.SPUtils;
@@ -124,7 +123,6 @@ public class BindingPhoneActivity extends BaseActivity implements IBindingPhoneA
                     ToastUtils.showShort(this, "验证码输入错误");
                     return;
                 }
-                btnEnture.setClickable(false);
 
                 presenter.updateMobile(token, phone, sms);
 
@@ -133,11 +131,17 @@ public class BindingPhoneActivity extends BaseActivity implements IBindingPhoneA
     }
 
     @Override
-    public void updatePhone(ResponseBase responseBase) {
-        if ("OK".equals(responseBase.getMsg())) {
-            ToastUtils.show(this, "修改成功，再次登录请使用新绑定手机号码登录", Toast.LENGTH_SHORT);
-        } else {
-            ToastUtils.show(this, "修改失败，请重新尝试一次", Toast.LENGTH_SHORT);
-        }
+    public void updatePhone(String responseBase) {
+        ToastUtils.show(this, responseBase, Toast.LENGTH_SHORT);
+    }
+
+    @Override
+    public void getSms(String responseBase) {
+        ToastUtils.showShort(this,responseBase);
+    }
+
+    @Override
+    public void requestError(String error) {
+        ToastUtils.showShort(this,error);
     }
 }

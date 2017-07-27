@@ -15,9 +15,16 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jiupin.jiupinhui.R;
+import com.jiupin.jiupinhui.entity.ChatEntity;
+import com.jiupin.jiupinhui.manage.UserInfoManager;
+import com.jiupin.jiupinhui.presenter.IChatActivityPresenter;
+import com.jiupin.jiupinhui.presenter.impl.ChatActivityPresenterImpl;
 import com.jiupin.jiupinhui.utils.DensityUtils;
 import com.jiupin.jiupinhui.utils.LogUtils;
 import com.jiupin.jiupinhui.utils.WindowUtils;
+import com.jiupin.jiupinhui.view.IChatActivityView;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -25,8 +32,9 @@ import butterknife.OnClick;
 
 /**
  * 咨询记录
+ *
  */
-public class ChatActivity extends BaseActivity {
+public class ChatActivity extends BaseActivity implements IChatActivityView{
 
     @BindView(R.id.tv_reply)
     TextView tvReply;
@@ -48,6 +56,9 @@ public class ChatActivity extends BaseActivity {
     private boolean isFirst = true;
     private int firstHeight;
     private int softHeight;
+    private String orderNum;
+    private IChatActivityPresenter presenter;
+    private String token;
 
 
     @Override
@@ -55,8 +66,13 @@ public class ChatActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
         ButterKnife.bind(this);
-
         showEditText();
+
+        token = UserInfoManager.getInstance().getToken(this);
+        orderNum = getIntent().getExtras().getString("orderNum");
+        presenter = new ChatActivityPresenterImpl(this);
+        
+        initData();
 
 //        List<FormEntity> formEntities = new ArrayList<>();
 //        for (int i = 0; i < 10; i++) {
@@ -71,6 +87,10 @@ public class ChatActivity extends BaseActivity {
 //        rvChat.setLayoutManager(manager);
 //        rvChat.setAdapter(new ChatAdapter(mContext, formEntities));
 
+    }
+
+    private void initData() {
+presenter.getChatInfo(token,orderNum);
     }
 
     /**
@@ -122,5 +142,11 @@ public class ChatActivity extends BaseActivity {
             case R.id.btn_send:
                 break;
         }
+    }
+
+    @Override
+    public void setChatList(List<ChatEntity> chatList, String hint) {
+        //初始化聊天数据
+        LogUtils.d(hint);
     }
 }

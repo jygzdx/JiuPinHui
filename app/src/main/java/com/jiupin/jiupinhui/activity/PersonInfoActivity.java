@@ -48,6 +48,8 @@ public class PersonInfoActivity extends BaseActivity implements IPersonInfoActiv
     TextView tvUserNickname;
     @BindView(R.id.tv_user_name)
     TextView tvUserName;
+    @BindView(R.id.tv_binding_phone)
+    TextView tvBindingPhone;
     @BindView(R.id.civ_head)
     CircleImageView civHead;
 
@@ -84,22 +86,26 @@ public class PersonInfoActivity extends BaseActivity implements IPersonInfoActiv
 
     }
 
-    @OnClick({R.id.iv_back, R.id.ll_user_nickname, R.id.tv_binding_phone, R.id.btn_exit_login, R.id.ll_head})
+    @OnClick({R.id.iv_back, R.id.ll_user_nickname, R.id.ll_binding_phone, R.id.btn_exit_login, R.id.ll_head})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_back:
+
                 finish();
                 break;
             case R.id.ll_user_nickname:
                 Intent intent1 = new Intent(mContext, ReviseNicknameActivity.class);
                 startActivityForResult(intent1,REVISE_NICKNAME_CODE);
                 break;
-            case R.id.tv_binding_phone:
+            case R.id.ll_binding_phone:
                 Intent intent2 = new Intent(mContext, BindingPhoneActivity.class);
                 startActivityForResult(intent2,BINDING_PHONE_CODE);
                 break;
             case R.id.btn_exit_login:
-
+                civHead.setVisibility(View.GONE);
+                tvUserName.setText("");
+                tvUserNickname.setText("");
+                tvBindingPhone.setText("");
                 SPUtils.remove(this, SPUtils.LOGIN_TOKEN);
                 ToastUtils.showShort(this, "退出登录成功");
                 break;
@@ -197,6 +203,7 @@ public class PersonInfoActivity extends BaseActivity implements IPersonInfoActiv
                 .crossFade()
                 .into(civHead);
         tvUserName.setText(userEntity.getData().getUserName());
+        tvBindingPhone.setText(userEntity.getData().getMobile());
 
     }
 

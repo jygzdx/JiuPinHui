@@ -200,6 +200,34 @@ public class Constant {
      */
     public static final String SEND_COMMENT = MAIN_URL+"/app/order/userEvaluate.json";
 
+
+    /************************售后客服**************************/
+    /**
+     * 买家查找某个售后订单的所有记录
+     */
+    public static final String AFTER_CONSULT_HISTORY = MAIN_URL+"/app/app/aftersale/getAfterConsultHistory.json";
+
+    /**
+     * 用户关闭咨询
+     */
+    public static final String CLOSE_AFTER_CONSULT = MAIN_URL+"/app/app/aftersale/closeAfterConsult.json";
+    /**
+     * 买家对某个订单的售后资讯追加发问（继续提问）
+     */
+    public static final String AGAIN_AFTER_CONSULT = MAIN_URL+"/app/app/aftersale/anotherAfterConsult.json";
+
+    /**
+     * 检查一个用户有否未读的售后回复
+     */
+    public static final String IS_HAS_UNREAD = MAIN_URL+"/app/app/aftersale/isUnreadAfterConsultMsg.json";
+    /**
+     * 用户查找售后咨询列表
+     */
+    public static final String AFTER_CONSULT_LIST = MAIN_URL+"/app/app/aftersale/getAfterConsultList.json";
+
+
+
+
     /**
      * 等待付款
      */

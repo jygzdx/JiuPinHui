@@ -1,5 +1,6 @@
 package com.jiupin.jiupinhui.activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
@@ -242,26 +243,66 @@ public class FormParticularActivity extends BaseActivity implements IFormParticu
      * 删除订单
      */
     private void deleteForm() {
-        presenter.deleteForm(formParticularEntity.getOrder().getId()+"",UserInfoManager.getInstance().getToken(this));
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("是否取消订单")
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        presenter.deleteForm(formParticularEntity.getOrder().getId()+"",token);
+                    }
+                })
+                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .create()
+                .show();
+
     }
 
     /**
      * 申请售后
      */
     private void applyAfterSale() {
+        Intent intent = new Intent(this,ChatActivity.class);
+//        intent.putExtra("status",1);
+        intent.putExtra("orderNum",formParticularEntity.getOrder().getOrder_id());
+        startActivity(intent);
+
     }
 
     /**
      * 退款/售后
      */
     private void refundAndAfterSale() {
+        ToastUtils.showShort(this,"功能未开放");
     }
 
     /**
      * 确定收货
      */
     private void ensureGainGoods() {
-        presenter.ensureGainGoods(formParticularEntity.getOrder().getId()+"",UserInfoManager.getInstance().getToken(this));
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("是否确定收货")
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        presenter.ensureGainGoods(formParticularEntity.getOrder().getId()+"",token);
+                    }
+                })
+                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .create()
+                .show();
+
     }
 
     /**

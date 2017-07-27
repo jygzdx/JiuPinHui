@@ -156,9 +156,10 @@ public class MyFormAdapter extends RecyclerView.Adapter {
                 });
                 myFormViewHolder.ivBottom.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(View v) {
+                    public void onClick(View v) {//跳转到评价列表
                         ToastUtils.showShort(mContext, "待评价");
                         Intent intent = new Intent(mContext, SendCommentActivity.class);
+                        intent.putExtra("orderId",form.getId());
                         mContext.startActivity(intent);
                     }
                 });
@@ -180,7 +181,10 @@ public class MyFormAdapter extends RecyclerView.Adapter {
                 myFormViewHolder.ivBottom.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        ToastUtils.showShort(mContext, "待发货");
+                        Intent intent = new Intent(mContext, FormParticularActivity.class);
+                        intent.putExtra("status",Constant.WAIT_DELIVER_GOODS);
+                        intent.putExtra("orderId",form.getId());
+                        mContext.startActivity(intent);
                     }
                 });
                 break;
@@ -201,7 +205,10 @@ public class MyFormAdapter extends RecyclerView.Adapter {
                 myFormViewHolder.ivBottom.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        ToastUtils.showShort(mContext, "待收货");
+                        Intent intent = new Intent(mContext, FormParticularActivity.class);
+                        intent.putExtra("status",Constant.WAIT_GAIN_GOODS);
+                        intent.putExtra("orderId",form.getId());
+                        mContext.startActivity(intent);
                     }
                 });
                 break;

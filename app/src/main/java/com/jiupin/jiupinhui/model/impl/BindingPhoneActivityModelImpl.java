@@ -35,7 +35,12 @@ public class BindingPhoneActivityModelImpl implements IBindingPhoneActivityModel
                     public void onResponse(String response, int id) {
                         Gson gson = new Gson();
                         ResponseBase responseBase = gson.fromJson(response, ResponseBase.class);
-                        callBack.onSuccess(responseBase);
+                        if(200 == responseBase.getStatus()){
+                            callBack.onSuccess("发送成功");
+                        }else {
+                            callBack.onFailed(responseBase.getMsg());
+                        }
+
                     }
                 });
     }
@@ -60,7 +65,11 @@ public class BindingPhoneActivityModelImpl implements IBindingPhoneActivityModel
                         LogUtils.d(response);
                         Gson gson = new Gson();
                         ResponseBase responseBase = gson.fromJson(response, ResponseBase.class);
-                        callBack.onSuccess(responseBase);
+                        if(200 == responseBase.getStatus()){
+                            callBack.onSuccess("修改成功，再次登录请使用新绑定手机号码登录");
+                        }else {
+                            callBack.onFailed(responseBase.getMsg());
+                        }
                     }
                 });
     }

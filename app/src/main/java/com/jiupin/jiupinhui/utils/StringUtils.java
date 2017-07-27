@@ -21,7 +21,7 @@ public class StringUtils {
 
         String value=mobiles;
 
-        String regExp = "^[1]([3][0-9]{1}|59|58|88|89)[0-9]{8}$";
+        String regExp = "^1[0-9]{10}$";
         Pattern p = Pattern.compile(regExp);
 
         Matcher m = p.matcher(value);
