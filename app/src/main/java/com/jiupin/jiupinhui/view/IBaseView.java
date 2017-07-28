@@ -10,4 +10,8 @@ public interface IBaseView {
      * @param error 提示的错误信息
      */
     void requestError(String error);
+    /**
+     * 访问成功
+     */
+    void onSuccess(String success);
 }

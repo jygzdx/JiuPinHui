@@ -60,5 +60,6 @@ presenter = new IdeaBackActivityPresenterImpl(this);
     @Override
     public void submitIdeaSuccess(String content) {
         ToastUtils.showShort(this,content);
+        finish();
     }
 }

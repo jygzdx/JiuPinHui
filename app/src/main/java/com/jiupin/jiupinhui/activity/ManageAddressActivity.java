@@ -14,6 +14,7 @@ import com.jiupin.jiupinhui.entity.AddressEntity;
 import com.jiupin.jiupinhui.manage.UserInfoManager;
 import com.jiupin.jiupinhui.presenter.IManageAddressActivityPresenter;
 import com.jiupin.jiupinhui.presenter.impl.ManageAddressActivityPresenterImpl;
+import com.jiupin.jiupinhui.utils.LogUtils;
 import com.jiupin.jiupinhui.utils.ToastUtils;
 import com.jiupin.jiupinhui.view.IManageAddressActivityView;
 
@@ -38,6 +39,7 @@ public class ManageAddressActivity extends BaseActivity implements IManageAddres
     private ManageAddressAdapter adapter;
     public String fromActivity;
     private String token;
+    public static final int ADD_ADDRESS = 101;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,11 +65,20 @@ public class ManageAddressActivity extends BaseActivity implements IManageAddres
             case R.id.btn_add_address:
                 Intent intent = new Intent(mContext,CompileAddressActivity.class);
                 intent.putExtra("status",false);
-                startActivity(intent);
+                startActivityForResult(intent,ADD_ADDRESS);
                 break;
             case R.id.iv_back:
                 finish();
                 break;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==ADD_ADDRESS){
+            LogUtils.d("startActivityForResult.ADD_ADDRESS");
+            presenter.getAddressList(token);
         }
     }
 
@@ -80,11 +91,21 @@ public class ManageAddressActivity extends BaseActivity implements IManageAddres
         if(adds.size()>0){
             adapter.setData(adds);
         }
-
     }
 
     @Override
     public void changeDefaultAddressSuccess() {
         ToastUtils.showShort(this,"修改默认地址成功");
+    }
+
+    @Override
+    public void deleteAddressSuccess(List<AddressEntity> adds) {
+        if(adds.size()>0){
+            adapter.setData(adds);
+        }
+    }
+
+    public void deleteAddress(int id) {
+        presenter.deleteAddress(id,token);
     }
 }

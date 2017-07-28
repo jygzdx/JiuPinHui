@@ -2,7 +2,6 @@ package com.jiupin.jiupinhui.presenter.impl;
 
 import com.jiupin.jiupinhui.entity.RegisterEntity;
 import com.jiupin.jiupinhui.entity.ResponseBase;
-import com.jiupin.jiupinhui.entity.SecurityCodeEntity;
 import com.jiupin.jiupinhui.model.ILoginActivityModel;
 import com.jiupin.jiupinhui.model.IModel;
 import com.jiupin.jiupinhui.model.impl.LoginActivityModelImpl;
@@ -31,12 +30,12 @@ public class LoginActivityPresenterImpl implements ILoginActivityPresenter {
         model.getSecurityCode(mobile, new IModel.CallBack() {
             @Override
             public void onSuccess(Object success) {
-                LogUtils.d(TAG,"返回信息= "+((SecurityCodeEntity)success).getMsg());
+                view.onSuccess(((String) success));
             }
 
             @Override
             public void onFailed(Object error) {
-                LogUtils.d(TAG,"返回信息= "+error.toString());
+                view.requestError(((String) error));
             }
         });
     }
@@ -82,7 +81,7 @@ public class LoginActivityPresenterImpl implements ILoginActivityPresenter {
 
             @Override
             public void onFailed(Object error) {
-
+                view.registerFail(((String) error));
             }
         });
     }
@@ -92,12 +91,12 @@ public class LoginActivityPresenterImpl implements ILoginActivityPresenter {
         model.getResetSecurityCode(mobile, new IModel.CallBack() {
             @Override
             public void onSuccess(Object success) {
-                LogUtils.d(TAG,"返回信息= "+((ResponseBase)success).getMsg());
+                view.onSuccess(((String) success));
             }
 
             @Override
             public void onFailed(Object error) {
-                LogUtils.d(TAG,"返回信息= "+error.toString());
+                view.requestError(((String) error));
             }
         });
     }
@@ -113,7 +112,7 @@ public class LoginActivityPresenterImpl implements ILoginActivityPresenter {
 
             @Override
             public void onFailed(Object error) {
-                LogUtils.d(TAG,"返回信息= "+error.toString());
+                view.registerFail(((String) error));
             }
         });
     }

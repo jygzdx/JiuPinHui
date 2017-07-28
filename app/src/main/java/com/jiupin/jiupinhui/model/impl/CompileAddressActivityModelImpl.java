@@ -39,13 +39,17 @@ public class CompileAddressActivityModelImpl implements ICompileAddressActivityM
                 .execute(new StringCallback() {
                     @Override
                     public void onError(Call call, Exception e, int id) {
-                        LogUtils.d("saveAddress" + e.getMessage());
+                        LogUtils.d("saveAddress");
+                        LogUtils.d("call = "+call);
+                        LogUtils.d("e = "+e);
+
                         callBack.onFailed("saveAddress-->onFailed");
 
                     }
 
                     @Override
                     public void onResponse(String response, int id) {
+                        LogUtils.d("response = "+response);
                         JSONObject jsonObject = null;
                         try {
                             jsonObject = new JSONObject(response);
@@ -55,6 +59,40 @@ public class CompileAddressActivityModelImpl implements ICompileAddressActivityM
                                 callBack.onSuccess(responseBase);
                             } else {
                                 callBack.onFailed("saveAddress-->onFailed"+jsonObject.getString("msg"));
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+    }
+
+    @Override
+    public void deleteAddress(int id, String token, final IModel.CallBack callBack) {
+        OkHttpUtils
+                .post()
+                .url(Constant.DELETE_ADDRESS)
+                .addParams("token", token)
+                .addParams("id",id+"")
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+                        LogUtils.d("deleteAddress" + e.getMessage());
+                        callBack.onFailed("deleteAddress-->onFailed");
+
+                    }
+
+                    @Override
+                    public void onResponse(String response, int id) {
+                        LogUtils.d("deleteAddress" + response);
+                        JSONObject jsonObject = null;
+                        try {
+                            jsonObject = new JSONObject(response);
+                            if ("OK".equals(jsonObject.getString("msg"))) {
+                                callBack.onSuccess("删除地址成功");
+                            } else {
+                                callBack.onFailed(jsonObject.getString("msg"));
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

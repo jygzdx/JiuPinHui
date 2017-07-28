@@ -91,8 +91,11 @@ public class ManageAddressAdapter extends RecyclerView.Adapter {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, CompileAddressActivity.class);
+                Bundle bundle = new Bundle();
                 intent.putExtra("status", true);
-                mContext.startActivity(intent);
+                bundle.putSerializable("address",address);
+                intent.putExtras(bundle);
+                ((ManageAddressActivity)mContext).startActivityForResult(intent,ManageAddressActivity.ADD_ADDRESS);
             }
         });
         holder.tvDeleteAddress.setOnClickListener(new View.OnClickListener() {
@@ -104,15 +107,16 @@ public class ManageAddressAdapter extends RecyclerView.Adapter {
     }
 
     private void showDialog(final int position) {
-        View view = inflater.inflate(R.layout.dialog_delete_address, null);
+        View view = inflater.inflate(R.layout.dialog_content, null);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
         builder.setView(view);
         final AlertDialog dialog = builder.create();
-
+        TextView tvContent = (TextView) view.findViewById(R.id.tv_content);
         TextView tvCancel = (TextView) view.findViewById(R.id.tv_cancel);
         TextView tvEnsure = (TextView) view.findViewById(R.id.tv_ensure);
 
+        tvContent.setText("确定要删除该地址吗？");
         tvCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -123,8 +127,8 @@ public class ManageAddressAdapter extends RecyclerView.Adapter {
         tvEnsure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                notifyItemRemoved(position);
-                notifyItemRangeChanged(position, getItemCount() - position);
+                //删除地址
+                ((ManageAddressActivity) mContext).deleteAddress(adds.get(position).getId());
                 LogUtils.d("position = " + position);
                 //确定
                 dialog.dismiss();
@@ -139,8 +143,18 @@ public class ManageAddressAdapter extends RecyclerView.Adapter {
     }
 
     public void setData(List<AddressEntity> adds) {
+        this.adds.clear();
         this.adds.addAll(adds);
         notifyDataSetChanged();
+    }
+
+    public void remove(int position) {
+        this.adds.remove(position);
+        notifyItemRemoved(position);
+
+        if(position != (this.adds.size())){ // 如果移除的是最后一个，忽略
+            notifyItemRangeChanged(position,this.adds.size()-position);
+        }
     }
 
     class ManageAddressHolder extends RecyclerView.ViewHolder {

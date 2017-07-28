@@ -17,4 +17,11 @@ public interface IManageAddressActivityModel {
      *              @param id
      */
     void changeDefaultAddress(String token, String id, IModel.CallBack callBack);
+
+    /**
+     * 删除地址
+     * @param token 用户token
+     *              @param id
+     */
+    void deleteAddress(int id, String token, IModel.CallBack callBack);
 }

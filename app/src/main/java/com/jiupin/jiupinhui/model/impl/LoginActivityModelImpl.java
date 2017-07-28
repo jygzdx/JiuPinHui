@@ -40,7 +40,12 @@ public class LoginActivityModelImpl implements ILoginActivityModel {
                     public void onResponse(String response, int id) {
                         Gson gson = new Gson();
                         SecurityCodeEntity securityCodeEntity = gson.fromJson(response, SecurityCodeEntity.class);
-                        callBack.onSuccess(securityCodeEntity);
+                        if(200 == securityCodeEntity.getStatus()){
+                            callBack.onSuccess("发送验证码成功");
+                        }else {
+                            callBack.onFailed(securityCodeEntity.getMsg());
+                        }
+
                     }
                 });
     }
@@ -71,8 +76,8 @@ public class LoginActivityModelImpl implements ILoginActivityModel {
                                 Gson gson = new Gson();
                                 RegisterEntity registerEntity = gson.fromJson(response, RegisterEntity.class);
                                 callBack.onSuccess(registerEntity);
-                            } else if ("该手机已被注册".equals(msg)) {
-                                callBack.onFailed("该手机已被注册");
+                            } else {
+                                callBack.onFailed(msg);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -104,7 +109,8 @@ public class LoginActivityModelImpl implements ILoginActivityModel {
                         JSONObject jsonObject = null;
                         try {
                             jsonObject = new JSONObject(response);
-                            if ("OK".equals(jsonObject.getString("msg"))) {
+                            String msg = jsonObject.getString("msg");
+                            if ("OK".equals(msg)) {
                                 JSONObject dataJson = jsonObject.getJSONObject("data");
                                 String token = dataJson.getString("token");
                                 String user = dataJson.getJSONObject("user").toString();
@@ -114,7 +120,7 @@ public class LoginActivityModelImpl implements ILoginActivityModel {
                                 RegisterEntity registerEntity = gson.fromJson(response, RegisterEntity.class);
                                 callBack.onSuccess(registerEntity);
                             } else {
-                                callBack.onFailed("登录错误");
+                                callBack.onFailed(msg);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -144,11 +150,12 @@ public class LoginActivityModelImpl implements ILoginActivityModel {
                         JSONObject jsonObject = null;
                         try {
                             jsonObject = new JSONObject(response);
-                            if ("OK".equals(jsonObject.getString("msg"))) {
+                            String msg = jsonObject.getString("msg");
+                            if ("OK".equals(msg)) {
                                 String data = jsonObject.getString("data");
                                 callBack.onSuccess(data);
                             } else {
-                                callBack.onFailed("验证号码唯一失败");
+                                callBack.onFailed(msg);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -176,12 +183,11 @@ public class LoginActivityModelImpl implements ILoginActivityModel {
                         JSONObject jsonObject = null;
                         try {
                             jsonObject = new JSONObject(response);
-                            if ("OK".equals(jsonObject.getString("msg"))) {
-                                Gson gson = new Gson();
-                                ResponseBase responseBase = gson.fromJson(response, ResponseBase.class);
-                                callBack.onSuccess(responseBase);
+                            String msg = jsonObject.getString("msg");
+                            if ("OK".equals(msg)) {
+                                callBack.onSuccess("发送验证码成功");
                             } else {
-                                callBack.onFailed(jsonObject.getString("msg")+"");
+                                callBack.onFailed(msg);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -211,12 +217,13 @@ public class LoginActivityModelImpl implements ILoginActivityModel {
                         JSONObject jsonObject = null;
                         try {
                             jsonObject = new JSONObject(response);
-                            if ("OK".equals(jsonObject.getString("msg"))) {
+                            String msg = jsonObject.getString("msg");
+                            if ("OK".equals(msg)) {
                                 Gson gson = new Gson();
                                 ResponseBase responseBase = gson.fromJson(response, ResponseBase.class);
                                 callBack.onSuccess(responseBase);
                             } else {
-                                callBack.onFailed(jsonObject.getString("msg")+"");
+                                callBack.onFailed(msg);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

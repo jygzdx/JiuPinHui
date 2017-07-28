@@ -1,10 +1,12 @@
 package com.jiupin.jiupinhui.entity;
 
+import java.io.Serializable;
+
 /**
  * 作者：czb on 2017/7/10 14:23
  */
 
-public class AddressEntity {
+public class AddressEntity implements Serializable{
 
 
     /**

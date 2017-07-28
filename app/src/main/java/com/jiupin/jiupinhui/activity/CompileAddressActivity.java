@@ -25,12 +25,13 @@ import com.google.gson.reflect.TypeToken;
 import com.jiupin.jiupinhui.R;
 import com.jiupin.jiupinhui.adapter.AreaAdapter;
 import com.jiupin.jiupinhui.config.Constant;
+import com.jiupin.jiupinhui.entity.AddressEntity;
 import com.jiupin.jiupinhui.entity.AreaEntity;
+import com.jiupin.jiupinhui.manage.UserInfoManager;
 import com.jiupin.jiupinhui.presenter.ICompileAddressActivityPresenter;
 import com.jiupin.jiupinhui.presenter.impl.CompileAddressActivityPresenterImpl;
 import com.jiupin.jiupinhui.utils.LogUtils;
 import com.jiupin.jiupinhui.utils.ProgressUtils;
-import com.jiupin.jiupinhui.utils.SPUtils;
 import com.jiupin.jiupinhui.utils.SoftKeyboardUtils;
 import com.jiupin.jiupinhui.utils.StringUtils;
 import com.jiupin.jiupinhui.utils.ToastUtils;
@@ -52,7 +53,8 @@ import okhttp3.Call;
 /**
  * 编辑地址
  */
-public class CompileAddressActivity extends AppCompatActivity implements ICompileAddressActivityView{
+public class CompileAddressActivity extends AppCompatActivity implements ICompileAddressActivityView {
+
 
     @BindView(R.id.iv_back)
     ImageView ivBack;
@@ -83,6 +85,11 @@ public class CompileAddressActivity extends AppCompatActivity implements ICompil
     private AlertDialog ad;
     private ICompileAddressActivityPresenter presenter;
     private int areaId;
+    private boolean isCompile;
+    private AddressEntity addressEntity;
+    private String token = "";
+    private String area = "";
+    private String id = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,13 +98,22 @@ public class CompileAddressActivity extends AppCompatActivity implements ICompil
         ButterKnife.bind(this);
 
         presenter = new CompileAddressActivityPresenterImpl(this);
+        token = UserInfoManager.getInstance().getToken(this);
 
         initPop();
 
-        boolean isCompile = getIntent().getBooleanExtra("status", false);
+        //识别用户是编辑地址还是添加地址
+        isCompile = getIntent().getBooleanExtra("status", false);
         if (isCompile) {//是编辑地址
             tvTitleName.setText("编辑地址");
             scSettingDefault.setVisibility(View.GONE);
+            addressEntity = (AddressEntity) getIntent().getExtras().getSerializable("address");
+            etUserName.setText(addressEntity.getTrueName());
+            etUserPhone.setText(addressEntity.getMobile());
+            tvAddressArea.setText(addressEntity.getArea_main().replace(" ", ""));
+            etParticularAddress.setText(addressEntity.getArea_info());
+            area = addressEntity.getArea_main();
+            id = addressEntity.getId()+"";
         } else {//是添加地址
             tvTitleName.setText("添加新地址");
             btnDeleteAddress.setVisibility(View.GONE);
@@ -169,12 +185,12 @@ public class CompileAddressActivity extends AppCompatActivity implements ICompil
 
         String userName = etUserName.getText().toString();
         String phone = etUserPhone.getText().toString();
-        String area = "";
         if (areas.size() > 0) {
             for (int i = 0; i < areas.size(); i++) {
                 area = area + areas.get(i) + " ";
             }
             area = area.trim();
+
         }
         String address = etParticularAddress.getText().toString();
         boolean isDefault = scSettingDefault.isChecked();
@@ -188,17 +204,26 @@ public class CompileAddressActivity extends AppCompatActivity implements ICompil
                     ToastUtils.showShort(this, "手机号码输入错误");
                     return;
                 }
-                if (StringUtils.isEmpty(address) || StringUtils.isEmpty(userName) ||StringUtils.isEmpty(area)) {
+                if (StringUtils.isEmpty(address) || StringUtils.isEmpty(userName) || StringUtils.isEmpty(area)) {
                     ToastUtils.showShort(this, "请输入完整信息");
                     return;
                 }
                 ad = ProgressUtils.show(this);
-                String token = (String) SPUtils.get(CompileAddressActivity.this, SPUtils.LOGIN_TOKEN, "");
+
                 int area_id = areaId;
-                presenter.saveAddress(token,area_id+"","",userName,address,"" ,phone,area,isDefault);
+                if(isCompile){
+                    isDefault = addressEntity.getIs_default()==1?true:false;
+                }
+
+LogUtils.d("---- token = "+token+"---- area_id = "+area_id+"---- userName = "+userName+"---- address = "+address
+        +"---- id = "+id+"---- phone = "+phone+"---- area = "+area+"---- isDefault = "+isDefault);
+
+                presenter.saveAddress(token, area_id + "", "", userName, address, id, phone, area, isDefault);
 
                 break;
             case R.id.btn_delete_address:
+                showDialog();
+
                 break;
             case R.id.ll_address_area:
                 if (popupWindow.isShowing()) {
@@ -217,6 +242,40 @@ public class CompileAddressActivity extends AppCompatActivity implements ICompil
     //隐藏软键盘
     private void hideSoftInput() {
         SoftKeyboardUtils.hideSoftKeyboard(CompileAddressActivity.this);
+    }
+
+    //显示diolog
+    private void showDialog() {
+        View view = LayoutInflater.from(this).inflate(R.layout.dialog_content, null);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(view);
+        final AlertDialog dialog = builder.create();
+        TextView tvContent = (TextView) view.findViewById(R.id.tv_content);
+        TextView tvCancel = (TextView) view.findViewById(R.id.tv_cancel);
+        TextView tvEnsure = (TextView) view.findViewById(R.id.tv_ensure);
+
+        tvContent.setText("确定要删除该地址？");
+        tvCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //取消
+                dialog.dismiss();
+            }
+        });
+        tvEnsure.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isCompile) {
+                    if (addressEntity != null) {
+                        presenter.deleteAddress(addressEntity.getId(), token);
+                    }
+                }
+                //确定
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
     }
 
     public void selectedSuccess(int areaId) {
@@ -299,11 +358,18 @@ public class CompileAddressActivity extends AppCompatActivity implements ICompil
     @Override
     public void saveAddressSuccess() {
         ad.dismiss();
-        ToastUtils.showShort(this,"上传地址成功");
+        ToastUtils.showShort(this, "上传地址成功");
+        finish();
     }
 
     @Override
     public void saveAddressFailed() {
         ad.dismiss();
+        ToastUtils.showShort(this, "上传地址失败");
+    }
+
+    @Override
+    public void deleteAddressSuccess() {
+        finish();
     }
 }

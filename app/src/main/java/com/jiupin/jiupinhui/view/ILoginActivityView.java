@@ -7,7 +7,7 @@ import com.jiupin.jiupinhui.entity.ResponseBase;
  * 作者：czb on 2017/6/26 17:03
  */
 
-public interface ILoginActivityView {
+public interface ILoginActivityView extends IBaseView{
 
     /**
      * 注册成功
@@ -44,11 +44,13 @@ public interface ILoginActivityView {
     /**
      * 网络错误
      */
-    void isMobileUniqueFail();
+    void isMobileUniqueFail(String errorMsg);
     /**
      * 重置密码成功
      *
      * @param responseBase 返回实体类
      */
     void resetPwdSuccess(ResponseBase responseBase);
+
+
 }

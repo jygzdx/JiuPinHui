@@ -16,4 +16,12 @@ public interface IMyFormActivityModel {
      * @param callBack    callback
      */
     void getFormInfo(String token, String orderStatus, String page, String rows, IModel.CallBack callBack);
+
+    /**
+     * 删除订单
+     *
+     * @param orderId 订单id
+     * @param token   token
+     */
+    void deleteForm(String orderId, String token, IModel.CallBack callBack);
 }

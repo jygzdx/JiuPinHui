@@ -22,4 +22,11 @@ public interface ICompileAddressActivityModel {
                      String area_info,String id,String mobile,String area_main,boolean isDefault,
                     IModel.CallBack callback
     );
+
+    /**
+     * 删除地址
+     * @param token 用户token
+     *              @param id
+     */
+    void deleteAddress(int id, String token, IModel.CallBack callBack);
 }

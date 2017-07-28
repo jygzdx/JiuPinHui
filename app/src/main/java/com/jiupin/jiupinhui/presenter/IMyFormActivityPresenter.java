@@ -15,4 +15,12 @@ public interface IMyFormActivityPresenter {
      * @param rows 条目数
      */
     void getFormInfo(String token,String orderStatus,String page,String rows);
+
+    /**
+     * 删除订单
+     *
+     * @param orderId 订单id
+     * @param token   token
+     */
+    void deleteForm(int position ,String orderId, String token);
 }

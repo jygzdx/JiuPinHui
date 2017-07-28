@@ -96,8 +96,8 @@ public class HomeFragment extends Fragment implements IHomeFragmentView {
 
 //        int spacing = getResources().getDimensionPixelSize(R.dimen.dp_4);
 //        GridItemDecoration divider = new GridItemDecoration.Builder(getContext())
-//                .setHorizontal(R.dimen.dp_4)
-//                .setVertical(R.dimen.dp_4)
+//                .setHorizontal(R.dimen.dp_10)
+//                .setVertical(R.dimen.dp_10)
 //                .setColorResource(R.color.mainBackground)
 //                .build();
 //        lrvHome.addItemDecoration(divider);

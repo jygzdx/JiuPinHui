@@ -106,8 +106,11 @@ public class PersonInfoActivity extends BaseActivity implements IPersonInfoActiv
                 tvUserName.setText("");
                 tvUserNickname.setText("");
                 tvBindingPhone.setText("");
+                UserInfoManager.getInstance().setLogin(false);
+                UserInfoManager.getInstance().setToken("");
                 SPUtils.remove(this, SPUtils.LOGIN_TOKEN);
                 ToastUtils.showShort(this, "退出登录成功");
+                finish();
                 break;
             case R.id.ll_head:
                 File file = new File(Environment.getExternalStorageDirectory(), "/images/" + System.currentTimeMillis() + ".jpg");

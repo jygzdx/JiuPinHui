@@ -39,4 +39,19 @@ public class CompileAddressActivityPresenterImpl implements ICompileAddressActiv
             }
         });
     }
+
+    @Override
+    public void deleteAddress(int id, String token) {
+        model.deleteAddress(id, token, new IModel.CallBack() {
+            @Override
+            public void onSuccess(Object success) {
+                view.deleteAddressSuccess();
+            }
+
+            @Override
+            public void onFailed(Object error) {
+                LogUtils.d(error.toString());
+            }
+        });
+    }
 }

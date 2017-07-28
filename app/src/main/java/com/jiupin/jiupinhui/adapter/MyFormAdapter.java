@@ -3,6 +3,7 @@ package com.jiupin.jiupinhui.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.jiupin.jiupinhui.R;
 import com.jiupin.jiupinhui.activity.FormParticularActivity;
+import com.jiupin.jiupinhui.activity.MyFormActivity;
 import com.jiupin.jiupinhui.activity.SendCommentActivity;
 import com.jiupin.jiupinhui.config.Constant;
 import com.jiupin.jiupinhui.entity.FormEntity;
@@ -63,13 +65,6 @@ public class MyFormAdapter extends RecyclerView.Adapter {
                 .load(form.getStoreInfo().getStore_img())
                 .crossFade()
                 .into(myFormViewHolder.ivLogo);
-
-        myFormViewHolder.ivDelete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ToastUtils.showShort(mContext, "position = " + position);
-            }
-        });
         //根据status，显示item的不同状态
         switch (status) {
             case Constant.WAIT_PAY:
@@ -90,10 +85,11 @@ public class MyFormAdapter extends RecyclerView.Adapter {
                 myFormViewHolder.ivBottom.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        ToastUtils.showShort(mContext, "待付款");
-//                        Intent intent = new Intent(mContext, FormParticularActivity.class);
-//                        intent.putExtra("status",Constant.WAIT_PAY);
-//                        mContext.startActivity(intent);
+                        Intent intent = new Intent(mContext, FormParticularActivity.class);
+                        intent.putExtra("status",Constant.WAIT_PAY);
+                        intent.putExtra("orderId",form.getId());
+                        LogUtils.d(TAG,"orderId = " +form.getId());
+                        mContext.startActivity(intent);
                     }
                 });
                 break;
@@ -115,7 +111,7 @@ public class MyFormAdapter extends RecyclerView.Adapter {
                 myFormViewHolder.ivBottom.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        ToastUtils.showShort(mContext, "交易关闭");
+                        showDialog(position);
                     }
                 });
                 break;
@@ -136,7 +132,10 @@ public class MyFormAdapter extends RecyclerView.Adapter {
                 myFormViewHolder.ivBottom.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        ToastUtils.showShort(mContext, "已完成");
+                        Intent intent = new Intent(mContext, FormParticularActivity.class);
+                        intent.putExtra("status",Constant.TRANSACTION_SUCCESS_HAS_COMMENT);
+                        intent.putExtra("orderId",form.getId());
+                        mContext.startActivity(intent);
                     }
                 });
                 break;
@@ -215,6 +214,36 @@ public class MyFormAdapter extends RecyclerView.Adapter {
         }
     }
 
+    private void showDialog(final int position) {
+        View view = inflater.inflate(R.layout.dialog_content, null);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+        builder.setView(view);
+        final AlertDialog dialog = builder.create();
+        TextView tvContent = (TextView) view.findViewById(R.id.tv_content);
+        TextView tvCancel = (TextView) view.findViewById(R.id.tv_cancel);
+        TextView tvEnsure = (TextView) view.findViewById(R.id.tv_ensure);
+
+        tvContent.setText("确定要删除订单？");
+        tvCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //取消
+                dialog.dismiss();
+            }
+        });
+        tvEnsure.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //删除订单
+                ((MyFormActivity) mContext).deleteForm(position,forms.get(position).getId());
+                //确定
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+    }
+
     @Override
     public int getItemCount() {
         return forms.size();
@@ -230,6 +259,15 @@ public class MyFormAdapter extends RecyclerView.Adapter {
         notifyDataSetChanged();
     }
 
+    public void remove(int position) {
+        this.forms.remove(position);
+        notifyItemRemoved(position);
+
+        if(position != (this.forms.size())){ // 如果移除的是最后一个，忽略
+            notifyItemRangeChanged(position,this.forms.size()-position);
+        }
+    }
+
     public void addAll(List<FormEntity> forms){
         int lastIndex = this.forms.size();
         if(this.forms.addAll(forms)){
@@ -239,7 +277,7 @@ public class MyFormAdapter extends RecyclerView.Adapter {
 
     private class MyFormViewHolder extends RecyclerView.ViewHolder {
         TextView tvFormStatus, tvGoodsName, tvRefundSuccess,tvGoodsNumber,tvPayMoney;
-        ImageView ivDelete, ivPic, ivBottom,ivLogo;
+        ImageView ivPic, ivBottom,ivLogo;
         View itemView;
 
         public MyFormViewHolder(View itemView) {
@@ -250,7 +288,6 @@ public class MyFormAdapter extends RecyclerView.Adapter {
             tvRefundSuccess = (TextView) itemView.findViewById(R.id.tv_refund_success);
             tvGoodsNumber = (TextView)itemView.findViewById(R.id.tv_goods_number);
             tvPayMoney = (TextView)itemView.findViewById(R.id.tv_pay_money);
-            ivDelete = (ImageView) itemView.findViewById(R.id.iv_delete);
             ivPic = (ImageView) itemView.findViewById(R.id.iv_goods_pic);
             ivBottom = (ImageView) itemView.findViewById(R.id.iv_bottom);
             ivLogo = (ImageView) itemView.findViewById(R.id.iv_logo);

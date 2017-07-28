@@ -433,8 +433,8 @@ public class LoginActivity extends AppCompatActivity implements ILoginActivityVi
     }
 
     @Override
-    public void isMobileUniqueFail() {
-
+    public void isMobileUniqueFail(String errorMsg) {
+        ToastUtils.showShort(this, errorMsg);
     }
 
     @Override
@@ -442,4 +442,13 @@ public class LoginActivity extends AppCompatActivity implements ILoginActivityVi
         ToastUtils.showShort(this,"重置密码成功");
     }
 
+    @Override
+    public void requestError(String error) {
+        ToastUtils.showShort(this,error);
+    }
+
+    @Override
+    public void onSuccess(String success) {
+        ToastUtils.showShort(this,success);
+    }
 }

@@ -184,5 +184,6 @@ LogUtils.d(TAG,"path = "+images.get(i).getCompressPath());
     public void sendCommentSuccess() {
         ToastUtils.showShort(this,"评论成功");
         ProgressUtils.dismiss();
+        finish();
     }
 }

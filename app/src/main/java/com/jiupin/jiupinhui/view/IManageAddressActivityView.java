@@ -19,4 +19,9 @@ public interface IManageAddressActivityView {
      * 改变默认地址成功
      */
     void changeDefaultAddressSuccess();
+
+    /**
+     * 删除地址
+     */
+    void deleteAddressSuccess(List<AddressEntity> adds);
 }

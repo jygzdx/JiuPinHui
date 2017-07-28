@@ -14,4 +14,9 @@ public interface IMyFormActivityView {
      * @param forms 订单信息
      */
     void getFormInfoSuccess(List<FormEntity> forms);
+
+    /**
+     * 删除订单
+     */
+    void deleteFormSuccess(int position);
 }

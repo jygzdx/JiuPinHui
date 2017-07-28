@@ -26,6 +26,7 @@ import com.jiupin.jiupinhui.presenter.IMyFormActivityPresenter;
 import com.jiupin.jiupinhui.presenter.impl.MyFormActivityPresenterImpl;
 import com.jiupin.jiupinhui.utils.DensityUtils;
 import com.jiupin.jiupinhui.utils.LogUtils;
+import com.jiupin.jiupinhui.utils.ToastUtils;
 import com.jiupin.jiupinhui.view.IMyFormActivityView;
 
 import java.util.ArrayList;
@@ -51,6 +52,9 @@ public class MyFormActivity extends BaseActivity implements IMyFormActivityView{
     ImageView ivPullDown;
     @BindView(R.id.rl_title)
     RelativeLayout rlTitle;
+    @BindView(R.id.rl_no_form)
+    RelativeLayout rlNoForm;
+
     @BindView(R.id.lrv_my_form)
     LRecyclerView lrvMyForm;
     @BindView(R.id.id_view)
@@ -106,6 +110,7 @@ public class MyFormActivity extends BaseActivity implements IMyFormActivityView{
         lrvMyForm.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh() {
+                page=1;
                 getFirstData();
             }
         });
@@ -311,6 +316,11 @@ public class MyFormActivity extends BaseActivity implements IMyFormActivityView{
                 .start();
     }
 
+    public void deleteForm(int position,String id){
+        presenter.deleteForm(position,id,token);
+    }
+
+
     @Override
     public void getFormInfoSuccess(List<FormEntity> forms) {
         this.container = forms;
@@ -321,7 +331,21 @@ public class MyFormActivity extends BaseActivity implements IMyFormActivityView{
         }
         if(forms.size()==0){
             lrvMyForm.setNoMore(true);
+            if(page==1){//没有数据时显示没有订单图片，只有在初次刷新有效
+                rlNoForm.setVisibility(View.VISIBLE);
+            }else{
+                rlNoForm.setVisibility(View.GONE);
+            }
+        }else {
+            rlNoForm.setVisibility(View.GONE);
         }
+
+    }
+
+    @Override
+    public void deleteFormSuccess(int position) {
+        adapter.remove(position);
+        ToastUtils.showShort(this,"删除订单成功");
 
     }
 }

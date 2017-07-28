@@ -4,12 +4,13 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent">
     <TextView
+        android:id="@+id/tv_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:paddingBottom="28dp"
         android:paddingTop="28dp"
-        android:text="确定要删除该地址吗？"
+        android:text=""
         android:textColor="@color/light_black"
         android:textSize="14sp"
         />

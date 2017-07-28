@@ -15,4 +15,9 @@ public interface ICompileAddressActivityView {
      * 保存地址失败
      */
     void saveAddressFailed();
+
+    /**
+     * 删除地址
+     */
+    void deleteAddressSuccess();
 }

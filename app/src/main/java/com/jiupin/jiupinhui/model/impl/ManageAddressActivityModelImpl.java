@@ -23,6 +23,7 @@ import okhttp3.Call;
 
 public class ManageAddressActivityModelImpl implements IManageAddressActivityModel {
 
+
     @Override
     public void getAddressList(String token, final IModel.CallBack callBack) {
         OkHttpUtils
@@ -88,6 +89,45 @@ public class ManageAddressActivityModelImpl implements IManageAddressActivityMod
                                 callBack.onSuccess(data);
                             } else {
                                 callBack.onFailed("changeDefaultAddress-->onFailed");
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+    }
+
+    @Override
+    public void deleteAddress(int id, String token, final IModel.CallBack callBack) {
+        OkHttpUtils
+                .post()
+                .url(Constant.DELETE_ADDRESS)
+                .addParams("token", token)
+                .addParams("id",id+"")
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+                        LogUtils.d("deleteAddress" + e.getMessage());
+                        callBack.onFailed("deleteAddress-->onFailed");
+
+                    }
+
+                    @Override
+                    public void onResponse(String response, int id) {
+                        LogUtils.d("deleteAddress" + response);
+                        JSONObject jsonObject = null;
+                        try {
+                            jsonObject = new JSONObject(response);
+                            if ("OK".equals(jsonObject.getString("msg"))) {
+                                Gson gson = new Gson();
+                                String data = jsonObject.getString("data");
+                                JSONObject dataObj = new JSONObject(data);
+                                String list = dataObj.getString("list");
+                                List<AddressEntity> adds = gson.fromJson(list,new TypeToken<List<AddressEntity>>(){}.getType());
+                                callBack.onSuccess(adds);
+                            } else {
+                                callBack.onFailed(jsonObject.getString("msg"));
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

@@ -150,6 +150,11 @@ public class Constant {
     public static final String CHANGE_DEFAULT_ADDRESS = MAIN_URL+"/app/order/setDefaultAddress.json";
 
     /**
+     * 删除地址
+     */
+    public static final String DELETE_ADDRESS = MAIN_URL+"/app/order/deleteUserAddress.json";
+
+    /**
      * 获取省市区地址
      */
     public static final String SHENG_SHI_QU_AREA = MAIN_URL+"/app/order/loadCascadeAreaList.json";

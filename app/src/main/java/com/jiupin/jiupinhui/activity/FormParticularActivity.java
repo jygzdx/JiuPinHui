@@ -14,6 +14,7 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.jiupin.jiupinhui.R;
+import com.jiupin.jiupinhui.config.Constant;
 import com.jiupin.jiupinhui.entity.FormParticularEntity;
 import com.jiupin.jiupinhui.manage.UserInfoManager;
 import com.jiupin.jiupinhui.presenter.IFormParticularActivityPresenter;
@@ -107,15 +108,18 @@ public class FormParticularActivity extends BaseActivity implements IFormParticu
 
         orderId = getIntent().getExtras().getString("orderId");
 
-        LogUtils.d(TAG ,"orderId=" + orderId + " ,token = " + token);
+        LogUtils.d(TAG, "orderId=" + orderId + " ,token = " + token);
         presenter.getFormInfo(orderId, token);
 
 
     }
 
-    @OnClick({R.id.btn_left, R.id.btn_right, R.id.tv_contact_customer, R.id.tv_making_phone})
+    @OnClick({R.id.btn_left, R.id.btn_right, R.id.tv_contact_customer, R.id.tv_making_phone, R.id.iv_back})
     public void onViewClicked(View view) {
         switch (view.getId()) {
+            case R.id.iv_back:
+                finish();
+                break;
             case R.id.tv_contact_customer://联系供应商
                 break;
             case R.id.tv_making_phone://拨打电话
@@ -123,23 +127,18 @@ public class FormParticularActivity extends BaseActivity implements IFormParticu
             case R.id.btn_left:
                 switch (formStatus) {
                     case WAIT_PAY://取消订单
-                        ToastUtils.showShort(mContext, "取消订单");
                         cancelForm();
                         break;
                     case TRANSACTION_SUCCESS_HAS_COMMENT://删除订单
-                        ToastUtils.showShort(mContext, "删除订单");
                         deleteForm();
                         break;
                     case TRANSACTION_SUCCESS_NO_COMMENT://申请售后
-                        ToastUtils.showShort(mContext, "申请售后");
                         applyAfterSale();
                         break;
                     case WAIT_DELIVER_GOODS://退款售后
-                        ToastUtils.showShort(mContext, "退款/售后");
                         refundAndAfterSale();
                         break;
                     case WAIT_GAIN_GOODS://退款/售后
-                        ToastUtils.showShort(mContext, "退款/售后");
                         refundAndAfterSale();
                         break;
                 }
@@ -148,27 +147,23 @@ public class FormParticularActivity extends BaseActivity implements IFormParticu
 
                 switch (formStatus) {
                     case WAIT_PAY://付款
-                        ToastUtils.showShort(mContext, "付款");
                         payMoney();
                         break;
                     case TRANSACTION_CLOSED://删除订单
-                        ToastUtils.showShort(mContext, "删除订单");
                         deleteForm();
                         break;
                     case TRANSACTION_SUCCESS_HAS_COMMENT://申请售后
-                        ToastUtils.showShort(mContext, "申请售后");
                         applyAfterSale();
                         break;
                     case TRANSACTION_SUCCESS_NO_COMMENT://立即评论
-                        ToastUtils.showShort(mContext, "立即评论");
                         nowComment();
                         break;
                     case WAIT_DELIVER_GOODS://等待发货
-                        ToastUtils.showShort(mContext, "确认收货");
+
                         ensureGainGoods();
                         break;
                     case WAIT_GAIN_GOODS://等待收货
-                        ToastUtils.showShort(mContext, "确认收货");
+
                         ensureGainGoods();
                         break;
                 }
@@ -180,9 +175,7 @@ public class FormParticularActivity extends BaseActivity implements IFormParticu
      * 付款
      */
     private void payMoney() {//测试下评论
-        Intent intent = new Intent(this,SendCommentActivity.class);
-        intent.putExtra("orderId",formParticularEntity.getOrder().getId()+"");
-        startActivity(intent);
+        ToastUtils.showShort(this, "功能还未开通");
     }
 
     /**
@@ -230,7 +223,7 @@ public class FormParticularActivity extends BaseActivity implements IFormParticu
                 for (int i = 0; i < 5; i++) {
                     if (rbArray[i].isChecked()) {//根据i值得不同，传递不同的取消订单的原因
                         LogUtils.d("i= " + i);
-                        presenter.cancelForm(orderId,token);
+                        presenter.cancelForm(orderId, token);
                     }
 
                 }
@@ -249,7 +242,7 @@ public class FormParticularActivity extends BaseActivity implements IFormParticu
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
-                        presenter.deleteForm(formParticularEntity.getOrder().getId()+"",token);
+                        presenter.deleteForm(formParticularEntity.getOrder().getId() + "", token);
                     }
                 })
                 .setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -267,9 +260,9 @@ public class FormParticularActivity extends BaseActivity implements IFormParticu
      * 申请售后
      */
     private void applyAfterSale() {
-        Intent intent = new Intent(this,ChatActivity.class);
-//        intent.putExtra("status",1);
-        intent.putExtra("orderNum",formParticularEntity.getOrder().getOrder_id());
+        Intent intent = new Intent(this, ChatActivity.class);
+        //        intent.putExtra("status",1);
+        intent.putExtra("orderNum", formParticularEntity.getOrder().getOrder_id());
         startActivity(intent);
 
     }
@@ -278,7 +271,7 @@ public class FormParticularActivity extends BaseActivity implements IFormParticu
      * 退款/售后
      */
     private void refundAndAfterSale() {
-        ToastUtils.showShort(this,"功能未开放");
+        ToastUtils.showShort(this, "功能未开放");
     }
 
     /**
@@ -291,7 +284,7 @@ public class FormParticularActivity extends BaseActivity implements IFormParticu
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
-                        presenter.ensureGainGoods(formParticularEntity.getOrder().getId()+"",token);
+                        presenter.ensureGainGoods(formParticularEntity.getOrder().getId() + "", token);
                     }
                 })
                 .setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -309,8 +302,8 @@ public class FormParticularActivity extends BaseActivity implements IFormParticu
      * 立即评论
      */
     private void nowComment() {
-        Intent intent = new Intent(this,SendCommentActivity.class);
-        intent.putExtra("orderId",formParticularEntity.getOrder().getId()+"");
+        Intent intent = new Intent(this, SendCommentActivity.class);
+        intent.putExtra("orderId", formParticularEntity.getOrder().getId() + "");
         startActivity(intent);
 
     }
@@ -406,11 +399,11 @@ public class FormParticularActivity extends BaseActivity implements IFormParticu
 
                     tvStoreName.setText(formParticularEntity.getStore().getStore_name());
                     tvGoodsName.setText(cartBeanList.get(i).getGoods_name());
-                    tvGoodsPrice.setText("￥"+cartBeanList.get(i).getPrice());
-                    tvGoodsFormerPrice.setText("￥"+cartBeanList.get(i).getOrigin_price());
-                    tvGoodsNumber.setText("x"+cartBeanList.get(i).getCount());
+                    tvGoodsPrice.setText("￥" + cartBeanList.get(i).getPrice());
+                    tvGoodsFormerPrice.setText("￥" + cartBeanList.get(i).getOrigin_price());
+                    tvGoodsNumber.setText("x" + cartBeanList.get(i).getCount());
 
-                    price = price + cartBeanList.get(i).getPrice()*cartBeanList.get(i).getCount();
+                    price = price + cartBeanList.get(i).getPrice() * cartBeanList.get(i).getCount();
 
                     llContainer.addView(view);
                 }
@@ -419,26 +412,27 @@ public class FormParticularActivity extends BaseActivity implements IFormParticu
 
             String time = TimeUtils.getTime(formParticularEntity.getOrder().getAddTime());
             tvFormTime.setText(time);
-            tvTransportationPrice.setText(formParticularEntity.getOrder().getShip_price()+"");
+            tvTransportationPrice.setText(formParticularEntity.getOrder().getShip_price() + "");
 
-            tvPaymentMoney.setText((price-formParticularEntity.getOrder().getShip_price())+"");
+            tvPaymentMoney.setText((price - formParticularEntity.getOrder().getShip_price()) + "");
         }
 
     }
 
     @Override
     public void cancelFormSuccess() {
-        ToastUtils.showShort(this,"取消订单成功");
+        ToastUtils.showShort(this, "取消订单成功");
     }
 
     @Override
     public void ensureGainGoodsSuccess() {
-        ToastUtils.showShort(this,"确定收货");
+        formStatus = Constant.TRANSACTION_SUCCESS_NO_COMMENT;
+        updateView();
     }
 
     @Override
     public void deleteFormSuccess() {
-        ToastUtils.showShort(this,"删除订单成功");
+        ToastUtils.showShort(this, "删除订单成功");
     }
 
 

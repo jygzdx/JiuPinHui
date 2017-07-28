@@ -24,22 +24,12 @@
             android:src="@drawable/logo"
             />
 
-        <ImageView
-            android:id="@+id/iv_delete"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:src="@drawable/delete"
-            />
-
         <TextView
             android:id="@+id/tv_form_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginRight="10dp"
-            android:layout_toLeftOf="@+id/iv_delete"
+            android:layout_alignParentRight="true"
             android:text="待评价"
             />
     </RelativeLayout>

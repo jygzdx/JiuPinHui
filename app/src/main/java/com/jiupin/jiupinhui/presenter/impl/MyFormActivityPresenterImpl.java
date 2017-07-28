@@ -40,4 +40,20 @@ public class MyFormActivityPresenterImpl implements IMyFormActivityPresenter {
             }
         });
     }
+
+    @Override
+    public void deleteForm(final int position , String orderId, String token) {
+        model.deleteForm(orderId, token, new IModel.CallBack() {
+            @Override
+            public void onSuccess(Object success) {
+                view.deleteFormSuccess(position);
+            }
+
+            @Override
+            public void onFailed(Object error) {
+                LogUtils.d(error.toString());
+            }
+        });
+    }
+
 }

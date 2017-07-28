@@ -97,6 +97,11 @@ public class MyFragment extends Fragment implements IMyFragmentView {
             civHead.setVisibility(View.GONE);
             tvUserName.setVisibility(View.GONE);
             tvVipGrade.setVisibility(View.GONE);
+            tvWaitPay.setVisibility(View.GONE);
+            tvWaitSendGoods.setVisibility(View.GONE);
+            tvWaitGainGoods.setVisibility(View.GONE);
+            tvWaitAppraise.setVisibility(View.GONE);
+            tvRefundAndAfterSale.setVisibility(View.GONE);
         } else {
             LogUtils.d("------getTokenStatus");
             //查看token是否可用
@@ -186,10 +191,13 @@ public class MyFragment extends Fragment implements IMyFragmentView {
     }
 
     private void gotoMyFormActivity(String orderStatus) {
-        Intent intent = new Intent(getActivity(), MyFormActivity.class);
-        intent.putExtra("orderStatus", orderStatus);
-        this.startActivityForResult(intent,2);
-
+        if(UserInfoManager.getInstance().isLogin()){
+            Intent intent = new Intent(getActivity(), MyFormActivity.class);
+            intent.putExtra("orderStatus", orderStatus);
+            this.startActivityForResult(intent,2);
+        }else {
+            gotoLoginActivity();
+        }
     }
 
     @Override
@@ -239,6 +247,11 @@ public class MyFragment extends Fragment implements IMyFragmentView {
             civHead.setVisibility(View.GONE);
             tvUserName.setVisibility(View.GONE);
             tvVipGrade.setVisibility(View.GONE);
+            tvWaitPay.setVisibility(View.GONE);
+            tvWaitSendGoods.setVisibility(View.GONE);
+            tvWaitGainGoods.setVisibility(View.GONE);
+            tvWaitAppraise.setVisibility(View.GONE);
+            tvRefundAndAfterSale.setVisibility(View.GONE);
         }
     }
 
@@ -251,7 +264,7 @@ public class MyFragment extends Fragment implements IMyFragmentView {
                 .crossFade()
                 .into(civHead);
 
-        tvUserName.setText(userEntity.getData().getUserName());
+        tvUserName.setText(userEntity.getData().getNickName());
     }
 
     @Override

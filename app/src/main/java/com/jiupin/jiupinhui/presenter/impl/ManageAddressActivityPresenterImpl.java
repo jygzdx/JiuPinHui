@@ -55,4 +55,19 @@ public class ManageAddressActivityPresenterImpl implements IManageAddressActivit
             }
         });
     }
+
+    @Override
+    public void deleteAddress(int id, String token) {
+        model.deleteAddress(id, token, new IModel.CallBack() {
+            @Override
+            public void onSuccess(Object success) {
+                view.deleteAddressSuccess((List<AddressEntity>) success);
+            }
+
+            @Override
+            public void onFailed(Object error) {
+                LogUtils.d(error.toString());
+            }
+        });
+    }
 }

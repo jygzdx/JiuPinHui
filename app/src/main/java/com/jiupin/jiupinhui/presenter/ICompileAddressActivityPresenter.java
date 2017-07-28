@@ -20,5 +20,10 @@ public interface ICompileAddressActivityPresenter {
      */
     void saveAddress(String token,String area_id,String zip,String trueName,
                      String area_info,String id,String mobile,String area_main,boolean isDefault);
-
+    /**
+     * 删除地址
+     * @param token 用户token
+     *              @param id
+     */
+    void deleteAddress(int id, String token);
 }
