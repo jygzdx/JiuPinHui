@@ -17,7 +17,6 @@ import com.jiupin.jiupinhui.presenter.ISendCommentActivityPresenter;
 import com.jiupin.jiupinhui.presenter.impl.SendCommentActivityPresenterImpl;
 import com.jiupin.jiupinhui.utils.DensityUtils;
 import com.jiupin.jiupinhui.utils.LogUtils;
-import com.jiupin.jiupinhui.utils.ProgressUtils;
 import com.jiupin.jiupinhui.utils.StringUtils;
 import com.jiupin.jiupinhui.utils.ToastUtils;
 import com.jiupin.jiupinhui.view.ISendCommentActivityView;
@@ -94,7 +93,6 @@ public class SendCommentActivity extends TakePhotoActivity implements ISendComme
                 finish();
                 break;
             case R.id.iv_issue:
-                ToastUtils.showShort(mContext, "发布成功");
                 int rating = 0;
                 if (rgCommentGrade.getCheckedRadioButtonId() == R.id.rb_good_comment) {
                     rating = 1;
@@ -113,9 +111,6 @@ public class SendCommentActivity extends TakePhotoActivity implements ISendComme
                     ToastUtils.showShort(this,"请填写评论信息");
                     return;
                 }
-
-                LogUtils.d(TAG,"filename = "+files.get(0).getName());
-                ProgressUtils.show(this);
 
                 presenter.sendComment(token,orderId,evalInfo,descEvaluate+"",serviceEvaluate+"",shipEvaluate+"",rating+"",files);
 
@@ -183,7 +178,6 @@ LogUtils.d(TAG,"path = "+images.get(i).getCompressPath());
     @Override
     public void sendCommentSuccess() {
         ToastUtils.showShort(this,"评论成功");
-        ProgressUtils.dismiss();
         finish();
     }
 }

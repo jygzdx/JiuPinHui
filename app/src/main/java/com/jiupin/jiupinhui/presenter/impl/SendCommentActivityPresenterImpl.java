@@ -1,10 +1,13 @@
 package com.jiupin.jiupinhui.presenter.impl;
 
+import android.content.Context;
+
 import com.jiupin.jiupinhui.model.IModel;
 import com.jiupin.jiupinhui.model.ISendCommentActivityModel;
 import com.jiupin.jiupinhui.model.impl.SendCommentActivityModelImpl;
 import com.jiupin.jiupinhui.presenter.ISendCommentActivityPresenter;
 import com.jiupin.jiupinhui.utils.LogUtils;
+import com.jiupin.jiupinhui.utils.ToastUtils;
 import com.jiupin.jiupinhui.view.ISendCommentActivityView;
 
 import java.io.File;
@@ -36,7 +39,8 @@ public class SendCommentActivityPresenterImpl implements ISendCommentActivityPre
 
             @Override
             public void onFailed(Object error) {
-                LogUtils.d(error.toString());
+                ToastUtils.showShort((Context) view,"评论失败");
+                LogUtils.d(((String) error));
             }
         });
     }

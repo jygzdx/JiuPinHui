@@ -66,6 +66,7 @@ public class ReviseNicknameActivity extends AppCompatActivity implements IRevise
     public void reviseNickname(ResponseBase responseBase) {
         if ("OK".equals(responseBase.getMsg())) {
             ToastUtils.show(this, "修改昵称成功", Toast.LENGTH_SHORT);
+            finish();
         } else {
             ToastUtils.show(this, "修改昵称失败", Toast.LENGTH_SHORT);
         }

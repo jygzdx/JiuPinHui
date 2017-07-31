@@ -21,6 +21,7 @@ import com.jiupin.jiupinhui.R;
 import com.jiupin.jiupinhui.adapter.MyFormAdapter;
 import com.jiupin.jiupinhui.config.Constant;
 import com.jiupin.jiupinhui.entity.FormEntity;
+import com.jiupin.jiupinhui.manage.PopWinManager;
 import com.jiupin.jiupinhui.manage.UserInfoManager;
 import com.jiupin.jiupinhui.presenter.IMyFormActivityPresenter;
 import com.jiupin.jiupinhui.presenter.impl.MyFormActivityPresenterImpl;
@@ -169,6 +170,9 @@ public class MyFormActivity extends BaseActivity implements IMyFormActivityView{
                 }
                 break;
             case R.id.iv_more:
+                PopWinManager popupWindow = new PopWinManager(this, (View) view.getParent());
+                popupWindow.createPopupWindow();
+
                 break;
             case R.id.rl_title:
                 break;

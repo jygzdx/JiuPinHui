@@ -173,11 +173,12 @@ public class HomeFragment extends Fragment implements IHomeFragmentView {
     public void setHotRecommentData(HotRecommentEntity hotRecommentEntity) {
         if(hotRecommentEntity!=null){
             if(hotRecommentEntity.getData()!=null){
-                if(hotRecommentEntity.getData().getList().size()>0){
-                    adapter.setRecommentData(hotRecommentEntity.getData().getList());
+                if(hotRecommentEntity.getData().getList()!=null){
+                    if(hotRecommentEntity.getData().getList().size()>0){
+                        adapter.setRecommentData(hotRecommentEntity.getData().getList());
 
+                    }
                 }
-
             }
 
         }
@@ -187,10 +188,11 @@ public class HomeFragment extends Fragment implements IHomeFragmentView {
     public void setMainShow(MainShowEntity mainShowEntity) {
         if(mainShowEntity!=null){
             if(mainShowEntity.getData()!=null){
-                if(mainShowEntity.getData().getList().size()>0){
-                    adapter.setMealData(mainShowEntity.getData().getList());
+                if(mainShowEntity.getData().getList()!=null){
+                    if(mainShowEntity.getData().getList().size()>0){
+                        adapter.setMealData(mainShowEntity.getData().getList());
+                    }
                 }
-
             }
 
         }
@@ -200,13 +202,17 @@ public class HomeFragment extends Fragment implements IHomeFragmentView {
     public void setHomeLove(HomeLoveEntity homeLoveEntity) {
         if(homeLoveEntity!=null){
             if(homeLoveEntity.getData()!=null){
-                if(homeLoveEntity.getData().getList().size()>0){
-                    LogUtils.d("size = "+homeLoveEntity.getData().getList().size());
-//                    requestSize = homeLoveEntity.getData().getList().size();
-                    loveCount = loveCount+4;
-                    adapter.addAll(homeLoveEntity.getData().getList());
-                    lrvHome.refreshComplete(requestSize);
+                if(homeLoveEntity.getData().getList()!=null){
+                    if(homeLoveEntity.getData().getList().size()>0){
+                        LogUtils.d("size = "+homeLoveEntity.getData().getList().size());
+                        loveCount = loveCount+4;
+                        adapter.addAll(homeLoveEntity.getData().getList());
+                        if(lrvHome!=null){
+                            lrvHome.refreshComplete(requestSize);
+                        }
+                    }
                 }
+
             }
         }
 

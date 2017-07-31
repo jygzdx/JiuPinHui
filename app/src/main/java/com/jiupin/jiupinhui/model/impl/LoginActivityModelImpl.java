@@ -40,9 +40,9 @@ public class LoginActivityModelImpl implements ILoginActivityModel {
                     public void onResponse(String response, int id) {
                         Gson gson = new Gson();
                         SecurityCodeEntity securityCodeEntity = gson.fromJson(response, SecurityCodeEntity.class);
-                        if(200 == securityCodeEntity.getStatus()){
+                        if (200 == securityCodeEntity.getStatus()) {
                             callBack.onSuccess("发送验证码成功");
-                        }else {
+                        } else {
                             callBack.onFailed(securityCodeEntity.getMsg());
                         }
 
@@ -67,7 +67,7 @@ public class LoginActivityModelImpl implements ILoginActivityModel {
 
                     @Override
                     public void onResponse(String response, int id) {
-                        LogUtils.d("response = "+response);
+                        LogUtils.d("response = " + response);
                         JSONObject jsonObject = null;
                         try {
                             jsonObject = new JSONObject(response);
@@ -179,7 +179,7 @@ public class LoginActivityModelImpl implements ILoginActivityModel {
 
                     @Override
                     public void onResponse(String response, int id) {
-
+                        LogUtils.d("responde = " + response);
                         JSONObject jsonObject = null;
                         try {
                             jsonObject = new JSONObject(response);

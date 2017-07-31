@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.PopupWindow;
 
 import com.jiupin.jiupinhui.R;
+import com.jiupin.jiupinhui.activity.IdeaBackActivity;
 import com.jiupin.jiupinhui.activity.MainActivity;
 import com.jiupin.jiupinhui.utils.LogUtils;
 
@@ -57,13 +58,14 @@ public class PopWinManager {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mContext,MainActivity.class);
+                intent.putExtra("status",MainActivity.HOME_STATUS);
                 mContext.startActivity(intent);
             }
         });
         btnToFeedback.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mContext,MainActivity.class);
+                Intent intent = new Intent(mContext,IdeaBackActivity.class);
                 mContext.startActivity(intent);
             }
         });
@@ -71,6 +73,7 @@ public class PopWinManager {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mContext,MainActivity.class);
+                intent.putExtra("status",MainActivity.MY_STATUS);
                 mContext.startActivity(intent);
             }
         });

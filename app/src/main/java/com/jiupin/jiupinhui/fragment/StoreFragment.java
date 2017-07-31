@@ -21,7 +21,6 @@ import com.jiupin.jiupinhui.entity.MealTypeEntity;
 import com.jiupin.jiupinhui.presenter.IStoreFragmentPresenter;
 import com.jiupin.jiupinhui.presenter.impl.StoreFragmentPresenterImpl;
 import com.jiupin.jiupinhui.utils.LogUtils;
-import com.jiupin.jiupinhui.utils.ProgressUtils;
 import com.jiupin.jiupinhui.view.IStoreFragmentView;
 import com.jiupin.jiupinhui.widget.ADBannerView;
 
@@ -81,7 +80,7 @@ public class StoreFragment extends Fragment implements IStoreFragmentView {
     }
 
     private void initData() {
-        ProgressUtils.show(getContext());
+//        ProgressUtils.show(getContext());
         presenter.getBanner();
         presenter.getMealType();
     }
@@ -136,7 +135,7 @@ public class StoreFragment extends Fragment implements IStoreFragmentView {
 
     @Override
     public void setMealTypeData(List<MealTypeEntity> mealTypeList) {
-        ProgressUtils.dismiss();
+//        ProgressUtils.dismiss();
         if (mealTypeList != null && mealTypeList.size() > 0) {
 
 //            //获取到套餐id之后展示套餐信息
@@ -153,7 +152,7 @@ public class StoreFragment extends Fragment implements IStoreFragmentView {
 
     @Override
     public void setMealInfoData(List<MainShowEntity.DataBean.ListBean> mainShowList) {
-        ProgressUtils.dismiss();
+//        ProgressUtils.dismiss();
         LogUtils.d("isFirst = "+isFirst);
         if (mainShowList != null && mainShowList.size() > 0) {
             for (int i = 0; i < mainShowList.size(); i++) {
