@@ -2,6 +2,7 @@ package com.jiupin.jiupinhui.activity;
 
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -236,6 +237,15 @@ public class MyFormActivity extends BaseActivity implements IMyFormActivityView{
                 orderStatus = Constant.TRANSACTION_SUCCESS_NO_COMMENT;
                 getFirstData();
                 break;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==1){
+            page=1;
+            getFirstData();
         }
     }
 

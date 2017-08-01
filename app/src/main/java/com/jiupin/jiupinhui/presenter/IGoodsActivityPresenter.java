@@ -11,4 +11,10 @@ public interface IGoodsActivityPresenter {
      * @param id 商品id
      */
     void getGoodsInfo(int id);
+
+    /**
+     * 获取评论信息
+     * @param goodsId 商品id
+     */
+    void getAppraise(int goodsId);
 }

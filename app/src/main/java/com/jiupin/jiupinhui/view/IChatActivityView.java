@@ -16,4 +16,20 @@ public interface IChatActivityView {
      * @param hint     提示信息
      */
     void setChatList(List<ChatEntity> chatList, String hint);
+
+    /**
+     * 继续提问，成功返回
+     *
+     * @param chatList 聊天信息
+     * @param hint     提示信息
+     */
+    void sendChatSuccess(List<ChatEntity> chatList, String hint);
+
+    /**
+     * 关闭提问
+     *
+     * @param chatList 聊天信息
+     *
+     */
+    void closeChatSuccess(List<ChatEntity> chatList);
 }

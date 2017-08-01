@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.jiupin.jiupinhui.R;
 import com.jiupin.jiupinhui.activity.FormParticularActivity;
+import com.jiupin.jiupinhui.activity.GoodsActivity;
 import com.jiupin.jiupinhui.activity.MyFormActivity;
 import com.jiupin.jiupinhui.activity.SendCommentActivity;
 import com.jiupin.jiupinhui.config.Constant;
@@ -32,11 +33,12 @@ public class MyFormAdapter extends RecyclerView.Adapter {
     private static final String TAG = "MyFormAdapter";
     private LayoutInflater inflater;
     private Context mContext;
-    private List<FormEntity> forms = new ArrayList<>();
+    private List<FormEntity> forms;
     String orderStatus = 60+"";
 
     public MyFormAdapter(Context context) {
         this.mContext = context;
+        forms = new ArrayList<>();
         inflater = LayoutInflater.from(mContext);
     }
 
@@ -132,9 +134,8 @@ public class MyFormAdapter extends RecyclerView.Adapter {
                 myFormViewHolder.ivBottom.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent(mContext, FormParticularActivity.class);
-                        intent.putExtra("status",Constant.TRANSACTION_SUCCESS_HAS_COMMENT);
-                        intent.putExtra("orderId",form.getId());
+                        Intent intent = new Intent(mContext, GoodsActivity.class);
+                        intent.putExtra("id",form.getOrderDetailList().get(0).getId());
                         mContext.startActivity(intent);
                     }
                 });
@@ -159,7 +160,7 @@ public class MyFormAdapter extends RecyclerView.Adapter {
                         ToastUtils.showShort(mContext, "待评价");
                         Intent intent = new Intent(mContext, SendCommentActivity.class);
                         intent.putExtra("orderId",form.getId());
-                        mContext.startActivity(intent);
+                        ((MyFormActivity)mContext).startActivityForResult(intent,1);
                     }
                 });
                 break;
@@ -180,9 +181,8 @@ public class MyFormAdapter extends RecyclerView.Adapter {
                 myFormViewHolder.ivBottom.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent(mContext, FormParticularActivity.class);
-                        intent.putExtra("status",Constant.WAIT_DELIVER_GOODS);
-                        intent.putExtra("orderId",form.getId());
+                        Intent intent = new Intent(mContext, GoodsActivity.class);
+                        intent.putExtra("id",form.getOrderDetailList().get(0).getId());
                         mContext.startActivity(intent);
                     }
                 });

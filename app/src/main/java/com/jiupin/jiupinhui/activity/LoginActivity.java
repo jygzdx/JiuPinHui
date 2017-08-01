@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.jiupin.jiupinhui.R;
 import com.jiupin.jiupinhui.entity.RegisterEntity;
 import com.jiupin.jiupinhui.entity.ResponseBase;
+import com.jiupin.jiupinhui.manage.UserInfoManager;
 import com.jiupin.jiupinhui.presenter.ILoginActivityPresenter;
 import com.jiupin.jiupinhui.presenter.impl.LoginActivityPresenterImpl;
 import com.jiupin.jiupinhui.utils.LogUtils;
@@ -393,6 +394,8 @@ public class LoginActivity extends AppCompatActivity implements ILoginActivityVi
         SPUtils.put(this, SPUtils.LOGIN_TOKEN, registerEntity.getData().getToken());
         SPUtils.put(this, SPUtils.USER_ID, registerEntity.getData().getUser().getId()+"");
         LogUtils.d(TAG + "token" + registerEntity.getData().getToken());
+        UserInfoManager.getInstance().setLogin(true);
+        UserInfoManager.getInstance().setToken(registerEntity.getData().getToken());
         Intent intent = new Intent(this,MainActivity.class);
         intent.putExtra("login","login");
         startActivity(intent);
@@ -410,6 +413,10 @@ public class LoginActivity extends AppCompatActivity implements ILoginActivityVi
         SPUtils.put(this, SPUtils.LOGIN_TOKEN, registerEntity.getData().getToken());
         SPUtils.put(this, SPUtils.USER_ID, registerEntity.getData().getUser().getId()+"");
         ToastUtils.showShort(this, "登录成功");
+        UserInfoManager.getInstance().setLogin(true);
+        UserInfoManager.getInstance().setToken(registerEntity.getData().getToken());
+        //添加user信息保存起来
+//        UserInfoManager.getInstance().setUser(registerEntity.getData().getUser());
 
         LogUtils.d(TAG + "token" + registerEntity.getData().getToken());
         Intent intent = new Intent(this,MainActivity.class);
@@ -439,7 +446,14 @@ public class LoginActivity extends AppCompatActivity implements ILoginActivityVi
 
     @Override
     public void resetPwdSuccess(ResponseBase responseBase) {
-        ToastUtils.showShort(this,"重置密码成功");
+        ToastUtils.showShort(this,"重置密码成功,请使用新密码登录");
+        btnLogin.setBackgroundResource(R.drawable.login_clicked);
+        btnRegister.setBackgroundResource(R.drawable.register_unclicked);
+        if (rlBottomLogin.getVisibility() == View.GONE) {
+            showBottomLogin();
+        } else {
+            hideAllBottomLayout();
+        }
     }
 
     @Override

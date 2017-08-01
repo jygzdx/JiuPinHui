@@ -228,8 +228,9 @@ public class OrderActivity extends BaseActivity implements IOrderActivityView {
                         goodsBack.setId(goodsEntityList.get(i).getData().getId());
                         goodsBack.setCount(goodsEntityList.get(i).getData().getCount());
                         if(goodsEntityList.get(i).getData().getIs_meal()==1){
-                            goodsBack.setSpec_id(goodsEntityList.get(i).getData().getSelectedMemberId()+"_"
-                                    +goodsEntityList.get(i).getData().getSelectedTypeId()+"_");
+                            String member = goodsEntityList.get(i).getData().getSelectedMemberId()==0?"":goodsEntityList.get(i).getData().getSelectedMemberId()+"_";
+                            String type = goodsEntityList.get(i).getData().getSelectedTypeId()==0?"":goodsEntityList.get(i).getData().getSelectedTypeId()+"_";
+                            goodsBack.setSpec_id(member+type);
                         }else{
                             goodsBack.setSpec_id("");
                         }

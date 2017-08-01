@@ -20,15 +20,6 @@ public class ChatEntity {
     private String content;
     private long create_time;
     private int parent_id;
-    private String hint;
-
-    public String getHint() {
-        return hint;
-    }
-
-    public void setHint(String hint) {
-        this.hint = hint;
-    }
 
     public int getId() {
         return id;

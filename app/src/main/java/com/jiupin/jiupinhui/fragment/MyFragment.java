@@ -89,7 +89,7 @@ public class MyFragment extends Fragment implements IMyFragmentView {
         return view;
     }
 
-    private void refreshData(){
+    private void refreshData() {
         token = (String) SPUtils.get(getContext(), SPUtils.LOGIN_TOKEN, "");
         LogUtils.d("token = " + token);
         if (token == "") {
@@ -153,19 +153,19 @@ public class MyFragment extends Fragment implements IMyFragmentView {
                 gotoMyFormActivity("");
                 break;
             case R.id.rl_my_idea_back:
-                if(UserInfoManager.getInstance().isLogin()){
+                if (UserInfoManager.getInstance().isLogin()) {
                     Intent intent4 = new Intent(getActivity(), IdeaBackActivity.class);
                     this.startActivity(intent4);
-                }else {
+                } else {
                     gotoLoginActivity();
                 }
                 break;
             case R.id.rl_my_indent:
-                if(UserInfoManager.getInstance().isLogin()){
+                if (UserInfoManager.getInstance().isLogin()) {
                     Intent intent5 = new Intent(getActivity(), ManageAddressActivity.class);
-                    intent5.putExtra("fromActivity","MyFragment");
+                    intent5.putExtra("fromActivity", "MyFragment");
                     this.startActivity(intent5);
-                }else {
+                } else {
                     gotoLoginActivity();
                 }
 
@@ -176,7 +176,7 @@ public class MyFragment extends Fragment implements IMyFragmentView {
                 break;
             case R.id.civ_head:
                 Intent intent7 = new Intent(getActivity(), PersonInfoActivity.class);
-                this.startActivityForResult(intent7,1);
+                this.startActivityForResult(intent7, 1);
                 break;
             case R.id.tv_my_login:
                 Intent intent8 = new Intent(getActivity(), LoginActivity.class);
@@ -191,11 +191,11 @@ public class MyFragment extends Fragment implements IMyFragmentView {
     }
 
     private void gotoMyFormActivity(String orderStatus) {
-        if(UserInfoManager.getInstance().isLogin()){
+        if (UserInfoManager.getInstance().isLogin()) {
             Intent intent = new Intent(getActivity(), MyFormActivity.class);
             intent.putExtra("orderStatus", orderStatus);
-            this.startActivityForResult(intent,2);
-        }else {
+            this.startActivityForResult(intent, 2);
+        } else {
             gotoLoginActivity();
         }
     }
@@ -216,15 +216,15 @@ public class MyFragment extends Fragment implements IMyFragmentView {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         LogUtils.d("onActivityResult");
-        if(requestCode==1){
+        if (requestCode == 1) {
             LogUtils.d("onActivityResult.refreshData");
             refreshData();
-        }else if(requestCode==2){
+        } else if (requestCode == 2) {
             getformInfoByToken();
         }
     }
 
-    public void getformInfoByToken(){
+    public void getformInfoByToken() {
         presenter.getformInfoByToken(token);
     }
 
@@ -258,6 +258,8 @@ public class MyFragment extends Fragment implements IMyFragmentView {
     @Override
     public void setUserInfo(UserEntity userEntity) {
         LogUtils.d("setUserInfo" + userEntity.getData().getImageUrl());
+        UserInfoManager.getInstance().setToken(token);
+        UserInfoManager.getInstance().setUser(userEntity.getData());
 
         Glide.with(this)
                 .load(userEntity.getData().getImageUrl())

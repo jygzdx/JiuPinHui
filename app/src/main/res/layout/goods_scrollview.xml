@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:background="@color/mainBackground"
@@ -278,7 +279,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:lines="1"
-                android:text="(1224)"
+                android:text=""
                 android:textColor="@color/light_black"
                 android:textSize="13sp"
                 />
@@ -296,7 +297,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:lines="1"
-                android:text="98%"
+                android:text="100%"
                 android:textColor="@color/mainTextColor"
                 android:textSize="10sp"
                 />
@@ -316,9 +317,12 @@
             android:background="@color/mainBackground"/>
         <!--评论详情-->
         <RelativeLayout
+            android:id="@+id/rl_appraise"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <!--存放星形评价-->
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            >
+            存放星形评价
             <LinearLayout
                 android:id="@+id/ll_goods_stars"
                 android:layout_width="wrap_content"
@@ -337,7 +341,7 @@
                 android:layout_alignTop="@+id/ll_goods_stars"
                 android:layout_marginBottom="10dp"
                 android:layout_marginRight="12dp"
-                android:text="美***子"
+                android:text=""
                 android:textColor="@color/light_black"
                 android:textSize="10sp"
                 />
@@ -347,10 +351,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv_user_nickname"
+                android:layout_marginTop="10dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:lines="2"
-                android:text="在口中留存良久，渐渐绽放其味道的精华，舌头上留下点点浓郁的果甜味道，和谐有致。在口中留存良久，渐渐绽放其味道的精华，舌头上留下点点浓郁的果甜味道，和谐有致。"
+                android:text=""
                 android:textColor="@color/light_black"
                 android:textSize="10sp"
                 />
@@ -365,38 +370,6 @@
                 android:layout_marginTop="10dp"
                 android:orientation="horizontal"
                 >
-
-                <ImageView
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:src="@drawable/pic1"
-                    />
-
-                <ImageView
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:src="@drawable/pic1"
-                    />
-
-                <ImageView
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:src="@drawable/pic1"
-                    />
-
-                <ImageView
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:src="@drawable/pic1"
-                    />
 
             </LinearLayout>
 
@@ -418,6 +391,16 @@
                 android:textSize="10sp"
                 />
         </RelativeLayout>
+        <TextView
+            android:id="@+id/tv_no_appraise"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:text="暂无评价"
+            android:textColor="@color/light_black"
+            android:textSize="16sp"
+            android:gravity="center"
+            android:visibility="gone"
+            />
     </LinearLayout>
     <!--店铺信息-->
     <LinearLayout
@@ -461,7 +444,7 @@
                 android:layout_alignBottom="@+id/iv_store_logo"
                 android:layout_marginTop="8dp"
                 android:lines="1"
-                android:text="轩尼诗轩尼诗轩尼诗轩尼诗轩尼诗"
+                android:text=""
                 android:textColor="@color/shallow_black"
                 android:textSize="9sp"
                 />
@@ -484,7 +467,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:lines="1"
-                    android:text="1.5万"
+                    android:text=""
                     android:textColor="@color/light_black"
                     android:textSize="10sp"
                     />

@@ -185,13 +185,6 @@ public class CompileAddressActivity extends AppCompatActivity implements ICompil
 
         String userName = etUserName.getText().toString();
         String phone = etUserPhone.getText().toString();
-        if (areas.size() > 0) {
-            for (int i = 0; i < areas.size(); i++) {
-                area = area + areas.get(i) + " ";
-            }
-            area = area.trim();
-
-        }
         String address = etParticularAddress.getText().toString();
         boolean isDefault = scSettingDefault.isChecked();
 
@@ -207,6 +200,15 @@ public class CompileAddressActivity extends AppCompatActivity implements ICompil
                 if (StringUtils.isEmpty(address) || StringUtils.isEmpty(userName) || StringUtils.isEmpty(area)) {
                     ToastUtils.showShort(this, "请输入完整信息");
                     return;
+                }
+
+                if (areas.size() > 0) {
+                    area = "";
+                    for (int i = 0; i < areas.size(); i++) {
+                        area = area + areas.get(i) + " ";
+                    }
+                    area = area.trim();
+
                 }
                 ad = ProgressUtils.show(this);
 

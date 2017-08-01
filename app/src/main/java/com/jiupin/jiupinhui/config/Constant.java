@@ -173,6 +173,11 @@ public class Constant {
     public static final String GOODS_INFO = MAIN_URL+"/appGoods/home/getGoodsDetail.json";
 
     /**
+     * 获取评论列表
+     */
+    public static final String APPRAISE_INFO = MAIN_URL+"/app/order/getEvaluate.json";
+
+    /**
      * 提交订单
      */
     public static final String SUBMIT_FORM = MAIN_URL+"/app/order/submitOrder.json";

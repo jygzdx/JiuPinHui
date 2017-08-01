@@ -178,19 +178,19 @@ public class FormEntity {
          * spec_info : 购买会员:月度会员（3次）
          */
 
-        private int goods_id;
+        private int id;
         private String goods_name;
         private String main_photo;
         private int count;
         private double price;
         private String spec_info;
 
-        public int getGoods_id() {
-            return goods_id;
+        public int getId() {
+            return id;
         }
 
-        public void setGoods_id(int goods_id) {
-            this.goods_id = goods_id;
+        public void setId(int id) {
+            this.id = id;
         }
 
         public String getGoods_name() {
@@ -231,6 +231,18 @@ public class FormEntity {
 
         public void setSpec_info(String spec_info) {
             this.spec_info = spec_info;
+        }
+
+        @Override
+        public String toString() {
+            return "OrderDetailListBean{" +
+                    "id=" + id +
+                    ", goods_name='" + goods_name + '\'' +
+                    ", main_photo='" + main_photo + '\'' +
+                    ", count=" + count +
+                    ", price=" + price +
+                    ", spec_info='" + spec_info + '\'' +
+                    '}';
         }
     }
 }

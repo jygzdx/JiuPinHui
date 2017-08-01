@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.jiupin.jiupinhui.R;
 import com.jiupin.jiupinhui.config.Constant;
 import com.jiupin.jiupinhui.entity.FormParticularEntity;
+import com.jiupin.jiupinhui.manage.PopWinManager;
 import com.jiupin.jiupinhui.manage.UserInfoManager;
 import com.jiupin.jiupinhui.presenter.IFormParticularActivityPresenter;
 import com.jiupin.jiupinhui.presenter.impl.FormParticularActivityPresenterImpl;
@@ -110,15 +111,17 @@ public class FormParticularActivity extends BaseActivity implements IFormParticu
 
         LogUtils.d(TAG, "orderId=" + orderId + " ,token = " + token);
         presenter.getFormInfo(orderId, token);
-
-
     }
 
-    @OnClick({R.id.btn_left, R.id.btn_right, R.id.tv_contact_customer, R.id.tv_making_phone, R.id.iv_back})
+    @OnClick({R.id.btn_left, R.id.btn_right, R.id.tv_contact_customer, R.id.tv_making_phone, R.id.iv_back,R.id.iv_more})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_back:
                 finish();
+                break;
+            case R.id.iv_more://弹出右上角窗口
+                PopWinManager popupWindow = new PopWinManager(this, (View) view.getParent());
+                popupWindow.createPopupWindow();
                 break;
             case R.id.tv_contact_customer://联系供应商
                 break;
@@ -261,7 +264,6 @@ public class FormParticularActivity extends BaseActivity implements IFormParticu
      */
     private void applyAfterSale() {
         Intent intent = new Intent(this, ChatActivity.class);
-        //        intent.putExtra("status",1);
         intent.putExtra("orderNum", formParticularEntity.getOrder().getOrder_id());
         startActivity(intent);
 

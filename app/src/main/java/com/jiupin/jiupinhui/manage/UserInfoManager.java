@@ -2,6 +2,7 @@ package com.jiupin.jiupinhui.manage;
 
 import android.content.Context;
 
+import com.jiupin.jiupinhui.entity.UserEntity;
 import com.jiupin.jiupinhui.utils.LogUtils;
 import com.jiupin.jiupinhui.utils.SPUtils;
 
@@ -14,6 +15,8 @@ public class UserInfoManager {
     private boolean isLogin;
 
     private String token;
+    private UserEntity.DataBean user;
+
     private static UserInfoManager mUserInfoManager = null;
     private UserInfoManager() { }
     public static UserInfoManager getInstance(){
@@ -25,6 +28,14 @@ public class UserInfoManager {
             }
         }
         return mUserInfoManager;
+    }
+
+    public UserEntity.DataBean getUser() {
+        return user;
+    }
+
+    public void setUser(UserEntity.DataBean user) {
+        this.user = user;
     }
 
 
