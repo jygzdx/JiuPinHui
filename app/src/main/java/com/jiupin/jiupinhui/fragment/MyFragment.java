@@ -186,8 +186,8 @@ public class MyFragment extends Fragment implements IMyFragmentView {
     }
 
     private void gotoLoginActivity() {
-        Intent intentLogin = new Intent(getActivity(), LoginActivity.class);
-        this.startActivity(intentLogin);
+        Intent intent = new Intent(getActivity(), LoginActivity.class);
+        this.startActivityForResult(intent, 3);
     }
 
     private void gotoMyFormActivity(String orderStatus) {
@@ -216,11 +216,14 @@ public class MyFragment extends Fragment implements IMyFragmentView {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         LogUtils.d("onActivityResult");
+        LogUtils.d("requestCode = "+requestCode+", resultCode = "+resultCode);
         if (requestCode == 1) {
             LogUtils.d("onActivityResult.refreshData");
             refreshData();
         } else if (requestCode == 2) {
             getformInfoByToken();
+        }else if(requestCode == 3){//登录界面返回刷新数据
+            refreshData();
         }
     }
 

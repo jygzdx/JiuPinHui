@@ -1,7 +1,6 @@
 package com.jiupin.jiupinhui.activity;
 
 import android.animation.ObjectAnimator;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -396,9 +395,8 @@ public class LoginActivity extends AppCompatActivity implements ILoginActivityVi
         LogUtils.d(TAG + "token" + registerEntity.getData().getToken());
         UserInfoManager.getInstance().setLogin(true);
         UserInfoManager.getInstance().setToken(registerEntity.getData().getToken());
-        Intent intent = new Intent(this,MainActivity.class);
-        intent.putExtra("login","login");
-        startActivity(intent);
+        //添加user信息保存起来
+        UserInfoManager.getInstance().setUser(registerEntity.getData().getUser());
         finish();
     }
 
@@ -416,12 +414,7 @@ public class LoginActivity extends AppCompatActivity implements ILoginActivityVi
         UserInfoManager.getInstance().setLogin(true);
         UserInfoManager.getInstance().setToken(registerEntity.getData().getToken());
         //添加user信息保存起来
-//        UserInfoManager.getInstance().setUser(registerEntity.getData().getUser());
-
-        LogUtils.d(TAG + "token" + registerEntity.getData().getToken());
-        Intent intent = new Intent(this,MainActivity.class);
-        intent.putExtra("login","login");
-        startActivity(intent);
+        UserInfoManager.getInstance().setUser(registerEntity.getData().getUser());
         finish();
     }
 

@@ -6,11 +6,11 @@ package com.jiupin.jiupinhui.config;
 
 public class Constant {
 
-//    public static final String MAIN_URL = "http://napp.9pin.com";
+    public static final String MAIN_URL = "http://napp.9pin.com";
 //测试ip
 //    public static final String MAIN_URL = "http://192.168.0.112:8080";
 //服务器ip
-    public static final String MAIN_URL = "http://192.168.0.161:8080";
+//    public static final String MAIN_URL = "http://192.168.0.161:8080";
 
     public static final String APP_ID = "wx420947e7a04ec1df";
 
@@ -81,6 +81,11 @@ public class Constant {
      * 推荐套餐
      */
     public static final String MAIN_SHOW_URL = MAIN_URL+"/appGoods/home/getMealsList.json";
+
+    /**
+     * 首页主推套餐与热门推荐整合
+     */
+    public static final String GOODS_AND_MEALS_LIST = MAIN_URL+"/appGoods/home/getGoodsAndMealsList.json";
 
     /**
      * 猜你喜欢
@@ -231,14 +236,36 @@ public class Constant {
     /**
      * 检查一个用户有否未读的售后回复
      */
-    public static final String IS_HAS_UNREAD = MAIN_URL+"/app/app/aftersale/isUnreadAfterConsultMsg.json";
+    public static final String AFTER_IS_HAS_UNREAD = MAIN_URL+"/app/app/aftersale/isUnreadAfterConsultMsg.json";
     /**
      * 用户查找售后咨询列表
      */
     public static final String AFTER_CONSULT_LIST = MAIN_URL+"/app/app/aftersale/getAfterConsultList.json";
 
 
+    /************************售前客服**************************/
+    /**
+     * 用户查找所有工单列表---售前
+     */
+    public static final String BEFORE_CONSULT_LIST = MAIN_URL+"/app/app/presale/getMainConsultList.json";
+    /**
+     * 查找某个工单的所有问答记录---售前
+     */
+    public static final String BEFORE_CONSULT_HISTORY = MAIN_URL+"/app/app/presale/getConsultHistory.json";
 
+    /**
+     * 用户关闭咨询---售前
+     */
+    public static final String CLOSE_BEFORE_CONSULT = MAIN_URL+"/app/app/presale/closeConsult.json";
+    /**
+     * 潜在买家对某个工号的资讯追加发问---售前
+     */
+    public static final String AGAIN_BEFORE_CONSULT = MAIN_URL+"/app/app/presale/launchConsult.json";
+
+    /**
+     * 检查一个用户有否未读的售前回复
+     */
+    public static final String BEFORE_IS_HAS_UNREAD = MAIN_URL+"/app/app/presale/isUnreadConsultExist.json";
 
     /**
      * 等待付款

@@ -16,7 +16,7 @@
     <string name="unwillingness_pay">不想买了</string>
     <string name="info_error">信息填写错误，重新填写</string>
     <string name="no_goods">卖家缺货</string>
-    <string name="ready_item">其他原因</string>
+    <string name="ready_item">发现其他便宜商品</string>
     <string name="other_cause">其他原因</string>
 
     <string name="comment_hint">请写下你的心得吧~</string>

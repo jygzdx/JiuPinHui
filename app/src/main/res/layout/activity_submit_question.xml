@@ -46,11 +46,13 @@
 
     </RelativeLayout>
     <EditText
+        android:id="@+id/et_question_content"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="wrap_content"
         android:background="@color/white"
         android:hint="请在这里提出您的问题,客服收到后会立即回复您。"
         android:gravity="top|left"
+        android:lines="6"
         android:paddingBottom="12dp"
         android:paddingLeft="12dp"
         android:paddingRight="12dp"
@@ -58,49 +60,41 @@
         android:textColor="@color/shallow_black"
         android:textSize="12sp"
         />
-    <RelativeLayout
+
+    <LinearLayout
+        android:id="@+id/ll_add_pictrue"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="1dp"
+        android:layout_height="80dp"
         android:layout_marginBottom="32dp"
-        android:paddingBottom="30dp"
+        android:layout_marginTop="1dp"
+        android:orientation="horizontal"
         android:background="@color/white"
         >
-        <TextView
-            android:id="@+id/tv_textview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
-            android:gravity="center"
-            android:text="请上传照片"
-            android:textColor="@color/light_black"
-            android:textSize="16sp"
-            />
 
         <ImageView
             android:id="@+id/iv_submit_picture"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/tv_textview"
-            android:layout_marginTop="8dp"
+            android:layout_marginBottom="10dp"
             android:layout_marginLeft="12dp"
+            android:layout_marginRight="7dp"
+            android:layout_marginTop="10dp"
             android:src="@drawable/add_picture"
             />
+
         <LinearLayout
             android:id="@+id/ll_picture_container"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/tv_textview"
-            android:layout_toRightOf="@+id/iv_submit_picture"
-            android:layout_marginTop="8dp"
-            android:layout_marginLeft="12dp"
-            android:layout_marginRight="12dp"
+            android:layout_height="match_parent"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:paddingRight="7dp"
+            android:orientation="horizontal"
             >
 
         </LinearLayout>
-    </RelativeLayout>
+    </LinearLayout>
+
     <ImageView
         android:id="@+id/iv_submit_question"
         android:layout_width="wrap_content"

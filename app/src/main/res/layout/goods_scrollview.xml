@@ -22,6 +22,7 @@
             ></LinearLayout>
 
         <TextView
+            android:id="@+id/tv_to_particulars"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_alignBottom="@+id/ll_goods_show"
@@ -542,7 +543,7 @@
             android:layout_marginBottom="15dp"
             >
             <LinearLayout
-                android:id="@+id/ll_contact_customer"
+                android:id="@+id/ll_Store_customer"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
@@ -563,7 +564,7 @@
                     />
             </LinearLayout>
             <LinearLayout
-                android:id="@+id/ll_enter_store"
+                android:id="@+id/ll_back_main"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"

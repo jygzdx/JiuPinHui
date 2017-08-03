@@ -40,7 +40,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="酒品会"
+                android:text="联系客服"
                 android:textColor="@color/white"
                 android:textSize="16sp"
                 />
@@ -55,6 +55,7 @@
         android:layout_above="@+id/tv_consult"
         android:layout_below="@+id/rl_title"
         android:gravity="center"
+        android:visibility="gone"
         >
 
         <ImageView
@@ -91,21 +92,24 @@
             />
     </RelativeLayout>
 
-    <android.support.v4.widget.NestedScrollView
-        android:id="@+id/nsv_server"
+    <com.github.jdsjlzx.recyclerview.LRecyclerView
+        android:id="@+id/lrv_server"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/tv_consult"
         android:layout_below="@+id/rl_title"
         >
 
-        <FrameLayout
-            android:id="@+id/fl_server_container"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
 
-        </FrameLayout>
-    </android.support.v4.widget.NestedScrollView>
+    </com.github.jdsjlzx.recyclerview.LRecyclerView>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_above="@+id/tv_consult"
+        android:background="@color/mainBackground"
+        />
+
 
     <TextView
         android:id="@+id/tv_consult"

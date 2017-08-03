@@ -1,8 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical">
+              android:layout_height="wrap_content"
+              android:orientation="vertical"
+            android:background="@color/white"
+    >
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="@color/mainBackground"
+        />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,7 +27,7 @@
             android:layout_height="wrap_content"
             android:paddingBottom="10dp"
             android:paddingTop="10dp"
-            android:text="工单编号"
+            android:text="工单"
             android:textColor="@color/light_black"
             android:textSize="10sp"
             />
@@ -29,7 +37,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="123456789456456"
+            android:layout_marginLeft="5dp"
+            android:text=""
             android:textColor="@color/light_black"
             android:textSize="10sp"
             />
@@ -40,11 +49,17 @@
             android:layout_height="wrap_content"
             android:paddingBottom="10dp"
             android:paddingTop="10dp"
-            android:text="待客服处理"
+            android:text=""
             android:textColor="@color/light_black"
             android:textSize="10sp"
             />
     </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/mainBackground"
+        />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -61,7 +76,7 @@
             android:id="@+id/tv_question_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:lines="1"
+            android:maxLines="1"
             android:paddingBottom="10dp"
             android:text="母亲节是不是有什么活动？"
             android:textColor="@color/shallow_black"
@@ -74,16 +89,6 @@
             android:gravity="center_vertical"
             android:orientation="horizontal"
             >
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingBottom="10dp"
-                android:paddingTop="10dp"
-                android:text="提交时间"
-                android:textColor="@color/light_black"
-                android:textSize="10sp"
-                />
 
             <TextView
                 android:id="@+id/tv_submit_time"

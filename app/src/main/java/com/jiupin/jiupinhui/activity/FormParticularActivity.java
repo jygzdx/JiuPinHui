@@ -113,7 +113,7 @@ public class FormParticularActivity extends BaseActivity implements IFormParticu
         presenter.getFormInfo(orderId, token);
     }
 
-    @OnClick({R.id.btn_left, R.id.btn_right, R.id.tv_contact_customer, R.id.tv_making_phone, R.id.iv_back,R.id.iv_more})
+    @OnClick({R.id.btn_left, R.id.btn_right, R.id.tv_contact_customer, R.id.tv_making_phone, R.id.iv_back, R.id.iv_more})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_back:
@@ -239,23 +239,56 @@ public class FormParticularActivity extends BaseActivity implements IFormParticu
      * 删除订单
      */
     private void deleteForm() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("是否取消订单")
-                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                        presenter.deleteForm(formParticularEntity.getOrder().getId() + "", token);
-                    }
-                })
-                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                })
-                .create()
-                .show();
+
+        View view = LayoutInflater.from(this).inflate(R.layout.dialog_content, null);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+
+        builder.setView(view);
+
+        final AlertDialog dialog = builder.create();
+
+        TextView tvContent = (TextView) view.findViewById(R.id.tv_content);
+
+        TextView tvCancel = (TextView) view.findViewById(R.id.tv_cancel);
+
+        TextView tvEnsure = (TextView) view.findViewById(R.id.tv_ensure);
+
+        tvContent.setText("确定要删除该地址吗？");
+
+        tvCancel.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+
+            public void onClick(View v) {
+
+                //取消
+
+                dialog.dismiss();
+
+            }
+
+        });
+
+        tvEnsure.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+
+            public void onClick(View v) {
+
+                //删除订单
+
+                presenter.deleteForm(formParticularEntity.getOrder().getId() + "", token);
+
+                //确定
+
+                dialog.dismiss();
+
+            }
+
+        });
+
+        dialog.show();
 
     }
 
@@ -424,6 +457,8 @@ public class FormParticularActivity extends BaseActivity implements IFormParticu
     @Override
     public void cancelFormSuccess() {
         ToastUtils.showShort(this, "取消订单成功");
+        formStatus = Constant.DELETE_FORM;
+        updateView();
     }
 
     @Override
@@ -434,7 +469,7 @@ public class FormParticularActivity extends BaseActivity implements IFormParticu
 
     @Override
     public void deleteFormSuccess() {
-        ToastUtils.showShort(this, "删除订单成功");
+        finish();
     }
 
 

@@ -103,10 +103,6 @@ public class GoodsActivity extends BaseActivity implements IGoodsActivityView {
     TextView tvAllProduct;
     @BindView(R.id.tv_store_state)
     TextView tvStoreState;
-    @BindView(R.id.ll_contact_customer)
-    LinearLayout llContactCustomer;
-    @BindView(R.id.ll_enter_store)
-    LinearLayout llEnterStore;
     @BindView(R.id.nsv_goods_scrollview)
     NestedScrollView nsvGoodsScrollview;
     @BindView(R.id.iv_goods_back)
@@ -121,12 +117,6 @@ public class GoodsActivity extends BaseActivity implements IGoodsActivityView {
     RelativeLayout rlGoodsTitle;
     @BindView(R.id.btn_contact_customer)
     Button btnContactCustomer;
-    @BindView(R.id.tv_buy_car)
-    TextView tvBuyCar;
-    @BindView(R.id.tv_buy_car_mark)
-    TextView tvBuyCarMark;
-    @BindView(R.id.rl_buy_car)
-    RelativeLayout rlBuyCar;
     @BindView(R.id.ll_goods_bottom)
     LinearLayout llGoodsBottom;
     @BindView(R.id.wv_webview)
@@ -141,6 +131,7 @@ public class GoodsActivity extends BaseActivity implements IGoodsActivityView {
     private int preferenceChecked;
     private List<GoodsEntity.DataBean.Detail> details;
     private GoodsEntity.DataBean.Detail showDetail;
+    private int webviewTop;
 
 
     @Override
@@ -199,27 +190,18 @@ public class GoodsActivity extends BaseActivity implements IGoodsActivityView {
                     float alpha = 255 * scale;
                     //滑动时改变标题栏的透明度
                     rlGoodsTitle.setBackgroundColor(Color.argb((int) alpha, 0xd3, 0xac, 0x65));
-                    //隐藏
-                    //设置收藏和分享按钮是否可见
-                    //                    if (ivGoodsCollectingEnd.getVisibility() == View.VISIBLE) {
-                    //                        ivGoodsCollectingEnd.setVisibility(View.GONE);
-                    //                    }
-                    //                    if (ivGoodsShareEnd.getVisibility() == View.VISIBLE) {
-                    //                        ivGoodsShareEnd.setVisibility(View.GONE);
-                    //                    }
                 } else if (scrollY > height) {
                     //滑动时改变标题栏的透明度
                     rlGoodsTitle.getBackground().setAlpha(255);
-                    //设置收藏和分享按钮是否可见
-                    //                    if (ivGoodsCollectingEnd.getVisibility() == View.GONE) {
-                    //                        ivGoodsCollectingEnd.setVisibility(View.VISIBLE);
-                    //                    }
-                    //                    if (ivGoodsShareEnd.getVisibility() == View.GONE) {
-                    //                        ivGoodsShareEnd.setVisibility(View.VISIBLE);
-                    //                    }
                 }
             }
         });
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        webviewTop = wvWebview.getTop();
     }
 
     private void initGoodsShowView() {
@@ -227,22 +209,31 @@ public class GoodsActivity extends BaseActivity implements IGoodsActivityView {
         llGoodsShow.addView(goodsShowView);
     }
 
-    @OnClick({R.id.btn_contact_customer, R.id.rl_buy_car, R.id.btn_check_appraise, R.id.btn_now_pay, R.id.btn_add_car,
-            R.id.iv_goods_back
+    @OnClick({R.id.btn_contact_customer, R.id.btn_check_appraise, R.id.btn_now_pay, R.id.ll_Store_customer,R.id.ll_back_main,
+            R.id.iv_goods_back,R.id.tv_to_particulars
     })
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_goods_back:
                 finish();
                 break;
+            case R.id.tv_to_particulars://滑动到商品详情位置
+                nsvGoodsScrollview.smoothScrollTo(0,wvWebview.getTop());
+
+                break;
             case R.id.btn_contact_customer:
-                Intent intent2 = new Intent(mContext, FamiliarQuestionActivity.class);
-                startActivity(intent2);
+                Intent serverIntent = new Intent(mContext, ServerActivity.class);
+                startActivity(serverIntent);
                 break;
-            case R.id.rl_buy_car://进入购物车
-                Intent intent1 = new Intent(mContext, BuyCartActivity.class);
-                startActivity(intent1);
+            case R.id.ll_Store_customer:
+                Intent serverIntent2 = new Intent(mContext, ServerActivity.class);
+                startActivity(serverIntent2);
                 break;
+            case R.id.ll_back_main:
+                Intent mainIntent = new Intent(mContext, MainActivity.class);
+                startActivity(mainIntent);
+                break;
+
             case R.id.btn_check_appraise:
                 Intent intent = new Intent(this, CommentActivity.class);
                 startActivity(intent);
@@ -290,11 +281,6 @@ public class GoodsActivity extends BaseActivity implements IGoodsActivityView {
                 } else {//没有登录
                     gotoLoginActivity();
                 }
-
-
-                break;
-            case R.id.btn_add_car://加入购物车
-                ToastUtils.showShort(this, "已加入购物车");
                 break;
         }
     }

@@ -81,7 +81,7 @@ public class MyFormAdapter extends RecyclerView.Adapter {
                         intent.putExtra("status",Constant.WAIT_PAY);
                         intent.putExtra("orderId",form.getId());
                         LogUtils.d(TAG,"orderId = " +form.getId());
-                        mContext.startActivity(intent);
+                        ((MyFormActivity)mContext).startActivityForResult(intent,1);
                     }
                 });
                 myFormViewHolder.ivBottom.setOnClickListener(new View.OnClickListener() {
@@ -91,7 +91,7 @@ public class MyFormAdapter extends RecyclerView.Adapter {
                         intent.putExtra("status",Constant.WAIT_PAY);
                         intent.putExtra("orderId",form.getId());
                         LogUtils.d(TAG,"orderId = " +form.getId());
-                        mContext.startActivity(intent);
+                        ((MyFormActivity)mContext).startActivityForResult(intent,1);
                     }
                 });
                 break;
@@ -107,7 +107,8 @@ public class MyFormAdapter extends RecyclerView.Adapter {
                         Intent intent = new Intent(mContext, FormParticularActivity.class);
                         intent.putExtra("status",Constant.TRANSACTION_CLOSED);
                         intent.putExtra("orderId",form.getId());
-                        mContext.startActivity(intent);
+                        ((MyFormActivity)mContext).startActivityForResult(intent,1);
+
                     }
                 });
                 myFormViewHolder.ivBottom.setOnClickListener(new View.OnClickListener() {
@@ -128,7 +129,7 @@ public class MyFormAdapter extends RecyclerView.Adapter {
                         Intent intent = new Intent(mContext, FormParticularActivity.class);
                         intent.putExtra("status",Constant.TRANSACTION_SUCCESS_HAS_COMMENT);
                         intent.putExtra("orderId",form.getId());
-                        mContext.startActivity(intent);
+                        ((MyFormActivity)mContext).startActivityForResult(intent,1);
                     }
                 });
                 myFormViewHolder.ivBottom.setOnClickListener(new View.OnClickListener() {
@@ -151,7 +152,8 @@ public class MyFormAdapter extends RecyclerView.Adapter {
                         Intent intent = new Intent(mContext, FormParticularActivity.class);
                         intent.putExtra("status",Constant.TRANSACTION_SUCCESS_NO_COMMENT);
                         intent.putExtra("orderId",form.getId());
-                        mContext.startActivity(intent);
+                        ((MyFormActivity)mContext).startActivityForResult(intent,1);
+
                     }
                 });
                 myFormViewHolder.ivBottom.setOnClickListener(new View.OnClickListener() {
@@ -175,7 +177,8 @@ public class MyFormAdapter extends RecyclerView.Adapter {
                         Intent intent = new Intent(mContext, FormParticularActivity.class);
                         intent.putExtra("status",Constant.WAIT_DELIVER_GOODS);
                         intent.putExtra("orderId",form.getId());
-                        mContext.startActivity(intent);
+                        ((MyFormActivity)mContext).startActivityForResult(intent,1);
+
                     }
                 });
                 myFormViewHolder.ivBottom.setOnClickListener(new View.OnClickListener() {
@@ -198,7 +201,8 @@ public class MyFormAdapter extends RecyclerView.Adapter {
                         Intent intent = new Intent(mContext, FormParticularActivity.class);
                         intent.putExtra("status",Constant.WAIT_GAIN_GOODS);
                         intent.putExtra("orderId",form.getId());
-                        mContext.startActivity(intent);
+                        ((MyFormActivity)mContext).startActivityForResult(intent,1);
+
                     }
                 });
                 myFormViewHolder.ivBottom.setOnClickListener(new View.OnClickListener() {
@@ -207,7 +211,8 @@ public class MyFormAdapter extends RecyclerView.Adapter {
                         Intent intent = new Intent(mContext, FormParticularActivity.class);
                         intent.putExtra("status",Constant.WAIT_GAIN_GOODS);
                         intent.putExtra("orderId",form.getId());
-                        mContext.startActivity(intent);
+                        ((MyFormActivity)mContext).startActivityForResult(intent,1);
+
                     }
                 });
                 break;

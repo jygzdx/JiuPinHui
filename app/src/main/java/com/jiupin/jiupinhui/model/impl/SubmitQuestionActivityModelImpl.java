@@ -2,7 +2,7 @@ package com.jiupin.jiupinhui.model.impl;
 
 import com.jiupin.jiupinhui.config.Constant;
 import com.jiupin.jiupinhui.model.IModel;
-import com.jiupin.jiupinhui.model.ISendCommentActivityModel;
+import com.jiupin.jiupinhui.model.ISubmitQuestionActivityModel;
 import com.jiupin.jiupinhui.utils.LogUtils;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
@@ -20,22 +20,13 @@ import okhttp3.Call;
 /**
  * 作者：czb on 2017/6/26 14:30
  */
-public class SendCommentActivityModelImpl implements ISendCommentActivityModel {
+public class SubmitQuestionActivityModelImpl implements ISubmitQuestionActivityModel {
 
     @Override
-    public void sendComment(String token, String orderId, String eval_info,
-                            String desc_evaluate, String service_evaluate,
-                            String ship_evaluate, String rating, List<File> files,
-                            final IModel.CallBack callBack) {
-
+    public void submitQuestion(String token, String content, List<File> files, final IModel.CallBack callBack) {
         Map<String, String> params = new HashMap<>();
         params.put("token", token);
-        params.put("orderId", orderId);
-        params.put("eval_info", eval_info);
-        params.put("desc_evaluate", desc_evaluate);
-        params.put("service_evaluate", service_evaluate);
-        params.put("ship_evaluate", ship_evaluate);
-        params.put("rating", rating);
+        params.put("content", content);
 
         Map<String, File> filesMap = new HashMap<>();
         for (int i = 0; i < files.size(); i++) {
@@ -43,7 +34,7 @@ public class SendCommentActivityModelImpl implements ISendCommentActivityModel {
         }
 
         OkHttpUtils.post()
-                .url(Constant.SEND_COMMENT)
+                .url(Constant.AGAIN_BEFORE_CONSULT)
                 .files("photo",filesMap)
                 .params(params)
                 .build()
@@ -55,7 +46,7 @@ public class SendCommentActivityModelImpl implements ISendCommentActivityModel {
 
                     @Override
                     public void onResponse(String response, int id) {
-                        LogUtils.d("response = "+response);
+                        LogUtils.d("submitQuestion = "+response);
                         JSONObject jsonObject = null;
                         try {
                             jsonObject = new JSONObject(response);
@@ -64,12 +55,13 @@ public class SendCommentActivityModelImpl implements ISendCommentActivityModel {
                                 String data = jsonObject.getString("data");
                                 callBack.onSuccess(data);
                             } else {
-                                callBack.onFailed("sendComment-->onFailed = "+jsonObject.getString("msg"));
+                                callBack.onFailed("submitQuestion-->onFailed = "+jsonObject.getString("msg"));
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
                     }
                 });
+
     }
 }

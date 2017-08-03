@@ -105,9 +105,7 @@ public class MyFormActivity extends BaseActivity implements IMyFormActivityView{
         lrvMyForm.setAdapter(lRecyclerViewAdapter);
         lrvMyForm.setPullRefreshEnabled(true);
         lrvMyForm.setLoadMoreEnabled(true);
-        lrvMyForm.setRefreshProgressStyle(ProgressStyle.LineSpinFadeLoader);
-        lrvMyForm.setArrowImageView(R.drawable.ic_pulltorefresh_arrow);
-        lrvMyForm.setLoadingMoreProgressStyle(ProgressStyle.BallSpinFadeLoader);
+
 
         lrvMyForm.setOnRefreshListener(new OnRefreshListener() {
             @Override
@@ -132,12 +130,14 @@ public class MyFormActivity extends BaseActivity implements IMyFormActivityView{
             }
         });
 
-        //设置头部加载颜色
-        lrvMyForm.setHeaderViewColor(R.color.colorAccent, R.color.colorPrimaryDark ,android.R.color.white);
+        lrvMyForm.setRefreshProgressStyle(ProgressStyle.LineSpinFadeLoader);
+        lrvMyForm.setArrowImageView(R.drawable.ic_pulltorefresh_arrow);
+
+        lrvMyForm.setLoadingMoreProgressStyle(ProgressStyle.BallSpinFadeLoader);
         //设置底部加载颜色
-        lrvMyForm.setFooterViewColor(R.color.colorAccent, R.color.colorPrimaryDark ,android.R.color.white);
+        lrvMyForm.setFooterViewColor(android.R.color.darker_gray, android.R.color.darker_gray, android.R.color.white);
         //设置底部加载文字提示
-        lrvMyForm.setFooterViewHint("拼命加载中","已经全部为你呈现了","网络不给力啊，点击再试一次吧");
+        lrvMyForm.setFooterViewHint("拼命加载中", "已经全部为你呈现了", "网络不给力啊，点击再试一次吧");
 
 
         presenter = new MyFormActivityPresenterImpl(this);
