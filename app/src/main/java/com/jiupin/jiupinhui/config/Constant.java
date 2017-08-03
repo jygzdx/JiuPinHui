@@ -6,9 +6,9 @@ package com.jiupin.jiupinhui.config;
 
 public class Constant {
 
-//    public static final String MAIN_URL = "http://nappt.9pin.com";
+    public static final String MAIN_URL = "http://nappt.9pin.com";
 //测试ip
-    public static final String MAIN_URL = "http://192.168.0.112:8080";
+//    public static final String MAIN_URL = "http://192.168.0.112:8080";
 //服务器ip
 //    public static final String MAIN_URL = "http://192.168.0.161:8080";
     //宇明

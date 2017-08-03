@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:background="@color/white"
+              android:orientation="vertical"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        >
+
+        <ImageView
+            android:id="@+id/iv_logo"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:text="工单"
+            android:textColor="@color/light_black"
+            android:textSize="10sp"
+            />
+
+        <TextView
+            android:id="@+id/tv_user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_weight="1"
+            android:text=""
+            android:textColor="@color/mainTextColor"
+            android:textSize="10sp"
+            />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_comment_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:maxLines="1"
+        android:gravity="left"
+        android:layout_weight="1"
+        android:text=""
+        android:textColor="@color/light_black"
+        android:textSize="10sp"
+        />
+    <TextView
+        android:id="@+id/tv_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="12dp"
+        android:maxLines="5"
+        android:gravity="left"
+        android:layout_weight="1"
+        android:text=""
+        android:textColor="@color/black"
+        android:textSize="14sp"
+        />
+
+    <LinearLayout
+        android:id="@+id/ll_show_picture"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:paddingBottom="12dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        >
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="@color/mainBackground"
+        />
+</LinearLayout>

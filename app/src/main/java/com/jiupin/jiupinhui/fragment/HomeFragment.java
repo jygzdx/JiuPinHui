@@ -94,13 +94,6 @@ public class HomeFragment extends Fragment implements IHomeFragmentView {
 
         lrvHome.setLayoutManager(manager);
 
-//        int spacing = getResources().getDimensionPixelSize(R.dimen.dp_4);
-//        GridItemDecoration divider = new GridItemDecoration.Builder(getContext())
-//                .setHorizontal(R.dimen.dp_10)
-//                .setVertical(R.dimen.dp_10)
-//                .setColorResource(R.color.mainBackground)
-//                .build();
-//        lrvHome.addItemDecoration(divider);
         adapter = new HomeAdapter(getContext());
         lRecyclerViewAdapter = new LRecyclerViewAdapter(adapter);
         lrvHome.setAdapter(lRecyclerViewAdapter);
@@ -125,7 +118,7 @@ public class HomeFragment extends Fragment implements IHomeFragmentView {
                     case HomeAdapter.TYPE_RECOMMEND:
                     case HomeAdapter.TYPE_ARTICLE:
                         return 2;
-                    default :
+                    default:
                         return 1;
                 }
             }
@@ -135,13 +128,8 @@ public class HomeFragment extends Fragment implements IHomeFragmentView {
             @Override
             public void onLoadMore() {
                 LogUtils.d("loadMore'");
-                if(loveCount<12){
-                    page++;
-                    presenter.getHomeLove(page);
-                }else {
-                    lrvHome.setNoMore(true);
-                }
-
+                page++;
+                presenter.getHomeLove(page);
             }
         });
 
@@ -171,10 +159,10 @@ public class HomeFragment extends Fragment implements IHomeFragmentView {
 
     @Override
     public void setHotRecommentData(HotRecommentEntity hotRecommentEntity) {
-        if(hotRecommentEntity!=null){
-            if(hotRecommentEntity.getData()!=null){
-                if(hotRecommentEntity.getData().getList()!=null){
-                    if(hotRecommentEntity.getData().getList().size()>0){
+        if (hotRecommentEntity != null) {
+            if (hotRecommentEntity.getData() != null) {
+                if (hotRecommentEntity.getData().getList() != null) {
+                    if (hotRecommentEntity.getData().getList().size() > 0) {
                         adapter.setRecommentData(hotRecommentEntity.getData().getList());
 
                     }
@@ -186,10 +174,10 @@ public class HomeFragment extends Fragment implements IHomeFragmentView {
 
     @Override
     public void setMainShow(MainShowEntity mainShowEntity) {
-        if(mainShowEntity!=null){
-            if(mainShowEntity.getData()!=null){
-                if(mainShowEntity.getData().getList()!=null){
-                    if(mainShowEntity.getData().getList().size()>0){
+        if (mainShowEntity != null) {
+            if (mainShowEntity.getData() != null) {
+                if (mainShowEntity.getData().getList() != null) {
+                    if (mainShowEntity.getData().getList().size() > 0) {
                         adapter.setMealData(mainShowEntity.getData().getList());
                     }
                 }
@@ -200,16 +188,14 @@ public class HomeFragment extends Fragment implements IHomeFragmentView {
 
     @Override
     public void setHomeLove(HomeLoveEntity homeLoveEntity) {
-        if(homeLoveEntity!=null){
-            if(homeLoveEntity.getData()!=null){
-                if(homeLoveEntity.getData().getList()!=null){
-                    if(homeLoveEntity.getData().getList().size()>0){
-                        LogUtils.d("size = "+homeLoveEntity.getData().getList().size());
-                        loveCount = loveCount+4;
+        if (homeLoveEntity != null) {
+            if (homeLoveEntity.getData() != null) {
+                if (homeLoveEntity.getData().getList() != null) {
+                    if (homeLoveEntity.getData().getList().size() > 0) {
                         adapter.addAll(homeLoveEntity.getData().getList());
-                        if(lrvHome!=null){
-                            lrvHome.refreshComplete(requestSize);
-                        }
+                        lrvHome.refreshComplete(requestSize);
+                    } else {
+                        lrvHome.setNoMore(true);
                     }
                 }
 
@@ -220,8 +206,8 @@ public class HomeFragment extends Fragment implements IHomeFragmentView {
 
     @Override
     public void setBannerData(List<BannerEntity> bannerList) {
-        if(bannerList!=null){
-            if(bannerList.size()>0){
+        if (bannerList != null) {
+            if (bannerList.size() > 0) {
                 adapter.setBannerData(bannerList);
             }
         }
@@ -229,8 +215,8 @@ public class HomeFragment extends Fragment implements IHomeFragmentView {
 
     @Override
     public void setArticleData(List<ArticleEntity> articleList) {
-        if(articleList!=null){
-            if(articleList.size()>0){
+        if (articleList != null) {
+            if (articleList.size() > 0) {
                 adapter.setArticleData(articleList);
             }
         }

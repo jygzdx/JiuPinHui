@@ -260,6 +260,7 @@
         >
 
         <LinearLayout
+            android:id="@+id/ll_comment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
@@ -373,24 +374,6 @@
                 >
 
             </LinearLayout>
-
-            <Button
-                android:visibility="gone"
-                android:id="@+id/btn_check_appraise"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/ll_appraise_picture"
-                android:layout_centerHorizontal="true"
-                android:layout_marginBottom="15dp"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/btn_pinglun_bg"
-                android:gravity="center"
-                android:minHeight="0dp"
-                android:minWidth="0dp"
-                android:text="查看有图评价"
-                android:textColor="@color/mainTextColor"
-                android:textSize="10sp"
-                />
         </RelativeLayout>
         <TextView
             android:id="@+id/tv_no_appraise"

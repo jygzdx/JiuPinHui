@@ -94,13 +94,6 @@ public class StoreFragment extends Fragment implements IStoreFragmentView {
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-//                //第一次进入storeFragment，禁止调用
-//                if(isFirst){
-//                    isFirst = false;
-//                    return;
-//                }
-//                ProgressUtils.show(getContext());
-                //获取套餐数据
                 presenter.getMealInfo(tab.getTag().toString());
             }
 

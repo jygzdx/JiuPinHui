@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.jiupin.jiupinhui.R;
 import com.jiupin.jiupinhui.activity.ArticleActivity;
+import com.jiupin.jiupinhui.activity.GoodsActivity;
 import com.jiupin.jiupinhui.activity.MainActivity;
 import com.jiupin.jiupinhui.entity.ArticleEntity;
 import com.jiupin.jiupinhui.entity.BannerEntity;
@@ -120,14 +121,7 @@ public class HomeAdapter extends RecyclerView.Adapter {
         LogUtils.d("position =  " + position);
 
         if (holder instanceof HomeLoveViewHolder) {
-            HomeLoveViewHolder homeLoveViewHolder = (HomeLoveViewHolder) holder;
-            Glide.with(mContext)
-                    .load(stores.get(getTruePositonByPosition(position)).getPath())
-                    .crossFade()
-                    .into(homeLoveViewHolder.ivGuessLove);
-            homeLoveViewHolder.tvGuessLoveDes.setText(stores.get(getTruePositonByPosition(position)).getGoods_name());
-            homeLoveViewHolder.tvGuessLovePrice.setText(stores.get(getTruePositonByPosition(position)).getStore_price() + "");
-            homeLoveViewHolder.tvGuessLovePriceNext.setText(stores.get(getTruePositonByPosition(position)).getGoods_price() + "");
+            initHomeLoveViewHolder((HomeLoveViewHolder) holder, position);
         } else if (holder instanceof TitleViewHolder) {
             TitleViewHolder titleViewHolder = (TitleViewHolder) holder;
             if (position == 1) {
@@ -142,7 +136,6 @@ public class HomeAdapter extends RecyclerView.Adapter {
 
         } else if (holder instanceof BannerViewHolder) {
             initBannerHolder((BannerViewHolder) holder);
-            LogUtils.d("onBindViewHolder.BannerViewHolder");
         } else if (holder instanceof MealViewHolder) {
             initMealHolder((MealViewHolder) holder);
         } else if (holder instanceof RecommendViewHolder) {
@@ -151,6 +144,25 @@ public class HomeAdapter extends RecyclerView.Adapter {
             initArticleHolder((ArticleViewHolder) holder);
         }
 
+    }
+
+    private void initHomeLoveViewHolder(HomeLoveViewHolder holder, final int position) {
+        HomeLoveViewHolder homeLoveViewHolder = holder;
+        Glide.with(mContext)
+                .load(stores.get(getTruePositonByPosition(position)).getPath())
+                .crossFade()
+                .into(homeLoveViewHolder.ivGuessLove);
+        homeLoveViewHolder.tvGuessLoveDes.setText(stores.get(getTruePositonByPosition(position)).getGoods_name());
+        homeLoveViewHolder.tvGuessLovePrice.setText(stores.get(getTruePositonByPosition(position)).getStore_price() + "");
+        homeLoveViewHolder.tvGuessLovePriceNext.setText(stores.get(getTruePositonByPosition(position)).getGoods_price() + "");
+        homeLoveViewHolder.view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, GoodsActivity.class);
+                intent.putExtra("id",stores.get(getTruePositonByPosition(position)).getId());
+                mContext.startActivity(intent);
+            }
+        });
     }
 
     public int getTruePositonByPosition(int position) {
@@ -266,16 +278,15 @@ public class HomeAdapter extends RecyclerView.Adapter {
 
 
     class HomeLoveViewHolder extends RecyclerView.ViewHolder {
-        private ImageView ivGuessLove, ivGuessLoveMore;
-        private TextView tvGuessLoveDes, tvGuessLovePrice, tvGuessLovePriceNext, tvBuyNumber;
-
+        private ImageView ivGuessLove;
+        private TextView tvGuessLoveDes, tvGuessLovePrice, tvGuessLovePriceNext;
+        private View view;
 
         public HomeLoveViewHolder(View itemView) {
             super(itemView);
+            view = itemView;
             ivGuessLove = (ImageView) itemView.findViewById(R.id.iv_guess_love);
-            ivGuessLoveMore = (ImageView) itemView.findViewById(R.id.iv_guess_love_more);
 
-            tvBuyNumber = (TextView) itemView.findViewById(R.id.tv_buy_number);
             tvGuessLoveDes = (TextView) itemView.findViewById(R.id.tv_guess_love_des);
             tvGuessLovePrice = (TextView) itemView.findViewById(R.id.tv_guess_love_price);
             tvGuessLovePriceNext = (TextView) itemView.findViewById(R.id.tv_guess_love_price_next);

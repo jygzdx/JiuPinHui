@@ -254,7 +254,7 @@ public class FormParticularActivity extends BaseActivity implements IFormParticu
 
         TextView tvEnsure = (TextView) view.findViewById(R.id.tv_ensure);
 
-        tvContent.setText("确定要删除该地址吗？");
+        tvContent.setText("确定要删除订单？");
 
         tvCancel.setOnClickListener(new View.OnClickListener() {
 

@@ -132,8 +132,6 @@ public class ServerActivity extends BaseActivity implements IServerActivityView 
             } else {
                 lrvServer.setNoMore(true);
             }
-
-
         }
     }
 }

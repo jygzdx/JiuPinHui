@@ -87,8 +87,6 @@ public class GoodsActivity extends BaseActivity implements IGoodsActivityView {
     LinearLayout llAppraisePicture;
     @BindView(R.id.tv_no_appraise)
     TextView tvNoAppraise;
-    @BindView(R.id.btn_check_appraise)
-    Button btnCheckAppraise;
     @BindView(R.id.iv_store_logo)
     ImageView ivStoreLogo;
     @BindView(R.id.ll_goods_stars)
@@ -209,34 +207,42 @@ public class GoodsActivity extends BaseActivity implements IGoodsActivityView {
         llGoodsShow.addView(goodsShowView);
     }
 
-    @OnClick({R.id.btn_contact_customer, R.id.btn_check_appraise, R.id.btn_now_pay, R.id.ll_Store_customer,R.id.ll_back_main,
-            R.id.iv_goods_back,R.id.tv_to_particulars
+    @OnClick({R.id.btn_contact_customer, R.id.btn_now_pay, R.id.ll_Store_customer,R.id.ll_back_main,
+            R.id.iv_goods_back,R.id.tv_to_particulars,R.id.ll_comment
     })
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_goods_back:
                 finish();
                 break;
+            case R.id.ll_comment://跳转到评论界面
+                Intent commentIntent = new Intent(mContext,CommentActivity.class);
+                commentIntent.putExtra("goodsId",goodsEntity.getData().getId());
+                startActivity(commentIntent);
+                break;
             case R.id.tv_to_particulars://滑动到商品详情位置
-                nsvGoodsScrollview.smoothScrollTo(0,wvWebview.getTop());
-
+                nsvGoodsScrollview.smoothScrollTo(0,wvWebview.getTop()-DensityUtils.dp2px(this,40));
                 break;
             case R.id.btn_contact_customer:
-                Intent serverIntent = new Intent(mContext, ServerActivity.class);
-                startActivity(serverIntent);
+                if(UserInfoManager.getInstance().isLogin()){
+                    Intent serverIntent = new Intent(mContext, ServerActivity.class);
+                    startActivity(serverIntent);
+                }else {//没有登录
+                    gotoLoginActivity();
+                }
+
                 break;
             case R.id.ll_Store_customer:
-                Intent serverIntent2 = new Intent(mContext, ServerActivity.class);
-                startActivity(serverIntent2);
+                if(UserInfoManager.getInstance().isLogin()){
+                    Intent serverIntent2 = new Intent(mContext, ServerActivity.class);
+                    startActivity(serverIntent2);
+                }else {//没有登录
+                    gotoLoginActivity();
+                }
                 break;
             case R.id.ll_back_main:
                 Intent mainIntent = new Intent(mContext, MainActivity.class);
                 startActivity(mainIntent);
-                break;
-
-            case R.id.btn_check_appraise:
-                Intent intent = new Intent(this, CommentActivity.class);
-                startActivity(intent);
                 break;
             case R.id.btn_now_pay://立即购买
                 if (UserInfoManager.getInstance().isLogin()) {

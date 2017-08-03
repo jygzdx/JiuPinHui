@@ -159,24 +159,28 @@ public class WineFragment extends Fragment implements IWineFragmentView {
 
     @Override
     public void setWineInfo(List<WineInfoEntity> wineInfoList) {
-        if(wineInfoList!=null&&wineInfoList.size()>0){
-            wineAdapter.addAll(wineInfoList);
-            lrvWineShow.refreshComplete(20);
-        } else if(wineInfoList.size()<=0){
-            lrvWineShow.setNoMore(true);
-            lrvWineShow.refreshComplete(0);
+        if(wineInfoList!=null){
+            if(wineInfoList.size()>0){
+                wineAdapter.addAll(wineInfoList);
+                lrvWineShow.refreshComplete(20);
+            }else{
+                lrvWineShow.setNoMore(true);
+                lrvWineShow.refreshComplete(0);
+            }
         }
     }
 
     @Override
     public void setWineInfoById(List<WineInfoEntity> wineInfoList) {
 
-        if(wineInfoList!=null&&wineInfoList.size()>0){
-            wineAdapter.addAll(wineInfoList);
-            lrvWineShow.refreshComplete(20);
-        } else if(wineInfoList.size()<=0){
-            lrvWineShow.setNoMore(true);
-            lrvWineShow.refreshComplete(0);
+        if(wineInfoList!=null){
+            if(wineInfoList.size()>0){
+                wineAdapter.addAll(wineInfoList);
+                lrvWineShow.refreshComplete(20);
+            }else{
+                lrvWineShow.setNoMore(true);
+                lrvWineShow.refreshComplete(0);
+            }
         }
     }
 

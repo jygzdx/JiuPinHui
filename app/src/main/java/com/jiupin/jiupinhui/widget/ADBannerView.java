@@ -1,6 +1,7 @@
 package com.jiupin.jiupinhui.widget;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.view.PagerAdapter;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.jiupin.jiupinhui.R;
+import com.jiupin.jiupinhui.activity.GoodsActivity;
 import com.jiupin.jiupinhui.entity.BannerEntity;
 import com.jiupin.jiupinhui.utils.LogUtils;
 
@@ -170,7 +172,7 @@ public class ADBannerView extends LinearLayout {
 
     private void addImageView(final BannerEntity bannerEntity) {
         final ImageView iv = new ImageView(mContext);
-//        iv.setTag(info);
+        //        iv.setTag(info);
         iv.setScaleType(ImageView.ScaleType.FIT_XY);
 
         Glide.with(mContext.getApplicationContext())
@@ -185,7 +187,12 @@ public class ADBannerView extends LinearLayout {
         iv.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                LogUtils.i(TAG, "点击了--" + bannerEntity.getGoods_id());
+                if (bannerEntity.getGoods_id() > 0) {
+                    LogUtils.i(TAG, "点击了--" + bannerEntity.getGoods_id());
+                    Intent intent = new Intent(mContext, GoodsActivity.class);
+                    intent.putExtra("id", bannerEntity.getGoods_id());
+                    mContext.startActivity(intent);
+                }
             }
         });
     }
