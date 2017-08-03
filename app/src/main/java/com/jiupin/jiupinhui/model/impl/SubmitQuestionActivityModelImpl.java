@@ -34,7 +34,7 @@ public class SubmitQuestionActivityModelImpl implements ISubmitQuestionActivityM
         }
 
         OkHttpUtils.post()
-                .url(Constant.AGAIN_BEFORE_CONSULT)
+                .url(Constant.FIRST_BEFORE_CONSULT)
                 .files("photo",filesMap)
                 .params(params)
                 .build()

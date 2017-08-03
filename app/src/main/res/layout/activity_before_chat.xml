@@ -1,0 +1,126 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rl_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/mainBackground"
+    tools:context="com.jiupin.jiupinhui.activity.ChatActivity">
+    <RelativeLayout
+        android:id="@+id/rl_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/mainColor"
+        android:gravity="center_vertical"
+        >
+
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:src="@drawable/back_base"
+            />
+
+        <LinearLayout
+            android:id="@+id/ll_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            >
+
+            <TextView
+                android:id="@+id/tv_title_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="咨询记录"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                />
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <com.github.jdsjlzx.recyclerview.LRecyclerView
+        android:id="@+id/lrv_chat"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/rl_title"
+        android:layout_above="@+id/ll_bottom"
+        >
+    </com.github.jdsjlzx.recyclerview.LRecyclerView>
+
+    <LinearLayout
+        android:id="@+id/ll_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        >
+
+        <TextView
+            android:id="@+id/tv_reply"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="继续回复"
+            android:textColor="@color/mainTextColor"
+            android:textSize="10sp"
+            />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="25dp"
+            android:background="@color/thin_black"
+            />
+
+        <TextView
+            android:id="@+id/tv_close"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="关闭提问"
+            android:textColor="@color/black_66"
+            android:textSize="10sp"
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/ll_input_text"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:visibility="gone"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        >
+        <EditText
+            android:id="@+id/et_input_text"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:padding="8dp"
+            android:hint="请输入信息"
+            android:textSize="12sp"
+            android:textColor="@color/shallow_black"
+            />
+        <Button
+            android:id="@+id/btn_send"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@color/mainColor"
+            android:minHeight="0dp"
+            android:minWidth="0dp"
+            android:padding="8dp"
+            android:text="发送"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            />
+    </LinearLayout>
+</RelativeLayout>

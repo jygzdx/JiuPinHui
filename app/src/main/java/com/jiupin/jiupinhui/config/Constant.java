@@ -6,11 +6,13 @@ package com.jiupin.jiupinhui.config;
 
 public class Constant {
 
-    public static final String MAIN_URL = "http://napp.9pin.com";
+//    public static final String MAIN_URL = "http://nappt.9pin.com";
 //测试ip
-//    public static final String MAIN_URL = "http://192.168.0.112:8080";
+    public static final String MAIN_URL = "http://192.168.0.112:8080";
 //服务器ip
 //    public static final String MAIN_URL = "http://192.168.0.161:8080";
+    //宇明
+//    public static final String MAIN_URL = "http://192.168.0.103:8080";
 
     public static final String APP_ID = "wx420947e7a04ec1df";
 
@@ -260,7 +262,12 @@ public class Constant {
     /**
      * 潜在买家对某个工号的资讯追加发问---售前
      */
-    public static final String AGAIN_BEFORE_CONSULT = MAIN_URL+"/app/app/presale/launchConsult.json";
+    public static final String AGAIN_BEFORE_CONSULT = MAIN_URL+"/app/app/presale/anotherQuestion.json";
+
+    /**
+     * 潜在买家首次发起咨询--售前
+     */
+    public static final String FIRST_BEFORE_CONSULT = MAIN_URL+"/app/app/presale/launchConsult.json";
 
     /**
      * 检查一个用户有否未读的售前回复

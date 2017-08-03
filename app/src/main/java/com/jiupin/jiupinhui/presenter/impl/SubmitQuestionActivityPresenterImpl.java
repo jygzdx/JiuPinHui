@@ -6,7 +6,6 @@ import com.jiupin.jiupinhui.model.IModel;
 import com.jiupin.jiupinhui.model.ISubmitQuestionActivityModel;
 import com.jiupin.jiupinhui.model.impl.SubmitQuestionActivityModelImpl;
 import com.jiupin.jiupinhui.presenter.ISubmitQuestionActivityPresenter;
-import com.jiupin.jiupinhui.utils.LogUtils;
 import com.jiupin.jiupinhui.utils.ToastUtils;
 import com.jiupin.jiupinhui.view.ISubmitQuestionActivityView;
 
@@ -40,7 +39,6 @@ public class SubmitQuestionActivityPresenterImpl implements ISubmitQuestionActiv
             @Override
             public void onFailed(Object error) {
                 ToastUtils.showShort((Context) view,"提交失败");
-                LogUtils.d(((String) error));
             }
         });
     }

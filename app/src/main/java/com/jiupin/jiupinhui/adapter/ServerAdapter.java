@@ -1,6 +1,7 @@
 package com.jiupin.jiupinhui.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,8 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.jiupin.jiupinhui.R;
+import com.jiupin.jiupinhui.activity.BeforeChatActivity;
+import com.jiupin.jiupinhui.activity.ServerActivity;
 import com.jiupin.jiupinhui.entity.ChatHistotyEntity;
 import com.jiupin.jiupinhui.utils.DensityUtils;
 import com.jiupin.jiupinhui.utils.TimeUtils;
@@ -56,7 +59,7 @@ public class ServerAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         ServerViewHolder serverViewHolder = (ServerViewHolder) holder;
-        ChatHistotyEntity chatHistotyEntity = historyList.get(position);
+        final ChatHistotyEntity chatHistotyEntity = historyList.get(position);
         serverViewHolder.tvFinishState.setText(chatHistotyEntity.getStatus()==0?"关闭":((chatHistotyEntity.getStatus()==1)?"待客服处理":"已解决"));
         serverViewHolder.tvFormNumber.setText(chatHistotyEntity.getId()+"");
         serverViewHolder.tvQuestionContent.setText(chatHistotyEntity.getTitle());
@@ -81,6 +84,15 @@ public class ServerAdapter extends RecyclerView.Adapter {
                 }
             }
         }
+
+        serverViewHolder.view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, BeforeChatActivity.class);
+                intent.putExtra("consultId",chatHistotyEntity.getId()+"");
+                ((ServerActivity) mContext).startActivityForResult(intent,1);
+            }
+        });
 
     }
 
@@ -117,9 +129,11 @@ public class ServerAdapter extends RecyclerView.Adapter {
         TextView tvSubmitTime;
         @BindView(R.id.ll_show_picture)
         LinearLayout llShowPicture;
+        View view;
 
         ServerViewHolder(View view) {
             super(view);
+            this.view = view;
             ButterKnife.bind(this, view);
         }
     }
