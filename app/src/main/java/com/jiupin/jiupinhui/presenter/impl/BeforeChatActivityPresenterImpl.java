@@ -8,8 +8,7 @@ import com.jiupin.jiupinhui.model.IBeforeChatActivityModel;
 import com.jiupin.jiupinhui.model.IModel;
 import com.jiupin.jiupinhui.model.impl.BeforeChatActivityModelImpl;
 import com.jiupin.jiupinhui.presenter.IBeforeChatActivityPresenter;
-import com.jiupin.jiupinhui.utils.LogUtils;
-import com.jiupin.jiupinhui.utils.ToastUtils;
+import com.jiupin.jiupinhui.utils.HttpErrorUtils;
 import com.jiupin.jiupinhui.view.IBeforeChatActivityView;
 
 import java.util.List;
@@ -40,8 +39,8 @@ public class BeforeChatActivityPresenterImpl implements IBeforeChatActivityPrese
             }
 
             @Override
-            public void onFailed(Object error) {
-                LogUtils.d(error.toString());
+            public void onFailed(int status, String msg) {
+                HttpErrorUtils.manageErrorHttp(status,msg,(Context) view);
             }
         });
     }
@@ -55,8 +54,8 @@ public class BeforeChatActivityPresenterImpl implements IBeforeChatActivityPrese
             }
 
             @Override
-            public void onFailed(Object error) {
-                ToastUtils.showShort(((Context) view), ((String) error));
+            public void onFailed(int status, String msg) {
+                HttpErrorUtils.manageErrorHttp(status,msg,(Context) view);
             }
         });
     }
@@ -70,8 +69,8 @@ public class BeforeChatActivityPresenterImpl implements IBeforeChatActivityPrese
             }
 
             @Override
-            public void onFailed(Object error) {
-                ToastUtils.showShort(((Context) view), ((String) error));
+            public void onFailed(int status, String msg) {
+                HttpErrorUtils.manageErrorHttp(status,msg,(Context) view);
             }
         });
     }

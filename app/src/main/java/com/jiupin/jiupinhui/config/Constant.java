@@ -14,6 +14,14 @@ public class Constant {
     //宇明
 //    public static final String MAIN_URL = "http://192.168.0.103:8080";
 
+    /**
+     * 商品详情页链接
+     */
+    public static final String GOODS_URL = MAIN_URL+"/app/page/goGoodsDetailInfo.htm?goodsId=";
+
+    /**
+     * 微信appid
+     */
     public static final String APP_ID = "wx420947e7a04ec1df";
 
     /**

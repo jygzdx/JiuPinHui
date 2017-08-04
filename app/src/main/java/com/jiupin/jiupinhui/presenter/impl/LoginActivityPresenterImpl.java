@@ -1,11 +1,14 @@
 package com.jiupin.jiupinhui.presenter.impl;
 
+import android.content.Context;
+
 import com.jiupin.jiupinhui.entity.RegisterEntity;
 import com.jiupin.jiupinhui.entity.ResponseBase;
 import com.jiupin.jiupinhui.model.ILoginActivityModel;
 import com.jiupin.jiupinhui.model.IModel;
 import com.jiupin.jiupinhui.model.impl.LoginActivityModelImpl;
 import com.jiupin.jiupinhui.presenter.ILoginActivityPresenter;
+import com.jiupin.jiupinhui.utils.HttpErrorUtils;
 import com.jiupin.jiupinhui.utils.LogUtils;
 import com.jiupin.jiupinhui.view.ILoginActivityView;
 
@@ -34,8 +37,8 @@ public class LoginActivityPresenterImpl implements ILoginActivityPresenter {
             }
 
             @Override
-            public void onFailed(Object error) {
-                view.requestError(((String) error));
+            public void onFailed(int status, String msg) {
+                HttpErrorUtils.manageErrorHttp(status,msg,(Context) view);
             }
         });
     }
@@ -48,9 +51,10 @@ public class LoginActivityPresenterImpl implements ILoginActivityPresenter {
                 view.registerSuccess((RegisterEntity) success);
             }
 
+
             @Override
-            public void onFailed(Object error) {
-                view.registerFail((String) error);
+            public void onFailed(int status, String msg) {
+                HttpErrorUtils.manageErrorHttp(status,msg,(Context) view);
             }
         });
     }
@@ -64,9 +68,10 @@ public class LoginActivityPresenterImpl implements ILoginActivityPresenter {
                 view.loginSuccess((RegisterEntity)success);
             }
 
+
             @Override
-            public void onFailed(Object error) {
-                view.loginFail((String) error);
+            public void onFailed(int status, String msg) {
+                HttpErrorUtils.manageErrorHttp(status,msg,(Context) view);
             }
         });
     }
@@ -80,8 +85,8 @@ public class LoginActivityPresenterImpl implements ILoginActivityPresenter {
             }
 
             @Override
-            public void onFailed(Object error) {
-                view.registerFail(((String) error));
+            public void onFailed(int status, String msg) {
+                HttpErrorUtils.manageErrorHttp(status,msg,(Context) view);
             }
         });
     }
@@ -94,9 +99,10 @@ public class LoginActivityPresenterImpl implements ILoginActivityPresenter {
                 view.onSuccess(((String) success));
             }
 
+
             @Override
-            public void onFailed(Object error) {
-                view.requestError(((String) error));
+            public void onFailed(int status, String msg) {
+                HttpErrorUtils.manageErrorHttp(status,msg,(Context) view);
             }
         });
     }
@@ -111,8 +117,8 @@ public class LoginActivityPresenterImpl implements ILoginActivityPresenter {
             }
 
             @Override
-            public void onFailed(Object error) {
-                view.registerFail(((String) error));
+            public void onFailed(int status, String msg) {
+                HttpErrorUtils.manageErrorHttp(status,msg,(Context) view);
             }
         });
     }

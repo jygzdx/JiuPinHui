@@ -1,11 +1,13 @@
 package com.jiupin.jiupinhui.presenter.impl;
 
+import android.content.Context;
+
 import com.jiupin.jiupinhui.entity.FormEntity;
 import com.jiupin.jiupinhui.model.IModel;
 import com.jiupin.jiupinhui.model.IMyFormActivityModel;
 import com.jiupin.jiupinhui.model.impl.MyFormActivityModelImpl;
 import com.jiupin.jiupinhui.presenter.IMyFormActivityPresenter;
-import com.jiupin.jiupinhui.utils.LogUtils;
+import com.jiupin.jiupinhui.utils.HttpErrorUtils;
 import com.jiupin.jiupinhui.view.IMyFormActivityView;
 
 import java.util.List;
@@ -35,8 +37,8 @@ public class MyFormActivityPresenterImpl implements IMyFormActivityPresenter {
             }
 
             @Override
-            public void onFailed(Object error) {
-                LogUtils.d(TAG, ((String) error));
+            public void onFailed(int status, String msg) {
+                HttpErrorUtils.manageErrorHttp(status,msg,(Context) view);
             }
         });
     }
@@ -50,8 +52,8 @@ public class MyFormActivityPresenterImpl implements IMyFormActivityPresenter {
             }
 
             @Override
-            public void onFailed(Object error) {
-                LogUtils.d(error.toString());
+            public void onFailed(int status, String msg) {
+                HttpErrorUtils.manageErrorHttp(status,msg,(Context) view);
             }
         });
     }

@@ -1,5 +1,7 @@
 package com.jiupin.jiupinhui.presenter.impl;
 
+import android.content.Context;
+
 import com.jiupin.jiupinhui.entity.BannerEntity;
 import com.jiupin.jiupinhui.entity.MainShowEntity;
 import com.jiupin.jiupinhui.entity.MealTypeEntity;
@@ -7,7 +9,7 @@ import com.jiupin.jiupinhui.model.IModel;
 import com.jiupin.jiupinhui.model.IStoreFragmentModel;
 import com.jiupin.jiupinhui.model.impl.StoreFragmentModelImpl;
 import com.jiupin.jiupinhui.presenter.IStoreFragmentPresenter;
-import com.jiupin.jiupinhui.utils.LogUtils;
+import com.jiupin.jiupinhui.utils.HttpErrorUtils;
 import com.jiupin.jiupinhui.view.IStoreFragmentView;
 
 import java.util.List;
@@ -33,8 +35,8 @@ public class StoreFragmentPresenterImpl implements IStoreFragmentPresenter {
             }
 
             @Override
-            public void onFailed(Object error) {
-                LogUtils.d("error = "+error);
+            public void onFailed(int status, String msg) {
+                HttpErrorUtils.manageErrorHttp(status,msg,(Context) view);
             }
         });
     }
@@ -48,8 +50,8 @@ public class StoreFragmentPresenterImpl implements IStoreFragmentPresenter {
             }
 
             @Override
-            public void onFailed(Object error) {
-                LogUtils.d("error = "+error);
+            public void onFailed(int status, String msg) {
+                HttpErrorUtils.manageErrorHttp(status,msg,(Context) view);
             }
         });
     }
@@ -63,8 +65,8 @@ public class StoreFragmentPresenterImpl implements IStoreFragmentPresenter {
             }
 
             @Override
-            public void onFailed(Object error) {
-                LogUtils.d("error = "+error);
+            public void onFailed(int status, String msg) {
+                HttpErrorUtils.manageErrorHttp(status,msg,(Context) view);
             }
         });
     }

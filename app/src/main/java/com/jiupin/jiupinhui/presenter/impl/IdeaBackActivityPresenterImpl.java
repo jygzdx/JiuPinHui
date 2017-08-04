@@ -1,11 +1,13 @@
 package com.jiupin.jiupinhui.presenter.impl;
 
+import android.content.Context;
+
 import com.jiupin.jiupinhui.entity.ResponseBase;
 import com.jiupin.jiupinhui.model.IIdeaBackActivityModel;
 import com.jiupin.jiupinhui.model.IModel;
 import com.jiupin.jiupinhui.model.impl.IdeaBackActivityModelImpl;
 import com.jiupin.jiupinhui.presenter.IIdeaBackActivityPresenter;
-import com.jiupin.jiupinhui.utils.LogUtils;
+import com.jiupin.jiupinhui.utils.HttpErrorUtils;
 import com.jiupin.jiupinhui.view.IIdeaBackActivityView;
 
 /**
@@ -33,8 +35,8 @@ public class IdeaBackActivityPresenterImpl implements IIdeaBackActivityPresenter
             }
 
             @Override
-            public void onFailed(Object error) {
-                LogUtils.d(error.toString());
+            public void onFailed(int status, String msg) {
+                HttpErrorUtils.manageErrorHttp(status,msg,(Context) view);
             }
         });
     }

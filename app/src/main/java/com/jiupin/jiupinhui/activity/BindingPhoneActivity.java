@@ -142,11 +142,6 @@ public class BindingPhoneActivity extends BaseActivity implements IBindingPhoneA
     }
 
     @Override
-    public void requestError(String error) {
-        ToastUtils.showShort(this,error);
-    }
-
-    @Override
     public void onSuccess(String success) {
         ToastUtils.showShort(this,success);
     }

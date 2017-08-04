@@ -2,6 +2,7 @@ package com.jiupin.jiupinhui.manage;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.BitmapDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,15 +30,16 @@ public class PopWinManager {
 
     /**
      * PopupWindow管理类
+     *
      * @param context 上下文
      * @param parent  PopupWindow相对于那个View
      */
-    public PopWinManager(Context context,View parent) {
+    public PopWinManager(Context context, View parent) {
         this.mContext = context;
         this.parent = parent;
     }
 
-    public void createPopupWindow(){
+    public void createPopupWindow() {
         if (popupWindow == null) {
             View view = LayoutInflater.from(mContext).inflate(R.layout.label_popwindow, null);
             btnToHome = (Button) view.findViewById(R.id.btn_to_home);
@@ -51,29 +53,32 @@ public class PopWinManager {
         popupWindow.setOutsideTouchable(true);
         LogUtils.d(TAG, parent.getX() + "---------" + parent.getY());
         //        // 这个是为了点击“返回Back”也能使其消失，并且并不会影响你的背景
-        //        popupWindow.setBackgroundDrawable(new BitmapDrawable());
+        popupWindow.setBackgroundDrawable(new BitmapDrawable());
         int width = (int) (btnToHome.getWidth() - parent.getWidth());
-        popupWindow.showAsDropDown(parent, -width-20, 0);
+        popupWindow.showAsDropDown(parent, -width - 20, 0);
         btnToHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mContext,MainActivity.class);
-                intent.putExtra("status",MainActivity.HOME_STATUS);
+                popupWindow.dismiss();
+                Intent intent = new Intent(mContext, MainActivity.class);
+                intent.putExtra("status", MainActivity.HOME_STATUS);
                 mContext.startActivity(intent);
             }
         });
         btnToFeedback.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mContext,IdeaBackActivity.class);
+                popupWindow.dismiss();
+                Intent intent = new Intent(mContext, IdeaBackActivity.class);
                 mContext.startActivity(intent);
             }
         });
         btnToMine.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mContext,MainActivity.class);
-                intent.putExtra("status",MainActivity.MY_STATUS);
+                popupWindow.dismiss();
+                Intent intent = new Intent(mContext, MainActivity.class);
+                intent.putExtra("status", MainActivity.MY_STATUS);
                 mContext.startActivity(intent);
             }
         });

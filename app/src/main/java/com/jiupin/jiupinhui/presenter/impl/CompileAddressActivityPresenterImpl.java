@@ -1,10 +1,12 @@
 package com.jiupin.jiupinhui.presenter.impl;
 
+import android.content.Context;
+
 import com.jiupin.jiupinhui.model.ICompileAddressActivityModel;
 import com.jiupin.jiupinhui.model.IModel;
 import com.jiupin.jiupinhui.model.impl.CompileAddressActivityModelImpl;
 import com.jiupin.jiupinhui.presenter.ICompileAddressActivityPresenter;
-import com.jiupin.jiupinhui.utils.LogUtils;
+import com.jiupin.jiupinhui.utils.HttpErrorUtils;
 import com.jiupin.jiupinhui.view.ICompileAddressActivityView;
 
 /**
@@ -33,8 +35,8 @@ public class CompileAddressActivityPresenterImpl implements ICompileAddressActiv
             }
 
             @Override
-            public void onFailed(Object error) {
-                LogUtils.d(error.toString());
+            public void onFailed(int status, String msg) {
+                HttpErrorUtils.manageErrorHttp(status,msg,(Context) view);
                 view.saveAddressFailed();
             }
         });
@@ -47,10 +49,9 @@ public class CompileAddressActivityPresenterImpl implements ICompileAddressActiv
             public void onSuccess(Object success) {
                 view.deleteAddressSuccess();
             }
-
             @Override
-            public void onFailed(Object error) {
-                LogUtils.d(error.toString());
+            public void onFailed(int status, String msg) {
+                HttpErrorUtils.manageErrorHttp(status,msg,(Context) view);
             }
         });
     }

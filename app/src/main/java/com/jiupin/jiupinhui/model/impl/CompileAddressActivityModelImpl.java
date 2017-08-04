@@ -5,6 +5,7 @@ import com.jiupin.jiupinhui.config.Constant;
 import com.jiupin.jiupinhui.entity.ResponseBase;
 import com.jiupin.jiupinhui.model.ICompileAddressActivityModel;
 import com.jiupin.jiupinhui.model.IModel;
+import com.jiupin.jiupinhui.utils.HttpErrorUtils;
 import com.jiupin.jiupinhui.utils.LogUtils;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
@@ -39,11 +40,7 @@ public class CompileAddressActivityModelImpl implements ICompileAddressActivityM
                 .execute(new StringCallback() {
                     @Override
                     public void onError(Call call, Exception e, int id) {
-                        LogUtils.d("saveAddress");
-                        LogUtils.d("call = "+call);
-                        LogUtils.d("e = "+e);
-
-                        callBack.onFailed("saveAddress-->onFailed");
+                        callBack.onFailed(HttpErrorUtils.NETWORK_ERROR,HttpErrorUtils.MSG_NETWORK_ERROR);
 
                     }
 
@@ -53,12 +50,14 @@ public class CompileAddressActivityModelImpl implements ICompileAddressActivityM
                         JSONObject jsonObject = null;
                         try {
                             jsonObject = new JSONObject(response);
-                            if ("OK".equals(jsonObject.getString("msg"))) {
+                            String msg = jsonObject.getString("msg");
+                            int status = jsonObject.getInt("status");
+                            if (200 == status) {
                                 Gson gson = new Gson();
                                 ResponseBase responseBase = gson.fromJson(response,ResponseBase.class);
                                 callBack.onSuccess(responseBase);
                             } else {
-                                callBack.onFailed("saveAddress-->onFailed"+jsonObject.getString("msg"));
+                                callBack.onFailed(status, msg);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -78,9 +77,7 @@ public class CompileAddressActivityModelImpl implements ICompileAddressActivityM
                 .execute(new StringCallback() {
                     @Override
                     public void onError(Call call, Exception e, int id) {
-                        LogUtils.d("deleteAddress" + e.getMessage());
-                        callBack.onFailed("deleteAddress-->onFailed");
-
+                        callBack.onFailed(HttpErrorUtils.NETWORK_ERROR,HttpErrorUtils.MSG_NETWORK_ERROR);
                     }
 
                     @Override
@@ -89,10 +86,12 @@ public class CompileAddressActivityModelImpl implements ICompileAddressActivityM
                         JSONObject jsonObject = null;
                         try {
                             jsonObject = new JSONObject(response);
-                            if ("OK".equals(jsonObject.getString("msg"))) {
+                            String msg = jsonObject.getString("msg");
+                            int status = jsonObject.getInt("status");
+                            if (200 == status) {
                                 callBack.onSuccess("删除地址成功");
                             } else {
-                                callBack.onFailed(jsonObject.getString("msg"));
+                                callBack.onFailed(status, msg);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

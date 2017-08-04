@@ -7,6 +7,7 @@ import com.jiupin.jiupinhui.entity.ResponseBase;
 import com.jiupin.jiupinhui.entity.SecurityCodeEntity;
 import com.jiupin.jiupinhui.model.ILoginActivityModel;
 import com.jiupin.jiupinhui.model.IModel;
+import com.jiupin.jiupinhui.utils.HttpErrorUtils;
 import com.jiupin.jiupinhui.utils.LogUtils;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
@@ -33,7 +34,7 @@ public class LoginActivityModelImpl implements ILoginActivityModel {
                 .execute(new StringCallback() {
                     @Override
                     public void onError(Call call, Exception e, int id) {
-                        callBack.onFailed(e.getMessage());
+                        callBack.onFailed(HttpErrorUtils.NETWORK_ERROR,HttpErrorUtils.MSG_NETWORK_ERROR);
                     }
 
                     @Override
@@ -43,7 +44,7 @@ public class LoginActivityModelImpl implements ILoginActivityModel {
                         if (200 == securityCodeEntity.getStatus()) {
                             callBack.onSuccess("发送验证码成功");
                         } else {
-                            callBack.onFailed(securityCodeEntity.getMsg());
+                            callBack.onFailed(securityCodeEntity.getStatus(),securityCodeEntity.getMsg());
                         }
 
                     }
@@ -62,7 +63,7 @@ public class LoginActivityModelImpl implements ILoginActivityModel {
                 .execute(new StringCallback() {
                     @Override
                     public void onError(Call call, Exception e, int id) {
-                        callBack.onFailed("注册失败，请检查网络是否完好");
+                        callBack.onFailed(HttpErrorUtils.NETWORK_ERROR,HttpErrorUtils.MSG_NETWORK_ERROR);
                     }
 
                     @Override
@@ -72,12 +73,13 @@ public class LoginActivityModelImpl implements ILoginActivityModel {
                         try {
                             jsonObject = new JSONObject(response);
                             String msg = jsonObject.getString("msg");
+                            int status = jsonObject.getInt("status");
                             if ("OK".equals(msg)) {
                                 Gson gson = new Gson();
                                 RegisterEntity registerEntity = gson.fromJson(response, RegisterEntity.class);
                                 callBack.onSuccess(registerEntity);
                             } else {
-                                callBack.onFailed(msg);
+                                callBack.onFailed(status,msg);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -98,9 +100,7 @@ public class LoginActivityModelImpl implements ILoginActivityModel {
                 .execute(new StringCallback() {
                     @Override
                     public void onError(Call call, Exception e, int id) {
-                        LogUtils.d("登录失败" + e.getMessage());
-                        callBack.onFailed(e.getMessage());
-
+                        callBack.onFailed(HttpErrorUtils.NETWORK_ERROR,HttpErrorUtils.MSG_NETWORK_ERROR);
                     }
 
                     @Override
@@ -110,6 +110,7 @@ public class LoginActivityModelImpl implements ILoginActivityModel {
                         try {
                             jsonObject = new JSONObject(response);
                             String msg = jsonObject.getString("msg");
+                            int status = jsonObject.getInt("status");
                             if ("OK".equals(msg)) {
                                 JSONObject dataJson = jsonObject.getJSONObject("data");
                                 String token = dataJson.getString("token");
@@ -120,7 +121,7 @@ public class LoginActivityModelImpl implements ILoginActivityModel {
                                 RegisterEntity registerEntity = gson.fromJson(response, RegisterEntity.class);
                                 callBack.onSuccess(registerEntity);
                             } else {
-                                callBack.onFailed(msg);
+                                callBack.onFailed(status,msg);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -139,8 +140,7 @@ public class LoginActivityModelImpl implements ILoginActivityModel {
                 .execute(new StringCallback() {
                     @Override
                     public void onError(Call call, Exception e, int id) {
-                        LogUtils.d("登录失败" + e.getMessage());
-                        callBack.onFailed("验证号码唯一失败");
+                        callBack.onFailed(HttpErrorUtils.NETWORK_ERROR,HttpErrorUtils.MSG_NETWORK_ERROR);
 
                     }
 
@@ -151,11 +151,12 @@ public class LoginActivityModelImpl implements ILoginActivityModel {
                         try {
                             jsonObject = new JSONObject(response);
                             String msg = jsonObject.getString("msg");
+                            int status = jsonObject.getInt("status");
                             if ("OK".equals(msg)) {
                                 String data = jsonObject.getString("data");
                                 callBack.onSuccess(data);
                             } else {
-                                callBack.onFailed(msg);
+                                callBack.onFailed(status,msg);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -174,7 +175,8 @@ public class LoginActivityModelImpl implements ILoginActivityModel {
                 .execute(new StringCallback() {
                     @Override
                     public void onError(Call call, Exception e, int id) {
-                        callBack.onFailed(e.getMessage());
+                        callBack.onFailed(HttpErrorUtils.NETWORK_ERROR,HttpErrorUtils.MSG_NETWORK_ERROR);
+
                     }
 
                     @Override
@@ -184,10 +186,11 @@ public class LoginActivityModelImpl implements ILoginActivityModel {
                         try {
                             jsonObject = new JSONObject(response);
                             String msg = jsonObject.getString("msg");
+                            int status = jsonObject.getInt("status");
                             if ("OK".equals(msg)) {
                                 callBack.onSuccess("发送验证码成功");
                             } else {
-                                callBack.onFailed(msg);
+                                callBack.onFailed(status,msg);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -208,7 +211,7 @@ public class LoginActivityModelImpl implements ILoginActivityModel {
                 .execute(new StringCallback() {
                     @Override
                     public void onError(Call call, Exception e, int id) {
-                        callBack.onFailed(e.getMessage());
+                        callBack.onFailed(HttpErrorUtils.NETWORK_ERROR,HttpErrorUtils.MSG_NETWORK_ERROR);
                     }
 
                     @Override
@@ -218,12 +221,13 @@ public class LoginActivityModelImpl implements ILoginActivityModel {
                         try {
                             jsonObject = new JSONObject(response);
                             String msg = jsonObject.getString("msg");
+                            int status = jsonObject.getInt("status");
                             if ("OK".equals(msg)) {
                                 Gson gson = new Gson();
                                 ResponseBase responseBase = gson.fromJson(response, ResponseBase.class);
                                 callBack.onSuccess(responseBase);
                             } else {
-                                callBack.onFailed(msg);
+                                callBack.onFailed(status,msg);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

@@ -10,6 +10,7 @@ import com.jiupin.jiupinhui.entity.HotRecommentEntity;
 import com.jiupin.jiupinhui.entity.MainShowEntity;
 import com.jiupin.jiupinhui.model.IHomeFragmentModel;
 import com.jiupin.jiupinhui.model.IModel;
+import com.jiupin.jiupinhui.utils.HttpErrorUtils;
 import com.jiupin.jiupinhui.utils.LogUtils;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
@@ -37,20 +38,27 @@ public class HomeFragmentModelImpl implements IHomeFragmentModel {
                 .execute(new StringCallback() {
                     @Override
                     public void onError(Call call, Exception e, int id) {
-                        LogUtils.d("网络出错" + e.getMessage());
-                        callBack.onFailed(e.getMessage());
+                        callBack.onFailed(HttpErrorUtils.NETWORK_ERROR,HttpErrorUtils.MSG_NETWORK_ERROR);
 
                     }
 
                     @Override
                     public void onResponse(String response, int id) {
                         LogUtils.d("response = "+response);
-                        Gson gson = new Gson();
-                        HotRecommentEntity hotRecommentEntity = gson.fromJson(response,HotRecommentEntity.class);
-                        if ("OK".equals(hotRecommentEntity.getMsg())){
-                            callBack.onSuccess(hotRecommentEntity);
-                        }else{
-                            callBack.onFailed(hotRecommentEntity.getMsg());
+                        JSONObject jsonObject = null;
+                        try {
+                            jsonObject = new JSONObject(response);
+                            String msg = jsonObject.getString("msg");
+                            int status = jsonObject.getInt("status");
+                            if (200 == status) {
+                                Gson gson = new Gson();
+                                HotRecommentEntity hotRecommentEntity = gson.fromJson(response,HotRecommentEntity.class);
+                                callBack.onSuccess(hotRecommentEntity);
+                            } else {
+                                callBack.onFailed(status, msg);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
 
                     }
@@ -65,22 +73,27 @@ public class HomeFragmentModelImpl implements IHomeFragmentModel {
                 .execute(new StringCallback() {
                     @Override
                     public void onError(Call call, Exception e, int id) {
-                        LogUtils.d("网络出错" + e.getMessage());
-                        callBack.onFailed(e.getMessage());
-
+                        callBack.onFailed(HttpErrorUtils.NETWORK_ERROR,HttpErrorUtils.MSG_NETWORK_ERROR);
                     }
 
                     @Override
                     public void onResponse(String response, int id) {
                         LogUtils.d("response = "+response);
-                        Gson gson = new Gson();
-                        MainShowEntity mainShowEntity = gson.fromJson(response,MainShowEntity.class);
-                        if ("OK".equals(mainShowEntity.getMsg())){
-                            callBack.onSuccess(mainShowEntity);
-                        }else{
-                            callBack.onFailed(mainShowEntity.getMsg());
+                        JSONObject jsonObject = null;
+                        try {
+                            jsonObject = new JSONObject(response);
+                            String msg = jsonObject.getString("msg");
+                            int status = jsonObject.getInt("status");
+                            if (200 == status) {
+                                Gson gson = new Gson();
+                                MainShowEntity mainShowEntity = gson.fromJson(response,MainShowEntity.class);
+                                callBack.onSuccess(mainShowEntity);
+                            } else {
+                                callBack.onFailed(status, msg);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
-
                     }
                 });
     }
@@ -95,20 +108,26 @@ public class HomeFragmentModelImpl implements IHomeFragmentModel {
                 .execute(new StringCallback() {
                     @Override
                     public void onError(Call call, Exception e, int id) {
-                        LogUtils.d("网络出错" + e.getMessage());
-                        callBack.onFailed(e.getMessage());
-
+                        callBack.onFailed(HttpErrorUtils.NETWORK_ERROR,HttpErrorUtils.MSG_NETWORK_ERROR);
                     }
 
                     @Override
                     public void onResponse(String response, int id) {
                         LogUtils.d("response = "+response);
-                        Gson gson = new Gson();
-                        HomeLoveEntity homeLoveEntity = gson.fromJson(response,HomeLoveEntity.class);
-                        if ("OK".equals(homeLoveEntity.getMsg())){
-                            callBack.onSuccess(homeLoveEntity);
-                        }else{
-                            callBack.onFailed(homeLoveEntity.getMsg());
+                        JSONObject jsonObject = null;
+                        try {
+                            jsonObject = new JSONObject(response);
+                            String msg = jsonObject.getString("msg");
+                            int status = jsonObject.getInt("status");
+                            if (200 == status) {
+                                Gson gson = new Gson();
+                                HomeLoveEntity homeLoveEntity = gson.fromJson(response,HomeLoveEntity.class);
+                                callBack.onSuccess(homeLoveEntity);
+                            } else {
+                                callBack.onFailed(status, msg);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
 
                     }
@@ -124,9 +143,7 @@ public class HomeFragmentModelImpl implements IHomeFragmentModel {
                 .execute(new StringCallback() {
                     @Override
                     public void onError(Call call, Exception e, int id) {
-                        LogUtils.d("getBanner" + e.getMessage());
-                        callBack.onFailed("getBanner-->onFailed");
-
+                        callBack.onFailed(HttpErrorUtils.NETWORK_ERROR,HttpErrorUtils.MSG_NETWORK_ERROR);
                     }
 
                     @Override
@@ -135,7 +152,9 @@ public class HomeFragmentModelImpl implements IHomeFragmentModel {
                         JSONObject jsonObject = null;
                         try {
                             jsonObject = new JSONObject(response);
-                            if ("OK".equals(jsonObject.getString("msg"))) {
+                            String msg = jsonObject.getString("msg");
+                            int status = jsonObject.getInt("status");
+                            if (200 == status) {
                                 Gson gson = new Gson();
                                 String data = jsonObject.getString("data");
                                 JSONObject dataObj = new JSONObject(data);
@@ -143,7 +162,7 @@ public class HomeFragmentModelImpl implements IHomeFragmentModel {
                                 List<BannerEntity> bannerList = gson.fromJson(list,new TypeToken<List<BannerEntity>>(){}.getType());
                                 callBack.onSuccess(bannerList);
                             } else {
-                                callBack.onFailed("getBanner-->onFailed");
+                                callBack.onFailed(status, msg);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -163,9 +182,7 @@ public class HomeFragmentModelImpl implements IHomeFragmentModel {
                 .execute(new StringCallback() {
                     @Override
                     public void onError(Call call, Exception e, int id) {
-                        LogUtils.d("getArticle" + e.getMessage());
-                        callBack.onFailed("getArticle-->onFailed");
-
+                        callBack.onFailed(HttpErrorUtils.NETWORK_ERROR,HttpErrorUtils.MSG_NETWORK_ERROR);
                     }
 
                     @Override
@@ -174,7 +191,9 @@ public class HomeFragmentModelImpl implements IHomeFragmentModel {
                         JSONObject jsonObject = null;
                         try {
                             jsonObject = new JSONObject(response);
-                            if ("OK".equals(jsonObject.getString("msg"))) {
+                            String msg = jsonObject.getString("msg");
+                            int status = jsonObject.getInt("status");
+                            if (200 == status) {
                                 Gson gson = new Gson();
                                 String data = jsonObject.getString("data");
                                 JSONObject dataObj = new JSONObject(data);
@@ -182,7 +201,7 @@ public class HomeFragmentModelImpl implements IHomeFragmentModel {
                                 List<ArticleEntity> articleList = gson.fromJson(list,new TypeToken<List<ArticleEntity>>(){}.getType());
                                 callBack.onSuccess(articleList);
                             } else {
-                                callBack.onFailed("getArticle-->onFailed");
+                                callBack.onFailed(status, msg);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

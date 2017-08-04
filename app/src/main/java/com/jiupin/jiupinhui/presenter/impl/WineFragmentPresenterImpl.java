@@ -1,12 +1,14 @@
 package com.jiupin.jiupinhui.presenter.impl;
 
+import android.content.Context;
+
 import com.jiupin.jiupinhui.entity.WineBrandEntity;
 import com.jiupin.jiupinhui.entity.WineInfoEntity;
 import com.jiupin.jiupinhui.model.IModel;
 import com.jiupin.jiupinhui.model.IWineFragmentModel;
 import com.jiupin.jiupinhui.model.impl.WineFragmentModelImpl;
 import com.jiupin.jiupinhui.presenter.IWineFragmentPresenter;
-import com.jiupin.jiupinhui.utils.LogUtils;
+import com.jiupin.jiupinhui.utils.HttpErrorUtils;
 import com.jiupin.jiupinhui.view.IWineFragmentView;
 
 import java.util.List;
@@ -33,8 +35,8 @@ public class WineFragmentPresenterImpl implements IWineFragmentPresenter {
             }
 
             @Override
-            public void onFailed(Object error) {
-                LogUtils.d(error.toString());
+            public void onFailed(int status, String msg) {
+                HttpErrorUtils.manageErrorHttp(status,msg,(Context) view);
             }
         });
     }
@@ -48,8 +50,8 @@ public class WineFragmentPresenterImpl implements IWineFragmentPresenter {
             }
 
             @Override
-            public void onFailed(Object error) {
-                LogUtils.d(error.toString());
+            public void onFailed(int status, String msg) {
+                HttpErrorUtils.manageErrorHttp(status,msg,(Context) view);
             }
         });
     }
@@ -63,8 +65,8 @@ public class WineFragmentPresenterImpl implements IWineFragmentPresenter {
             }
 
             @Override
-            public void onFailed(Object error) {
-                LogUtils.d(error.toString());
+            public void onFailed(int status, String msg) {
+                HttpErrorUtils.manageErrorHttp(status,msg,(Context) view);
             }
         });
     }

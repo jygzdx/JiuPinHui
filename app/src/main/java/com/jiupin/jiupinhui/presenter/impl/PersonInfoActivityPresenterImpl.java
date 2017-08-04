@@ -1,12 +1,14 @@
 package com.jiupin.jiupinhui.presenter.impl;
 
+import android.content.Context;
+
 import com.jiupin.jiupinhui.entity.ResponseBase;
 import com.jiupin.jiupinhui.entity.UserEntity;
 import com.jiupin.jiupinhui.model.IModel;
 import com.jiupin.jiupinhui.model.IPersonInfoActivityModel;
 import com.jiupin.jiupinhui.model.impl.PersonInfoActivityModelImpl;
 import com.jiupin.jiupinhui.presenter.IPersonInfoActivityPresenter;
-import com.jiupin.jiupinhui.utils.LogUtils;
+import com.jiupin.jiupinhui.utils.HttpErrorUtils;
 import com.jiupin.jiupinhui.view.IPersonInfoActivityView;
 
 import java.io.File;
@@ -32,8 +34,8 @@ public class PersonInfoActivityPresenterImpl implements IPersonInfoActivityPrese
             }
 
             @Override
-            public void onFailed(Object error) {
-                LogUtils.d("error = "+error);
+            public void onFailed(int status, String msg) {
+                HttpErrorUtils.manageErrorHttp(status,msg,(Context) view);
             }
         });
     }
@@ -47,8 +49,8 @@ public class PersonInfoActivityPresenterImpl implements IPersonInfoActivityPrese
             }
 
             @Override
-            public void onFailed(Object error) {
-                LogUtils.d("error = "+error);
+            public void onFailed(int status, String msg) {
+                HttpErrorUtils.manageErrorHttp(status,msg,(Context) view);
             }
         });
     }

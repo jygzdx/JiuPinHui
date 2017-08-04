@@ -3,6 +3,7 @@ package com.jiupin.jiupinhui.model.impl;
 import com.jiupin.jiupinhui.config.Constant;
 import com.jiupin.jiupinhui.model.IModel;
 import com.jiupin.jiupinhui.model.ISendCommentActivityModel;
+import com.jiupin.jiupinhui.utils.HttpErrorUtils;
 import com.jiupin.jiupinhui.utils.LogUtils;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
@@ -50,7 +51,7 @@ public class SendCommentActivityModelImpl implements ISendCommentActivityModel {
                 .execute(new StringCallback() {
                     @Override
                     public void onError(Call call, Exception e, int id) {
-                        callBack.onFailed(e.getMessage());
+                        callBack.onFailed(HttpErrorUtils.NETWORK_ERROR,HttpErrorUtils.MSG_NETWORK_ERROR);
                     }
 
                     @Override
@@ -60,11 +61,12 @@ public class SendCommentActivityModelImpl implements ISendCommentActivityModel {
                         try {
                             jsonObject = new JSONObject(response);
                             String msg = jsonObject.getString("msg");
-                            if ("OK".equals(msg)) {
+                            int status = jsonObject.getInt("status");
+                            if (200 == status) {
                                 String data = jsonObject.getString("data");
                                 callBack.onSuccess(data);
                             } else {
-                                callBack.onFailed("sendComment-->onFailed = "+jsonObject.getString("msg"));
+                                callBack.onFailed(status, msg);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

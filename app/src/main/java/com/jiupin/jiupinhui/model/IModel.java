@@ -14,8 +14,8 @@ public interface IModel {
 
         /**
          * 回调失败调用
-         * @param error 失败后传递的参数
+         * @param status 失败后传递的返回码
          */
-        void onFailed(Object error);
+        void onFailed(int status ,String msg);
     }
 }

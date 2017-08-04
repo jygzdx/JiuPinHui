@@ -103,7 +103,7 @@
             android:id="@+id/et_input_text"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:background="@null"
             android:padding="8dp"
             android:hint="请输入信息"
@@ -112,8 +112,8 @@
             />
         <Button
             android:id="@+id/btn_send"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_width="50dp"
+            android:layout_height="35dp"
             android:background="@color/mainColor"
             android:minHeight="0dp"
             android:minWidth="0dp"

@@ -367,7 +367,6 @@ LogUtils.d("---- token = "+token+"---- area_id = "+area_id+"---- userName = "+us
     @Override
     public void saveAddressFailed() {
         ad.dismiss();
-        ToastUtils.showShort(this, "上传地址失败");
     }
 
     @Override

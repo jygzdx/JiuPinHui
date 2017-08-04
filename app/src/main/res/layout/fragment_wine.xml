@@ -7,26 +7,7 @@
               android:background="@color/mainBackground"
               android:orientation="vertical"
               tools:context="com.jiupin.jiupinhui.activity.MainActivity">
-    <!--&lt;!&ndash;搜索栏&ndash;&gt;-->
-    <!--<RelativeLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:background="@color/white"-->
-        <!--&gt;-->
 
-        <!--<EditText-->
-            <!--android:id="@+id/et_store_search"-->
-            <!--style="@style/base_search_edittext"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginBottom="8dp"-->
-            <!--android:layout_marginLeft="12dp"-->
-            <!--android:layout_marginRight="12dp"-->
-            <!--android:layout_marginTop="8dp"-->
-            <!--android:background="@drawable/search_wine_shape"-->
-            <!--android:drawableLeft="@drawable/icon_search"-->
-            <!--android:hint="高级搜索"/>-->
-    <!--</RelativeLayout>-->
     <!--热门品牌-->
     <LinearLayout
         android:layout_width="match_parent"
@@ -49,7 +30,9 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_wine_brand"
             android:layout_width="match_parent"
-            android:layout_height="80dp"/>
+            android:layout_height="80dp"
+            android:overScrollMode="never"
+            />
     </LinearLayout>
     <!--酒类-->
     <LinearLayout

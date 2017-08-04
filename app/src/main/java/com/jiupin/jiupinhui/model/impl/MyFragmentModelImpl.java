@@ -7,6 +7,7 @@ import com.jiupin.jiupinhui.entity.ResponseBase;
 import com.jiupin.jiupinhui.entity.UserEntity;
 import com.jiupin.jiupinhui.model.IModel;
 import com.jiupin.jiupinhui.model.IMyFragmentModel;
+import com.jiupin.jiupinhui.utils.HttpErrorUtils;
 import com.jiupin.jiupinhui.utils.LogUtils;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
@@ -32,15 +33,30 @@ public class MyFragmentModelImpl implements IMyFragmentModel {
                 .execute(new StringCallback() {
                     @Override
                     public void onError(Call call, Exception e, int id) {
-                        callBack.onFailed(e.getMessage());
+                        callBack.onFailed(HttpErrorUtils.NETWORK_ERROR,HttpErrorUtils.MSG_NETWORK_ERROR);
                     }
 
                     @Override
                     public void onResponse(String response, int id) {
                         LogUtils.d("onResponse.response = "+response);
-                        Gson gson = new Gson();
-                        ResponseBase responseBase = gson.fromJson(response, ResponseBase.class);
-                        callBack.onSuccess(responseBase);
+
+                        JSONObject jsonObject = null;
+                        try {
+                            jsonObject = new JSONObject(response);
+                            String msg = jsonObject.getString("msg");
+                            int status = jsonObject.getInt("status");
+                            if (200 == status) {
+                                Gson gson = new Gson();
+                                ResponseBase responseBase = gson.fromJson(response, ResponseBase.class);
+                                callBack.onSuccess(responseBase);
+                            } else {
+                                callBack.onFailed(status, msg);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+
                     }
                 });
     }
@@ -55,15 +71,27 @@ public class MyFragmentModelImpl implements IMyFragmentModel {
                 .execute(new StringCallback() {
                     @Override
                     public void onError(Call call, Exception e, int id) {
-                        callBack.onFailed(e.getMessage());
+                        callBack.onFailed(HttpErrorUtils.NETWORK_ERROR,HttpErrorUtils.MSG_NETWORK_ERROR);
                     }
 
                     @Override
                     public void onResponse(String response, int id) {
                         LogUtils.d("onResponse.response = "+response);
-                        Gson gson = new Gson();
-                        UserEntity userEntity = gson.fromJson(response, UserEntity.class);
-                        callBack.onSuccess(userEntity);
+                        JSONObject jsonObject = null;
+                        try {
+                            jsonObject = new JSONObject(response);
+                            String msg = jsonObject.getString("msg");
+                            int status = jsonObject.getInt("status");
+                            if (200 == status) {
+                                Gson gson = new Gson();
+                                UserEntity userEntity = gson.fromJson(response, UserEntity.class);
+                                callBack.onSuccess(userEntity);
+                            } else {
+                                callBack.onFailed(status, msg);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
                 });
     }
@@ -78,7 +106,7 @@ public class MyFragmentModelImpl implements IMyFragmentModel {
                 .execute(new StringCallback() {
                     @Override
                     public void onError(Call call, Exception e, int id) {
-                        callBack.onFailed(e.getMessage());
+                        callBack.onFailed(HttpErrorUtils.NETWORK_ERROR,HttpErrorUtils.MSG_NETWORK_ERROR);
                     }
 
                     @Override
@@ -87,12 +115,14 @@ public class MyFragmentModelImpl implements IMyFragmentModel {
                         JSONObject jsonObject = null;
                         try {
                             jsonObject = new JSONObject(response);
-                            if ("OK".equals(jsonObject.getString("msg"))) {
+                            String msg = jsonObject.getString("msg");
+                            int status = jsonObject.getInt("status");
+                            if (200 == status) {
                                 Gson gson = new Gson();
                                 MyFormEntity myFormEntity = gson.fromJson(response, MyFormEntity.class);
                                 callBack.onSuccess(myFormEntity);
                             } else {
-                                callBack.onFailed("getGoodsInfo-->onFailed");
+                                callBack.onFailed(status, msg);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

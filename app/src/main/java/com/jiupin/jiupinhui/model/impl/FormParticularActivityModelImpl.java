@@ -5,7 +5,7 @@ import com.jiupin.jiupinhui.config.Constant;
 import com.jiupin.jiupinhui.entity.FormParticularEntity;
 import com.jiupin.jiupinhui.model.IFormParticularActivityModel;
 import com.jiupin.jiupinhui.model.IModel;
-import com.jiupin.jiupinhui.utils.LogUtils;
+import com.jiupin.jiupinhui.utils.HttpErrorUtils;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -31,8 +31,7 @@ public class FormParticularActivityModelImpl implements IFormParticularActivityM
                 .execute(new StringCallback() {
                     @Override
                     public void onError(Call call, Exception e, int id) {
-                        LogUtils.d("getFormInfo" + e.getMessage());
-                        callBack.onFailed("getFormInfo-->onFailed = "+e.toString());
+                        callBack.onFailed(HttpErrorUtils.NETWORK_ERROR,HttpErrorUtils.MSG_NETWORK_ERROR);
 
                     }
 
@@ -41,13 +40,15 @@ public class FormParticularActivityModelImpl implements IFormParticularActivityM
                         JSONObject jsonObject = null;
                         try {
                             jsonObject = new JSONObject(response);
-                            if ("OK".equals(jsonObject.getString("msg"))) {
+                            String msg = jsonObject.getString("msg");
+                            int status = jsonObject.getInt("status");
+                            if (200 == status) {
                                 Gson gson = new Gson();
                                 String data = jsonObject.getString("data");
                                 FormParticularEntity formParticularEntity = gson.fromJson(data,FormParticularEntity.class);
                                 callBack.onSuccess(formParticularEntity);
                             } else {
-                                callBack.onFailed("getFormInfo-->onFailed = "+jsonObject.getString("msg"));
+                                callBack.onFailed(status, msg);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -67,9 +68,7 @@ public class FormParticularActivityModelImpl implements IFormParticularActivityM
                 .execute(new StringCallback() {
                     @Override
                     public void onError(Call call, Exception e, int id) {
-                        LogUtils.d("cancelForm" + e.getMessage());
-                        callBack.onFailed("cancelForm-->onFailed = "+e.toString());
-
+                        callBack.onFailed(HttpErrorUtils.NETWORK_ERROR,HttpErrorUtils.MSG_NETWORK_ERROR);
                     }
 
                     @Override
@@ -77,11 +76,13 @@ public class FormParticularActivityModelImpl implements IFormParticularActivityM
                         JSONObject jsonObject = null;
                         try {
                             jsonObject = new JSONObject(response);
-                            if ("OK".equals(jsonObject.getString("msg"))) {
+                            String msg = jsonObject.getString("msg");
+                            int status = jsonObject.getInt("status");
+                            if (200 == status) {
                                 String data = jsonObject.getString("data");
                                 callBack.onSuccess(data);
                             } else {
-                                callBack.onFailed("cancelForm-->onFailed = "+jsonObject.getString("msg"));
+                                callBack.onFailed(status, msg);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -101,9 +102,7 @@ public class FormParticularActivityModelImpl implements IFormParticularActivityM
                 .execute(new StringCallback() {
                     @Override
                     public void onError(Call call, Exception e, int id) {
-                        LogUtils.d("ensureGainGoods" + e.getMessage());
-                        callBack.onFailed("ensureGainGoods-->onFailed = "+e.toString());
-
+                        callBack.onFailed(HttpErrorUtils.NETWORK_ERROR,HttpErrorUtils.MSG_NETWORK_ERROR);
                     }
 
                     @Override
@@ -111,11 +110,13 @@ public class FormParticularActivityModelImpl implements IFormParticularActivityM
                         JSONObject jsonObject = null;
                         try {
                             jsonObject = new JSONObject(response);
-                            if ("OK".equals(jsonObject.getString("msg"))) {
+                            String msg = jsonObject.getString("msg");
+                            int status = jsonObject.getInt("status");
+                            if (200 == status) {
                                 String data = jsonObject.getString("data");
                                 callBack.onSuccess(data);
                             } else {
-                                callBack.onFailed("ensureGainGoods-->onFailed = "+jsonObject.getString("msg"));
+                                callBack.onFailed(status, msg);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -135,9 +136,7 @@ public class FormParticularActivityModelImpl implements IFormParticularActivityM
                 .execute(new StringCallback() {
                     @Override
                     public void onError(Call call, Exception e, int id) {
-                        LogUtils.d("deleteForm" + e.getMessage());
-                        callBack.onFailed("deleteForm-->onFailed = "+e.toString());
-
+                        callBack.onFailed(HttpErrorUtils.NETWORK_ERROR,HttpErrorUtils.MSG_NETWORK_ERROR);
                     }
 
                     @Override
@@ -145,11 +144,13 @@ public class FormParticularActivityModelImpl implements IFormParticularActivityM
                         JSONObject jsonObject = null;
                         try {
                             jsonObject = new JSONObject(response);
-                            if ("OK".equals(jsonObject.getString("msg"))) {
+                            String msg = jsonObject.getString("msg");
+                            int status = jsonObject.getInt("status");
+                            if (200 == status) {
                                 String data = jsonObject.getString("data");
                                 callBack.onSuccess(data);
                             } else {
-                                callBack.onFailed("deleteForm-->onFailed = "+jsonObject.getString("msg"));
+                                callBack.onFailed(status, msg);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

@@ -116,6 +116,10 @@ public class OrderActivity extends BaseActivity implements IOrderActivityView {
     EditText etBuyerMsg;
     @BindView(R.id.tv_order_money)
     TextView tvOrderMoney;
+    @BindView(R.id.ll_address)
+    LinearLayout llAddress;
+    @BindView(R.id.tv_add_address)
+    TextView tvAddAddress;
 
     private IOrderActivityPresenter presenter;
 
@@ -185,7 +189,8 @@ public class OrderActivity extends BaseActivity implements IOrderActivityView {
     @OnClick({R.id.iv_back, R.id.ll_express_way, R.id.btn_close,
             R.id.view_bg, R.id.ll_transport_insurance,
             R.id.btn_negative, R.id.btn_positive, R.id.tv_submit_order,
-            R.id.ll_address,R.id.cb_express_radio,R.id.cb_insurance_radio
+            R.id.ll_address,R.id.cb_express_radio,R.id.cb_insurance_radio,
+            R.id.tv_add_address
     })
     public void onViewClicked(View view) {
         SoftKeyboardUtils.hideSoftKeyboard(OrderActivity.this);
@@ -206,6 +211,11 @@ public class OrderActivity extends BaseActivity implements IOrderActivityView {
                 Intent intent = new Intent(OrderActivity.this, ManageAddressActivity.class);
                 intent.putExtra("fromActivity","OrderActivity");
                 startActivityForResult(intent, REQUEST_ADDRESS_CODE);
+                break;
+            case R.id.tv_add_address://修改地址
+                Intent intent1 = new Intent(OrderActivity.this, ManageAddressActivity.class);
+                intent1.putExtra("fromActivity","OrderActivity");
+                startActivityForResult(intent1, REQUEST_ADDRESS_CODE);
                 break;
             case R.id.tv_submit_order://提交订单
                 if(cbExpressRadio.isChecked()){//是否有选择快递方式
@@ -344,6 +354,8 @@ public class OrderActivity extends BaseActivity implements IOrderActivityView {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_ADDRESS_CODE && resultCode == Activity.RESULT_OK) {
+            llAddress.setVisibility(View.VISIBLE);
+            tvAddAddress.setVisibility(View.GONE);
             Bundle bundle = data.getExtras();
             String address = bundle.getString("address");
             String phone = bundle.getString("phone");
@@ -425,10 +437,18 @@ public class OrderActivity extends BaseActivity implements IOrderActivityView {
 
     @Override
     public void setData(AddressEntity addressEntity) {
-        tvConsigneeName.setText(addressEntity.getTrueName());
-        tvAddress.setText("收货地址："+addressEntity.getArea_main().replace(" ", "") + addressEntity.getArea_info());
-        tvPhoneNumber.setText(addressEntity.getMobile());
-        addressId = addressEntity.getId()+"";
+        if(addressEntity==null){
+            tvAddAddress.setVisibility(View.VISIBLE);
+            llAddress.setVisibility(View.GONE);
+        }else{
+            llAddress.setVisibility(View.VISIBLE);
+            tvAddAddress.setVisibility(View.GONE);
+            tvConsigneeName.setText(addressEntity.getTrueName());
+            tvAddress.setText("收货地址："+addressEntity.getArea_main().replace(" ", "") + addressEntity.getArea_info());
+            tvPhoneNumber.setText(addressEntity.getMobile());
+            addressId = addressEntity.getId()+"";
+        }
+
     }
 
     @Override

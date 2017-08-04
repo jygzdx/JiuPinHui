@@ -1,12 +1,14 @@
 package com.jiupin.jiupinhui.presenter.impl;
 
+import android.content.Context;
+
 import com.jiupin.jiupinhui.entity.AddressEntity;
 import com.jiupin.jiupinhui.entity.OrderSubmitEntity;
 import com.jiupin.jiupinhui.model.IModel;
 import com.jiupin.jiupinhui.model.IOrderActivityModel;
 import com.jiupin.jiupinhui.model.impl.OrderActivityModelImpl;
 import com.jiupin.jiupinhui.presenter.IOrderActivityPresenter;
-import com.jiupin.jiupinhui.utils.LogUtils;
+import com.jiupin.jiupinhui.utils.HttpErrorUtils;
 import com.jiupin.jiupinhui.view.IOrderActivityView;
 
 /**
@@ -34,8 +36,8 @@ public class OrderActivityPresenterImpl implements IOrderActivityPresenter {
             }
 
             @Override
-            public void onFailed(Object error) {
-                LogUtils.d("getDefaultAddress-->onFailed"+error);
+            public void onFailed(int status, String msg) {
+                HttpErrorUtils.manageErrorHttp(status,msg,(Context) view);
             }
         });
     }
@@ -50,8 +52,8 @@ public class OrderActivityPresenterImpl implements IOrderActivityPresenter {
             }
 
             @Override
-            public void onFailed(Object error) {
-                view.submitFormFail();
+            public void onFailed(int status, String msg) {
+                HttpErrorUtils.manageErrorHttp(status,msg,(Context) view);
             }
         });
     }

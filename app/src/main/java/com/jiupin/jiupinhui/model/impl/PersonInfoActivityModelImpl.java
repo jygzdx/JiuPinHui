@@ -6,9 +6,13 @@ import com.jiupin.jiupinhui.entity.ResponseBase;
 import com.jiupin.jiupinhui.entity.UserEntity;
 import com.jiupin.jiupinhui.model.IModel;
 import com.jiupin.jiupinhui.model.IPersonInfoActivityModel;
+import com.jiupin.jiupinhui.utils.HttpErrorUtils;
 import com.jiupin.jiupinhui.utils.LogUtils;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 
@@ -30,15 +34,28 @@ public class PersonInfoActivityModelImpl implements IPersonInfoActivityModel {
                 .execute(new StringCallback() {
                     @Override
                     public void onError(Call call, Exception e, int id) {
-                        callBack.onFailed(e.getMessage());
+                        callBack.onFailed(HttpErrorUtils.NETWORK_ERROR,HttpErrorUtils.MSG_NETWORK_ERROR);
                     }
 
                     @Override
                     public void onResponse(String response, int id) {
                         LogUtils.d("onResponse.response = "+response);
-                        Gson gson = new Gson();
-                        UserEntity userEntity = gson.fromJson(response, UserEntity.class);
-                        callBack.onSuccess(userEntity);
+                        JSONObject jsonObject = null;
+                        try {
+                            jsonObject = new JSONObject(response);
+                            String msg = jsonObject.getString("msg");
+                            int status = jsonObject.getInt("status");
+                            if (200 == status) {
+                                Gson gson = new Gson();
+                                UserEntity userEntity = gson.fromJson(response, UserEntity.class);
+                                callBack.onSuccess(userEntity);
+                            } else {
+                                callBack.onFailed(status, msg);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
                     }
                 });
     }
@@ -54,15 +71,29 @@ public class PersonInfoActivityModelImpl implements IPersonInfoActivityModel {
                 .execute(new StringCallback() {
                     @Override
                     public void onError(Call call, Exception e, int id) {
-                        callBack.onFailed(e.getMessage());
+                        callBack.onFailed(HttpErrorUtils.NETWORK_ERROR,HttpErrorUtils.MSG_NETWORK_ERROR);
                     }
 
                     @Override
                     public void onResponse(String response, int id) {
                         LogUtils.d("onResponse.response = "+response);
-                        Gson gson = new Gson();
-                        ResponseBase responseBase = gson.fromJson(response, ResponseBase.class);
-                        callBack.onSuccess(responseBase);
+                        JSONObject jsonObject = null;
+                        try {
+                            jsonObject = new JSONObject(response);
+                            String msg = jsonObject.getString("msg");
+                            int status = jsonObject.getInt("status");
+                            if (200 == status) {
+                                Gson gson = new Gson();
+                                ResponseBase responseBase = gson.fromJson(response, ResponseBase.class);
+                                callBack.onSuccess(responseBase);
+                            } else {
+                                callBack.onFailed(status, msg);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+
                     }
                 });
     }

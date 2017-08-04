@@ -11,14 +11,29 @@ import org.json.JSONObject;
 
 /**
  * TODO<判断http请求是否出错的逻辑类>
- *
  * @author cjl
- * @data: 2015年8月23日 下午4:33:25
- * @version: V1.0
  */
 public class HttpErrorUtils {
-    public static int RESPONE_SUCCEED = 200;
+    public static final int RESPONE_SUCCEED = 200;
+    public static final int TOKEN_ERROR = 300;
+    public static final int NETWORK_ERROR = -1;
+    public static final String MSG_NETWORK_ERROR = "网络连接异常，请稍后重试";
     private static Context mContext;
+
+    public static void manageErrorHttp(int status,String msg ,Context context){
+        if(status== TOKEN_ERROR){
+            ToastUtils.showShort(context,"登录已失效，请重新登录");
+            Intent intent = new Intent(mContext, LoginActivity.class);
+            mContext.startActivity(intent);
+        }else if(status == NETWORK_ERROR){
+            ToastUtils.showShort(context,MSG_NETWORK_ERROR);
+        }else {
+            if(msg.length()>25||msg.length()<=0){
+                msg = "发送请求失败";
+            }
+            ToastUtils.showShort(context,msg);
+        }
+    }
 
 
     /**

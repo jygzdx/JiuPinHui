@@ -124,6 +124,9 @@ public class FormParticularActivity extends BaseActivity implements IFormParticu
                 popupWindow.createPopupWindow();
                 break;
             case R.id.tv_contact_customer://联系供应商
+                Intent intent = new Intent(this, ChatActivity.class);
+                intent.putExtra("orderNum", formParticularEntity.getOrder().getOrder_id());
+                startActivity(intent);
                 break;
             case R.id.tv_making_phone://拨打电话
                 break;

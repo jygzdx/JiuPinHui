@@ -1,11 +1,13 @@
 package com.jiupin.jiupinhui.presenter.impl;
 
+import android.content.Context;
+
 import com.jiupin.jiupinhui.entity.GoodsEntity;
 import com.jiupin.jiupinhui.model.IModel;
 import com.jiupin.jiupinhui.model.IPackageActivityModel;
 import com.jiupin.jiupinhui.model.impl.PackageActivityModelImpl;
 import com.jiupin.jiupinhui.presenter.IPackageActivityPresenter;
-import com.jiupin.jiupinhui.utils.LogUtils;
+import com.jiupin.jiupinhui.utils.HttpErrorUtils;
 import com.jiupin.jiupinhui.view.IPackageActivityView;
 
 /**
@@ -34,8 +36,8 @@ public class PackageActivityPresenterImpl implements IPackageActivityPresenter {
             }
 
             @Override
-            public void onFailed(Object error) {
-                LogUtils.d("getGoodsInfo-->onFailed");
+            public void onFailed(int status, String msg) {
+                HttpErrorUtils.manageErrorHttp(status,msg,(Context) view);
             }
         });
     }

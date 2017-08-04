@@ -6,6 +6,7 @@ import com.jiupin.jiupinhui.config.Constant;
 import com.jiupin.jiupinhui.entity.ChatHistotyEntity;
 import com.jiupin.jiupinhui.model.IModel;
 import com.jiupin.jiupinhui.model.IServerActivityModel;
+import com.jiupin.jiupinhui.utils.HttpErrorUtils;
 import com.jiupin.jiupinhui.utils.LogUtils;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
@@ -34,9 +35,7 @@ public class ServerActivityModelImpl implements IServerActivityModel {
                 .execute(new StringCallback() {
                     @Override
                     public void onError(Call call, Exception e, int id) {
-                        LogUtils.d("getChatHistory" + e.getMessage());
-                        callBack.onFailed("getChatHistory-->onFailed");
-
+                        callBack.onFailed(HttpErrorUtils.NETWORK_ERROR,HttpErrorUtils.MSG_NETWORK_ERROR);
                     }
 
                     @Override
@@ -45,7 +44,9 @@ public class ServerActivityModelImpl implements IServerActivityModel {
                         JSONObject jsonObject = null;
                         try {
                             jsonObject = new JSONObject(response);
-                            if ("OK".equals(jsonObject.getString("msg"))) {
+                            String msg = jsonObject.getString("msg");
+                            int status = jsonObject.getInt("status");
+                            if (200 == status) {
                                 Gson gson = new Gson();
                                 String data = jsonObject.getString("data");
                                 JSONObject dataObj = new JSONObject(data);
@@ -53,7 +54,7 @@ public class ServerActivityModelImpl implements IServerActivityModel {
                                 List<ChatHistotyEntity> histotyList = gson.fromJson(list,new TypeToken<List<ChatHistotyEntity>>(){}.getType());
                                 callBack.onSuccess(histotyList);
                             } else {
-                                callBack.onFailed("getChatHistory-->onFailed");
+                                callBack.onFailed(status, msg);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

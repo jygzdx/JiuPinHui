@@ -7,6 +7,7 @@ import com.jiupin.jiupinhui.entity.WineBrandEntity;
 import com.jiupin.jiupinhui.entity.WineInfoEntity;
 import com.jiupin.jiupinhui.model.IModel;
 import com.jiupin.jiupinhui.model.IWineFragmentModel;
+import com.jiupin.jiupinhui.utils.HttpErrorUtils;
 import com.jiupin.jiupinhui.utils.LogUtils;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
@@ -34,9 +35,7 @@ public class WineFragmentModelImpl implements IWineFragmentModel {
                 .execute(new StringCallback() {
                     @Override
                     public void onError(Call call, Exception e, int id) {
-                        LogUtils.d("getWineList" + e.getMessage());
-                        callBack.onFailed("getWineList-->onFailed");
-
+                        callBack.onFailed(HttpErrorUtils.NETWORK_ERROR,HttpErrorUtils.MSG_NETWORK_ERROR);
                     }
 
                     @Override
@@ -45,7 +44,9 @@ public class WineFragmentModelImpl implements IWineFragmentModel {
                         JSONObject jsonObject = null;
                         try {
                             jsonObject = new JSONObject(response);
-                            if ("OK".equals(jsonObject.getString("msg"))) {
+                            String msg = jsonObject.getString("msg");
+                            int status = jsonObject.getInt("status");
+                            if (200 == status) {
                                 Gson gson = new Gson();
                                 String data = jsonObject.getString("data");
                                 JSONObject dataObj = new JSONObject(data);
@@ -53,7 +54,7 @@ public class WineFragmentModelImpl implements IWineFragmentModel {
                                 List<WineInfoEntity> wineInfoList = gson.fromJson(list,new TypeToken<List<WineInfoEntity>>(){}.getType());
                                 callBack.onSuccess(wineInfoList);
                             } else {
-                                callBack.onFailed("getWineList-->onFailed");
+                                callBack.onFailed(status, msg);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -74,9 +75,7 @@ public class WineFragmentModelImpl implements IWineFragmentModel {
                 .execute(new StringCallback() {
                     @Override
                     public void onError(Call call, Exception e, int id) {
-                        LogUtils.d("getWineListByBrandId" + e.getMessage());
-                        callBack.onFailed("getWineListByBrandId-->onFailed");
-
+                        callBack.onFailed(HttpErrorUtils.NETWORK_ERROR,HttpErrorUtils.MSG_NETWORK_ERROR);
                     }
 
                     @Override
@@ -85,7 +84,9 @@ public class WineFragmentModelImpl implements IWineFragmentModel {
                         JSONObject jsonObject = null;
                         try {
                             jsonObject = new JSONObject(response);
-                            if ("OK".equals(jsonObject.getString("msg"))) {
+                            String msg = jsonObject.getString("msg");
+                            int status = jsonObject.getInt("status");
+                            if (200 == status) {
                                 Gson gson = new Gson();
                                 String data = jsonObject.getString("data");
                                 JSONObject dataObj = new JSONObject(data);
@@ -93,7 +94,7 @@ public class WineFragmentModelImpl implements IWineFragmentModel {
                                 List<WineInfoEntity> wineInfoList = gson.fromJson(list,new TypeToken<List<WineInfoEntity>>(){}.getType());
                                 callBack.onSuccess(wineInfoList);
                             } else {
-                                callBack.onFailed("getWineListByBrandId-->onFailed");
+                                callBack.onFailed(status, msg);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -111,9 +112,7 @@ public class WineFragmentModelImpl implements IWineFragmentModel {
                 .execute(new StringCallback() {
                     @Override
                     public void onError(Call call, Exception e, int id) {
-                        LogUtils.d("getBrandData" + e.getMessage());
-                        callBack.onFailed("getBrandData-->onFailed");
-
+                        callBack.onFailed(HttpErrorUtils.NETWORK_ERROR,HttpErrorUtils.MSG_NETWORK_ERROR);
                     }
 
                     @Override
@@ -122,7 +121,9 @@ public class WineFragmentModelImpl implements IWineFragmentModel {
                         JSONObject jsonObject = null;
                         try {
                             jsonObject = new JSONObject(response);
-                            if ("OK".equals(jsonObject.getString("msg"))) {
+                            String msg = jsonObject.getString("msg");
+                            int status = jsonObject.getInt("status");
+                            if (200 == status) {
                                 Gson gson = new Gson();
                                 String data = jsonObject.getString("data");
                                 JSONObject dataObj = new JSONObject(data);
@@ -135,7 +136,7 @@ public class WineFragmentModelImpl implements IWineFragmentModel {
                                 }
                                 callBack.onSuccess(wineBrandList);
                             } else {
-                                callBack.onFailed("getBrandData-->onFailed");
+                                callBack.onFailed(status, msg);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

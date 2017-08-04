@@ -8,6 +8,7 @@ import com.jiupin.jiupinhui.entity.MainShowEntity;
 import com.jiupin.jiupinhui.entity.MealTypeEntity;
 import com.jiupin.jiupinhui.model.IModel;
 import com.jiupin.jiupinhui.model.IStoreFragmentModel;
+import com.jiupin.jiupinhui.utils.HttpErrorUtils;
 import com.jiupin.jiupinhui.utils.LogUtils;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
@@ -34,9 +35,7 @@ public class StoreFragmentModelImpl implements IStoreFragmentModel {
                 .execute(new StringCallback() {
                     @Override
                     public void onError(Call call, Exception e, int id) {
-                        LogUtils.d("getBanner" + e.getMessage());
-                        callBack.onFailed("getBanner-->onFailed");
-
+                        callBack.onFailed(HttpErrorUtils.NETWORK_ERROR,HttpErrorUtils.MSG_NETWORK_ERROR);
                     }
 
                     @Override
@@ -45,7 +44,9 @@ public class StoreFragmentModelImpl implements IStoreFragmentModel {
                         JSONObject jsonObject = null;
                         try {
                             jsonObject = new JSONObject(response);
-                            if ("OK".equals(jsonObject.getString("msg"))) {
+                            String msg = jsonObject.getString("msg");
+                            int status = jsonObject.getInt("status");
+                            if (200 == status) {
                                 Gson gson = new Gson();
                                 String data = jsonObject.getString("data");
                                 JSONObject dataObj = new JSONObject(data);
@@ -53,7 +54,7 @@ public class StoreFragmentModelImpl implements IStoreFragmentModel {
                                 List<BannerEntity> bannerList = gson.fromJson(list,new TypeToken<List<BannerEntity>>(){}.getType());
                                 callBack.onSuccess(bannerList);
                             } else {
-                                callBack.onFailed("getBanner-->onFailed");
+                                callBack.onFailed(status, msg);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -71,9 +72,7 @@ public class StoreFragmentModelImpl implements IStoreFragmentModel {
                 .execute(new StringCallback() {
                     @Override
                     public void onError(Call call, Exception e, int id) {
-                        LogUtils.d("getMealType" + e.getMessage());
-                        callBack.onFailed("getMealType-->onFailed");
-
+                        callBack.onFailed(HttpErrorUtils.NETWORK_ERROR,HttpErrorUtils.MSG_NETWORK_ERROR);
                     }
 
                     @Override
@@ -82,7 +81,9 @@ public class StoreFragmentModelImpl implements IStoreFragmentModel {
                         JSONObject jsonObject = null;
                         try {
                             jsonObject = new JSONObject(response);
-                            if ("OK".equals(jsonObject.getString("msg"))) {
+                            String msg = jsonObject.getString("msg");
+                            int status = jsonObject.getInt("status");
+                            if (200 == status) {
                                 Gson gson = new Gson();
                                 String data = jsonObject.getString("data");
                                 JSONObject dataObj = new JSONObject(data);
@@ -90,7 +91,7 @@ public class StoreFragmentModelImpl implements IStoreFragmentModel {
                                 List<MealTypeEntity> mealTypeList = gson.fromJson(list,new TypeToken<List<MealTypeEntity>>(){}.getType());
                                 callBack.onSuccess(mealTypeList);
                             } else {
-                                callBack.onFailed("getBanner-->onFailed");
+                                callBack.onFailed(status, msg);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -109,9 +110,7 @@ public class StoreFragmentModelImpl implements IStoreFragmentModel {
                 .execute(new StringCallback() {
                     @Override
                     public void onError(Call call, Exception e, int id) {
-                        LogUtils.d("getMealInfo" + e.getMessage());
-                        callBack.onFailed("getMealInfo-->onFailed");
-
+                        callBack.onFailed(HttpErrorUtils.NETWORK_ERROR,HttpErrorUtils.MSG_NETWORK_ERROR);
                     }
 
                     @Override
@@ -120,7 +119,9 @@ public class StoreFragmentModelImpl implements IStoreFragmentModel {
                         JSONObject jsonObject = null;
                         try {
                             jsonObject = new JSONObject(response);
-                            if ("OK".equals(jsonObject.getString("msg"))) {
+                            String msg = jsonObject.getString("msg");
+                            int status = jsonObject.getInt("status");
+                            if (200 == status) {
                                 Gson gson = new Gson();
                                 String data = jsonObject.getString("data");
                                 JSONObject dataObj = new JSONObject(data);
@@ -128,7 +129,7 @@ public class StoreFragmentModelImpl implements IStoreFragmentModel {
                                 List<MainShowEntity.DataBean.ListBean> mealInfoList = gson.fromJson(list,new TypeToken<List<MainShowEntity.DataBean.ListBean>>(){}.getType());
                                 callBack.onSuccess(mealInfoList);
                             } else {
-                                callBack.onFailed("getMealInfo-->onFailed");
+                                callBack.onFailed(status, msg);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

@@ -5,11 +5,7 @@ package com.jiupin.jiupinhui.view;
  */
 
 public interface IBaseView {
-    /**
-     * 如果网络请求失败或者后台返回错误信息，需要提示
-     * @param error 提示的错误信息
-     */
-    void requestError(String error);
+
     /**
      * 访问成功
      */

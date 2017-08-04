@@ -6,6 +6,7 @@ import com.jiupin.jiupinhui.config.Constant;
 import com.jiupin.jiupinhui.entity.AddressEntity;
 import com.jiupin.jiupinhui.model.IManageAddressActivityModel;
 import com.jiupin.jiupinhui.model.IModel;
+import com.jiupin.jiupinhui.utils.HttpErrorUtils;
 import com.jiupin.jiupinhui.utils.LogUtils;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
@@ -34,9 +35,7 @@ public class ManageAddressActivityModelImpl implements IManageAddressActivityMod
                 .execute(new StringCallback() {
                     @Override
                     public void onError(Call call, Exception e, int id) {
-                        LogUtils.d("getAddressList" + e.getMessage());
-                        callBack.onFailed("getAddressList-->onFailed");
-
+                        callBack.onFailed(HttpErrorUtils.NETWORK_ERROR,HttpErrorUtils.MSG_NETWORK_ERROR);
                     }
 
                     @Override
@@ -45,7 +44,9 @@ public class ManageAddressActivityModelImpl implements IManageAddressActivityMod
                         JSONObject jsonObject = null;
                         try {
                             jsonObject = new JSONObject(response);
-                            if ("OK".equals(jsonObject.getString("msg"))) {
+                            String msg = jsonObject.getString("msg");
+                            int status = jsonObject.getInt("status");
+                            if (200 == status) {
                                 Gson gson = new Gson();
                                 String data = jsonObject.getString("data");
                                 JSONObject dataObj = new JSONObject(data);
@@ -53,7 +54,7 @@ public class ManageAddressActivityModelImpl implements IManageAddressActivityMod
                                 List<AddressEntity> adds = gson.fromJson(list,new TypeToken<List<AddressEntity>>(){}.getType());
                                 callBack.onSuccess(adds);
                             } else {
-                                callBack.onFailed("getAddressList-->onFailed");
+                                callBack.onFailed(status, msg);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -73,9 +74,7 @@ public class ManageAddressActivityModelImpl implements IManageAddressActivityMod
                 .execute(new StringCallback() {
                     @Override
                     public void onError(Call call, Exception e, int id) {
-                        LogUtils.d("changeDefaultAddress" + e.getMessage());
-                        callBack.onFailed("changeDefaultAddress-->onFailed");
-
+                        callBack.onFailed(HttpErrorUtils.NETWORK_ERROR,HttpErrorUtils.MSG_NETWORK_ERROR);
                     }
 
                     @Override
@@ -84,11 +83,13 @@ public class ManageAddressActivityModelImpl implements IManageAddressActivityMod
                         JSONObject jsonObject = null;
                         try {
                             jsonObject = new JSONObject(response);
-                            if ("OK".equals(jsonObject.getString("msg"))) {
+                            String msg = jsonObject.getString("msg");
+                            int status = jsonObject.getInt("status");
+                            if (200 == status) {
                                 String data = jsonObject.getString("data");
                                 callBack.onSuccess(data);
                             } else {
-                                callBack.onFailed("changeDefaultAddress-->onFailed");
+                                callBack.onFailed(status, msg);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -108,9 +109,7 @@ public class ManageAddressActivityModelImpl implements IManageAddressActivityMod
                 .execute(new StringCallback() {
                     @Override
                     public void onError(Call call, Exception e, int id) {
-                        LogUtils.d("deleteAddress" + e.getMessage());
-                        callBack.onFailed("deleteAddress-->onFailed");
-
+                        callBack.onFailed(HttpErrorUtils.NETWORK_ERROR,HttpErrorUtils.MSG_NETWORK_ERROR);
                     }
 
                     @Override
@@ -119,7 +118,9 @@ public class ManageAddressActivityModelImpl implements IManageAddressActivityMod
                         JSONObject jsonObject = null;
                         try {
                             jsonObject = new JSONObject(response);
-                            if ("OK".equals(jsonObject.getString("msg"))) {
+                            String msg = jsonObject.getString("msg");
+                            int status = jsonObject.getInt("status");
+                            if (200 == status) {
                                 Gson gson = new Gson();
                                 String data = jsonObject.getString("data");
                                 JSONObject dataObj = new JSONObject(data);
@@ -127,7 +128,7 @@ public class ManageAddressActivityModelImpl implements IManageAddressActivityMod
                                 List<AddressEntity> adds = gson.fromJson(list,new TypeToken<List<AddressEntity>>(){}.getType());
                                 callBack.onSuccess(adds);
                             } else {
-                                callBack.onFailed(jsonObject.getString("msg"));
+                                callBack.onFailed(status, msg);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

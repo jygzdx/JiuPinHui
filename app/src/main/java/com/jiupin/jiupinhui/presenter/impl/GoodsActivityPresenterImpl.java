@@ -1,12 +1,14 @@
 package com.jiupin.jiupinhui.presenter.impl;
 
+import android.content.Context;
+
 import com.jiupin.jiupinhui.entity.AppraiseEntity;
 import com.jiupin.jiupinhui.entity.GoodsEntity;
 import com.jiupin.jiupinhui.model.IGoodsActivityModel;
 import com.jiupin.jiupinhui.model.IModel;
 import com.jiupin.jiupinhui.model.impl.GoodsActivityModelImpl;
 import com.jiupin.jiupinhui.presenter.IGoodsActivityPresenter;
-import com.jiupin.jiupinhui.utils.LogUtils;
+import com.jiupin.jiupinhui.utils.HttpErrorUtils;
 import com.jiupin.jiupinhui.view.IGoodsActivityView;
 
 import java.util.List;
@@ -37,8 +39,8 @@ public class GoodsActivityPresenterImpl implements IGoodsActivityPresenter {
             }
 
             @Override
-            public void onFailed(Object error) {
-                LogUtils.d("getGoodsInfo-->onFailed");
+            public void onFailed(int status, String msg) {
+                HttpErrorUtils.manageErrorHttp(status,msg,(Context) view);
             }
         });
     }
@@ -52,10 +54,9 @@ public class GoodsActivityPresenterImpl implements IGoodsActivityPresenter {
 
                 view.setUserAppraise(appraiseList);
             }
-
             @Override
-            public void onFailed(Object error) {
-                LogUtils.d("getAppraise-->onFailed");
+            public void onFailed(int status, String msg) {
+                HttpErrorUtils.manageErrorHttp(status,msg,(Context) view);
             }
         });
     }

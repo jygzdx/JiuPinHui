@@ -6,6 +6,7 @@ import com.jiupin.jiupinhui.config.Constant;
 import com.jiupin.jiupinhui.entity.FormEntity;
 import com.jiupin.jiupinhui.model.IModel;
 import com.jiupin.jiupinhui.model.IMyFormActivityModel;
+import com.jiupin.jiupinhui.utils.HttpErrorUtils;
 import com.jiupin.jiupinhui.utils.LogUtils;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
@@ -37,9 +38,7 @@ public class MyFormActivityModelImpl implements IMyFormActivityModel {
                 .execute(new StringCallback() {
                     @Override
                     public void onError(Call call, Exception e, int id) {
-                        LogUtils.d("getFormInfo" + e.getMessage());
-                        callBack.onFailed("getFormInfo-->onFailed");
-
+                        callBack.onFailed(HttpErrorUtils.NETWORK_ERROR,HttpErrorUtils.MSG_NETWORK_ERROR);
                     }
 
                     @Override
@@ -48,7 +47,9 @@ public class MyFormActivityModelImpl implements IMyFormActivityModel {
                         JSONObject jsonObject = null;
                         try {
                             jsonObject = new JSONObject(response);
-                            if ("OK".equals(jsonObject.getString("msg"))) {
+                            String msg = jsonObject.getString("msg");
+                            int status = jsonObject.getInt("status");
+                            if (200 == status) {
                                 Gson gson = new Gson();
                                 String data = jsonObject.getString("data");
                                 JSONObject dataObj = new JSONObject(data);
@@ -56,7 +57,7 @@ public class MyFormActivityModelImpl implements IMyFormActivityModel {
                                 List<FormEntity> forms = gson.fromJson(list,new TypeToken<List<FormEntity>>(){}.getType());
                                 callBack.onSuccess(forms);
                             } else {
-                                callBack.onFailed("getFormInfo-->onFailed"+jsonObject.getString("msg"));
+                                callBack.onFailed(status, msg);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -77,9 +78,7 @@ public class MyFormActivityModelImpl implements IMyFormActivityModel {
                 .execute(new StringCallback() {
                     @Override
                     public void onError(Call call, Exception e, int id) {
-                        LogUtils.d("deleteForm" + e.getMessage());
-                        callBack.onFailed("deleteForm-->onFailed = "+e.toString());
-
+                        callBack.onFailed(HttpErrorUtils.NETWORK_ERROR,HttpErrorUtils.MSG_NETWORK_ERROR);
                     }
 
                     @Override
@@ -87,11 +86,13 @@ public class MyFormActivityModelImpl implements IMyFormActivityModel {
                         JSONObject jsonObject = null;
                         try {
                             jsonObject = new JSONObject(response);
-                            if ("OK".equals(jsonObject.getString("msg"))) {
+                            String msg = jsonObject.getString("msg");
+                            int status = jsonObject.getInt("status");
+                            if (200 == status) {
                                 String data = jsonObject.getString("data");
                                 callBack.onSuccess(data);
                             } else {
-                                callBack.onFailed("deleteForm-->onFailed = "+jsonObject.getString("msg"));
+                                callBack.onFailed(status, msg);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

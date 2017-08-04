@@ -1,11 +1,13 @@
 package com.jiupin.jiupinhui.presenter.impl;
 
+import android.content.Context;
+
 import com.jiupin.jiupinhui.entity.ChatHistotyEntity;
 import com.jiupin.jiupinhui.model.IModel;
 import com.jiupin.jiupinhui.model.IServerActivityModel;
 import com.jiupin.jiupinhui.model.impl.ServerActivityModelImpl;
 import com.jiupin.jiupinhui.presenter.IServerActivityPresenter;
-import com.jiupin.jiupinhui.utils.LogUtils;
+import com.jiupin.jiupinhui.utils.HttpErrorUtils;
 import com.jiupin.jiupinhui.view.IServerActivityView;
 
 import java.util.List;
@@ -35,8 +37,8 @@ public class ServerActivityPresenterImpl implements IServerActivityPresenter {
             }
 
             @Override
-            public void onFailed(Object error) {
-                LogUtils.d(TAG, "error = " + error);
+            public void onFailed(int status, String msg) {
+                HttpErrorUtils.manageErrorHttp(status,msg,(Context) view);
             }
         });
     }

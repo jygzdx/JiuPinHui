@@ -1,11 +1,13 @@
 package com.jiupin.jiupinhui.presenter.impl;
 
+import android.content.Context;
+
 import com.jiupin.jiupinhui.entity.FormParticularEntity;
 import com.jiupin.jiupinhui.model.IFormParticularActivityModel;
 import com.jiupin.jiupinhui.model.IModel;
 import com.jiupin.jiupinhui.model.impl.FormParticularActivityModelImpl;
 import com.jiupin.jiupinhui.presenter.IFormParticularActivityPresenter;
-import com.jiupin.jiupinhui.utils.LogUtils;
+import com.jiupin.jiupinhui.utils.HttpErrorUtils;
 import com.jiupin.jiupinhui.view.IFormParticularActivityView;
 
 /**
@@ -33,8 +35,8 @@ public class FormParticularActivityPresenterImpl implements IFormParticularActiv
             }
 
             @Override
-            public void onFailed(Object error) {
-                LogUtils.d(error.toString());
+            public void onFailed(int status, String msg) {
+                HttpErrorUtils.manageErrorHttp(status,msg,(Context) view);
             }
         });
     }
@@ -46,10 +48,9 @@ public class FormParticularActivityPresenterImpl implements IFormParticularActiv
             public void onSuccess(Object success) {
                 view.cancelFormSuccess();
             }
-
             @Override
-            public void onFailed(Object error) {
-                LogUtils.d(error.toString());
+            public void onFailed(int status, String msg) {
+                HttpErrorUtils.manageErrorHttp(status,msg,(Context) view);
             }
         });
     }
@@ -61,10 +62,9 @@ public class FormParticularActivityPresenterImpl implements IFormParticularActiv
             public void onSuccess(Object success) {
                 view.ensureGainGoodsSuccess();
             }
-
             @Override
-            public void onFailed(Object error) {
-                LogUtils.d(error.toString());
+            public void onFailed(int status, String msg) {
+                HttpErrorUtils.manageErrorHttp(status,msg,(Context) view);
             }
         });
     }
@@ -78,8 +78,8 @@ public class FormParticularActivityPresenterImpl implements IFormParticularActiv
             }
 
             @Override
-            public void onFailed(Object error) {
-                LogUtils.d(error.toString());
+            public void onFailed(int status, String msg) {
+                HttpErrorUtils.manageErrorHttp(status,msg,(Context) view);
             }
         });
     }

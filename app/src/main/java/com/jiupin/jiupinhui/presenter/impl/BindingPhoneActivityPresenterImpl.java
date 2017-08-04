@@ -1,9 +1,12 @@
 package com.jiupin.jiupinhui.presenter.impl;
 
+import android.content.Context;
+
 import com.jiupin.jiupinhui.model.IBindingPhoneActivityModel;
 import com.jiupin.jiupinhui.model.IModel;
 import com.jiupin.jiupinhui.model.impl.BindingPhoneActivityModelImpl;
 import com.jiupin.jiupinhui.presenter.IBindingPhoneActivityPresenter;
+import com.jiupin.jiupinhui.utils.HttpErrorUtils;
 import com.jiupin.jiupinhui.view.IBindingPhoneActivityView;
 
 /**
@@ -31,8 +34,8 @@ public class BindingPhoneActivityPresenterImpl implements IBindingPhoneActivityP
             }
 
             @Override
-            public void onFailed(Object error) {
-                view.requestError(error.toString());
+            public void onFailed(int status, String msg) {
+                HttpErrorUtils.manageErrorHttp(status,msg,(Context) view);
             }
         });
     }
@@ -46,8 +49,8 @@ public class BindingPhoneActivityPresenterImpl implements IBindingPhoneActivityP
             }
 
             @Override
-            public void onFailed(Object error) {
-                view.requestError(error.toString());
+            public void onFailed(int status, String msg) {
+                HttpErrorUtils.manageErrorHttp(status,msg,(Context) view);
             }
         });
     }

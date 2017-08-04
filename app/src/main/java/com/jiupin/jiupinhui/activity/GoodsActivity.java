@@ -23,6 +23,7 @@ import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.jiupin.jiupinhui.R;
+import com.jiupin.jiupinhui.config.Constant;
 import com.jiupin.jiupinhui.entity.AppraiseEntity;
 import com.jiupin.jiupinhui.entity.GoodsEntity;
 import com.jiupin.jiupinhui.manage.UserInfoManager;
@@ -299,7 +300,8 @@ public class GoodsActivity extends BaseActivity implements IGoodsActivityView {
     @Override
     public void setData(final GoodsEntity goodsEntity) {
         this.goodsEntity = goodsEntity;
-        wvWebview.loadData(getHtmlData(goodsEntity.getData().getGoods_details()), "text/html; charset=utf-8", "utf-8");
+//        wvWebview.loadData(getHtmlData(goodsEntity.getData().getGoods_details()), "text/html; charset=utf-8", "utf-8");
+        wvWebview.loadUrl(Constant.GOODS_URL+goodsEntity.getData().getId());
 
         goodsShowView.loadAD(goodsEntity.getData());
 
