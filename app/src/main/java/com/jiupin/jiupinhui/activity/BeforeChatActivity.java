@@ -149,6 +149,7 @@ public class BeforeChatActivity extends BaseActivity implements IBeforeChatActiv
                 break;
             case R.id.btn_send://发送咨询信息
                 String content = etInputText.getText().toString();
+                token = UserInfoManager.getInstance().getToken(this);
                 if(!StringUtils.isEmpty(content)){
                     presenter.getAgainAppraise(token, consultId, content);
                 }else{
@@ -183,6 +184,7 @@ public class BeforeChatActivity extends BaseActivity implements IBeforeChatActiv
         tvEnsure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                token = UserInfoManager.getInstance().getToken(BeforeChatActivity.this);
                 presenter.closeChat(token,consultId);
                 //确定
                 dialog.dismiss();

@@ -51,6 +51,7 @@ presenter = new IdeaBackActivityPresenterImpl(this);
                 String token = UserInfoManager.getInstance().getToken(this);
                 if(StringUtils.isEmpty(content.trim())){
                     ToastUtils.showShort(this,"请填入意见反馈信息");
+                    return;
                 }
                 presenter.submitIdea(token,content,"2");
                 break;

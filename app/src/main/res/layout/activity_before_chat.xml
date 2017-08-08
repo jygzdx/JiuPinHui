@@ -9,7 +9,7 @@
     <RelativeLayout
         android:id="@+id/rl_title"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/action_bar_size"
         android:background="@color/mainColor"
         android:gravity="center_vertical"
         >
@@ -25,9 +25,9 @@
         <LinearLayout
             android:id="@+id/ll_title"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_centerInParent="true"
-            android:gravity="center_vertical"
+            android:gravity="center"
             android:orientation="horizontal"
             >
 

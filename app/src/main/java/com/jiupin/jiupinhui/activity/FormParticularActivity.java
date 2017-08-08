@@ -92,6 +92,7 @@ public class FormParticularActivity extends BaseActivity implements IFormParticu
     private String orderId;
 
     private FormParticularEntity formParticularEntity;
+    private static final int COMMENT_CODE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,6 +112,15 @@ public class FormParticularActivity extends BaseActivity implements IFormParticu
 
         LogUtils.d(TAG, "orderId=" + orderId + " ,token = " + token);
         presenter.getFormInfo(orderId, token);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == COMMENT_CODE&&resultCode == SendCommentActivity.COMMENT_SUCCESS_RESULT ){
+            formStatus = Constant.TRANSACTION_SUCCESS_HAS_COMMENT;
+            updateView();
+        }
     }
 
     @OnClick({R.id.btn_left, R.id.btn_right, R.id.tv_contact_customer, R.id.tv_making_phone, R.id.iv_back, R.id.iv_more})
@@ -180,7 +190,7 @@ public class FormParticularActivity extends BaseActivity implements IFormParticu
     /**
      * 付款
      */
-    private void payMoney() {//测试下评论
+    private void payMoney() {
         ToastUtils.showShort(this, "功能还未开通");
     }
 
@@ -229,6 +239,7 @@ public class FormParticularActivity extends BaseActivity implements IFormParticu
                 for (int i = 0; i < 5; i++) {
                     if (rbArray[i].isChecked()) {//根据i值得不同，传递不同的取消订单的原因
                         LogUtils.d("i= " + i);
+                        token = UserInfoManager.getInstance().getToken(FormParticularActivity.this);
                         presenter.cancelForm(orderId, token);
                     }
 
@@ -280,7 +291,7 @@ public class FormParticularActivity extends BaseActivity implements IFormParticu
             public void onClick(View v) {
 
                 //删除订单
-
+                token = UserInfoManager.getInstance().getToken(FormParticularActivity.this);
                 presenter.deleteForm(formParticularEntity.getOrder().getId() + "", token);
 
                 //确定
@@ -322,6 +333,7 @@ public class FormParticularActivity extends BaseActivity implements IFormParticu
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
+                        token = UserInfoManager.getInstance().getToken(FormParticularActivity.this);
                         presenter.ensureGainGoods(formParticularEntity.getOrder().getId() + "", token);
                     }
                 })
@@ -342,7 +354,7 @@ public class FormParticularActivity extends BaseActivity implements IFormParticu
     private void nowComment() {
         Intent intent = new Intent(this, SendCommentActivity.class);
         intent.putExtra("orderId", formParticularEntity.getOrder().getId() + "");
-        startActivity(intent);
+        startActivityForResult(intent,COMMENT_CODE);
 
     }
 
@@ -460,7 +472,7 @@ public class FormParticularActivity extends BaseActivity implements IFormParticu
     @Override
     public void cancelFormSuccess() {
         ToastUtils.showShort(this, "取消订单成功");
-        formStatus = Constant.DELETE_FORM;
+        formStatus = Constant.TRANSACTION_CLOSED;
         updateView();
     }
 

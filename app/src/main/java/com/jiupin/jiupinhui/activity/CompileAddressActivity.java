@@ -193,15 +193,6 @@ public class CompileAddressActivity extends AppCompatActivity implements ICompil
                 finish();
                 break;
             case R.id.tv_right://保存地址
-                if (StringUtils.isEmpty(phone) || !StringUtils.isMobileNO(phone)) {
-                    ToastUtils.showShort(this, "手机号码输入错误");
-                    return;
-                }
-                if (StringUtils.isEmpty(address) || StringUtils.isEmpty(userName) || StringUtils.isEmpty(area)) {
-                    ToastUtils.showShort(this, "请输入完整信息");
-                    return;
-                }
-
                 if (areas.size() > 0) {
                     area = "";
                     for (int i = 0; i < areas.size(); i++) {
@@ -210,12 +201,22 @@ public class CompileAddressActivity extends AppCompatActivity implements ICompil
                     area = area.trim();
 
                 }
+                if (StringUtils.isEmpty(phone) || !StringUtils.isMobileNO(phone)) {
+                    ToastUtils.showShort(this, "手机号码输入错误");
+                    return;
+                }
+                if (StringUtils.isEmpty(address) || StringUtils.isEmpty(userName) || StringUtils.isEmpty(area)) {
+                    ToastUtils.showShort(this, "请输入完整信息");
+                    return;
+                }
                 ad = ProgressUtils.show(this);
 
                 int area_id = areaId;
                 if(isCompile){
                     isDefault = addressEntity.getIs_default()==1?true:false;
                 }
+
+                token = UserInfoManager.getInstance().getToken(this);
 
 LogUtils.d("---- token = "+token+"---- area_id = "+area_id+"---- userName = "+userName+"---- address = "+address
         +"---- id = "+id+"---- phone = "+phone+"---- area = "+area+"---- isDefault = "+isDefault);
@@ -270,6 +271,7 @@ LogUtils.d("---- token = "+token+"---- area_id = "+area_id+"---- userName = "+us
             public void onClick(View v) {
                 if (isCompile) {
                     if (addressEntity != null) {
+                        token = UserInfoManager.getInstance().getToken(CompileAddressActivity.this);
                         presenter.deleteAddress(addressEntity.getId(), token);
                     }
                 }

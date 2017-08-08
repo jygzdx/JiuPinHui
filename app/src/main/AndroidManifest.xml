@@ -89,6 +89,8 @@
         </activity>
         <activity android:name=".activity.BeforeChatActivity">
         </activity>
+        <activity android:name=".activity.ConditionActivity">
+        </activity>
     </application>
 
 </manifest>

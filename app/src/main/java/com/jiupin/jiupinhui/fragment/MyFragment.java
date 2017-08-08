@@ -27,7 +27,6 @@ import com.jiupin.jiupinhui.manage.UserInfoManager;
 import com.jiupin.jiupinhui.presenter.IMyFragmentPresenter;
 import com.jiupin.jiupinhui.presenter.impl.MyFragmentPresenterImpl;
 import com.jiupin.jiupinhui.utils.LogUtils;
-import com.jiupin.jiupinhui.utils.SPUtils;
 import com.jiupin.jiupinhui.view.IMyFragmentView;
 import com.jiupin.jiupinhui.widget.CircleImageView;
 
@@ -90,7 +89,7 @@ public class MyFragment extends Fragment implements IMyFragmentView {
     }
 
     private void refreshData() {
-        token = (String) SPUtils.get(getContext(), SPUtils.LOGIN_TOKEN, "");
+        token = UserInfoManager.getInstance().getToken(getContext());
         LogUtils.d("token = " + token);
         if (token == "") {
             tvMyLogin.setVisibility(View.VISIBLE);
@@ -105,6 +104,7 @@ public class MyFragment extends Fragment implements IMyFragmentView {
         } else {
             LogUtils.d("------getTokenStatus");
             //查看token是否可用
+            token = UserInfoManager.getInstance().getToken(getContext());
             presenter.getTokenStatus(token);
         }
     }
@@ -228,6 +228,7 @@ public class MyFragment extends Fragment implements IMyFragmentView {
     }
 
     public void getformInfoByToken() {
+        token = UserInfoManager.getInstance().getToken(getContext());
         presenter.getformInfoByToken(token);
     }
 

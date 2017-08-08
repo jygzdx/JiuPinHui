@@ -78,11 +78,13 @@ public class ManageAddressActivity extends BaseActivity implements IManageAddres
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode==ADD_ADDRESS){
             LogUtils.d("startActivityForResult.ADD_ADDRESS");
+            token = UserInfoManager.getInstance().getToken(this);
             presenter.getAddressList(token);
         }
     }
 
     public void changeDefaultAddress(int id){
+        token = UserInfoManager.getInstance().getToken(this);
         presenter.changeDefaultAddress(token,id+"");
     }
 
@@ -106,6 +108,7 @@ public class ManageAddressActivity extends BaseActivity implements IManageAddres
     }
 
     public void deleteAddress(int id) {
+        token = UserInfoManager.getInstance().getToken(this);
         presenter.deleteAddress(id,token);
     }
 }

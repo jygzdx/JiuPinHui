@@ -82,6 +82,7 @@ public class SubmitQuestionActivity extends TakePhotoActivity implements ISubmit
                     return;
                 }
 
+                token = UserInfoManager.getInstance().getToken(this);
                 //提交问题
                 presenter.submitQuestion(token,content,files);
 

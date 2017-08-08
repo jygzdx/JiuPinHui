@@ -23,6 +23,7 @@ import com.jiupin.jiupinhui.entity.AddressEntity;
 import com.jiupin.jiupinhui.entity.GoodsBack;
 import com.jiupin.jiupinhui.entity.GoodsEntity;
 import com.jiupin.jiupinhui.entity.OrderSubmitEntity;
+import com.jiupin.jiupinhui.manage.UserInfoManager;
 import com.jiupin.jiupinhui.presenter.IOrderActivityPresenter;
 import com.jiupin.jiupinhui.presenter.impl.OrderActivityPresenterImpl;
 import com.jiupin.jiupinhui.utils.LogUtils;
@@ -143,7 +144,7 @@ public class OrderActivity extends BaseActivity implements IOrderActivityView {
         presenter.getDefaultAddress(token);
 
         Bundle bundle = getIntent().getExtras();
-        goodsEntityList = (List<GoodsEntity>)bundle.getSerializable("list");
+        goodsEntityList = (List<GoodsEntity>) bundle.getSerializable("list");
 
         selectedPrice = bundle.getString("selectedPrice");
 
@@ -156,7 +157,7 @@ public class OrderActivity extends BaseActivity implements IOrderActivityView {
      */
     private void initGoodsData() {
         int price = Integer.parseInt(selectedPrice);
-        for (int i = 0; i <= goodsEntityList.size()-1; i++) {
+        for (int i = 0; i <= goodsEntityList.size() - 1; i++) {
             View view = inflater.inflate(R.layout.order_container_item, null);
             TextView tvStoreName = (TextView) view.findViewById(R.id.tv_store_name);
             TextView tvGoodsName = (TextView) view.findViewById(R.id.tv_goods_name);
@@ -169,27 +170,27 @@ public class OrderActivity extends BaseActivity implements IOrderActivityView {
             GoodsEntity goodsEntity = goodsEntityList.get(i);
             tvStoreName.setText(goodsEntity.getData().getStoreInfo().getStore_name());
             tvGoodsName.setText(goodsEntity.getData().getGoods_name());
-            tvGoodsPrice.setText("￥"+selectedPrice);
-            tvTotalNumber.setText(goodsEntity.getData().getCount()+"");
-            tvGoodsNumber.setText("x"+goodsEntity.getData().getCount());
+            tvGoodsPrice.setText("￥" + selectedPrice);
+            tvTotalNumber.setText(goodsEntity.getData().getCount() + "");
+            tvGoodsNumber.setText("x" + goodsEntity.getData().getCount());
 
 
-            double totalPrice = price*goodsEntity.getData().getCount();
-            tvTotalPrice.setText(totalPrice+"");
+            double totalPrice = price * goodsEntity.getData().getCount();
+            tvTotalPrice.setText(totalPrice + "");
             Glide.with(this)
                     .load(goodsEntity.getData().getPath())
                     .crossFade()
                     .into(ivGoodsPic);
         }
 
-        payAllNumber = price*goodsEntityList.get(0).getData().getCount();
-        tvOrderMoney.setText("￥"+payAllNumber);
+        payAllNumber = price * goodsEntityList.get(0).getData().getCount();
+        tvOrderMoney.setText("￥" + payAllNumber);
     }
 
     @OnClick({R.id.iv_back, R.id.ll_express_way, R.id.btn_close,
             R.id.view_bg, R.id.ll_transport_insurance,
             R.id.btn_negative, R.id.btn_positive, R.id.tv_submit_order,
-            R.id.ll_address,R.id.cb_express_radio,R.id.cb_insurance_radio,
+            R.id.ll_address, R.id.cb_express_radio, R.id.cb_insurance_radio,
             R.id.tv_add_address
     })
     public void onViewClicked(View view) {
@@ -202,33 +203,33 @@ public class OrderActivity extends BaseActivity implements IOrderActivityView {
                 break;
             case R.id.cb_insurance_radio://点击保险费
 
-                LogUtils.d("checked = "+cbInsuranceRadio.isChecked());
+                LogUtils.d("checked = " + cbInsuranceRadio.isChecked());
                 break;
             case R.id.cb_express_radio://点击运费
 
                 break;
             case R.id.ll_address://修改地址
                 Intent intent = new Intent(OrderActivity.this, ManageAddressActivity.class);
-                intent.putExtra("fromActivity","OrderActivity");
+                intent.putExtra("fromActivity", "OrderActivity");
                 startActivityForResult(intent, REQUEST_ADDRESS_CODE);
                 break;
             case R.id.tv_add_address://修改地址
                 Intent intent1 = new Intent(OrderActivity.this, ManageAddressActivity.class);
-                intent1.putExtra("fromActivity","OrderActivity");
+                intent1.putExtra("fromActivity", "OrderActivity");
                 startActivityForResult(intent1, REQUEST_ADDRESS_CODE);
                 break;
             case R.id.tv_submit_order://提交订单
-                if(cbExpressRadio.isChecked()){//是否有选择快递方式
+                if (cbExpressRadio.isChecked()) {//是否有选择快递方式
                     //弹出选择支付方式弹出窗
                     rlPayPopupWindow.setVisibility(View.VISIBLE);
                     viewBg.setVisibility(View.VISIBLE);
                     showAnimator(rlPayPopupWindow, screenHeight, 0f);
                     showAlphaAnimator(0f, 0.6f);
 
-                    tvPayAllNumber.setText("￥"+payAllNumber);
+                    tvPayAllNumber.setText("￥" + payAllNumber);
 
-                    String userId = (String) SPUtils.get(this,SPUtils.USER_ID,"");
-                    String storeId = goodsEntityList.get(0).getData().getGoods_store_id()+"";
+                    String userId = (String) SPUtils.get(this, SPUtils.USER_ID, "");
+                    String storeId = goodsEntityList.get(0).getData().getGoods_store_id() + "";
                     String msg = etBuyerMsg.getText().toString();
                     String couponInfoId = "";
                     String order_type = "app商城";
@@ -237,21 +238,22 @@ public class OrderActivity extends BaseActivity implements IOrderActivityView {
                         GoodsBack goodsBack = new GoodsBack();
                         goodsBack.setId(goodsEntityList.get(i).getData().getId());
                         goodsBack.setCount(goodsEntityList.get(i).getData().getCount());
-                        if(goodsEntityList.get(i).getData().getIs_meal()==1){
-                            String member = goodsEntityList.get(i).getData().getSelectedMemberId()==0?"":goodsEntityList.get(i).getData().getSelectedMemberId()+"_";
-                            String type = goodsEntityList.get(i).getData().getSelectedTypeId()==0?"":goodsEntityList.get(i).getData().getSelectedTypeId()+"_";
-                            goodsBack.setSpec_id(member+type);
-                        }else{
+                        if (goodsEntityList.get(i).getData().getIs_meal() == 1) {
+                            String member = goodsEntityList.get(i).getData().getSelectedMemberId() == 0 ? "" : goodsEntityList.get(i).getData().getSelectedMemberId() + "_";
+                            String type = goodsEntityList.get(i).getData().getSelectedTypeId() == 0 ? "" : goodsEntityList.get(i).getData().getSelectedTypeId() + "_";
+                            goodsBack.setSpec_id(member + type);
+                        } else {
                             goodsBack.setSpec_id("");
                         }
                         goodsBackList.add(goodsBack);
                     }
 
                     String goodList = new Gson().toJson(goodsBackList);
-                    LogUtils.d("goodList->"+goodList);
-                    presenter.submitForm(userId,storeId,token,msg,couponInfoId,order_type,addressId+"",goodList);
-                }else{
-                    ToastUtils.showShort(this,"请选择配送方式");
+                    LogUtils.d("goodList->" + goodList);
+                    token = UserInfoManager.getInstance().getToken(this);
+                    presenter.submitForm(userId, storeId, token, msg, couponInfoId, order_type, addressId + "", goodList);
+                } else {
+                    ToastUtils.showShort(this, "请选择配送方式");
                 }
 
                 break;
@@ -264,7 +266,7 @@ public class OrderActivity extends BaseActivity implements IOrderActivityView {
                     hidePopupWindow(rlPayPopupWindow);//隐藏支付弹窗
                     //订单已经提交
                     //跳转到订单详情
-                    if(orderSubmitEntity!=null){
+                    if (orderSubmitEntity != null) {
                         gotoFormParticularActivity();
                     }
 
@@ -286,7 +288,7 @@ public class OrderActivity extends BaseActivity implements IOrderActivityView {
                 break;
             case R.id.btn_close:
                 //处理关闭交通方式
-                if(cbExpressRadio.isChecked()){
+                if (cbExpressRadio.isChecked()) {
                     tvExpressWay.setText("快递免邮");
                 }
 
@@ -298,7 +300,7 @@ public class OrderActivity extends BaseActivity implements IOrderActivityView {
                 break;
             case R.id.btn_positive:
                 //处理确定保险费方式
-                if(cbInsuranceRadio.isChecked()){
+                if (cbInsuranceRadio.isChecked()) {
                     tvTransportInsurance.setText("已投保退货运费险");
                 }
                 hidePopupWindow(rlInsurancePopupWindow);
@@ -312,7 +314,7 @@ public class OrderActivity extends BaseActivity implements IOrderActivityView {
     private void gotoFormParticularActivity() {
         Intent intent = new Intent(mContext, FormParticularActivity.class);
         intent.putExtra("status", Constant.WAIT_PAY);
-        intent.putExtra("orderId",orderSubmitEntity.getOrder().getId()+"");
+        intent.putExtra("orderId", orderSubmitEntity.getOrder().getId() + "");
         startActivity(intent);
     }
 
@@ -362,7 +364,7 @@ public class OrderActivity extends BaseActivity implements IOrderActivityView {
             String name = bundle.getString("name");
             addressId = bundle.getString("id");
             tvConsigneeName.setText(name);
-            tvAddress.setText("收货地址："+address);
+            tvAddress.setText("收货地址：" + address);
             tvPhoneNumber.setText(phone);
         }
 
@@ -437,16 +439,16 @@ public class OrderActivity extends BaseActivity implements IOrderActivityView {
 
     @Override
     public void setData(AddressEntity addressEntity) {
-        if(addressEntity==null){
+        if (addressEntity == null) {
             tvAddAddress.setVisibility(View.VISIBLE);
             llAddress.setVisibility(View.GONE);
-        }else{
+        } else {
             llAddress.setVisibility(View.VISIBLE);
             tvAddAddress.setVisibility(View.GONE);
             tvConsigneeName.setText(addressEntity.getTrueName());
-            tvAddress.setText("收货地址："+addressEntity.getArea_main().replace(" ", "") + addressEntity.getArea_info());
+            tvAddress.setText("收货地址：" + addressEntity.getArea_main().replace(" ", "") + addressEntity.getArea_info());
             tvPhoneNumber.setText(addressEntity.getMobile());
-            addressId = addressEntity.getId()+"";
+            addressId = addressEntity.getId() + "";
         }
 
     }

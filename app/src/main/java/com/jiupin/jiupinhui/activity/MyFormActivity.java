@@ -148,6 +148,7 @@ public class MyFormActivity extends BaseActivity implements IMyFormActivityView{
     }
 
     private void requestData() {
+        token = UserInfoManager.getInstance().getToken(this);
         presenter.getFormInfo(token,orderStatus,page+"",10+"");
 
     }
@@ -331,6 +332,7 @@ public class MyFormActivity extends BaseActivity implements IMyFormActivityView{
     }
 
     public void deleteForm(int position,String id){
+        token = UserInfoManager.getInstance().getToken(this);
         presenter.deleteForm(position,id,token);
     }
 

@@ -51,14 +51,13 @@ public class ServerActivity extends BaseActivity implements IServerActivityView 
         ButterKnife.bind(this);
 
         initView();
-
-        token = UserInfoManager.getInstance().getToken(this);
         presenter = new ServerActivityPresenterImpl(this);
 
         requestData();
     }
 
     private void requestData() {
+        token = UserInfoManager.getInstance().getToken(this);
         presenter.getChatHistory(token, page + "", "10");
     }
 

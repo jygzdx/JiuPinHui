@@ -171,7 +171,7 @@ public class PersonInfoActivity extends BaseActivity implements IPersonInfoActiv
             String path = result.getImage().getOriginalPath();
             String name = path.substring(path.lastIndexOf("/") + 1);
             File file = new File(Environment.getExternalStorageDirectory(), "/images/" + name);
-            String token = (String) SPUtils.get(this, SPUtils.LOGIN_TOKEN, "");
+            token = UserInfoManager.getInstance().getToken(this);
             presenter.pushPicture(file, name, token);
         }
 

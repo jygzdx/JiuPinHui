@@ -40,6 +40,8 @@ import butterknife.OnClick;
  */
 public class SendCommentActivity extends TakePhotoActivity implements ISendCommentActivityView{
     private static final String TAG = "SendCommentActivity";
+    public static final int COMMENT_SUCCESS_RESULT = 1;
+
     private final String IMAGE_TYPE = "image/*";
     private final int IMAGE_CODE = 0;
     @BindView(R.id.iv_back)
@@ -111,7 +113,7 @@ public class SendCommentActivity extends TakePhotoActivity implements ISendComme
                     ToastUtils.showShort(this,"请填写评论信息");
                     return;
                 }
-
+                token = UserInfoManager.getInstance().getToken(this);
                 presenter.sendComment(token,orderId,evalInfo,descEvaluate+"",serviceEvaluate+"",shipEvaluate+"",rating+"",files);
 
 
@@ -178,6 +180,7 @@ LogUtils.d(TAG,"path = "+images.get(i).getCompressPath());
     @Override
     public void sendCommentSuccess() {
         ToastUtils.showShort(this,"评论成功");
+        setResult(COMMENT_SUCCESS_RESULT);
         finish();
     }
 }

@@ -1,12 +1,11 @@
 package com.jiupin.jiupinhui.presenter.impl;
 
-import android.content.Context;
-
 import com.jiupin.jiupinhui.entity.ArticleEntity;
 import com.jiupin.jiupinhui.entity.BannerEntity;
 import com.jiupin.jiupinhui.entity.HomeLoveEntity;
 import com.jiupin.jiupinhui.entity.HotRecommentEntity;
 import com.jiupin.jiupinhui.entity.MainShowEntity;
+import com.jiupin.jiupinhui.fragment.HomeFragment;
 import com.jiupin.jiupinhui.model.IHomeFragmentModel;
 import com.jiupin.jiupinhui.model.IModel;
 import com.jiupin.jiupinhui.model.impl.HomeFragmentModelImpl;
@@ -37,7 +36,7 @@ public class HomeFragmentPresenterImpl implements IHomeFragmentPresenter {
             }
             @Override
             public void onFailed(int status, String msg) {
-                HttpErrorUtils.manageErrorHttp(status,msg,(Context) view);
+                HttpErrorUtils.manageErrorHttp(status,msg,((HomeFragment) view).getContext());
             }
         });
     }
@@ -52,7 +51,7 @@ public class HomeFragmentPresenterImpl implements IHomeFragmentPresenter {
 
             @Override
             public void onFailed(int status, String msg) {
-                HttpErrorUtils.manageErrorHttp(status,msg,(Context) view);
+                HttpErrorUtils.manageErrorHttp(status,msg,((HomeFragment) view).getContext());
             }
         });
     }
@@ -67,7 +66,7 @@ public class HomeFragmentPresenterImpl implements IHomeFragmentPresenter {
 
             @Override
             public void onFailed(int status, String msg) {
-                HttpErrorUtils.manageErrorHttp(status,msg,(Context) view);
+                HttpErrorUtils.manageErrorHttp(status,msg,((HomeFragment) view).getContext());
             }
         });
     }
@@ -82,7 +81,7 @@ public class HomeFragmentPresenterImpl implements IHomeFragmentPresenter {
 
             @Override
             public void onFailed(int status, String msg) {
-                HttpErrorUtils.manageErrorHttp(status,msg,(Context) view);
+                HttpErrorUtils.manageErrorHttp(status,msg,((HomeFragment) view).getContext());
             }
         });
     }
@@ -97,7 +96,7 @@ public class HomeFragmentPresenterImpl implements IHomeFragmentPresenter {
 
             @Override
             public void onFailed(int status, String msg) {
-                HttpErrorUtils.manageErrorHttp(status,msg,(Context) view);
+                HttpErrorUtils.manageErrorHttp(status,msg,((HomeFragment) view).getContext());
             }
         });
     }

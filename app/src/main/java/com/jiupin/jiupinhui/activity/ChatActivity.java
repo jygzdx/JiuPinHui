@@ -148,6 +148,7 @@ public class ChatActivity extends BaseActivity implements IChatActivityView {
                 break;
             case R.id.btn_send://发送咨询信息
                 String content = etInputText.getText().toString();
+                token = UserInfoManager.getInstance().getToken(this);
                 if(!StringUtils.isEmpty(content)){
                     presenter.getAgainAppraise(null, token, orderNum, content);
                 }else{
@@ -182,6 +183,7 @@ public class ChatActivity extends BaseActivity implements IChatActivityView {
         tvEnsure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                token = UserInfoManager.getInstance().getToken(ChatActivity.this);
                 presenter.closeChat(token,orderNum);
                 //确定
                 dialog.dismiss();

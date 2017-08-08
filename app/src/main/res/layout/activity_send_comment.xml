@@ -11,7 +11,7 @@
     <RelativeLayout
         android:id="@+id/rl_title"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/action_bar_size"
         android:background="@color/mainColor"
         android:gravity="center_vertical"
         >
@@ -29,7 +29,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:gravity="center_vertical"
             android:orientation="horizontal"
             >
 
@@ -37,7 +36,6 @@
                 android:id="@+id/tv_title_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
                 android:text="发表评价"
                 android:textColor="@color/white"
                 android:textSize="16sp"
@@ -50,7 +48,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:padding="10dp"
+            android:padding="13dp"
             android:text="发布"
             android:textColor="@color/white"
             android:textSize="14sp"

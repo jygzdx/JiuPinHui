@@ -1,16 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.jiupin.jiupinhui.activity.MainActivity">
-<TextView
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center"
-    android:text="社区"
-    />
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context="com.jiupin.jiupinhui.activity.MainActivity">
+
+    <RelativeLayout
+        android:id="@+id/rl_title"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/action_bar_size"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:background="@color/mainColor"
+        android:gravity="center_vertical">
+
+        <LinearLayout
+            android:id="@+id/ll_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            >
+
+            <com.jiupin.jiupinhui.widget.SwitchView
+                android:id="@+id/sv_title"
+                android:layout_width="120dp"
+                android:layout_height="36dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
+                app:bgColor="@color/white"
+                app:leftColor="@color/mainColor"
+                app:rightColor="@color/mainColor"
+                app:setChecked="false"
+                app:textLeft="关注"
+                app:textLeftClickColor="@color/white"
+                app:textLeftColor="@color/mainTextColor"
+                app:textRight="推荐"
+                app:textRightClickColor="@color/white"
+                app:textRightColor="@color/mainTextColor"
+                app:time="500"/>
+            />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/iv_editor"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:padding="12dp"
+            android:src="@drawable/editor"
+            />
+    </RelativeLayout>
+
+    <FrameLayout
+        android:id="@+id/fl_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/rl_title"
+        ></FrameLayout>
 
 
 </RelativeLayout>
