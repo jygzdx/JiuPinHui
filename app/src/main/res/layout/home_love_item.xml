@@ -57,7 +57,9 @@
             android:layout_below="@+id/tv_guess_love_des"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="13dp"
+            android:gravity="bottom"
             android:layout_toRightOf="@+id/tv_guess_love_price"
+            android:layout_alignBottom="@+id/tv_guess_love_price"
             android:text="￥660.00"
             android:textColor="#cccccc"
             android:textSize="10sp"
@@ -70,7 +72,7 @@
             android:layout_alignLeft="@+id/tv_guess_love_price"
             android:layout_below="@+id/tv_guess_love_price"
             android:layout_marginBottom="5dp"
-            android:layout_marginLeft="16dp"
+            android:layout_marginTop="5dp"
             android:text="200人已付款"
             android:textSize="10sp"
             />

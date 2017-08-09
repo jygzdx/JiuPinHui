@@ -62,17 +62,17 @@ public class CommunityFragment extends Fragment {
         }
         //设置默认fragment
         fm = getChildFragmentManager();
-        switchContent(recommendFra,attentionFra,0);
+        switchContent(attentionFra,recommendFra,0);
     }
 
     private void setListener() {
         svTitle.setOnClickCheckedListener(new SwitchView.onClickCheckedListener() {
             @Override
             public void onClick() {
-                if(svTitle.isChecked()){//显示推荐fragment
-                    switchContent(attentionFra,recommendFra,1);
-                }else {//显示关注fragment
+                if(svTitle.isChecked()){//显示关注fragment
                     switchContent(recommendFra,attentionFra,0);
+                }else {//显示推荐fragment
+                    switchContent(attentionFra,recommendFra,1);
                 }
             }
         });

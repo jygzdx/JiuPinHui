@@ -117,6 +117,7 @@ public class MyFragment extends Fragment implements IMyFragmentView {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        LogUtils.d("MyFragment   onDestroyView");
         unbinder.unbind();
     }
 

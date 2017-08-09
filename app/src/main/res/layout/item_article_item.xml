@@ -13,7 +13,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginLeft="@dimen/dp_10"
         android:layout_marginTop="10dp"
-        android:scaleType="fitCenter"
+        android:scaleType="centerCrop"
         android:src="@drawable/hot_article1"
         />
 
@@ -21,14 +21,14 @@
         android:id="@+id/tv_hot_article_describe"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
+        android:layout_alignTop="@+id/iv_article"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="10dp"
         android:layout_marginRight="@dimen/dp_10"
         android:layout_toRightOf="@+id/iv_article"
+        android:maxLines="2"
         android:text="年度回顾|一整年的套路都在这里了，当然也有礼物"
         android:textColor="#4D3F25"
-        android:textSize="15sp"
+        android:textSize="14sp"
         />
 
     <TextView

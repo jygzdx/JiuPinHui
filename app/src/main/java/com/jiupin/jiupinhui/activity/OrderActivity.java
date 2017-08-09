@@ -219,7 +219,7 @@ public class OrderActivity extends BaseActivity implements IOrderActivityView {
                 startActivityForResult(intent1, REQUEST_ADDRESS_CODE);
                 break;
             case R.id.tv_submit_order://提交订单
-                if (cbExpressRadio.isChecked()) {//是否有选择快递方式
+//                if (cbExpressRadio.isChecked()) {//是否有选择快递方式
                     //弹出选择支付方式弹出窗
                     rlPayPopupWindow.setVisibility(View.VISIBLE);
                     viewBg.setVisibility(View.VISIBLE);
@@ -252,9 +252,9 @@ public class OrderActivity extends BaseActivity implements IOrderActivityView {
                     LogUtils.d("goodList->" + goodList);
                     token = UserInfoManager.getInstance().getToken(this);
                     presenter.submitForm(userId, storeId, token, msg, couponInfoId, order_type, addressId + "", goodList);
-                } else {
-                    ToastUtils.showShort(this, "请选择配送方式");
-                }
+//                } else {
+//                    ToastUtils.showShort(this, "请选择配送方式");
+//                }
 
                 break;
             case R.id.view_bg:

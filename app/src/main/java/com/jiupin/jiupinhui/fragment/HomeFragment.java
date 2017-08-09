@@ -191,11 +191,13 @@ public class HomeFragment extends Fragment implements IHomeFragmentView {
         if (homeLoveEntity != null) {
             if (homeLoveEntity.getData() != null) {
                 if (homeLoveEntity.getData().getList() != null) {
-                    if (homeLoveEntity.getData().getList().size() > 0) {
-                        adapter.addAll(homeLoveEntity.getData().getList());
-                        lrvHome.refreshComplete(requestSize);
-                    } else {
-                        lrvHome.setNoMore(true);
+                    if(lrvHome!=null){//有时fragment会被销毁
+                        if (homeLoveEntity.getData().getList().size() > 0) {
+                            adapter.addAll(homeLoveEntity.getData().getList());
+                            lrvHome.refreshComplete(requestSize);
+                        } else {
+                            lrvHome.setNoMore(true);
+                        }
                     }
                 }
 

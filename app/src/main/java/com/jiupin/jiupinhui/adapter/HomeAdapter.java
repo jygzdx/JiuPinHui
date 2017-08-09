@@ -146,6 +146,11 @@ public class HomeAdapter extends RecyclerView.Adapter {
 
     }
 
+    /**
+     * 初始化猜你喜欢
+     * @param holder
+     * @param position
+     */
     private void initHomeLoveViewHolder(HomeLoveViewHolder holder, final int position) {
         HomeLoveViewHolder homeLoveViewHolder = holder;
         Glide.with(mContext)
@@ -153,8 +158,9 @@ public class HomeAdapter extends RecyclerView.Adapter {
                 .crossFade()
                 .into(homeLoveViewHolder.ivGuessLove);
         homeLoveViewHolder.tvGuessLoveDes.setText(stores.get(getTruePositonByPosition(position)).getGoods_name());
-        homeLoveViewHolder.tvGuessLovePrice.setText(stores.get(getTruePositonByPosition(position)).getStore_price() + "");
-        homeLoveViewHolder.tvGuessLovePriceNext.setText(stores.get(getTruePositonByPosition(position)).getGoods_price() + "");
+        homeLoveViewHolder.tvGuessLovePrice.setText("￥"+stores.get(getTruePositonByPosition(position)).getStore_price() + "");
+        homeLoveViewHolder.tvGuessLovePriceNext.setText("￥"+stores.get(getTruePositonByPosition(position)).getGoods_price() + "");
+        homeLoveViewHolder.tvBuyNumber.setText(stores.get(getTruePositonByPosition(position)).getPayment_num()+"人付款");
         homeLoveViewHolder.view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -279,14 +285,14 @@ public class HomeAdapter extends RecyclerView.Adapter {
 
     class HomeLoveViewHolder extends RecyclerView.ViewHolder {
         private ImageView ivGuessLove;
-        private TextView tvGuessLoveDes, tvGuessLovePrice, tvGuessLovePriceNext;
+        private TextView tvGuessLoveDes, tvGuessLovePrice, tvGuessLovePriceNext,tvBuyNumber;
         private View view;
 
         public HomeLoveViewHolder(View itemView) {
             super(itemView);
             view = itemView;
             ivGuessLove = (ImageView) itemView.findViewById(R.id.iv_guess_love);
-
+            tvBuyNumber = (TextView) itemView.findViewById(R.id.tv_buy_number);
             tvGuessLoveDes = (TextView) itemView.findViewById(R.id.tv_guess_love_des);
             tvGuessLovePrice = (TextView) itemView.findViewById(R.id.tv_guess_love_price);
             tvGuessLovePriceNext = (TextView) itemView.findViewById(R.id.tv_guess_love_price_next);
@@ -331,10 +337,12 @@ public class HomeAdapter extends RecyclerView.Adapter {
     }
 
     public void addAll(Collection<HomeLoveEntity.DataBean.ListBean> loveList) {
-        int lastIndex = this.stores.size();
-        if (this.stores.addAll(loveList)) {
-            notifyItemRangeInserted(lastIndex, loveList.size());
-        }
+//        int lastIndex = this.stores.size();
+//        if (this.stores.addAll(loveList)) {
+//            notifyItemRangeInserted(lastIndex, loveList.size());
+//        }
+        this.stores.addAll(loveList);
+        notifyDataSetChanged();
     }
 
     public void clear() {

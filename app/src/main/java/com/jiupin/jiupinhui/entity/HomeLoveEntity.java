@@ -76,6 +76,15 @@ public class HomeLoveEntity {
             private double store_price;
             private int goods_store_id;
             private String path;
+            private int payment_num;
+
+            public int getPayment_num() {
+                return payment_num;
+            }
+
+            public void setPayment_num(int payment_num) {
+                this.payment_num = payment_num;
+            }
 
             public int getId() {
                 return id;

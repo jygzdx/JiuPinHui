@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="horizontal"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_marginBottom="30dp"
+              android:background="@color/white"
+    >
+    <com.jiupin.jiupinhui.widget.CircleImageView
+        android:id="@+id/civ_head"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_margin="12dp"
+        />
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="match_parent"
+
+        >
+        <TextView
+            android:id="@+id/tv_user_nickname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:maxLines="1"
+            android:text="耐磨"
+            android:textSize="14sp"
+            android:textColor="@color/light_black"
+            />
+        <TextView
+            android:id="@+id/tv_new_condition"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_below="@id/tv_user_nickname"
+            android:maxLines="1"
+            android:text="最新动态："
+            android:textSize="14sp"
+            android:textColor="@color/shallow_black"
+            />
+
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/btn_my_page"
+        android:layout_width="44dp"
+        android:layout_height="24dp"
+        android:layout_gravity="center"
+        android:layout_margin="12dp"
+        android:text="我的首页"
+        android:textSize="9sp"
+        android:textColor="@color/white"
+        android:background="@drawable/btn_inter"
+        />
+
+
+</LinearLayout>

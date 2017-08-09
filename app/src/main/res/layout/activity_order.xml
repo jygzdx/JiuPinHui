@@ -175,6 +175,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
+                android:visibility="gone"
                 >
 
                 <TextView
@@ -203,11 +204,6 @@
                     android:textSize="12sp"
                     />
             </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/mainBackground"/>
 
             <LinearLayout
                 android:id="@+id/ll_transport_insurance"
@@ -245,10 +241,10 @@
                     />
             </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/mainBackground"/>
+            <!--<View-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="1dp"-->
+                <!--android:background="@color/mainBackground"/>-->
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -284,10 +280,10 @@
 
             </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/mainBackground"/>
+            <!--<View-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="1dp"-->
+                <!--android:background="@color/mainBackground"/>-->
         </LinearLayout>
 
     </android.support.v4.widget.NestedScrollView>

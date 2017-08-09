@@ -6,11 +6,11 @@ package com.jiupin.jiupinhui.config;
 
 public class Constant {
 
-    public static final String MAIN_URL = "http://nappt.9pin.com";
+//    public static final String MAIN_URL = "http://nappt.9pin.com";
     //测试ip
-    //    public static final String MAIN_URL = "http://192.168.0.131:8080";
+        public static final String MAIN_URL = "http://192.168.0.131:8080";
     //服务器ip
-    //    public static final String MAIN_URL = "http://192.168.0.168:8080";
+//        public static final String MAIN_URL = "http://192.168.0.168:8080";
     //宇明
     //    public static final String MAIN_URL = "http://192.168.0.103:8080";
 
@@ -286,6 +286,10 @@ public class Constant {
      * 发布动态
      */
     public static final String SAVE_CONDITION = MAIN_URL + "/app/social/saveDynamic.json";
+    /**
+     * 获取推荐动态列表信息
+     */
+    public static final String RECOMMEND_CONDITION = MAIN_URL + "/app/social/getRecommendDynamicList.json";
 
 
 

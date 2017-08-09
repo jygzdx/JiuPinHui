@@ -4,6 +4,7 @@
                 xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:background="@color/mainBackground"
                 tools:context="com.jiupin.jiupinhui.activity.MainActivity">
 
     <RelativeLayout
@@ -35,10 +36,10 @@
                 app:leftColor="@color/mainColor"
                 app:rightColor="@color/mainColor"
                 app:setChecked="false"
-                app:textLeft="关注"
+                app:textLeft="推荐"
                 app:textLeftClickColor="@color/white"
                 app:textLeftColor="@color/mainTextColor"
-                app:textRight="推荐"
+                app:textRight="关注"
                 app:textRightClickColor="@color/white"
                 app:textRightColor="@color/mainTextColor"
                 app:time="500"/>

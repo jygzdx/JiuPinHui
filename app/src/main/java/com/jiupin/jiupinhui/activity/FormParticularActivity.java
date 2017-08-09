@@ -117,7 +117,7 @@ public class FormParticularActivity extends BaseActivity implements IFormParticu
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == COMMENT_CODE&&resultCode == SendCommentActivity.COMMENT_SUCCESS_RESULT ){
+        if (requestCode == COMMENT_CODE && resultCode == SendCommentActivity.COMMENT_SUCCESS_RESULT) {
             formStatus = Constant.TRANSACTION_SUCCESS_HAS_COMMENT;
             updateView();
         }
@@ -198,55 +198,107 @@ public class FormParticularActivity extends BaseActivity implements IFormParticu
      * 取消订单
      */
     private void cancelForm() {
-        View view = LayoutInflater.from(this).inflate(R.layout.dialog_cancel_form, null);
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        View view = LayoutInflater.from(this).inflate(R.layout.dialog_content, null);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+
         builder.setView(view);
+
         final AlertDialog dialog = builder.create();
-        rbArray[0] = (RadioButton) view.findViewById(R.id.rb_unwillingness_pay);
-        rbArray[1] = (RadioButton) view.findViewById(R.id.rb_info_error);
-        rbArray[2] = (RadioButton) view.findViewById(R.id.rb_no_goods);
-        rbArray[3] = (RadioButton) view.findViewById(R.id.rb_ready_item);
-        rbArray[4] = (RadioButton) view.findViewById(R.id.rb_other_cause);
+
+        TextView tvContent = (TextView) view.findViewById(R.id.tv_content);
+
         TextView tvCancel = (TextView) view.findViewById(R.id.tv_cancel);
+
         TextView tvEnsure = (TextView) view.findViewById(R.id.tv_ensure);
 
-        for (int i = 0; i < 5; i++) {
-            rbArray[i].setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    for (int j = 0; j < 5; j++) {
-                        rbArray[j].setChecked(false);
-                    }
-                    ((RadioButton) v).setChecked(true);
-                }
-            });
-        }
+        tvContent.setText("确定要取消订单？");
 
         tvCancel.setOnClickListener(new View.OnClickListener() {
+
             @Override
+
             public void onClick(View v) {
+
                 //取消
+
                 dialog.dismiss();
+
             }
+
         });
+
         tvEnsure.setOnClickListener(new View.OnClickListener() {
+
             @Override
+
             public void onClick(View v) {
+
+                //取消订单
+                token = UserInfoManager.getInstance().getToken(FormParticularActivity.this);
+                presenter.cancelForm(orderId, token);
+
                 //确定
+
                 dialog.dismiss();
 
-                for (int i = 0; i < 5; i++) {
-                    if (rbArray[i].isChecked()) {//根据i值得不同，传递不同的取消订单的原因
-                        LogUtils.d("i= " + i);
-                        token = UserInfoManager.getInstance().getToken(FormParticularActivity.this);
-                        presenter.cancelForm(orderId, token);
-                    }
-
-                }
             }
+
         });
+
         dialog.show();
+
+
+        //        View view = LayoutInflater.from(this).inflate(R.layout.dialog_cancel_form, null);
+        //
+        //        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        //        builder.setView(view);
+        //        final AlertDialog dialog = builder.create();
+        //        rbArray[0] = (RadioButton) view.findViewById(R.id.rb_unwillingness_pay);
+        //        rbArray[1] = (RadioButton) view.findViewById(R.id.rb_info_error);
+        //        rbArray[2] = (RadioButton) view.findViewById(R.id.rb_no_goods);
+        //        rbArray[3] = (RadioButton) view.findViewById(R.id.rb_ready_item);
+        //        rbArray[4] = (RadioButton) view.findViewById(R.id.rb_other_cause);
+        //        TextView tvCancel = (TextView) view.findViewById(R.id.tv_cancel);
+        //        TextView tvEnsure = (TextView) view.findViewById(R.id.tv_ensure);
+        //
+        //        for (int i = 0; i < 5; i++) {
+        //            rbArray[i].setOnClickListener(new View.OnClickListener() {
+        //                @Override
+        //                public void onClick(View v) {
+        //                    for (int j = 0; j < 5; j++) {
+        //                        rbArray[j].setChecked(false);
+        //                    }
+        //                    ((RadioButton) v).setChecked(true);
+        //                }
+        //            });
+        //        }
+        //
+        //        tvCancel.setOnClickListener(new View.OnClickListener() {
+        //            @Override
+        //            public void onClick(View v) {
+        //                //取消
+        //                dialog.dismiss();
+        //            }
+        //        });
+        //        tvEnsure.setOnClickListener(new View.OnClickListener() {
+        //            @Override
+        //            public void onClick(View v) {
+        //                //确定
+        //                dialog.dismiss();
+        //
+        //                for (int i = 0; i < 5; i++) {
+        //                    if (rbArray[i].isChecked()) {//根据i值得不同，传递不同的取消订单的原因
+        //                        LogUtils.d("i= " + i);
+        //                        token = UserInfoManager.getInstance().getToken(FormParticularActivity.this);
+        //                        presenter.cancelForm(orderId, token);
+        //                    }
+        //
+        //                }
+        //            }
+        //        });
+        //        dialog.show();
     }
 
     /**
@@ -354,7 +406,7 @@ public class FormParticularActivity extends BaseActivity implements IFormParticu
     private void nowComment() {
         Intent intent = new Intent(this, SendCommentActivity.class);
         intent.putExtra("orderId", formParticularEntity.getOrder().getId() + "");
-        startActivityForResult(intent,COMMENT_CODE);
+        startActivityForResult(intent, COMMENT_CODE);
 
     }
 
@@ -484,6 +536,7 @@ public class FormParticularActivity extends BaseActivity implements IFormParticu
 
     @Override
     public void deleteFormSuccess() {
+        ToastUtils.showShort(this, "删除订单成功");
         finish();
     }
 
