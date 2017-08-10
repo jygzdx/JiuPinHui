@@ -25,6 +25,8 @@ public class FormParticularEntity {
      * address : {"id":32778,"addTime":1493975853000,"deleteStatus":false,"trueName":"啦啦啦","area":"","area_main":"广东省广州市海珠区","area_info":"穷山恶水123","zip":"510261","telephone":"","mobile":"13560301401","user":""}
      * cart : [{"count":2,"price":10.5,"goods_name":"精酿啤酒入门套餐","main_photo":"","spec_info":"购买月份: 6月","goods_id":"6442"}]
      * deadline : 剩下-49天-6小时自动关闭
+     * "shareUrl":null,优惠券分享地址
+     * "delivery":null,
      */
 
     private StoreBean store;
@@ -32,6 +34,15 @@ public class FormParticularEntity {
     private AddressBean address;
     private String deadline;
     private List<CartBean> cart;
+    private String shareUrl;
+
+    public String getShareUrl() {
+        return shareUrl;
+    }
+
+    public void setShareUrl(String shareUrl) {
+        this.shareUrl = shareUrl;
+    }
 
     public StoreBean getStore() {
         return store;

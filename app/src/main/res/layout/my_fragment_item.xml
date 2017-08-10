@@ -364,8 +364,8 @@
                     android:id="@+id/tv_wait_pay"
                     android:layout_width="wrap_content"
                     android:layout_height="10dp"
-                    android:layout_alignRight="@id/iv_wait_pay"
-                    android:layout_alignTop="@id/iv_wait_pay"
+                    android:layout_alignRight="@+id/iv_wait_pay"
+                    android:layout_alignTop="@+id/iv_wait_pay"
                     android:layout_marginRight="-5dp"
                     android:layout_marginTop="-5dp"
                     android:background="@drawable/icon_circle_bg"
@@ -407,8 +407,8 @@
                     android:id="@+id/tv_wait_send_goods"
                     android:layout_width="wrap_content"
                     android:layout_height="8dp"
-                    android:layout_alignRight="@id/iv_wait_send_goods"
-                    android:layout_alignTop="@id/iv_wait_send_goods"
+                    android:layout_alignRight="@+id/iv_wait_send_goods"
+                    android:layout_alignTop="@+id/iv_wait_send_goods"
                     android:layout_marginRight="-5dp"
                     android:layout_marginTop="-5dp"
                     android:background="@drawable/icon_circle_bg"
@@ -616,7 +616,6 @@
                     />
 
                 <ImageView
-                    android:id="@+id/iv_wait_pay"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"

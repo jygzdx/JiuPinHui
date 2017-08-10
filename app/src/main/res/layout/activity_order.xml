@@ -76,7 +76,7 @@
                         >
 
                         <TextView
-                            android:id="@+id/textView"
+                            android:id="@+id/textView1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="14dp"
@@ -90,7 +90,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
-                            android:layout_toRightOf="@+id/textView"
+                            android:layout_toRightOf="@+id/textView1"
                             android:text=""
                             android:textColor="@color/light_black"
                             android:textSize="12sp"
@@ -777,7 +777,7 @@
                 >
 
                 <TextView
-                    android:id="@+id/textView"
+                    android:id="@+id/price_biaoqian"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="实付金额："
@@ -789,7 +789,7 @@
                     android:id="@+id/tv_pay_all_number"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toRightOf="@+id/textView"
+                    android:layout_toRightOf="@+id/price_biaoqian"
                     android:text=""
                     android:textColor="@color/light_black"
                     android:textSize="17sp"

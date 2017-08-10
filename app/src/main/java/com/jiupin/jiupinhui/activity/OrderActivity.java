@@ -5,6 +5,8 @@ import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -15,6 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.alipay.sdk.app.PayTask;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.jiupin.jiupinhui.R;
@@ -23,6 +26,8 @@ import com.jiupin.jiupinhui.entity.AddressEntity;
 import com.jiupin.jiupinhui.entity.GoodsBack;
 import com.jiupin.jiupinhui.entity.GoodsEntity;
 import com.jiupin.jiupinhui.entity.OrderSubmitEntity;
+import com.jiupin.jiupinhui.entity.ResponseBase;
+import com.jiupin.jiupinhui.entity.WeChatPayEntity;
 import com.jiupin.jiupinhui.manage.UserInfoManager;
 import com.jiupin.jiupinhui.presenter.IOrderActivityPresenter;
 import com.jiupin.jiupinhui.presenter.impl.OrderActivityPresenterImpl;
@@ -32,9 +37,13 @@ import com.jiupin.jiupinhui.utils.SoftKeyboardUtils;
 import com.jiupin.jiupinhui.utils.ToastUtils;
 import com.jiupin.jiupinhui.utils.WindowUtils;
 import com.jiupin.jiupinhui.view.IOrderActivityView;
+import com.tencent.mm.opensdk.modelpay.PayReq;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -128,17 +137,46 @@ public class OrderActivity extends BaseActivity implements IOrderActivityView {
 
     private LayoutInflater inflater;
     private static final int REQUEST_ADDRESS_CODE = 101;
+
+    private static final int ALIPAY_HANDLE = 201;
     private String token;
     private String addressId;
     private String selectedPrice;
     private double payAllNumber;
     private OrderSubmitEntity orderSubmitEntity;
 
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case ALIPAY_HANDLE:
+                    Map<String,String> result = (Map<String, String>) msg.obj;
+                    String resultInfo = result.get("resultStatus");
+                    if("9000".equals(resultInfo)){
+                        ToastUtils.showShort(OrderActivity.this,"支付成功");
+                        Intent intent = new Intent(OrderActivity.this, PaySuccessActivity.class);
+                        intent.putExtra("orderId",orderSubmitEntity.getOrder().getId()+"");
+                        startActivity(intent);
+                    }else{
+                        ToastUtils.showShort(OrderActivity.this,"支付失败");
+                    }
+                    break;
+            }
+            super.handleMessage(msg);
+        }
+    };
+    private IWXAPI api;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order);
         ButterKnife.bind(this);
+
+        api = WXAPIFactory.createWXAPI(mContext, Constant.APP_ID);
+        // 将该app注册到微信
+        api.registerApp(Constant.APP_ID);
+
         presenter = new OrderActivityPresenterImpl(this);
         token = (String) SPUtils.get(this, SPUtils.LOGIN_TOKEN, "");
         presenter.getDefaultAddress(token);
@@ -156,7 +194,7 @@ public class OrderActivity extends BaseActivity implements IOrderActivityView {
      * 根据传递过来的数据，添加各种商品数量
      */
     private void initGoodsData() {
-        int price = Integer.parseInt(selectedPrice);
+        double price = Double.parseDouble(selectedPrice);
         for (int i = 0; i <= goodsEntityList.size() - 1; i++) {
             View view = inflater.inflate(R.layout.order_container_item, null);
             TextView tvStoreName = (TextView) view.findViewById(R.id.tv_store_name);
@@ -191,7 +229,7 @@ public class OrderActivity extends BaseActivity implements IOrderActivityView {
             R.id.view_bg, R.id.ll_transport_insurance,
             R.id.btn_negative, R.id.btn_positive, R.id.tv_submit_order,
             R.id.ll_address, R.id.cb_express_radio, R.id.cb_insurance_radio,
-            R.id.tv_add_address
+            R.id.tv_add_address, R.id.btn_ensure_pay
     })
     public void onViewClicked(View view) {
         SoftKeyboardUtils.hideSoftKeyboard(OrderActivity.this);
@@ -208,53 +246,61 @@ public class OrderActivity extends BaseActivity implements IOrderActivityView {
             case R.id.cb_express_radio://点击运费
 
                 break;
+            case R.id.btn_ensure_pay://确定支付
+                token = UserInfoManager.getInstance().getToken(this);
+                if (paystatus == ALIPAY_STATUS) {//支付宝支付
+                    presenter.getAlipayInfo(token, orderSubmitEntity.getOrder().getId() + "");
+                } else if (paystatus == WECHAT_PAY_STATUS) {//微信支付
+                    if(api.isWXAppInstalled()){
+                        presenter.getWeChatPayInfo(token,orderSubmitEntity.getOrder().getId() + "");
+                    }else{
+                        ToastUtils.showShort(this,"微信客户端没有安装，无法调起微信支付");
+                    }
+                }
+                break;
             case R.id.ll_address://修改地址
                 Intent intent = new Intent(OrderActivity.this, ManageAddressActivity.class);
                 intent.putExtra("fromActivity", "OrderActivity");
                 startActivityForResult(intent, REQUEST_ADDRESS_CODE);
                 break;
-            case R.id.tv_add_address://修改地址
+            case R.id.tv_add_address://修改地址,没有默认地址时
                 Intent intent1 = new Intent(OrderActivity.this, ManageAddressActivity.class);
                 intent1.putExtra("fromActivity", "OrderActivity");
                 startActivityForResult(intent1, REQUEST_ADDRESS_CODE);
                 break;
             case R.id.tv_submit_order://提交订单
-//                if (cbExpressRadio.isChecked()) {//是否有选择快递方式
-                    //弹出选择支付方式弹出窗
-                    rlPayPopupWindow.setVisibility(View.VISIBLE);
-                    viewBg.setVisibility(View.VISIBLE);
-                    showAnimator(rlPayPopupWindow, screenHeight, 0f);
-                    showAlphaAnimator(0f, 0.6f);
+                //                if (cbExpressRadio.isChecked()) {//是否有选择快递方式
+                //弹出选择支付方式弹出窗
 
-                    tvPayAllNumber.setText("￥" + payAllNumber);
+                tvPayAllNumber.setText("￥" + payAllNumber);
 
-                    String userId = (String) SPUtils.get(this, SPUtils.USER_ID, "");
-                    String storeId = goodsEntityList.get(0).getData().getGoods_store_id() + "";
-                    String msg = etBuyerMsg.getText().toString();
-                    String couponInfoId = "";
-                    String order_type = "app商城";
-                    List<GoodsBack> goodsBackList = new ArrayList<>();
-                    for (int i = 0; i < goodsEntityList.size(); i++) {
-                        GoodsBack goodsBack = new GoodsBack();
-                        goodsBack.setId(goodsEntityList.get(i).getData().getId());
-                        goodsBack.setCount(goodsEntityList.get(i).getData().getCount());
-                        if (goodsEntityList.get(i).getData().getIs_meal() == 1) {
-                            String member = goodsEntityList.get(i).getData().getSelectedMemberId() == 0 ? "" : goodsEntityList.get(i).getData().getSelectedMemberId() + "_";
-                            String type = goodsEntityList.get(i).getData().getSelectedTypeId() == 0 ? "" : goodsEntityList.get(i).getData().getSelectedTypeId() + "_";
-                            goodsBack.setSpec_id(member + type);
-                        } else {
-                            goodsBack.setSpec_id("");
-                        }
-                        goodsBackList.add(goodsBack);
+                String userId = (String) SPUtils.get(this, SPUtils.USER_ID, "");
+                String storeId = goodsEntityList.get(0).getData().getGoods_store_id() + "";
+                String msg = etBuyerMsg.getText().toString();
+                String couponInfoId = "";
+                String order_type = "app商城";
+                List<GoodsBack> goodsBackList = new ArrayList<>();
+                for (int i = 0; i < goodsEntityList.size(); i++) {
+                    GoodsBack goodsBack = new GoodsBack();
+                    goodsBack.setId(goodsEntityList.get(i).getData().getId());
+                    goodsBack.setCount(goodsEntityList.get(i).getData().getCount());
+                    if (goodsEntityList.get(i).getData().getIs_meal() == 1) {
+                        String member = goodsEntityList.get(i).getData().getSelectedMemberId() == 0 ? "" : goodsEntityList.get(i).getData().getSelectedMemberId() + "_";
+                        String type = goodsEntityList.get(i).getData().getSelectedTypeId() == 0 ? "" : goodsEntityList.get(i).getData().getSelectedTypeId() + "_";
+                        goodsBack.setSpec_id(member + type);
+                    } else {
+                        goodsBack.setSpec_id("");
                     }
+                    goodsBackList.add(goodsBack);
+                }
 
-                    String goodList = new Gson().toJson(goodsBackList);
-                    LogUtils.d("goodList->" + goodList);
-                    token = UserInfoManager.getInstance().getToken(this);
-                    presenter.submitForm(userId, storeId, token, msg, couponInfoId, order_type, addressId + "", goodList);
-//                } else {
-//                    ToastUtils.showShort(this, "请选择配送方式");
-//                }
+                String goodList = new Gson().toJson(goodsBackList);
+                LogUtils.d("goodList->" + goodList);
+                token = UserInfoManager.getInstance().getToken(this);
+                presenter.submitForm(userId, storeId, token, msg, couponInfoId, order_type, addressId + "", goodList);
+                //                } else {
+                //                    ToastUtils.showShort(this, "请选择配送方式");
+                //                }
 
                 break;
             case R.id.view_bg:
@@ -323,6 +369,11 @@ public class OrderActivity extends BaseActivity implements IOrderActivityView {
         switch (view.getId()) {
             case R.id.iv_pay_back:
                 hidePopupWindow(rlPayPopupWindow);
+                //订单已经提交
+                //跳转到订单详情
+                if (orderSubmitEntity != null) {
+                    gotoFormParticularActivity();
+                }
                 break;
             case R.id.rl_alipay:
                 paystatus = ALIPAY_STATUS;
@@ -346,7 +397,6 @@ public class OrderActivity extends BaseActivity implements IOrderActivityView {
                 break;
             case R.id.btn_ensure_pay:
                 //通过paystatus处理不同的支付方式
-                ToastUtils.showShort(mContext, "点击了-->" + paystatus);
                 hidePopupWindow(rlPayPopupWindow);
                 break;
         }
@@ -457,10 +507,51 @@ public class OrderActivity extends BaseActivity implements IOrderActivityView {
     public void submitFormSuccess(OrderSubmitEntity orderSubmitEntity) {
         LogUtils.d("submitFormSuccess");
         this.orderSubmitEntity = orderSubmitEntity;
+        //弹出选择支付方式窗口
+        rlPayPopupWindow.setVisibility(View.VISIBLE);
+        viewBg.setVisibility(View.VISIBLE);
+        showAnimator(rlPayPopupWindow, WindowUtils.getWindowHeight(this), 0f);
+        showAlphaAnimator(0f, 0.6f);
     }
 
     @Override
     public void submitFormFail() {
         LogUtils.d("submitFormFail");
+    }
+
+    @Override
+    public void alipaySuccess(ResponseBase responseBase) {//支付宝支付
+        final String orderInfo = responseBase.getData().toString();
+        LogUtils.d("orderInfo = " + orderInfo);
+        Runnable payRunnable = new Runnable() {
+
+            @Override
+            public void run() {
+                PayTask alipay = new PayTask(OrderActivity.this);
+                Map<String, String> result = alipay.payV2(orderInfo, true);
+                LogUtils.d("result = " + result);
+                Message msg = new Message();
+                msg.what = ALIPAY_HANDLE;
+                msg.obj = result;
+                mHandler.sendMessage(msg);
+            }
+        };
+        // 必须异步调用
+        Thread payThread = new Thread(payRunnable);
+        payThread.start();
+    }
+
+    @Override
+    public void weChatPaySuccess(WeChatPayEntity weChatPayEntity) {
+        PayReq request = new PayReq();
+        request.appId = weChatPayEntity.getAppid();
+        request.partnerId = weChatPayEntity.getPartnerid();
+        request.prepayId= weChatPayEntity.getPrepayid();
+        request.packageValue = weChatPayEntity.getPackageX();
+        request.nonceStr= weChatPayEntity.getNoncestr();
+        request.timeStamp= weChatPayEntity.getTimestamp();
+        request.sign= weChatPayEntity.getSign();
+        request.extData = orderSubmitEntity.getOrder().getId()+"";
+        boolean isPay = api.sendReq(request);
     }
 }

@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.jiupin.jiupinhui.R;
 import com.jiupin.jiupinhui.config.Constant;
 import com.jiupin.jiupinhui.entity.FormParticularEntity;
+import com.jiupin.jiupinhui.entity.ResponseBase;
 import com.jiupin.jiupinhui.manage.PopWinManager;
 import com.jiupin.jiupinhui.manage.UserInfoManager;
 import com.jiupin.jiupinhui.presenter.IFormParticularActivityPresenter;
@@ -83,7 +84,7 @@ public class FormParticularActivity extends BaseActivity implements IFormParticu
     /**
      * 保存取消订单弹出窗的radiobutton
      */
-    private RadioButton[] rbArray = new RadioButton[5];
+//    private RadioButton[] rbArray = new RadioButton[5];
 
     private String formStatus = "";
 
@@ -538,6 +539,11 @@ public class FormParticularActivity extends BaseActivity implements IFormParticu
     public void deleteFormSuccess() {
         ToastUtils.showShort(this, "删除订单成功");
         finish();
+    }
+
+    @Override
+    public void alipaySuccess(ResponseBase responseBase) {
+
     }
 
 

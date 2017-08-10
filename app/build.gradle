@@ -5,13 +5,13 @@ android {
         debug {
             keyAlias 'keyAlias'
             keyPassword KEYPASSWORD
-            storeFile file('F:/app_resource/release.keystore')
+            storeFile file('release.keystore')
             storePassword STOREPASSWORD
         }
         release {
             keyAlias 'keyAlias'
             keyPassword KEYPASSWORD
-            storeFile file('F:/app_resource/release.keystore')
+            storeFile file('release.keystore')
             storePassword STOREPASSWORD
         }
     }
@@ -39,6 +39,7 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
+    compile files('libs/alipaySdk-20170725.jar')
 
     //material design
     //glide 图片加载
@@ -49,7 +50,7 @@ dependencies {
     //图片选择器
     //微信开放平台
     //下拉刷新上拉加载
-    //    compile 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
+    compile 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
     compile 'com.android.support:appcompat-v7:25.2.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.android.support:design:25.2.0'

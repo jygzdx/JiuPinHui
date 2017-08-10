@@ -4,6 +4,8 @@ import android.content.Context;
 
 import com.jiupin.jiupinhui.entity.AddressEntity;
 import com.jiupin.jiupinhui.entity.OrderSubmitEntity;
+import com.jiupin.jiupinhui.entity.ResponseBase;
+import com.jiupin.jiupinhui.entity.WeChatPayEntity;
 import com.jiupin.jiupinhui.model.IModel;
 import com.jiupin.jiupinhui.model.IOrderActivityModel;
 import com.jiupin.jiupinhui.model.impl.OrderActivityModelImpl;
@@ -49,6 +51,36 @@ public class OrderActivityPresenterImpl implements IOrderActivityPresenter {
             @Override
             public void onSuccess(Object success) {
                 view.submitFormSuccess((OrderSubmitEntity)success);
+            }
+
+            @Override
+            public void onFailed(int status, String msg) {
+                HttpErrorUtils.manageErrorHttp(status,msg,(Context) view);
+            }
+        });
+    }
+
+    @Override
+    public void getAlipayInfo(String token, String orderId) {
+        model.getAlipayInfo(token, orderId, new IModel.CallBack() {
+            @Override
+            public void onSuccess(Object success) {
+                view.alipaySuccess(((ResponseBase) success));
+            }
+
+            @Override
+            public void onFailed(int status, String msg) {
+                HttpErrorUtils.manageErrorHttp(status,msg,(Context) view);
+            }
+        });
+    }
+
+    @Override
+    public void getWeChatPayInfo(String token, String orderId) {
+        model.getWeChatPayInfo(token, orderId, new IModel.CallBack() {
+            @Override
+            public void onSuccess(Object success) {
+                view.weChatPaySuccess((WeChatPayEntity) success);
             }
 
             @Override

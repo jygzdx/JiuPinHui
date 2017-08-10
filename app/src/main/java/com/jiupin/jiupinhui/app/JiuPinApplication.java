@@ -4,6 +4,9 @@ import android.app.Application;
 
 import com.bumptech.glide.request.target.ViewTarget;
 import com.jiupin.jiupinhui.R;
+import com.jiupin.jiupinhui.config.Constant;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.zhy.http.okhttp.OkHttpUtils;
 
 import java.util.concurrent.TimeUnit;
@@ -28,5 +31,9 @@ public class JiuPinApplication extends Application{
         OkHttpUtils.initClient(okHttpClient);
         //配置Glide
         ViewTarget.setTagId(R.id.glide_tag);
+
+        final IWXAPI msgApi = WXAPIFactory.createWXAPI(this, null);
+        // 将该app注册到微信
+        msgApi.registerApp(Constant.APP_ID);
     }
 }

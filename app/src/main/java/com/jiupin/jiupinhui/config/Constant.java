@@ -6,9 +6,9 @@ package com.jiupin.jiupinhui.config;
 
 public class Constant {
 
-//    public static final String MAIN_URL = "http://nappt.9pin.com";
+    public static final String MAIN_URL = "http://nappt.9pin.com";
     //测试ip
-        public static final String MAIN_URL = "http://192.168.0.131:8080";
+//        public static final String MAIN_URL = "http://192.168.0.131:8080";
     //服务器ip
 //        public static final String MAIN_URL = "http://192.168.0.168:8080";
     //宇明
@@ -291,7 +291,16 @@ public class Constant {
      */
     public static final String RECOMMEND_CONDITION = MAIN_URL + "/app/social/getRecommendDynamicList.json";
 
+    /**------------------------------------支付接口-------------------------------------------*/
+    /**
+     * alipay支付接口
+     */
+    public static final String ALIPAY_SIGN = MAIN_URL + "/app/pay/alipay/getPaySign.json";
 
+    /**
+     * 微信支付接口
+     */
+    public static final String WEIXIN_SIGN = MAIN_URL + "/app/pay/weixin/getWeixinPayInfo.json";
 
     /**------------------------------------订单状态-------------------------------------------*/
     /**

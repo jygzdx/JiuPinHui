@@ -457,7 +457,7 @@
         >
         <!--对准图-->
         <ImageView
-            android:id="@+id/iv_left_sign2"
+            android:id="@+id/iv_left_sign3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="98dp"
@@ -468,7 +468,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_below="@+id/iv_left_sign2"
+            android:layout_below="@+id/iv_left_sign3"
             android:background="@color/white"
             android:orientation="vertical"
             >

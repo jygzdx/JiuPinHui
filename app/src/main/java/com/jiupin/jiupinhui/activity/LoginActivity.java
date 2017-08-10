@@ -14,6 +14,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jiupin.jiupinhui.R;
+import com.jiupin.jiupinhui.config.Constant;
 import com.jiupin.jiupinhui.entity.RegisterEntity;
 import com.jiupin.jiupinhui.entity.ResponseBase;
 import com.jiupin.jiupinhui.manage.UserInfoManager;
@@ -25,6 +26,9 @@ import com.jiupin.jiupinhui.utils.StringUtils;
 import com.jiupin.jiupinhui.utils.ToastUtils;
 import com.jiupin.jiupinhui.utils.WindowUtils;
 import com.jiupin.jiupinhui.view.ILoginActivityView;
+import com.tencent.mm.opensdk.modelmsg.SendAuth;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -85,7 +89,7 @@ public class LoginActivity extends AppCompatActivity implements ILoginActivityVi
     RelativeLayout rlBottomReset;
     @BindView(R.id.btn_reset_checkout)
     Button btnResetCheckout;
-//    private IWXAPI api;
+    private IWXAPI api;
 
     private ILoginActivityPresenter presenter;
     //手机号码是否注册过
@@ -150,14 +154,14 @@ public class LoginActivity extends AppCompatActivity implements ILoginActivityVi
         //微信登录的code
         String code = getIntent().getStringExtra("code");
 
-//        api = WXAPIFactory.createWXAPI(LoginActivity.this, Constant.APP_ID, true);
-//        api.registerApp(Constant.APP_ID);
+        api = WXAPIFactory.createWXAPI(LoginActivity.this, Constant.APP_ID, true);
+        api.registerApp(Constant.APP_ID);
 
 
     }
 
     @OnClick({R.id.btn_login, R.id.btn_register, R.id.tv_reset_password, R.id.btn_login_bottom, R.id.btn_register_checkout,
-            R.id.btn_register_bottom, R.id.btn_reset_checkout, R.id.btn_reset_bottom
+            R.id.btn_register_bottom, R.id.btn_reset_checkout, R.id.btn_reset_bottom, R.id.iv_login_wechat
     })
     void onButtonClick(View view) {
 
@@ -176,6 +180,17 @@ public class LoginActivity extends AppCompatActivity implements ILoginActivityVi
         String resetPasswordOne = etResetPasswordOne.getText().toString();
         String resetPasswordTwo = etResetPasswordTwo.getText().toString();
         switch (view.getId()) {
+
+            case R.id.iv_login_wechat:
+                //用户登录
+                SendAuth.Req req = new SendAuth.Req();
+                req.scope = "snsapi_userinfo";
+                req.state = "123456";
+                //向微信发送请求
+                boolean status = api.sendReq(req);
+                LogUtils.d("status = "+status);
+                break;
+
             case R.id.btn_login:
                 btnLogin.setBackgroundResource(R.drawable.login_clicked);
                 btnRegister.setBackgroundResource(R.drawable.register_unclicked);
@@ -199,12 +214,7 @@ public class LoginActivity extends AppCompatActivity implements ILoginActivityVi
                     showBottomReset();
                 }
                 break;
-            case R.id.btn_login_bottom://用户登录
-                //                SendAuth.Req req = new SendAuth.Req();
-                //                req.scope = "snsapi_userinfo";
-                //                req.state = "123456";
-                //                //向微信发送请求
-                //                boolean status = api.sendReq(req);
+            case R.id.btn_login_bottom:
                 presenter.loginUser(loginMobile, loginPassword, "2");
                 break;
             case R.id.btn_register_checkout:
@@ -391,7 +401,7 @@ public class LoginActivity extends AppCompatActivity implements ILoginActivityVi
     public void registerSuccess(RegisterEntity registerEntity) {
         ToastUtils.showShort(this, "注册成功");
         SPUtils.put(this, SPUtils.LOGIN_TOKEN, registerEntity.getData().getToken());
-        SPUtils.put(this, SPUtils.USER_ID, registerEntity.getData().getUser().getId()+"");
+        SPUtils.put(this, SPUtils.USER_ID, registerEntity.getData().getUser().getId() + "");
         LogUtils.d(TAG + "token" + registerEntity.getData().getToken());
         UserInfoManager.getInstance().setLogin(true);
         UserInfoManager.getInstance().setToken(registerEntity.getData().getToken());
@@ -409,7 +419,7 @@ public class LoginActivity extends AppCompatActivity implements ILoginActivityVi
     @Override
     public void loginSuccess(RegisterEntity registerEntity) {
         SPUtils.put(this, SPUtils.LOGIN_TOKEN, registerEntity.getData().getToken());
-        SPUtils.put(this, SPUtils.USER_ID, registerEntity.getData().getUser().getId()+"");
+        SPUtils.put(this, SPUtils.USER_ID, registerEntity.getData().getUser().getId() + "");
         ToastUtils.showShort(this, "登录成功");
         UserInfoManager.getInstance().setLogin(true);
         UserInfoManager.getInstance().setToken(registerEntity.getData().getToken());
@@ -439,7 +449,7 @@ public class LoginActivity extends AppCompatActivity implements ILoginActivityVi
 
     @Override
     public void resetPwdSuccess(ResponseBase responseBase) {
-        ToastUtils.showShort(this,"重置密码成功,请使用新密码登录");
+        ToastUtils.showShort(this, "重置密码成功,请使用新密码登录");
         btnLogin.setBackgroundResource(R.drawable.login_clicked);
         btnRegister.setBackgroundResource(R.drawable.register_unclicked);
         if (rlBottomLogin.getVisibility() == View.GONE) {
@@ -452,6 +462,6 @@ public class LoginActivity extends AppCompatActivity implements ILoginActivityVi
 
     @Override
     public void onSuccess(String success) {
-        ToastUtils.showShort(this,success);
+        ToastUtils.showShort(this, success);
     }
 }
