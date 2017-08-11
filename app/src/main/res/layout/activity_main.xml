@@ -1,29 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.jiupin.jiupinhui.activity.MainActivity">
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context="com.jiupin.jiupinhui.activity.MainActivity">
 
     <FrameLayout
         android:id="@+id/fl_main_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
+        android:layout_above="@+id/tv_main_bottom_bg"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_above="@+id/tv_main_bottom_bg"
+        android:layout_alignParentTop="true"
         >
 
     </FrameLayout>
 
     <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_above="@+id/tv_main_bottom_bg"
+        android:background="@color/mainBackground"
+        />
+
+    <TextView
         android:id="@+id/tv_main_bottom_bg"
         android:layout_width="match_parent"
         android:layout_height="57dp"
-        android:background="@color/white"
         android:layout_alignParentBottom="true"
+        android:background="@color/white"
         />
     <!--底部菜单栏-->
     <RelativeLayout
@@ -32,52 +39,53 @@
         android:layout_height="70dp"
         android:layout_alignParentBottom="true"
         >
+
         <RadioGroup
             android:id="@+id/rg_main"
+            style="@style/main_radiogroup"
             android:layout_alignParentBottom="true"
             android:orientation="horizontal"
-            style="@style/main_radiogroup"
             >
 
             <RadioButton
                 android:id="@+id/rb_home"
                 style="@style/main_radiobutton"
-                android:text="首页"
                 android:checked="true"
                 android:drawableTop="@drawable/selector_home"
+                android:text="首页"
                 />
 
             <RadioButton
                 android:id="@+id/rb_store"
                 style="@style/main_radiobutton"
-                android:text="商城"
                 android:drawableTop="@drawable/selector_wine"
+                android:text="商城"
                 />
 
             <RadioButton
                 android:id="@+id/rb_wine"
                 style="@style/main_radiobutton"
+                android:layout_marginBottom="-2dp"
                 android:drawableTop="@drawable/selector_store"
                 android:text="美酒"
-                android:layout_marginBottom="-2dp"
                 />
 
             <RadioButton
                 android:id="@+id/rb_community"
                 style="@style/main_radiobutton"
-                android:text="社区"
                 android:drawableTop="@drawable/selector_community"
+                android:text="社区"
                 />
+
             <RadioButton
                 android:id="@+id/rb_my"
                 style="@style/main_radiobutton"
-                android:text="我的"
                 android:drawableTop="@drawable/selector_my"
+                android:text="我的"
                 />
 
         </RadioGroup>
     </RelativeLayout>
 
-    
 
 </RelativeLayout>

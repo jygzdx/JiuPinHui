@@ -122,7 +122,7 @@ public class SendCommentActivity extends TakePhotoActivity implements ISendComme
                 takePhoto = getTakePhoto();
                 if (null == config) {
                     config = new CompressConfig.Builder()
-                            .setMaxSize(5 * 1024)
+                            .setMaxSize(500 * 1024)
                             .setMaxPixel(800)
                             .enableReserveRaw(true)
                             .create();

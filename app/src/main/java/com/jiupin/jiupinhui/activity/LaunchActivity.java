@@ -26,6 +26,7 @@ public class LaunchActivity extends BaseActivity implements ILaunchActivityView 
                     Intent intent = new Intent(LaunchActivity.this, MainActivity.class);
                     intent.putExtra("status", MainActivity.HOME_STATUS);
                     mContext.startActivity(intent);
+                    finish();
                     break;
             }
         }
