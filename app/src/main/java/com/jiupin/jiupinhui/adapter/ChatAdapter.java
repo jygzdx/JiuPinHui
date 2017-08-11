@@ -58,10 +58,12 @@ public class ChatAdapter extends RecyclerView.Adapter {
             RightChatViewHolder rightHolder = (RightChatViewHolder) holder;
             rightHolder.tvChatContent.setText(chatList.get(position).getContent());
             rightHolder.tvChatTime.setText(TimeUtils.getTime(chatList.get(position).getCreate_time()));
-            Glide.with(mContext)
-                    .load(UserInfoManager.getInstance().getUser().getImageUrl())
-                    .crossFade()
-                    .into(rightHolder.ivUserPic);
+            if(UserInfoManager.getInstance().getUser()!=null){
+                Glide.with(mContext)
+                        .load(UserInfoManager.getInstance().getUser().getImageUrl())
+                        .crossFade()
+                        .into(rightHolder.ivUserPic);
+            }
         }
     }
 

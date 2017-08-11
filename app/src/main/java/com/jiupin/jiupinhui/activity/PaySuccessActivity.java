@@ -77,7 +77,7 @@ public class PaySuccessActivity extends BaseActivity implements IPaySuccessActiv
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_more:
-                PopWinManager popWinManager = new PopWinManager(this,view);
+                PopWinManager popWinManager = new PopWinManager(this,(View) view.getParent());
                 popWinManager.createPopupWindow();
                 break;
             case R.id.btn_check_form:

@@ -3,7 +3,6 @@ package com.jiupin.jiupinhui.manage;
 import android.content.Context;
 
 import com.jiupin.jiupinhui.entity.UserEntity;
-import com.jiupin.jiupinhui.utils.LogUtils;
 import com.jiupin.jiupinhui.utils.SPUtils;
 
 /**
@@ -55,7 +54,6 @@ public class UserInfoManager {
     }
 
     public boolean isLogin() {
-        LogUtils.d("islogin = "+isLogin);
         return isLogin;
     }
 }

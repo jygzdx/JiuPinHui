@@ -37,4 +37,18 @@ public interface IFormParticularActivityPresenter {
      * @param token   token
      */
     void deleteForm(String orderId, String token);
+
+    /**
+     * 获取alipay支付信息
+     * @param token token
+     *              @param orderId 订单id
+     */
+    void getAlipayInfo(String token,String orderId);
+
+    /**
+     * 获取微信支付信息
+     * @param token token
+     *              @param orderId 订单id
+     */
+    void getWeChatPayInfo(String token,String orderId);
 }

@@ -646,7 +646,7 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="0dp"
                 android:background="#ECEEEF"
                 />
             <!--微信支付-->
@@ -725,7 +725,7 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="0dp"
                 android:background="#ECEEEF"
                 />
             <!--货到付款(现金)-->
@@ -765,7 +765,7 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="0dp"
                 android:background="#ECEEEF"
                 />
 

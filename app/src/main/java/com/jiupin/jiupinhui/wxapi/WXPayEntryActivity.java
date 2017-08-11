@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.jiupin.jiupinhui.R;
+import com.jiupin.jiupinhui.activity.FormParticularActivity;
 import com.jiupin.jiupinhui.activity.PaySuccessActivity;
 import com.jiupin.jiupinhui.config.Constant;
 import com.jiupin.jiupinhui.utils.LogUtils;
@@ -60,8 +61,16 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
 				startActivity(intent);
 			}else if(resp.errCode==BaseResp.ErrCode.ERR_USER_CANCEL){
 				ToastUtils.showShort(this,"取消支付");
+				Intent intent = new Intent(WXPayEntryActivity.this, FormParticularActivity.class);
+				intent.putExtra("status", Constant.WAIT_PAY);
+				intent.putExtra("orderId", data);
+				startActivity(intent);
 			}else {
 				ToastUtils.showShort(this,"支付失败");
+                Intent intent = new Intent(WXPayEntryActivity.this, FormParticularActivity.class);
+                intent.putExtra("status", Constant.WAIT_PAY);
+                intent.putExtra("orderId", data);
+                startActivity(intent);
 			}
 		}
 		finish();

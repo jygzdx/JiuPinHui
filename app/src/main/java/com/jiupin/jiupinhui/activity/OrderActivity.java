@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -159,6 +160,9 @@ public class OrderActivity extends BaseActivity implements IOrderActivityView {
                         startActivity(intent);
                     }else{
                         ToastUtils.showShort(OrderActivity.this,"支付失败");
+                        if (orderSubmitEntity != null) {
+                            gotoFormParticularActivity();
+                        }
                     }
                     break;
             }
@@ -229,7 +233,7 @@ public class OrderActivity extends BaseActivity implements IOrderActivityView {
             R.id.view_bg, R.id.ll_transport_insurance,
             R.id.btn_negative, R.id.btn_positive, R.id.tv_submit_order,
             R.id.ll_address, R.id.cb_express_radio, R.id.cb_insurance_radio,
-            R.id.tv_add_address, R.id.btn_ensure_pay
+            R.id.tv_add_address
     })
     public void onViewClicked(View view) {
         SoftKeyboardUtils.hideSoftKeyboard(OrderActivity.this);
@@ -245,18 +249,6 @@ public class OrderActivity extends BaseActivity implements IOrderActivityView {
                 break;
             case R.id.cb_express_radio://点击运费
 
-                break;
-            case R.id.btn_ensure_pay://确定支付
-                token = UserInfoManager.getInstance().getToken(this);
-                if (paystatus == ALIPAY_STATUS) {//支付宝支付
-                    presenter.getAlipayInfo(token, orderSubmitEntity.getOrder().getId() + "");
-                } else if (paystatus == WECHAT_PAY_STATUS) {//微信支付
-                    if(api.isWXAppInstalled()){
-                        presenter.getWeChatPayInfo(token,orderSubmitEntity.getOrder().getId() + "");
-                    }else{
-                        ToastUtils.showShort(this,"微信客户端没有安装，无法调起微信支付");
-                    }
-                }
                 break;
             case R.id.ll_address://修改地址
                 Intent intent = new Intent(OrderActivity.this, ManageAddressActivity.class);
@@ -398,8 +390,34 @@ public class OrderActivity extends BaseActivity implements IOrderActivityView {
             case R.id.btn_ensure_pay:
                 //通过paystatus处理不同的支付方式
                 hidePopupWindow(rlPayPopupWindow);
+                token = UserInfoManager.getInstance().getToken(this);
+                if (paystatus == ALIPAY_STATUS) {//支付宝支付
+                    presenter.getAlipayInfo(token, orderSubmitEntity.getOrder().getId() + "");
+                } else if (paystatus == WECHAT_PAY_STATUS) {//微信支付
+                    if(api.isWXAppInstalled()){
+                        presenter.getWeChatPayInfo(token,orderSubmitEntity.getOrder().getId() + "");
+                    }else{
+                        ToastUtils.showShort(this,"微信客户端没有安装，无法调起微信支付");
+                        if (orderSubmitEntity != null) {
+                            gotoFormParticularActivity();
+                        }
+                    }
+                }
                 break;
         }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(keyCode == KeyEvent.KEYCODE_BACK){
+            if(rlPayPopupWindow.getVisibility() == View.VISIBLE){
+                hidePopupWindow(rlPayPopupWindow);
+                if (orderSubmitEntity != null) {
+                    gotoFormParticularActivity();
+                }
+            }
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     @Override

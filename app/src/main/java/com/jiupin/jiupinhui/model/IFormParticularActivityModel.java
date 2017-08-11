@@ -38,4 +38,18 @@ public interface IFormParticularActivityModel {
      * @param token   token
      */
     void deleteForm(String orderId, String token, IModel.CallBack callBack);
+
+    /**
+     * 获取alipay支付信息
+     * @param token token
+     *              @param orderId 订单id
+     */
+    void getAlipayInfo(String token,String orderId, IModel.CallBack callBack);
+
+    /**
+     * 获取微信支付信息
+     * @param token token
+     *              @param orderId 订单id
+     */
+    void getWeChatPayInfo(String token,String orderId, IModel.CallBack callBack);
 }
