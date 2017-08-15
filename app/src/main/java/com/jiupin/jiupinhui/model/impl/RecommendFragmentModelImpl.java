@@ -63,4 +63,75 @@ public class RecommendFragmentModelImpl implements IRecommendFragmentModel {
                     }
                 });
     }
+
+    @Override
+    public void setThumbDynamic(String token, String communityId, final IModel.CallBack callBack) {
+        OkHttpUtils
+                .post()
+                .url(Constant.THUMB_DYNAMIC)
+                .addParams("token",token)
+                .addParams("dynamicId",communityId)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+                        callBack.onFailed(HttpErrorUtils.NETWORK_ERROR,HttpErrorUtils.MSG_NETWORK_ERROR);
+                    }
+
+                    @Override
+                    public void onResponse(String response, int id) {
+                        LogUtils.d("setThumbDynamic" + response);
+                        JSONObject jsonObject = null;
+                        try {
+                            jsonObject = new JSONObject(response);
+                            String msg = jsonObject.getString("msg");
+                            int status = jsonObject.getInt("status");
+                            if (200 == status) {
+                                String data = jsonObject.getString("data");
+                                callBack.onSuccess(data);
+                            } else {
+                                callBack.onFailed(status, msg);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+    }
+
+    @Override
+    public void cancelCondition(String token, String userId, String concernStatus, final IModel.CallBack callBack) {
+        OkHttpUtils
+                .post()
+                .url(Constant.CONCERN_EXPERT)
+                .addParams("token",token)
+                .addParams("userId",userId)
+                .addParams("concernStatus",concernStatus)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+                        callBack.onFailed(HttpErrorUtils.NETWORK_ERROR,HttpErrorUtils.MSG_NETWORK_ERROR);
+                    }
+
+                    @Override
+                    public void onResponse(String response, int id) {
+                        LogUtils.d("setThumbDynamic" + response);
+                        JSONObject jsonObject = null;
+                        try {
+                            jsonObject = new JSONObject(response);
+                            String msg = jsonObject.getString("msg");
+                            int status = jsonObject.getInt("status");
+                            if (200 == status) {
+                                String data = jsonObject.getString("data");
+                                callBack.onSuccess(data);
+                            } else {
+                                callBack.onFailed(status, msg);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+    }
 }

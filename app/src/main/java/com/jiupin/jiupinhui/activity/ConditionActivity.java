@@ -88,7 +88,7 @@ public class ConditionActivity extends TakePhotoActivity implements IConditionAc
                 takePhoto = getTakePhoto();
                 if (null == config) {
                     config = new CompressConfig.Builder()
-                            .setMaxSize(5 * 1024)
+                            .setMaxSize(500 * 1024)
                             .setMaxPixel(800)
                             .enableReserveRaw(true)
                             .create();

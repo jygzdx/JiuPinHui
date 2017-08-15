@@ -38,4 +38,34 @@ public class RecommendFragmentPresenterImpl implements IRecommendFragmentPresent
             }
         });
     }
+
+    @Override
+    public void setThumbDynamic(String token, String communityId, final int position) {
+        model.setThumbDynamic(token, communityId, new IModel.CallBack() {
+            @Override
+            public void onSuccess(Object success) {
+                view.thumbDynamic(((String) success),position);
+            }
+
+            @Override
+            public void onFailed(int status, String msg) {
+                HttpErrorUtils.manageErrorHttp(status, msg, ((RecommendFragment) view).getContext());
+            }
+        });
+    }
+
+    @Override
+    public void cancelCondition(String token, String userId, String concernStatus, final int position) {
+        model.cancelCondition(token, userId, concernStatus, new IModel.CallBack() {
+            @Override
+            public void onSuccess(Object success) {
+                view.concernExpert((String) success,position);
+            }
+
+            @Override
+            public void onFailed(int status, String msg) {
+                HttpErrorUtils.manageErrorHttp(status, msg, ((RecommendFragment) view).getContext());
+            }
+        });
+    }
 }

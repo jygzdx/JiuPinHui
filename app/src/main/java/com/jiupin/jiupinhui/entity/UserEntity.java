@@ -72,6 +72,18 @@ public class UserEntity {
          * ww :
          */
 
+        /**后面添加的参数
+         * fans_num : 0
+         * concern_num : 0
+         * signature :
+         * intro :
+         * education :
+         * location :
+         * level : 1
+         * openid : oZ-s1t4WNBJW3aq59bna-eKZPdWA
+         * unionId : oPYvKwuvyfQx7ZDrME-XVURbJBS8
+         */
+
         private int id;
         private String addTime;
         private boolean deleteStatus;
@@ -99,6 +111,18 @@ public class UserEntity {
         private String qq;
         private String msn;
         private String ww;
+
+
+        private int fans_num;
+        private int concern_num;
+        private String signature;
+        private String intro;
+        private String education;
+        private String location;
+        private int level;
+        private String openid;
+        private String unionId;
+
 
         public int getId() {
             return id;
@@ -314,6 +338,78 @@ public class UserEntity {
 
         public void setWw(String ww) {
             this.ww = ww;
+        }
+
+        public int getFans_num() {
+            return fans_num;
+        }
+
+        public void setFans_num(int fans_num) {
+            this.fans_num = fans_num;
+        }
+
+        public int getConcern_num() {
+            return concern_num;
+        }
+
+        public void setConcern_num(int concern_num) {
+            this.concern_num = concern_num;
+        }
+
+        public String getSignature() {
+            return signature;
+        }
+
+        public void setSignature(String signature) {
+            this.signature = signature;
+        }
+
+        public String getIntro() {
+            return intro;
+        }
+
+        public void setIntro(String intro) {
+            this.intro = intro;
+        }
+
+        public String getEducation() {
+            return education;
+        }
+
+        public void setEducation(String education) {
+            this.education = education;
+        }
+
+        public String getLocation() {
+            return location;
+        }
+
+        public void setLocation(String location) {
+            this.location = location;
+        }
+
+        public int getLevel() {
+            return level;
+        }
+
+        public void setLevel(int level) {
+            this.level = level;
+        }
+
+        public String getOpenid() {
+            return openid;
+        }
+
+        public void setOpenid(String openid) {
+            this.openid = openid;
+        }
+
+        public String getUnionId() {
+            return unionId;
+        }
+
+        public void setUnionId(String unionId) {
+            this.unionId = unionId;
         }
     }
 }

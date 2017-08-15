@@ -13,6 +13,7 @@ import android.widget.FrameLayout;
 
 import com.jiupin.jiupinhui.R;
 import com.jiupin.jiupinhui.activity.ConditionActivity;
+import com.jiupin.jiupinhui.utils.LogUtils;
 import com.jiupin.jiupinhui.widget.SwitchView;
 
 import butterknife.BindView;
@@ -25,6 +26,7 @@ import butterknife.Unbinder;
  */
 
 public class CommunityFragment extends Fragment {
+    private static final String TAG = "CommunityFragment";
     @BindView(R.id.sv_title)
     SwitchView svTitle;
     @BindView(R.id.fl_container)
@@ -37,13 +39,15 @@ public class CommunityFragment extends Fragment {
     Unbinder unbinder;
     private View view;
     private FragmentManager fm;
+    private FragmentTransaction transaction;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_community, container, false);
         unbinder = ButterKnife.bind(this, view);
-
+        LogUtils.d(TAG,"onCreateView");
+        LogUtils.d(TAG,"savedInstanceState"+savedInstanceState);
         initView();
         setListener();
         return view;
@@ -62,7 +66,10 @@ public class CommunityFragment extends Fragment {
         }
         //设置默认fragment
         fm = getChildFragmentManager();
-        switchContent(attentionFra,recommendFra,0);
+//        switchContent(attentionFra,recommendFra,0);
+        transaction = fm.beginTransaction();
+        transaction.add(R.id.fl_container, recommendFra).commit();
+        mContent = recommendFra;
     }
 
     private void setListener() {
@@ -70,6 +77,9 @@ public class CommunityFragment extends Fragment {
             @Override
             public void onClick() {
                 if(svTitle.isChecked()){//显示关注fragment
+                    if(attentionFra==null){
+                        attentionFra = new AttentionFragment();
+                    }
                     switchContent(recommendFra,attentionFra,0);
                 }else {//显示推荐fragment
                     switchContent(attentionFra,recommendFra,1);
@@ -87,7 +97,7 @@ public class CommunityFragment extends Fragment {
     public void switchContent(Fragment from, Fragment to, int position) {
         if (mContent != to) {
             mContent = to;
-            FragmentTransaction transaction = fm.beginTransaction();
+            transaction = fm.beginTransaction();
             if (!to.isAdded()) { // 先判断是否被add过
                 transaction.hide(from)
                         .add(R.id.fl_container,to,tags[position]).commit(); // 隐藏当前的fragment，add下一个到Activity中
@@ -100,7 +110,17 @@ public class CommunityFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        LogUtils.d(TAG,"onDestroyView");
+        attentionFra = null;
+        recommendFra = null;
+        mContent = null;
         unbinder.unbind();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        LogUtils.d(TAG,"onDestroy");
     }
 
     @OnClick(R.id.iv_editor)

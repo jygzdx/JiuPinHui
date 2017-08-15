@@ -29,16 +29,6 @@ import butterknife.ButterKnife;
  */
 
 public class ServerAdapter extends RecyclerView.Adapter {
-    @BindView(R.id.tv_form_number)
-    TextView tvFormNumber;
-    @BindView(R.id.tv_finish_state)
-    TextView tvFinishState;
-    @BindView(R.id.tv_question_content)
-    TextView tvQuestionContent;
-    @BindView(R.id.tv_submit_time)
-    TextView tvSubmitTime;
-    @BindView(R.id.ll_show_picture)
-    LinearLayout llShowPicture;
     private LayoutInflater inflater;
     private Context mContext;
     private List<ChatHistotyEntity> historyList;

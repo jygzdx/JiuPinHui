@@ -15,4 +15,16 @@ public interface IRecommendFragmentView {
      */
     void setRecommendInfo(List<CommunityEntity> communityList);
 
+    /**
+     * 给动态信息点赞
+     * @param position
+     */
+    void thumbDynamic(String msg,int position);
+
+    /**
+     * 关注达人成功
+     * @param position
+     */
+    void concernExpert(String msg,int position);
+
 }

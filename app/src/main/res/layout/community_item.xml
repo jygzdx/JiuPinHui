@@ -3,14 +3,14 @@
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:orientation="vertical"
-                android:background="@color/white"
+              android:background="@color/white"
               android:layout_marginBottom="15dp"
     >
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="14dp"
+        android:layout_marginBottom="4dp"
         android:orientation="horizontal"
         >
 
@@ -18,17 +18,17 @@
             android:id="@+id/civ_head"
             android:layout_width="34dp"
             android:layout_height="34dp"
+            android:layout_marginBottom="10dp"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
             />
 
         <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:layout_marginTop="10dp"
             android:layout_marginLeft="5dp"
+            android:layout_marginTop="10dp"
+            android:layout_weight="1"
             >
 
             <TextView
@@ -45,22 +45,22 @@
                 android:id="@+id/tv_condition_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/tv_condition_nickname"
                 android:layout_marginTop="5dp"
                 android:maxLines="1"
                 android:text="2017-07-15"
                 android:textColor="@color/shallow_black"
-                android:textSize="10sp"
-                android:layout_below="@+id/tv_condition_nickname"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"/>
+                android:textSize="10sp"/>
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/daren"
+                android:layout_marginLeft="5dp"
                 android:layout_marginTop="3dp"
                 android:layout_toRightOf="@id/tv_condition_nickname"
-                android:layout_marginLeft="5dp"
+                android:src="@drawable/daren"
                 />
 
         </RelativeLayout>
@@ -69,8 +69,8 @@
             android:id="@+id/btn_attention"
             android:layout_width="44dp"
             android:layout_height="24dp"
-            android:layout_marginTop="10dp"
             android:layout_marginRight="12dp"
+            android:layout_marginTop="10dp"
             android:background="@drawable/btn_cancel_condition"
             android:text="取消关注"
             android:textColor="@color/white"
@@ -84,22 +84,24 @@
         android:id="@+id/tv_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
+        android:layout_marginLeft="12dp"
         android:layout_marginRight="12dp"
+        android:padding="8dp"
         android:maxLines="5"
         android:text="textview"
         android:textSize="12sp"
         android:textColor="@color/light_black"
         />
-    <LinearLayout
-        android:id="@+id/ll_container"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_user_img"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_marginLeft="12dp"
         android:layout_marginRight="12dp"
-        android:orientation="vertical"
+        android:layout_marginBottom="12dp"
+        android:overScrollMode="never"
         >
-    </LinearLayout>
+    </android.support.v7.widget.RecyclerView>
     <LinearLayout
         android:id="@+id/ll_transpond"
         android:layout_width="match_parent"
@@ -134,6 +136,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/mainBackground"
+            android:layout_marginBottom="12dp"
             android:orientation="vertical"
             >
             <TextView
@@ -141,17 +144,106 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:maxLines="5"
+                android:padding="8dp"
                 android:textSize="12sp"
                 android:textColor="@color/light_black"
                 />
-            <LinearLayout
-                android:id="@+id/ll_transpond_pic"
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_tran_img"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
+                android:layout_height="match_parent"
+                android:overScrollMode="never"
                 >
 
-            </LinearLayout>
+            </android.support.v7.widget.RecyclerView>
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/mainBackground"
+        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:background="@color/mainBackground"
+        >
+
+        <LinearLayout
+            android:id="@+id/ll_transmit"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:layout_marginRight="1dp"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:background="@color/white"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="4dp"
+                android:text="转发"
+                android:textSize="10dp"
+                android:textColor="@color/shallow_black"
+                />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/transmit"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_community_com"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:layout_marginRight="1dp"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:background="@color/white"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="4dp"
+                android:text="评论"
+                android:textSize="10dp"
+                android:textColor="@color/shallow_black"
+                />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/community_com"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_set_like"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:background="@color/white"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="4dp"
+                android:background="@color/white"
+                android:text="点赞"
+                android:textSize="10dp"
+                />
+            <ImageView
+                android:id="@+id/iv_set_like"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/set_like"
+                />
         </LinearLayout>
     </LinearLayout>
 

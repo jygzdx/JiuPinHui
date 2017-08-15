@@ -8,6 +8,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.github.jdsjlzx.interfaces.OnLoadMoreListener;
+import com.github.jdsjlzx.interfaces.OnNetWorkErrorListener;
+import com.github.jdsjlzx.interfaces.OnRefreshListener;
 import com.github.jdsjlzx.recyclerview.LRecyclerView;
 import com.github.jdsjlzx.recyclerview.LRecyclerViewAdapter;
 import com.github.jdsjlzx.recyclerview.ProgressStyle;
@@ -17,6 +20,8 @@ import com.jiupin.jiupinhui.entity.CommunityEntity;
 import com.jiupin.jiupinhui.manage.UserInfoManager;
 import com.jiupin.jiupinhui.presenter.IRecommendFragmentPresenter;
 import com.jiupin.jiupinhui.presenter.impl.RecommendFragmentPresenterImpl;
+import com.jiupin.jiupinhui.utils.LogUtils;
+import com.jiupin.jiupinhui.utils.ToastUtils;
 import com.jiupin.jiupinhui.view.IRecommendFragmentView;
 
 import java.util.List;
@@ -30,7 +35,8 @@ import butterknife.Unbinder;
  * 酒圈-》推荐fragment
  */
 
-public class RecommendFragment extends Fragment implements IRecommendFragmentView{
+public class RecommendFragment extends Fragment implements IRecommendFragmentView {
+    private static final String TAG = "RecommendFragment";
     @BindView(R.id.lrv_recommend)
     LRecyclerView lrvRecommend;
     Unbinder unbinder;
@@ -47,23 +53,23 @@ public class RecommendFragment extends Fragment implements IRecommendFragmentVie
         View view = inflater.inflate(R.layout.fragment_recommend, container, false);
         unbinder = ButterKnife.bind(this, view);
         presenter = new RecommendFragmentPresenterImpl(this);
-
+        LogUtils.d(TAG, "onCreateView");
         initRecyclerView();
         String token = UserInfoManager.getInstance().getToken(getContext());
         adapter.clear();
-        presenter.getRecommendList(token,page+"",rows+"");
+        presenter.getRecommendList(token, page + "", rows + "");
         return view;
     }
 
+
     private void initRecyclerView() {
-        lrvRecommend.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
+        lrvRecommend.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         adapter = new RecommentAdapter(getContext());
         lRecyclerViewAdapter = new LRecyclerViewAdapter(adapter);
         lrvRecommend.setAdapter(lRecyclerViewAdapter);
 
         //添加头部
-//        CommonHeader header = new CommonHeader(getActivity(),R.layout.person_condition_item);
-        headerView = LayoutInflater.from(getContext()).inflate(R.layout.person_condition_item,(ViewGroup) lrvRecommend,false);
+        headerView = LayoutInflater.from(getContext()).inflate(R.layout.person_condition_item, (ViewGroup) lrvRecommend, false);
         lRecyclerViewAdapter.addHeaderView(headerView);
 
         lrvRecommend.setLoadingMoreProgressStyle(ProgressStyle.BallSpinFadeLoader);
@@ -71,20 +77,94 @@ public class RecommendFragment extends Fragment implements IRecommendFragmentVie
         lrvRecommend.setFooterViewColor(android.R.color.darker_gray, android.R.color.darker_gray, android.R.color.white);
         //设置底部加载文字提示
         lrvRecommend.setFooterViewHint("拼命加载中", "已经全部为你呈现了", "网络不给力啊，点击再试一次吧");
+
+        lrvRecommend.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                adapter.clear();
+                lRecyclerViewAdapter.notifyDataSetChanged();
+                page = 1;
+                String token = UserInfoManager.getInstance().getToken(getContext());
+                presenter.getRecommendList(token,page+"",rows+"");
+            }
+        });
+
+        lrvRecommend.setOnLoadMoreListener(new OnLoadMoreListener() {
+            @Override
+            public void onLoadMore() {
+                page++;
+                String token = UserInfoManager.getInstance().getToken(getContext());
+                presenter.getRecommendList(token,page+"",rows+"");
+            }
+        });
+
+        lrvRecommend.setOnNetWorkErrorListener(new OnNetWorkErrorListener() {
+            @Override
+            public void reload() {
+                String token = UserInfoManager.getInstance().getToken(getContext());
+                presenter.getRecommendList(token,page+"",rows+"");
+            }
+        });
+
+        adapter.setOnThumbDynamicClickListener(new RecommentAdapter.OnThumbDynamicClickListener() {
+            @Override
+            public void onClick(View view, int communityId, int position) {
+                setThumbDynamic(communityId,position);
+            }
+        });
+
+        adapter.setOnConcernExpertClickListener(new RecommentAdapter.OnConcernExpertClickListener() {
+            @Override
+            public void onClick(View view, int userId, boolean concernStatus, int position) {
+                cancelCondition(userId,concernStatus,position);
+            }
+        });
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        LogUtils.d(TAG, "onDestroyView");
         unbinder.unbind();
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        LogUtils.d(TAG, "onDestroy");
+    }
+
+    public void setThumbDynamic(int communityId , int position){
+        String token = UserInfoManager.getInstance().getToken(getContext());
+        presenter.setThumbDynamic(token,communityId+"",position);
+    }
+
+    public void cancelCondition(int userId, boolean concernStatus, int position){
+        String token = UserInfoManager.getInstance().getToken(getContext());
+        presenter.cancelCondition(token,userId+"",(!concernStatus)+"",position);
+    }
+
+    @Override
     public void setRecommendInfo(List<CommunityEntity> communityList) {
-        if(communityList!=null){
-            if(communityList.size()>0){
+        if (communityList != null) {
+            if (communityList.size() > 0) {
                 adapter.addAll(communityList);
+                lrvRecommend.refreshComplete(communityList.size());
+            }else {
+                lrvRecommend.setNoMore(true);
             }
         }
+    }
+
+    @Override
+    public void thumbDynamic(String msg,int position) {
+        ToastUtils.showShort(getContext(),msg);
+        adapter.notifyItemChangeOnThumbStatus(position);
+    }
+
+    @Override
+    public void concernExpert(String msg,int position) {
+        ToastUtils.showShort(getContext(),msg);
+        adapter.notifyItemChangeOnConcernExpert(position);
     }
 }

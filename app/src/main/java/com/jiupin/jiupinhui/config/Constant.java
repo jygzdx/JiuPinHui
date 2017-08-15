@@ -291,6 +291,16 @@ public class Constant {
      */
     public static final String RECOMMEND_CONDITION = MAIN_URL + "/app/social/getRecommendDynamicList.json";
 
+    /**
+     * 为动态点赞
+     */
+    public static final String THUMB_DYNAMIC = MAIN_URL + "/app/social/thumbDynamic.json";
+
+    /**
+     * 关注达人
+     */
+    public static final String CONCERN_EXPERT = MAIN_URL + "/app/social/concernExpert.json";
+
     /**------------------------------------支付接口-------------------------------------------*/
     /**
      * alipay支付接口
