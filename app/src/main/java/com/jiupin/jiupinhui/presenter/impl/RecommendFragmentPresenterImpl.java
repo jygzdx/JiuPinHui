@@ -1,6 +1,7 @@
 package com.jiupin.jiupinhui.presenter.impl;
 
 import com.jiupin.jiupinhui.entity.CommunityEntity;
+import com.jiupin.jiupinhui.entity.UserEntity;
 import com.jiupin.jiupinhui.fragment.RecommendFragment;
 import com.jiupin.jiupinhui.model.IModel;
 import com.jiupin.jiupinhui.model.IRecommendFragmentModel;
@@ -60,6 +61,21 @@ public class RecommendFragmentPresenterImpl implements IRecommendFragmentPresent
             @Override
             public void onSuccess(Object success) {
                 view.concernExpert((String) success,position);
+            }
+
+            @Override
+            public void onFailed(int status, String msg) {
+                HttpErrorUtils.manageErrorHttp(status, msg, ((RecommendFragment) view).getContext());
+            }
+        });
+    }
+
+    @Override
+    public void getUserInfo(String token) {
+        model.getUserInfo(token, new IModel.CallBack() {
+            @Override
+            public void onSuccess(Object success) {
+                view.setUserInfo(((UserEntity) success));
             }
 
             @Override

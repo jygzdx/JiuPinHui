@@ -29,4 +29,10 @@ public interface IRecommendFragmentPresenter {
      * @param position
      */
     void cancelCondition(String token,String userId,String concernStatus, int position);
+
+    /**
+     * 获取用户数据
+     * @param token
+     */
+    void getUserInfo(String token);
 }

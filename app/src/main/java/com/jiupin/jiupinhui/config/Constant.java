@@ -300,6 +300,19 @@ public class Constant {
      * 关注达人
      */
     public static final String CONCERN_EXPERT = MAIN_URL + "/app/social/concernExpert.json";
+    /**
+     * 转发动态信息
+     */
+    public static final String TRANSPORT_CONDITION = MAIN_URL + "/app/social/transportDynamic.json";
+
+    /**
+     * 评论动态信息
+     */
+    public static final String CONDITION_COM = MAIN_URL + "/app/social/commentDynamic.json";
+    /**
+     * 评论动态列表信息
+     */
+    public static final String CONDITION_COM_LIST = MAIN_URL + "/app/social/getCommentList.json";
 
     /**------------------------------------支付接口-------------------------------------------*/
     /**

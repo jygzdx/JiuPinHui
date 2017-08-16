@@ -1,6 +1,7 @@
 package com.jiupin.jiupinhui.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,6 +14,8 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.jiupin.jiupinhui.R;
+import com.jiupin.jiupinhui.activity.ConditionCommentListActivity;
+import com.jiupin.jiupinhui.activity.TranConditionActivity;
 import com.jiupin.jiupinhui.entity.CommunityEntity;
 import com.jiupin.jiupinhui.utils.LogUtils;
 import com.jiupin.jiupinhui.utils.TimeUtils;
@@ -51,7 +54,7 @@ public class RecommentAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
-        LogUtils.d(TAG,"onBindViewHolder");
+        LogUtils.d(TAG, "onBindViewHolder");
         final RecommentViewHolder recommentViewHolder = (RecommentViewHolder) holder;
         final CommunityEntity community = communityList.get(position);
         Glide.with(mContext)
@@ -62,9 +65,7 @@ public class RecommentAdapter extends RecyclerView.Adapter {
         recommentViewHolder.tvContent.setText(community.getContent());
         recommentViewHolder.tvConditionTime.setText(TimeUtils.getTime(community.getAddTime()));
 
-        setConditionStatus(recommentViewHolder, position);
-        setThumbStatus(recommentViewHolder,position);
-//先让recyclerview移除所有的控件，防止布局错乱
+        //先让recyclerview移除所有的控件，防止布局错乱
         recommentViewHolder.rvTranImg.removeAllViews();
         recommentViewHolder.rvUserImg.removeAllViews();
 
@@ -72,7 +73,7 @@ public class RecommentAdapter extends RecyclerView.Adapter {
             recommentViewHolder.rvUserImg.setVisibility(View.VISIBLE);
             String[] imgUrls = community.getImage_list().split(";");
             initUserImgRv(recommentViewHolder, imgUrls);
-        }else{
+        } else {
             recommentViewHolder.rvUserImg.setVisibility(View.GONE);
         }
         if (community.isIs_trans()) {//设置用户转发他人的图片
@@ -90,34 +91,56 @@ public class RecommentAdapter extends RecyclerView.Adapter {
         recommentViewHolder.llTransmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LogUtils.d("转发");
+                String nickname;
+                String tranContent;
+                String imgUrl;
+                if(community.isIs_trans()){
+                    nickname = community.getTrans_nickName();
+                    tranContent = community.getTrans_content();
+                    imgUrl = community.getTrans_user_img();
+                }else{
+                    nickname = community.getNickName();
+                    tranContent = community.getContent();
+                    imgUrl = community.getUser_img();
+                }
+                Intent intent = new Intent(mContext, TranConditionActivity.class);
+                intent.putExtra("dynamicId",community.getId());
+                intent.putExtra("imgUrl",imgUrl);
+                intent.putExtra("nickname",nickname);
+                intent.putExtra("tranContent",tranContent);
+                mContext.startActivity(intent);
             }
         });
         recommentViewHolder.llCommunityCom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LogUtils.d("转发");
+                Intent intent = new Intent(mContext, ConditionCommentListActivity.class);
+                intent.putExtra("dynamicId",community.getId());
+                mContext.startActivity(intent);
             }
         });
 
         recommentViewHolder.btnAttention.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mOnConcernExpertClickListener.onClick(recommentViewHolder.btnAttention,community.getUser_id(),community.isConcern_status(),position);
+                mOnConcernExpertClickListener.onClick(recommentViewHolder.btnAttention, community.getUser_id(), community.isConcern_status(), position);
             }
         });
 
         recommentViewHolder.llSetLike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mOnThumbDynamicClickListener.onClick(recommentViewHolder.ivSetLike,community.getId(),position);
+                mOnThumbDynamicClickListener.onClick(recommentViewHolder.ivSetLike, community.getId(), position);
             }
         });
+
+        setConditionStatus(recommentViewHolder, position);
+        setThumbStatus(recommentViewHolder, position);
 
     }
 
     public interface OnThumbDynamicClickListener {
-        void onClick(View view, int communityId,int position);
+        void onClick(View view, int communityId, int position);
     }
 
     private OnThumbDynamicClickListener mOnThumbDynamicClickListener = null;
@@ -127,7 +150,7 @@ public class RecommentAdapter extends RecyclerView.Adapter {
     }
 
     public interface OnConcernExpertClickListener {
-        void onClick(View view, int userId,boolean concernStatus,int position);
+        void onClick(View view, int userId, boolean concernStatus, int position);
     }
 
     private OnConcernExpertClickListener mOnConcernExpertClickListener = null;
@@ -135,7 +158,6 @@ public class RecommentAdapter extends RecyclerView.Adapter {
     public void setOnConcernExpertClickListener(OnConcernExpertClickListener listener) {
         this.mOnConcernExpertClickListener = listener;
     }
-
 
 
     private void initTranImgRv(RecommentViewHolder recommentViewHolder, String[] imgUrls) {
@@ -148,7 +170,6 @@ public class RecommentAdapter extends RecyclerView.Adapter {
             default:
                 manager = new GridLayoutManager(mContext, SPANCOUNT_4);
                 break;
-
         }
         recommentViewHolder.rvTranImg.setLayoutManager(manager);
         recommentViewHolder.rvTranImg.setAdapter(new ImageAdapter(mContext, imgUrls));
@@ -188,6 +209,7 @@ public class RecommentAdapter extends RecyclerView.Adapter {
             recommentViewHolder.btnAttention.setText("+关注");
         }
     }
+
     /**
      * 设置用户点赞状态
      *
@@ -195,34 +217,37 @@ public class RecommentAdapter extends RecyclerView.Adapter {
      * @param position
      */
     private void setThumbStatus(RecommentViewHolder recommentViewHolder, int position) {
-        if(communityList.get(position).isThumb_status()){
+        if (communityList.get(position).isThumb_status()) {
             recommentViewHolder.ivSetLike.setImageResource(R.drawable.set_like_checked);
             recommentViewHolder.llSetLike.setClickable(false);
-        }else{
+        } else {
             recommentViewHolder.ivSetLike.setImageResource(R.drawable.set_like);
+            recommentViewHolder.llSetLike.setClickable(true);
         }
 
     }
 
     /**
      * 刷新点赞
+     *
      * @param position
      */
-    public void notifyItemChangeOnThumbStatus(int position){
+    public void notifyItemChangeOnThumbStatus(int position) {
         communityList.get(position).setThumb_status(true);
         notifyItemChanged(position);
     }
 
     /**
      * 关注达人
+     *
      * @param position
      */
-    public void notifyItemChangeOnConcernExpert(int position){
+    public void notifyItemChangeOnConcernExpert(int position) {
         CommunityEntity community = communityList.get(position);
         int userId = community.getUser_id();
         boolean status = community.isConcern_status();
         for (int i = 0; i < communityList.size(); i++) {
-            if(userId==communityList.get(i).getUser_id()){
+            if (userId == communityList.get(i).getUser_id()) {
                 communityList.get(i).setConcern_status(!status);
             }
         }

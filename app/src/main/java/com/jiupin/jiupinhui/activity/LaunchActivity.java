@@ -7,9 +7,11 @@ import android.os.Message;
 
 import com.jiupin.jiupinhui.R;
 import com.jiupin.jiupinhui.entity.ResponseBase;
+import com.jiupin.jiupinhui.entity.UserEntity;
 import com.jiupin.jiupinhui.manage.UserInfoManager;
 import com.jiupin.jiupinhui.presenter.ILaunchActivityPresenter;
 import com.jiupin.jiupinhui.presenter.impl.LaunchActivityPresenterImpl;
+import com.jiupin.jiupinhui.utils.LogUtils;
 import com.jiupin.jiupinhui.view.ILaunchActivityView;
 
 public class LaunchActivity extends BaseActivity implements ILaunchActivityView {
@@ -45,5 +47,13 @@ public class LaunchActivity extends BaseActivity implements ILaunchActivityView 
     @Override
     public void checkTokenBack(ResponseBase responseBase) {
         UserInfoManager.getInstance().setLogin(true);
+        String token = UserInfoManager.getInstance().getToken(this);
+presenter.getUserInfoByToken(token);
+    }
+
+    @Override
+    public void setUserInfo(UserEntity userEntity) {
+        LogUtils.d("LaunchActivity","denglu chenggong");
+        UserInfoManager.getInstance().setUser(userEntity.getData());
     }
 }

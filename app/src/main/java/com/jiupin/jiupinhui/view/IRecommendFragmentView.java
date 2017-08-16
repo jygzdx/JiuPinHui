@@ -1,6 +1,7 @@
 package com.jiupin.jiupinhui.view;
 
 import com.jiupin.jiupinhui.entity.CommunityEntity;
+import com.jiupin.jiupinhui.entity.UserEntity;
 
 import java.util.List;
 
@@ -26,5 +27,11 @@ public interface IRecommendFragmentView {
      * @param position
      */
     void concernExpert(String msg,int position);
+
+    /**
+     * 获取用户信息
+     * @param userEntity
+     */
+    void setUserInfo(UserEntity userEntity);
 
 }

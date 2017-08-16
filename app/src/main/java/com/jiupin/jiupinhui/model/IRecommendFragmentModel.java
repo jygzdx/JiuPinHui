@@ -28,4 +28,9 @@ public interface IRecommendFragmentModel {
      * @param concernStatus 关注状态
      */
     void cancelCondition(String token, String userId, String concernStatus, IModel.CallBack callBack);
+    /**
+     * 获取用户数据
+     * @param token
+     */
+    void getUserInfo(String token, IModel.CallBack callBack);
 }

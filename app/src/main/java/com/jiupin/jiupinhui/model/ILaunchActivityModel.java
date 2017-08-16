@@ -12,4 +12,12 @@ public interface ILaunchActivityModel {
      * @param callBack 获取到数据之后的回调
      */
     void getTokenStatus(String token, IModel.CallBack callBack);
+
+    /**
+     * 获取用户信息
+     *
+     * @param token    token
+     * @param callBack 获取到数据之后的回调
+     */
+    void getUserInfoByToken(String token, IModel.CallBack callBack);
 }

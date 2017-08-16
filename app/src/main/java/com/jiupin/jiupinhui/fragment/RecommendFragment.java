@@ -7,7 +7,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.github.jdsjlzx.interfaces.OnLoadMoreListener;
 import com.github.jdsjlzx.interfaces.OnNetWorkErrorListener;
 import com.github.jdsjlzx.interfaces.OnRefreshListener;
@@ -17,12 +19,14 @@ import com.github.jdsjlzx.recyclerview.ProgressStyle;
 import com.jiupin.jiupinhui.R;
 import com.jiupin.jiupinhui.adapter.RecommentAdapter;
 import com.jiupin.jiupinhui.entity.CommunityEntity;
+import com.jiupin.jiupinhui.entity.UserEntity;
 import com.jiupin.jiupinhui.manage.UserInfoManager;
 import com.jiupin.jiupinhui.presenter.IRecommendFragmentPresenter;
 import com.jiupin.jiupinhui.presenter.impl.RecommendFragmentPresenterImpl;
 import com.jiupin.jiupinhui.utils.LogUtils;
 import com.jiupin.jiupinhui.utils.ToastUtils;
 import com.jiupin.jiupinhui.view.IRecommendFragmentView;
+import com.jiupin.jiupinhui.widget.CircleImageView;
 
 import java.util.List;
 
@@ -46,6 +50,7 @@ public class RecommendFragment extends Fragment implements IRecommendFragmentVie
     private int page = 1;
     private int rows = 10;
     private View headerView;
+    private UserEntity.DataBean user;
 
     @Nullable
     @Override
@@ -54,11 +59,21 @@ public class RecommendFragment extends Fragment implements IRecommendFragmentVie
         unbinder = ButterKnife.bind(this, view);
         presenter = new RecommendFragmentPresenterImpl(this);
         LogUtils.d(TAG, "onCreateView");
+        //初始化recyclerview
         initRecyclerView();
+        //设置头部控件数据
+        setHeadViewData();
+
         String token = UserInfoManager.getInstance().getToken(getContext());
         adapter.clear();
         presenter.getRecommendList(token, page + "", rows + "");
         return view;
+    }
+
+    private void setHeadViewData() {
+        String token = UserInfoManager.getInstance().getToken(getContext());
+        presenter.getUserInfo(token);
+
     }
 
 
@@ -67,7 +82,7 @@ public class RecommendFragment extends Fragment implements IRecommendFragmentVie
         adapter = new RecommentAdapter(getContext());
         lRecyclerViewAdapter = new LRecyclerViewAdapter(adapter);
         lrvRecommend.setAdapter(lRecyclerViewAdapter);
-
+        user = UserInfoManager.getInstance().getUser();
         //添加头部
         headerView = LayoutInflater.from(getContext()).inflate(R.layout.person_condition_item, (ViewGroup) lrvRecommend, false);
         lRecyclerViewAdapter.addHeaderView(headerView);
@@ -166,5 +181,27 @@ public class RecommendFragment extends Fragment implements IRecommendFragmentVie
     public void concernExpert(String msg,int position) {
         ToastUtils.showShort(getContext(),msg);
         adapter.notifyItemChangeOnConcernExpert(position);
+    }
+
+    @Override
+    public void setUserInfo(UserEntity userEntity) {
+        CircleImageView civHead = (CircleImageView) headerView.findViewById(R.id.civ_head);
+        TextView tvUserNickname = (TextView) headerView.findViewById(R.id.tv_user_nickname);
+        TextView tvNewCondition = (TextView) headerView.findViewById(R.id.tv_new_condition);
+        if(user!=null){
+            tvUserNickname.setText(user.getNickName());
+            if(user.getSignature()==""||user.getSignature()==null){
+                tvNewCondition.setText("暂无留下任何信息简介");
+            }else{
+                tvNewCondition.setText(user.getSignature().trim());
+            }
+
+            Glide.with(getContext())
+                    .load(user.getImageUrl())
+                    .crossFade()
+                    .into(civHead);
+        }else{
+            lRecyclerViewAdapter.removeHeaderView();
+        }
     }
 }

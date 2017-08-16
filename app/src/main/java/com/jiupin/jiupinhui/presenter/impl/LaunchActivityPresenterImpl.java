@@ -1,6 +1,7 @@
 package com.jiupin.jiupinhui.presenter.impl;
 
 import com.jiupin.jiupinhui.entity.ResponseBase;
+import com.jiupin.jiupinhui.entity.UserEntity;
 import com.jiupin.jiupinhui.model.ILaunchActivityModel;
 import com.jiupin.jiupinhui.model.IModel;
 import com.jiupin.jiupinhui.model.impl.LaunchActivityModelImpl;
@@ -34,4 +35,18 @@ public class LaunchActivityPresenterImpl implements ILaunchActivityPresenter {
         });
     }
 
+    @Override
+    public void getUserInfoByToken(String token) {
+        model.getUserInfoByToken(token, new IModel.CallBack() {
+            @Override
+            public void onSuccess(Object success) {
+                view.setUserInfo((UserEntity) success);
+            }
+
+            @Override
+            public void onFailed(int status, String msg) {
+//                HttpErrorUtils.manageErrorHttp(status,msg,((MyFragment) view).getContext());
+            }
+        });
+    }
 }

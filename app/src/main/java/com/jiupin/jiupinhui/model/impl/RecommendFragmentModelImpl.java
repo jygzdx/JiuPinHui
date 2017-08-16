@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.jiupin.jiupinhui.config.Constant;
 import com.jiupin.jiupinhui.entity.CommunityEntity;
+import com.jiupin.jiupinhui.entity.UserEntity;
 import com.jiupin.jiupinhui.model.IModel;
 import com.jiupin.jiupinhui.model.IRecommendFragmentModel;
 import com.jiupin.jiupinhui.utils.HttpErrorUtils;
@@ -125,6 +126,41 @@ public class RecommendFragmentModelImpl implements IRecommendFragmentModel {
                             if (200 == status) {
                                 String data = jsonObject.getString("data");
                                 callBack.onSuccess(data);
+                            } else {
+                                callBack.onFailed(status, msg);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+    }
+
+    @Override
+    public void getUserInfo(String token,final IModel.CallBack callBack) {
+        OkHttpUtils
+                .post()
+                .url(Constant.GET_USER_INFO)
+                .addParams("token",token)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+                        callBack.onFailed(HttpErrorUtils.NETWORK_ERROR,HttpErrorUtils.MSG_NETWORK_ERROR);
+                    }
+
+                    @Override
+                    public void onResponse(String response, int id) {
+                        LogUtils.d("onResponse.response = "+response);
+                        JSONObject jsonObject = null;
+                        try {
+                            jsonObject = new JSONObject(response);
+                            String msg = jsonObject.getString("msg");
+                            int status = jsonObject.getInt("status");
+                            if (200 == status) {
+                                Gson gson = new Gson();
+                                UserEntity userEntity = gson.fromJson(response, UserEntity.class);
+                                callBack.onSuccess(userEntity);
                             } else {
                                 callBack.onFailed(status, msg);
                             }

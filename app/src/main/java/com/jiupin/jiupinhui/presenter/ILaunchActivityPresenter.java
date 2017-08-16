@@ -10,4 +10,9 @@ public interface ILaunchActivityPresenter {
      * @param token token
      */
     void getTokenStatus(String token);
+    /**
+     * 根据token获取用户数据
+     * @param token token
+     */
+    void getUserInfoByToken(String token);
 }
