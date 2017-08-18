@@ -159,6 +159,10 @@ public class WineFragment extends Fragment implements IWineFragmentView {
 
     @Override
     public void setWineInfo(List<WineInfoEntity> wineInfoList) {
+        LogUtils.d("view = "+view+"lrvWineShow = "+lrvWineShow);
+        if(view==null){
+            return;
+        }
         if(wineInfoList!=null){
             if(wineInfoList.size()>0){
                 wineAdapter.addAll(wineInfoList);
@@ -172,7 +176,10 @@ public class WineFragment extends Fragment implements IWineFragmentView {
 
     @Override
     public void setWineInfoById(List<WineInfoEntity> wineInfoList) {
-
+        LogUtils.d("view = "+view);
+        if(view==null){
+            return;
+        }
         if(wineInfoList!=null){
             if(wineInfoList.size()>0){
                 wineAdapter.addAll(wineInfoList);

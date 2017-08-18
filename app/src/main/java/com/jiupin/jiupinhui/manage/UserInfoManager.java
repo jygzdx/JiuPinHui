@@ -15,6 +15,7 @@ public class UserInfoManager {
 
     private String token;
     private UserEntity.DataBean user;
+    private String userId;
 
     private static UserInfoManager mUserInfoManager = null;
     private UserInfoManager() { }
@@ -27,6 +28,17 @@ public class UserInfoManager {
             }
         }
         return mUserInfoManager;
+    }
+
+    public String getUserId(Context context) {
+        if(userId==null||userId==""){
+            userId = (String) SPUtils.get(context,SPUtils.USER_ID,"");
+        }
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public UserEntity.DataBean getUser() {

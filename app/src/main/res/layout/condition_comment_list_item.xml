@@ -59,7 +59,7 @@
                 android:layout_marginBottom="10dp"
                 android:text=""
                 android:textColor="@color/black_33"
-                android:textSize="14sp"
+                android:textSize="12sp"
                 />
         </LinearLayout>
 

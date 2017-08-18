@@ -46,6 +46,7 @@ public class CommunityEntity {
     private int trans_dynamic_type;
     private boolean is_trans;
     private boolean concern_status;
+    private boolean is_visible;
 
     @Override
     public String toString() {
@@ -213,5 +214,13 @@ public class CommunityEntity {
 
     public void setConcern_status(boolean concern_status) {
         this.concern_status = concern_status;
+    }
+
+    public boolean is_visible() {
+        return is_visible;
+    }
+
+    public void setIs_visible(boolean is_visible) {
+        this.is_visible = is_visible;
     }
 }

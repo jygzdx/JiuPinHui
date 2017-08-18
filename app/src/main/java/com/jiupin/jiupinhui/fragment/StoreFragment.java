@@ -117,6 +117,10 @@ public class StoreFragment extends Fragment implements IStoreFragmentView {
 
     @Override
     public void setBannerData(List<BannerEntity> bannerList) {
+        LogUtils.d("view = "+view);
+        if(view==null){
+            return;
+        }
         LogUtils.d(TAG, "bannerList = " + bannerList);
         if (bannerList != null && bannerList.size() > 0) {
             bannerView = new ADBannerView(getContext(), true);
@@ -128,6 +132,10 @@ public class StoreFragment extends Fragment implements IStoreFragmentView {
 
     @Override
     public void setMealTypeData(List<MealTypeEntity> mealTypeList) {
+        LogUtils.d("view = "+view);
+        if(view==null){
+            return;
+        }
 //        ProgressUtils.dismiss();
         if (mealTypeList != null && mealTypeList.size() > 0) {
 

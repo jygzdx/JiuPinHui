@@ -422,6 +422,7 @@ public class LoginActivity extends AppCompatActivity implements ILoginActivityVi
         SPUtils.put(this, SPUtils.USER_ID, registerEntity.getData().getUser().getId() + "");
         ToastUtils.showShort(this, "登录成功");
         UserInfoManager.getInstance().setLogin(true);
+        UserInfoManager.getInstance().setUserId(registerEntity.getData().getUser().getId()+"");
         UserInfoManager.getInstance().setToken(registerEntity.getData().getToken());
         //添加user信息保存起来
         UserInfoManager.getInstance().setUser(registerEntity.getData().getUser());

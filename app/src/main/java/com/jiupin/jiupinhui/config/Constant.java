@@ -292,9 +292,34 @@ public class Constant {
     public static final String RECOMMEND_CONDITION = MAIN_URL + "/app/social/getRecommendDynamicList.json";
 
     /**
+     * 获取已关注的达人的动态列表
+     */
+    public static final String ATTENTION_CONDITION = MAIN_URL + "/app/social/getConcernedDynamicList.json";
+
+    /**
+     * 获取个人发布动态列表
+     */
+    public static final String PERSON_CONDITION = MAIN_URL + "/app/social/getDynamicListByUserId.json";
+
+    /**
      * 为动态点赞
      */
     public static final String THUMB_DYNAMIC = MAIN_URL + "/app/social/thumbDynamic.json";
+
+    /**
+     * 删除动态
+     */
+    public static final String DELETE_CONDITION = MAIN_URL + "/app/social/deleteDynamicById.json";
+
+    /**
+     * 设置或取消仅自己可见
+     */
+    public static final String ONLY_MYSELF_LOOK = MAIN_URL + "/app/social/visibleOnlyByYourself.json";
+
+    /**
+     * 动态置顶
+     */
+    public static final String MOVE_CONDITION_TO_TOP = MAIN_URL + "/app/social/moveDynamicToTop.json";
 
     /**
      * 关注达人
@@ -313,6 +338,11 @@ public class Constant {
      * 评论动态列表信息
      */
     public static final String CONDITION_COM_LIST = MAIN_URL + "/app/social/getCommentList.json";
+
+    /**
+     * 根据用户id获取用户信息
+     */
+    public static final String GET_USER_INFO_BY_ID = MAIN_URL + "/app/social/getUserInfoById.json";
 
     /**------------------------------------支付接口-------------------------------------------*/
     /**

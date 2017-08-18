@@ -123,6 +123,8 @@
         </activity>
         <activity android:name=".activity.ConditionCommentListActivity">
         </activity>
+        <activity android:name=".activity.PersonActivity">
+        </activity>
     </application>
 
 </manifest>

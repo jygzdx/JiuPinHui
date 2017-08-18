@@ -3,10 +3,16 @@
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="information"
+        />
     <com.github.jdsjlzx.recyclerview.LRecyclerView
-        android:id="@+id/lrv_attention"
+        android:id="@+id/lrv_info"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
 
     </com.github.jdsjlzx.recyclerview.LRecyclerView>
 

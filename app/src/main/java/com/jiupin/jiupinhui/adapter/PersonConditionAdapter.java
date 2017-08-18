@@ -7,7 +7,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -32,15 +31,15 @@ import butterknife.ButterKnife;
  * Created by Administrator on 2017/3/31.
  */
 
-public class RecommentAdapter extends RecyclerView.Adapter {
-    private static final String TAG = "RecommentAdapter";
+public class PersonConditionAdapter extends RecyclerView.Adapter {
+    private static final String TAG = "PersonConditionAdapter";
     private LayoutInflater inflater;
     private Context mContext;
     private List<CommunityEntity> communityList;
     private static final int SPANCOUNT_4 = 4;
     private static final int SPANCOUNT_2 = 2;
 
-    public RecommentAdapter(Context mContext) {
+    public PersonConditionAdapter(Context mContext) {
         communityList = new ArrayList<>();
         this.mContext = mContext;
         inflater = LayoutInflater.from(mContext);
@@ -48,190 +47,205 @@ public class RecommentAdapter extends RecyclerView.Adapter {
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int type) {
-        View view = inflater.inflate(R.layout.community_item, viewGroup, false);
-        RecommentViewHolder holder = new RecommentViewHolder(view);
+        View view = inflater.inflate(R.layout.person_condition_list_item, viewGroup, false);
+        PersonViewHolder holder = new PersonViewHolder(view);
         return holder;
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         LogUtils.d(TAG, "onBindViewHolder");
-        final RecommentViewHolder recommentViewHolder = (RecommentViewHolder) holder;
+        final PersonViewHolder personViewHolder = (PersonViewHolder) holder;
         final CommunityEntity community = communityList.get(position);
         Glide.with(mContext)
                 .load(community.getUser_img())
                 .crossFade()
-                .into(recommentViewHolder.civHead);
-        recommentViewHolder.tvConditionNickname.setText(community.getNickName());
-        recommentViewHolder.tvContent.setText(community.getContent());
-        recommentViewHolder.tvConditionTime.setText(TimeUtils.getTime(community.getAddTime()));
+                .into(personViewHolder.civHead);
+        personViewHolder.tvConditionNickname.setText(community.getNickName());
+        personViewHolder.tvContent.setText(community.getContent());
+        personViewHolder.tvConditionTime.setText(TimeUtils.getTime(community.getAddTime()));
 
         //先让recyclerview移除所有的控件，防止布局错乱
-        recommentViewHolder.rvTranImg.removeAllViews();
-        recommentViewHolder.rvUserImg.removeAllViews();
+        personViewHolder.rvTranImg.removeAllViews();
+        personViewHolder.rvUserImg.removeAllViews();
         //如果当前的发布动态的用户和登录的用户是同一个人，隐藏关注按钮
         String userId = UserInfoManager.getInstance().getUserId(mContext);
-        LogUtils.d("community.getUser_id() = "+community.getUser_id()+"  userid = "+userId);
-        if((community.getUser_id()+"").equals(userId)){
-            recommentViewHolder.btnAttention.setVisibility(View.GONE);
-        }else {
-            recommentViewHolder.btnAttention.setVisibility(View.VISIBLE);
-        }
+        LogUtils.d("community.getUser_id() = " + community.getUser_id() + "  userid = " + userId);
+
+        //设置更多选择按钮不可见
+        personViewHolder.llMore.setVisibility(View.GONE);
 
         if (community.getImage_list() != null && community.getImage_list() != "") {//设置用户自己上传的图片
-            recommentViewHolder.rvUserImg.setVisibility(View.VISIBLE);
+            personViewHolder.rvUserImg.setVisibility(View.VISIBLE);
             String[] imgUrls = community.getImage_list().split(";");
-            initUserImgRv(recommentViewHolder, imgUrls);
+            initUserImgRv(personViewHolder, imgUrls);
         } else {
-            recommentViewHolder.rvUserImg.setVisibility(View.GONE);
+            personViewHolder.rvUserImg.setVisibility(View.GONE);
         }
         if (community.isIs_trans()) {//设置用户转发他人的图片
-            recommentViewHolder.llTranspond.setVisibility(View.VISIBLE);
+            personViewHolder.llTranspond.setVisibility(View.VISIBLE);
             if (community.getTrans_img_list() != null && community.getTrans_img_list() != "") {
                 String[] imgUrls = community.getTrans_img_list().split(";");
-                initTranImgRv(recommentViewHolder, imgUrls);
+                initTranImgRv(personViewHolder, imgUrls);
             }
-            recommentViewHolder.tvTranspondContent.setText(community.getTrans_content());
-            recommentViewHolder.tvTranspondName.setText("@" + community.getTrans_nickName());
+            personViewHolder.tvTranspondContent.setText(community.getTrans_content());
+            personViewHolder.tvTranspondName.setText("@" + community.getTrans_nickName());
         } else {
-            recommentViewHolder.llTranspond.setVisibility(View.GONE);
+            personViewHolder.llTranspond.setVisibility(View.GONE);
         }
 
-        recommentViewHolder.llTransmit.setOnClickListener(new View.OnClickListener() {
+        personViewHolder.llTransmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String nickname;
                 String tranContent;
                 String imgUrl;
-                if(community.isIs_trans()){
+                if (community.isIs_trans()) {
                     nickname = community.getTrans_nickName();
                     tranContent = community.getTrans_content();
                     imgUrl = community.getTrans_user_img();
-                }else{
+                } else {
                     nickname = community.getNickName();
                     tranContent = community.getContent();
                     imgUrl = community.getUser_img();
                 }
                 Intent intent = new Intent(mContext, TranConditionActivity.class);
-                intent.putExtra("dynamicId",community.getId());
-                intent.putExtra("imgUrl",imgUrl);
-                intent.putExtra("nickname",nickname);
-                intent.putExtra("tranContent",tranContent);
+                intent.putExtra("dynamicId", community.getId());
+                intent.putExtra("imgUrl", imgUrl);
+                intent.putExtra("nickname", nickname);
+                intent.putExtra("tranContent", tranContent);
                 mContext.startActivity(intent);
             }
         });
-        recommentViewHolder.llCommunityCom.setOnClickListener(new View.OnClickListener() {
+        personViewHolder.llCommunityCom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, ConditionCommentListActivity.class);
-                intent.putExtra("dynamicId",community.getId());
+                intent.putExtra("dynamicId", community.getId());
                 mContext.startActivity(intent);
             }
         });
 
-        recommentViewHolder.btnAttention.setOnClickListener(new View.OnClickListener() {
+        personViewHolder.ivMore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mOnConcernExpertClickListener.onClick(recommentViewHolder.btnAttention, community.getUser_id(), community.isConcern_status(), position);
+                if(personViewHolder.llMore.getVisibility()==View.GONE){
+                    personViewHolder.llMore.setVisibility(View.VISIBLE);
+                }else{
+                    personViewHolder.llMore.setVisibility(View.GONE);
+                }
+
             }
         });
 
-        recommentViewHolder.llSetLike.setOnClickListener(new View.OnClickListener() {
+        personViewHolder.tvDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mOnThumbDynamicClickListener.onClick(recommentViewHolder.ivSetLike, community.getId(), position);
+                //删除动态
+                mOnViewClickListener.onClick(personViewHolder.tvDelete,community,position);
             }
         });
 
-        setConditionStatus(recommentViewHolder, position);
-        setThumbStatus(recommentViewHolder, position);
+        personViewHolder.llSetLike.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //点赞
+                mOnViewClickListener.onClick(personViewHolder.ivSetLike, community, position);
+            }
+        });
 
-    }
+        personViewHolder.tvMoveTop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mOnViewClickListener.onClick(personViewHolder.tvMoveTop, community, position);
+            }
+        });
 
-    public interface OnThumbDynamicClickListener {
-        void onClick(View view, int communityId, int position);
-    }
+        personViewHolder.tvOnlyYouselfLook.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mOnViewClickListener.onClick(personViewHolder.tvOnlyYouselfLook, community, position);
+            }
+        });
 
-    private OnThumbDynamicClickListener mOnThumbDynamicClickListener = null;
+        //设置用户点赞
+        setThumbStatus(personViewHolder, position);
 
-    public void setOnThumbDynamicClickListener(OnThumbDynamicClickListener listener) {
-        this.mOnThumbDynamicClickListener = listener;
-    }
+        //设置动态是不是自己可见
+        setConditionOnlyYouselfLook(personViewHolder,position);
 
-    public interface OnConcernExpertClickListener {
-        void onClick(View view, int userId, boolean concernStatus, int position);
-    }
-
-    private OnConcernExpertClickListener mOnConcernExpertClickListener = null;
-
-    public void setOnConcernExpertClickListener(OnConcernExpertClickListener listener) {
-        this.mOnConcernExpertClickListener = listener;
-    }
-
-
-    private void initTranImgRv(RecommentViewHolder recommentViewHolder, String[] imgUrls) {
-        GridLayoutManager manager;
-        switch (imgUrls.length) {
-            case 1:
-            case 2:
-                manager = new GridLayoutManager(mContext, SPANCOUNT_2);
-                break;
-            default:
-                manager = new GridLayoutManager(mContext, SPANCOUNT_4);
-                break;
-        }
-        recommentViewHolder.rvTranImg.setLayoutManager(manager);
-        recommentViewHolder.rvTranImg.setAdapter(new ImageAdapter(mContext, imgUrls));
-        recommentViewHolder.rvTranImg.setNestedScrollingEnabled(false);
-    }
-
-    private void initUserImgRv(RecommentViewHolder recommentViewHolder, String[] imgUrls) {
-
-        GridLayoutManager manager;
-        switch (imgUrls.length) {
-            case 1:
-            case 2:
-                manager = new GridLayoutManager(mContext, SPANCOUNT_2);
-                break;
-            default:
-                manager = new GridLayoutManager(mContext, SPANCOUNT_4);
-                break;
-
-        }
-        recommentViewHolder.rvUserImg.setLayoutManager(manager);
-        recommentViewHolder.rvUserImg.setAdapter(new ImageAdapter(mContext, imgUrls));
-        recommentViewHolder.rvUserImg.setNestedScrollingEnabled(false);
     }
 
     /**
-     * 设置用户关注状态
-     *
-     * @param recommentViewHolder
+     * 设置动态是不是自己可见
+     * @param personViewHolder
      * @param position
      */
-    public void setConditionStatus(RecommentViewHolder recommentViewHolder, int position) {
-        if (communityList.get(position).isConcern_status()) {//已经关注了
-            recommentViewHolder.btnAttention.setBackgroundResource(R.drawable.btn_cancel_condition);
-            recommentViewHolder.btnAttention.setText("取消关注");
-        } else {//还未关注
-            recommentViewHolder.btnAttention.setBackgroundResource(R.drawable.uncheckouted);
-            recommentViewHolder.btnAttention.setText("+关注");
+    private void setConditionOnlyYouselfLook(PersonViewHolder personViewHolder, int position) {
+        if(communityList.get(position).is_visible()){
+            personViewHolder.tvOnlyYouselfLook.setText("仅自己可见");
+        }else{
+            personViewHolder.tvOnlyYouselfLook.setText("公开可见");
         }
+    }
+
+    public interface OnViewClickListener {
+        void onClick(View view, Object data, int position);
+    }
+
+    private OnViewClickListener mOnViewClickListener = null;
+
+    public void setOnViewClickListener(OnViewClickListener listener) {
+        this.mOnViewClickListener = listener;
+    }
+
+    private void initTranImgRv(PersonViewHolder personViewHolder, String[] imgUrls) {
+        GridLayoutManager manager;
+        switch (imgUrls.length) {
+            case 1:
+            case 2:
+                manager = new GridLayoutManager(mContext, SPANCOUNT_2);
+                break;
+            default:
+                manager = new GridLayoutManager(mContext, SPANCOUNT_4);
+                break;
+        }
+        personViewHolder.rvTranImg.setLayoutManager(manager);
+        personViewHolder.rvTranImg.setAdapter(new ImageAdapter(mContext, imgUrls));
+        personViewHolder.rvTranImg.setNestedScrollingEnabled(false);
+    }
+
+    private void initUserImgRv(PersonViewHolder personViewHolder, String[] imgUrls) {
+
+        GridLayoutManager manager;
+        switch (imgUrls.length) {
+            case 1:
+            case 2:
+                manager = new GridLayoutManager(mContext, SPANCOUNT_2);
+                break;
+            default:
+                manager = new GridLayoutManager(mContext, SPANCOUNT_4);
+                break;
+
+        }
+        personViewHolder.rvUserImg.setLayoutManager(manager);
+        personViewHolder.rvUserImg.setAdapter(new ImageAdapter(mContext, imgUrls));
+        personViewHolder.rvUserImg.setNestedScrollingEnabled(false);
     }
 
     /**
      * 设置用户点赞状态
      *
-     * @param recommentViewHolder
+     * @param personViewHolder
      * @param position
      */
-    private void setThumbStatus(RecommentViewHolder recommentViewHolder, int position) {
+    private void setThumbStatus(PersonViewHolder personViewHolder, int position) {
         if (communityList.get(position).isThumb_status()) {
-            recommentViewHolder.ivSetLike.setImageResource(R.drawable.set_like_checked);
-            recommentViewHolder.llSetLike.setClickable(false);
+            personViewHolder.ivSetLike.setImageResource(R.drawable.set_like_checked);
+            personViewHolder.llSetLike.setClickable(false);
         } else {
-            recommentViewHolder.ivSetLike.setImageResource(R.drawable.set_like);
-            recommentViewHolder.llSetLike.setClickable(true);
+            personViewHolder.ivSetLike.setImageResource(R.drawable.set_like);
+            personViewHolder.llSetLike.setClickable(true);
         }
 
     }
@@ -247,20 +261,17 @@ public class RecommentAdapter extends RecyclerView.Adapter {
     }
 
     /**
-     * 关注达人
+     * 删除动态
      *
      * @param position
      */
-    public void notifyItemChangeOnConcernExpert(int position) {
-        CommunityEntity community = communityList.get(position);
-        int userId = community.getUser_id();
-        boolean status = community.isConcern_status();
-        for (int i = 0; i < communityList.size(); i++) {
-            if (userId == communityList.get(i).getUser_id()) {
-                communityList.get(i).setConcern_status(!status);
-            }
+    public void removeCondition(int position) {
+        communityList.remove(position);
+        notifyItemRemoved(position);
+        if(position != communityList.size()){
+            notifyItemRangeChanged(position, communityList.size() - position);
         }
-        notifyDataSetChanged();
+
     }
 
     @Override
@@ -285,19 +296,19 @@ public class RecommentAdapter extends RecyclerView.Adapter {
         notifyDataSetChanged();
     }
 
-    public void remove(int position){
-        communityList.remove(position);
+    public void remove(int position) {
+        CommunityEntity community = communityList.remove(position);
+        LogUtils.d("community = " + community.toString());
     }
 
-    class RecommentViewHolder extends RecyclerView.ViewHolder {
+    class PersonViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.civ_head)
         CircleImageView civHead;
         @BindView(R.id.tv_condition_nickname)
         TextView tvConditionNickname;
         @BindView(R.id.tv_condition_time)
         TextView tvConditionTime;
-        @BindView(R.id.btn_attention)
-        Button btnAttention;
+
         @BindView(R.id.tv_content)
         TextView tvContent;
         @BindView(R.id.rv_user_img)
@@ -320,10 +331,21 @@ public class RecommentAdapter extends RecyclerView.Adapter {
         @BindView(R.id.iv_set_like)
         ImageView ivSetLike;
 
-        public RecommentViewHolder(View itemView) {
+        @BindView(R.id.iv_more)
+        ImageView ivMore;
+        @BindView(R.id.tv_delete)
+        TextView tvDelete;
+        @BindView(R.id.tv_move_top)
+        TextView tvMoveTop;
+        @BindView(R.id.tv_only_youself_look)
+        TextView tvOnlyYouselfLook;
+        @BindView(R.id.ll_more)
+        LinearLayout llMore;
+
+        public PersonViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
     }
-
+    
 }

@@ -111,7 +111,6 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
     //初始化控件
     private void initView() {
         rgMain = (RadioGroup) findViewById(R.id.rg_main);
-
     }
 
     @Override

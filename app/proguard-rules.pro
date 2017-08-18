@@ -23,7 +23,8 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
-/**支付宝*/
+
+#支付宝
 -keep class com.alipay.android.app.IAlixPay{*;}
 -keep class com.alipay.android.app.IAlixPay$Stub{*;}
 -keep class com.alipay.android.app.IRemoteServiceCallback{*;}
@@ -43,3 +44,7 @@
 -keep class com.alipay.tscenter.** { *; }
 -keep class com.ta.utdid2.** { *;}
 -keep class com.ut.device.** { *;}
+
+#LRecyclerview
+-dontwarn com.github.jdsjlzx.**
+-keep class com.github.jdsjlzx.progressindicator.indicators.** { *; }

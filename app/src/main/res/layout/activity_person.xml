@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.jiupin.jiupinhui.activity.PersonActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="230dp">
+
+        <ImageView
+            android:id="@+id/iv_gaosi_img"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
+            android:src="@drawable/sign_bg"
+            />
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/iv_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/back_base"
+                />
+        </android.support.v7.widget.Toolbar>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/toolbar"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            >
+
+            <com.jiupin.jiupinhui.widget.CircleImageView
+                android:id="@+id/civ_head"
+                android:layout_width="70dp"
+                android:layout_height="70dp"/>
+
+            <TextView
+                android:id="@+id/tv_user_nickname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="7dp"
+                android:text="仰望星空"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal"
+                >
+
+                <TextView
+                    android:id="@+id/tv_fans"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="仰望星空"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    />
+
+                <TextView
+                    android:layout_width="1dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="2dp"
+                    android:background="@color/white"
+                    />
+
+                <TextView
+                    android:id="@+id/tv_condition"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="仰望星空"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                >
+
+                <TextView
+                    android:id="@+id/tv_user_signature"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:lines="1"
+                    android:maxLength="16"
+                    android:maxLines="1"
+                    android:text=""
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    />
+
+                <ImageView
+                    android:id="@+id/iv_compile_info"
+                    android:layout_width="wrap_content"
+                    android:layout_height="16dp"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:src="@drawable/pencil"
+                    />
+            </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tl_tab_layout"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        app:tabSelectedTextColor="@color/black_33"
+        app:tabTextColor="@color/black_33"
+        app:tabIndicatorColor="@color/mainColor"
+        app:tabGravity="center"
+        app:tabMode="fixed"
+        >
+    </android.support.design.widget.TabLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#aeafe0"/>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp_penson"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </android.support.v4.view.ViewPager>
+
+</LinearLayout>
+
