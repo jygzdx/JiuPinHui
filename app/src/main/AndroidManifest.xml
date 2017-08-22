@@ -127,6 +127,10 @@
         </activity>
         <activity android:name=".activity.CompilePersonInfoActivity">
         </activity>
+        <activity android:name=".activity.MyAttentionActivity">
+        </activity>
+        <activity android:name=".activity.FansActivity">
+        </activity>
     </application>
 
 </manifest>

@@ -110,11 +110,19 @@ public class PersonActivity extends BaseActivity implements IPersonActivityView 
         tlTabLayout.setupWithViewPager(vpPenson);
     }
 
-    @OnClick({R.id.iv_back, R.id.iv_compile_info})
+    @OnClick({R.id.iv_back, R.id.iv_compile_info,R.id.tv_fans,R.id.tv_condition})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_back:
                 finish();
+                break;
+            case R.id.tv_fans://进去粉丝界面
+                Intent fansIntent = new Intent(this,FansActivity.class);
+                startActivity(fansIntent);
+                break;
+            case R.id.tv_condition://进去我的关注界面
+                Intent conditionIntent = new Intent(this,MyAttentionActivity.class);
+                startActivity(conditionIntent);
                 break;
             case R.id.iv_compile_info:
                 Intent intent = new Intent(mContext, CompilePersonInfoActivity.class);
@@ -175,7 +183,7 @@ public class PersonActivity extends BaseActivity implements IPersonActivityView 
         }
     }
 
-    class VpAdapter extends FragmentPagerAdapter {
+    private class VpAdapter extends FragmentPagerAdapter {
 
         public VpAdapter(FragmentManager fm) {
             super(fm);

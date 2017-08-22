@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/mainBackground"
+    android:descendantFocusability="blocksDescendants"
+    tools:context="com.jiupin.jiupinhui.activity.FansActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/mainColor"
+        >
+
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:paddingBottom="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="10dp"
+            android:src="@drawable/back_base"
+            />
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:maxLines="1"
+            android:text="我的粉丝"
+            android:textColor="@color/white"
+            android:textSize="16sp"/>
+    </android.support.v7.widget.Toolbar>
+    <com.github.jdsjlzx.recyclerview.LRecyclerView
+        android:id="@+id/lrv_fans"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+    </com.github.jdsjlzx.recyclerview.LRecyclerView>
+
+</LinearLayout>

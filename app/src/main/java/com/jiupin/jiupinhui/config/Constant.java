@@ -349,6 +349,21 @@ public class Constant {
      */
     public static final String COMPILE_PERSON_INFO = MAIN_URL + "/app/social/setSocialUserInfo.json";
 
+    /**
+     * 获取推荐关注列表
+     */
+    public static final String RECOMMEND_LIST = MAIN_URL + "/app/social/getRecommendUserList.json";
+
+    /**
+     * 获取已关注列表
+     */
+    public static final String ATTENTION_LIST = MAIN_URL + "/app/social/getConcernList.json";
+
+    /**
+     * 获取粉丝列表
+     */
+    public static final String FANS_LIST = MAIN_URL + "/app/social/getFansList.json";
+
     /**------------------------------------支付接口-------------------------------------------*/
     /**
      * alipay支付接口
