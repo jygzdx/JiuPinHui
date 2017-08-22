@@ -1,5 +1,6 @@
 package com.jiupin.jiupinhui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -32,6 +33,7 @@ import butterknife.OnClick;
 import jp.wasabeef.glide.transformations.BlurTransformation;
 
 public class PersonActivity extends BaseActivity implements IPersonActivityView {
+    private static final String TAG = "PersonActivity";
 
     @BindView(R.id.civ_head)
     CircleImageView civHead;
@@ -56,6 +58,7 @@ public class PersonActivity extends BaseActivity implements IPersonActivityView 
     ImageView ivGaosiImg;
     private VpAdapter adapter;
     private IPersonActivityPresenter presenter;
+    private UserEntity.DataBean userEntity;
 
 
     @Override
@@ -114,33 +117,61 @@ public class PersonActivity extends BaseActivity implements IPersonActivityView 
                 finish();
                 break;
             case R.id.iv_compile_info:
+                Intent intent = new Intent(mContext, CompilePersonInfoActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("userEntity", userEntity);
+                intent.putExtras(bundle);
+                startActivityForResult(intent, 1);
                 break;
         }
     }
 
     @Override
-    public void setUserInfo(UserEntity userEntity) {
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        LogUtils.d(TAG, "onActivityResult.requestCode = " + requestCode + ",resultCode = " + resultCode);
+        if (resultCode == 1) {
+            LogUtils.d(TAG, "onActivityResult.data" + data);
+            Bundle bundle = data.getExtras();
+            UserEntity.DataBean userEntity = (UserEntity.DataBean) bundle.getSerializable("userEntity");
+            this.userEntity = userEntity;
+            tvUserNickname.setText(userEntity.getNickName());
+            Fragment frag = fragList.get(1);
+            if (frag != null) {
+                frag.onActivityResult(requestCode, resultCode, data);
+            }
+        }
+
+    }
+
+    @Override
+    public void setUserInfo(UserEntity.DataBean userEntity) {
         if (ActivityUtils.isFinish(mContext))
             return;
         if (userEntity == null)
             return;
+        this.userEntity = userEntity;
+        initView();
+    }
+
+    private void initView() {
         Glide.with(mContext)
-                .load(userEntity.getData().getImageUrl())
+                .load(userEntity.getImageUrl())
                 .crossFade()
                 .into(civHead);
 
         Glide.with(mContext)
-                .load(userEntity.getData().getImageUrl())
+                .load(userEntity.getImageUrl())
                 .bitmapTransform(new BlurTransformation(mContext, 8, 1))
                 .into(ivGaosiImg);
-        tvFans.setText("粉丝"+userEntity.getData().getFans_num());
-        tvCondition.setText("关注"+userEntity.getData().getConcern_num());
+        tvFans.setText("粉丝" + userEntity.getFans_num());
+        tvCondition.setText("关注" + userEntity.getConcern_num());
 
-        tvUserNickname.setText(userEntity.getData().getNickName());
-        if(userEntity.getData().getSignature()==null||"".equals(userEntity.getData().getSignature())){
+        tvUserNickname.setText(userEntity.getNickName());
+        if (userEntity.getIntro() == null || "" .equals(userEntity.getIntro())) {
             tvUserSignature.setText("暂无留下任何信息");
-        }else{
-            tvUserSignature.setText(userEntity.getData().getSignature());
+        } else {
+            tvUserSignature.setText(userEntity.getIntro());
         }
     }
 

@@ -1,10 +1,12 @@
 package com.jiupin.jiupinhui.entity;
 
+import java.io.Serializable;
+
 /**
  * 作者：czb on 2017/7/5 14:14
  */
 
-public class UserEntity {
+public class UserEntity implements Serializable{
 
 
     /**
@@ -41,7 +43,7 @@ public class UserEntity {
         this.data = data;
     }
 
-    public static class DataBean {
+    public static class DataBean implements Serializable{
         /**
          * id : 32792
          * addTime :
@@ -85,7 +87,7 @@ public class UserEntity {
          */
 
         private int id;
-        private String addTime;
+        private long addTime;
         private boolean deleteStatus;
         private String userName;
         private String trueName;
@@ -132,11 +134,11 @@ public class UserEntity {
             this.id = id;
         }
 
-        public String getAddTime() {
+        public long getAddTime() {
             return addTime;
         }
 
-        public void setAddTime(String addTime) {
+        public void setAddTime(long addTime) {
             this.addTime = addTime;
         }
 

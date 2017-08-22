@@ -28,7 +28,7 @@ public class PersonActivityPresenterImpl implements IPersonActivityPresenter {
         model.getUserInfo(userId, new IModel.CallBack() {
             @Override
             public void onSuccess(Object success) {
-                view.setUserInfo(((UserEntity) success));
+                view.setUserInfo(((UserEntity.DataBean) success));
             }
 
             @Override

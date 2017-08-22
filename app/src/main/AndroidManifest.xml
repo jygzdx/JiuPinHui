@@ -125,6 +125,8 @@
         </activity>
         <activity android:name=".activity.PersonActivity">
         </activity>
+        <activity android:name=".activity.CompilePersonInfoActivity">
+        </activity>
     </application>
 
 </manifest>

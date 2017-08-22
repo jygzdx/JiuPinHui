@@ -3,17 +3,274 @@
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="information"
-        />
-    <com.github.jdsjlzx.recyclerview.LRecyclerView
-        android:id="@+id/lrv_info"
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/nsv_info"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:background="@color/mainBackground"
+            >
+            <LinearLayout
+                android:id="@+id/ll_compile_info"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:background="@color/white"
+                android:layout_marginTop="15dp"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                >
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/per_info"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="4dp"
+                    android:text="编辑资料"
+                    android:textSize="13sp"
+                    android:textColor="@color/light_black"
+                    />
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/right_zhishiqi"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:background="@color/white"
+                android:layout_marginTop="10dp"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                >
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="140"
+                    android:text="昵称"
+                    android:textSize="12sp"
+                    android:textColor="@color/light_black"
+                    />
+
+                <TextView
+                    android:id="@+id/tv_nickname"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="560"
+                    android:maxLines="1"
+                    android:text="仰望星空"
+                    android:textSize="12sp"
+                    android:textColor="@color/black_33"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:background="@color/white"
+                android:layout_marginTop="1dp"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                >
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="140"
+                    android:text="性别"
+                    android:textSize="12sp"
+                    android:textColor="@color/light_black"
+                    />
+
+                <TextView
+                    android:id="@+id/tv_sex"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="560"
+                    android:text="男"
+                    android:textSize="12sp"
+                    android:textColor="@color/black_33"
+                    />
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:background="@color/white"
+                android:layout_marginTop="1dp"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                >
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="140"
+                    android:text="所在地"
+                    android:textSize="12sp"
+                    android:textColor="@color/light_black"
+                    />
+
+                <TextView
+                    android:id="@+id/tv_area"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="560"
+                    android:text="广州"
+                    android:textSize="12sp"
+                    android:textColor="@color/black_33"
+                    />
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:background="@color/white"
+                android:layout_marginTop="1dp"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                >
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="140"
+                    android:text="简介"
+                    android:textSize="12sp"
+                    android:textColor="@color/light_black"
+                    />
+
+                <TextView
+                    android:id="@+id/tv_intro"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="560"
+                    android:maxLines="1"
+                    android:text="90后资深android开发"
+                    android:textSize="12sp"
+                    android:textColor="@color/black_33"
+                    />
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:background="@color/white"
+                android:layout_marginTop="10dp"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                >
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="140"
+                    android:text="学校"
+                    android:textSize="12sp"
+                    android:textColor="@color/light_black"
+                    />
+
+                <TextView
+                    android:id="@+id/tv_school"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="560"
+                    android:text="广东大学"
+                    android:textSize="12sp"
+                    android:textColor="@color/black_33"
+                    />
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:background="@color/white"
+                android:layout_marginTop="10dp"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                >
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="140"
+                    android:text="等级"
+                    android:textSize="12sp"
+                    android:textColor="@color/light_black"
+                    />
+
+                <TextView
+                    android:id="@+id/tv_grade"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="560"
+                    android:text="lv.14"
+                    android:textSize="12sp"
+                    android:textColor="@color/black_33"
+                    />
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:background="@color/white"
+                android:layout_marginTop="1dp"
+                android:layout_marginBottom="60dp"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                >
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="140"
+                    android:text="注册时间"
+                    android:textSize="12sp"
+                    android:textColor="@color/light_black"
+                    />
+
+                <TextView
+                    android:id="@+id/tv_add_time"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="560"
+                    android:text="2017-08-01"
+                    android:textSize="12sp"
+                    android:textColor="@color/black_33"
+                    />
+
+            </LinearLayout>
 
 
-    </com.github.jdsjlzx.recyclerview.LRecyclerView>
+        </LinearLayout>
+
+
+    </android.support.v4.widget.NestedScrollView>
 
 </LinearLayout>

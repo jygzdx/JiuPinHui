@@ -344,6 +344,11 @@ public class Constant {
      */
     public static final String GET_USER_INFO_BY_ID = MAIN_URL + "/app/social/getUserInfoById.json";
 
+    /**
+     * 设置用户信息（返回最新的用户信息）
+     */
+    public static final String COMPILE_PERSON_INFO = MAIN_URL + "/app/social/setSocialUserInfo.json";
+
     /**------------------------------------支付接口-------------------------------------------*/
     /**
      * alipay支付接口

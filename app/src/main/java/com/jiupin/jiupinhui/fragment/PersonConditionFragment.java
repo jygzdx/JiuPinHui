@@ -34,6 +34,7 @@ import static android.content.ContentValues.TAG;
 
 /**
  * 作者：czb on 2017/8/17 16:14
+ * 个人页面的动态展示
  */
 
 public class PersonConditionFragment extends Fragment implements IPersonConditionFragmentView {
@@ -113,7 +114,7 @@ public class PersonConditionFragment extends Fragment implements IPersonConditio
             @Override
             public void onClick(View view, Object data, int position) {
                 switch (view.getId()) {
-                    case R.id.ll_set_like:
+                    case R.id.iv_set_like:
                         setThumbDynamic(((CommunityEntity) data).getId(), position);
                         break;
                     case R.id.tv_delete:

@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import com.jiupin.jiupinhui.config.Constant;
 import com.jiupin.jiupinhui.entity.UserEntity;
 import com.jiupin.jiupinhui.model.IModel;
-import com.jiupin.jiupinhui.model.IPersonActivityModel;
+import com.jiupin.jiupinhui.model.IPersonInfoFragmentModel;
 import com.jiupin.jiupinhui.utils.HttpErrorUtils;
 import com.jiupin.jiupinhui.utils.LogUtils;
 import com.zhy.http.okhttp.OkHttpUtils;
@@ -19,7 +19,7 @@ import okhttp3.Call;
  * Created by Administrator on 2017/3/31.
  */
 
-public class PersonActivityModelImpl implements IPersonActivityModel {
+public class PersonInfoFragmentModelImpl implements IPersonInfoFragmentModel {
 
     @Override
     public void getUserInfo(String userId,final IModel.CallBack callBack) {

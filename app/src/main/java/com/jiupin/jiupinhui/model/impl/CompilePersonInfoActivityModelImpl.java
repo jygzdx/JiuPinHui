@@ -3,8 +3,8 @@ package com.jiupin.jiupinhui.model.impl;
 import com.google.gson.Gson;
 import com.jiupin.jiupinhui.config.Constant;
 import com.jiupin.jiupinhui.entity.UserEntity;
+import com.jiupin.jiupinhui.model.ICompilePersonInfoActivityModel;
 import com.jiupin.jiupinhui.model.IModel;
-import com.jiupin.jiupinhui.model.IPersonActivityModel;
 import com.jiupin.jiupinhui.utils.HttpErrorUtils;
 import com.jiupin.jiupinhui.utils.LogUtils;
 import com.zhy.http.okhttp.OkHttpUtils;
@@ -16,17 +16,22 @@ import org.json.JSONObject;
 import okhttp3.Call;
 
 /**
- * Created by Administrator on 2017/3/31.
+ * 作者：czb on 2017/6/26 14:30
  */
 
-public class PersonActivityModelImpl implements IPersonActivityModel {
+public class CompilePersonInfoActivityModelImpl implements ICompilePersonInfoActivityModel {
 
     @Override
-    public void getUserInfo(String userId,final IModel.CallBack callBack) {
+    public void savePersonInfo(String token, String nickName, String sex, String location, String intro, String education, final IModel.CallBack callBack) {
         OkHttpUtils
                 .post()
-                .url(Constant.GET_USER_INFO_BY_ID)
-                .addParams("userId",userId)
+                .url(Constant.COMPILE_PERSON_INFO)
+                .addParams("token", token)
+                .addParams("nickName", nickName)
+                .addParams("sex", sex)
+                .addParams("location", location)
+                .addParams("intro", intro)
+                .addParams("education", education)
                 .build()
                 .execute(new StringCallback() {
                     @Override
@@ -36,7 +41,7 @@ public class PersonActivityModelImpl implements IPersonActivityModel {
 
                     @Override
                     public void onResponse(String response, int id) {
-                        LogUtils.d("onResponse.response = "+response);
+                        LogUtils.d("response = "+response);
                         JSONObject jsonObject = null;
                         try {
                             jsonObject = new JSONObject(response);
@@ -45,7 +50,9 @@ public class PersonActivityModelImpl implements IPersonActivityModel {
                             if (200 == status) {
                                 Gson gson = new Gson();
                                 String data = jsonObject.getString("data");
-                                UserEntity.DataBean userEntity = gson.fromJson(data, UserEntity.DataBean.class);
+                                JSONObject dataObj = new JSONObject(data);
+                                String user = dataObj.getString("user");
+                                UserEntity.DataBean userEntity = gson.fromJson(user, UserEntity.DataBean.class);
                                 callBack.onSuccess(userEntity);
                             } else {
                                 callBack.onFailed(status, msg);

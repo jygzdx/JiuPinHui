@@ -203,10 +203,10 @@ public class RecommendFragment extends Fragment implements IRecommendFragmentVie
         TextView tvNewCondition = (TextView) headerView.findViewById(R.id.tv_new_condition);
         if(user!=null){
             tvUserNickname.setText(user.getNickName());
-            if(user.getSignature()==""||user.getSignature()==null){
+            if(user.getIntro()==""||user.getIntro()==null){
                 tvNewCondition.setText("暂无留下任何信息简介");
             }else{
-                tvNewCondition.setText(user.getSignature().trim());
+                tvNewCondition.setText(user.getIntro().trim());
             }
 
             Glide.with(getContext())

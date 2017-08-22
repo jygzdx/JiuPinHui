@@ -10,7 +10,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="230dp">
+        android:layout_height="200dp">
 
         <ImageView
             android:id="@+id/iv_gaosi_img"
@@ -36,7 +36,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/toolbar"
+           android:layout_marginTop="40dp"
             android:gravity="center_horizontal"
             android:orientation="vertical"
             >
@@ -50,7 +50,7 @@
                 android:id="@+id/tv_user_nickname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="7dp"
+                android:layout_marginTop="5dp"
                 android:text="仰望星空"
                 android:textColor="@color/white"
                 android:textSize="14sp"
@@ -59,7 +59,7 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="8dp"
                 android:orientation="horizontal"
                 >
 
@@ -93,7 +93,8 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="5dp"
                 >
 
                 <TextView
