@@ -15,6 +15,7 @@ import com.jiupin.jiupinhui.entity.UserEntity;
 import com.jiupin.jiupinhui.manage.UserInfoManager;
 import com.jiupin.jiupinhui.presenter.IPersonInfoActivityPresenter;
 import com.jiupin.jiupinhui.presenter.impl.PersonInfoActivityPresenterImpl;
+import com.jiupin.jiupinhui.utils.ActivityUtils;
 import com.jiupin.jiupinhui.utils.LogUtils;
 import com.jiupin.jiupinhui.utils.SPUtils;
 import com.jiupin.jiupinhui.utils.ToastUtils;
@@ -198,6 +199,8 @@ public class PersonInfoActivity extends BaseActivity implements IPersonInfoActiv
 
     @Override
     public void setUserInfo(UserEntity userEntity) {
+        if (ActivityUtils.isFinish(mContext))return;
+
         LogUtils.d(TAG, "setUserInfo.url = " + userEntity.getData().getImageUrl());
         //初始化控件
         tvUserNickname.setText(userEntity.getData().getNickName());

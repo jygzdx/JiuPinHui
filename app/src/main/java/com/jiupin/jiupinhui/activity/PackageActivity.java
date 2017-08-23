@@ -32,6 +32,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+/**
+ * 废弃
+ */
 public class PackageActivity extends AppCompatActivity implements IPackageActivityView {
 
     @BindView(R.id.ll_goods_show)

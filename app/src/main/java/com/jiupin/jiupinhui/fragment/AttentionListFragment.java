@@ -21,6 +21,7 @@ import com.jiupin.jiupinhui.entity.AttListEntity;
 import com.jiupin.jiupinhui.manage.UserInfoManager;
 import com.jiupin.jiupinhui.presenter.IAttentionListFragmentPresenter;
 import com.jiupin.jiupinhui.presenter.impl.AttentionListFragmentPresenterImpl;
+import com.jiupin.jiupinhui.utils.LogUtils;
 import com.jiupin.jiupinhui.utils.ToastUtils;
 import com.jiupin.jiupinhui.view.IAttentionListFragmentView;
 
@@ -142,7 +143,10 @@ public class AttentionListFragment extends Fragment implements IAttentionListFra
 
     @Override
     public void setRecommendListInfo(List<AttListEntity> attListEntities) {
-        if(isDestroyView) return;
+
+        LogUtils.d("isHidden = "+isHidden());
+        if (isHidden()) return;
+
         if(attListEntities==null)return;
         if (attListEntities.size() > 0) {
             adapter.addAll(attListEntities);

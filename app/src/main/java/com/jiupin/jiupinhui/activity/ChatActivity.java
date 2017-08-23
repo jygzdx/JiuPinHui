@@ -25,6 +25,7 @@ import com.jiupin.jiupinhui.entity.ChatEntity;
 import com.jiupin.jiupinhui.manage.UserInfoManager;
 import com.jiupin.jiupinhui.presenter.IChatActivityPresenter;
 import com.jiupin.jiupinhui.presenter.impl.ChatActivityPresenterImpl;
+import com.jiupin.jiupinhui.utils.ActivityUtils;
 import com.jiupin.jiupinhui.utils.DensityUtils;
 import com.jiupin.jiupinhui.utils.LogUtils;
 import com.jiupin.jiupinhui.utils.StringUtils;
@@ -203,6 +204,8 @@ public class ChatActivity extends BaseActivity implements IChatActivityView {
 
     @Override
     public void sendChatSuccess(List<ChatEntity> chatList, String hint) {
+        if (ActivityUtils.isFinish(mContext))return;
+
         if (chatList != null && chatList.size() > 0) {
             adapter.clear();
             adapter.addAll(chatList);
@@ -214,6 +217,7 @@ public class ChatActivity extends BaseActivity implements IChatActivityView {
 
     @Override
     public void closeChatSuccess(List<ChatEntity> chatList) {
+        if (ActivityUtils.isFinish(mContext))return;
         if(chatList != null && chatList.size() > 0){
             adapter.clear();
             adapter.addAll(chatList);

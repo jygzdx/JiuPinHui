@@ -48,12 +48,15 @@ public class WineFragment extends Fragment implements IWineFragmentView {
     private WineFragmentPresenterImpl presenter;
     private int brandId = -1;
     private int page = 1;
+    private boolean isDestroy;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_wine, container, false);
         unbinder = ButterKnife.bind(this, view);
+        isDestroy = false;
+
         presenter = new WineFragmentPresenterImpl(this);
 
         initBrandRV();
@@ -155,14 +158,14 @@ public class WineFragment extends Fragment implements IWineFragmentView {
         unbinder.unbind();
         brandId = -1;
         page = 1;
+        isDestroy = true;
     }
 
     @Override
     public void setWineInfo(List<WineInfoEntity> wineInfoList) {
-        LogUtils.d("view = "+view+"lrvWineShow = "+lrvWineShow);
-        if(view==null){
-            return;
-        }
+        if (isDestroy) return;
+
+        LogUtils.d("isRemoving = "+isRemoving() + ", isDetached = "+isDetached());
         if(wineInfoList!=null){
             if(wineInfoList.size()>0){
                 wineAdapter.addAll(wineInfoList);
@@ -176,10 +179,9 @@ public class WineFragment extends Fragment implements IWineFragmentView {
 
     @Override
     public void setWineInfoById(List<WineInfoEntity> wineInfoList) {
-        LogUtils.d("view = "+view);
-        if(view==null){
-            return;
-        }
+        if (isDestroy) return;
+
+        LogUtils.d("isRemoving = "+isRemoving() + ", isDetached = "+isDetached());
         if(wineInfoList!=null){
             if(wineInfoList.size()>0){
                 wineAdapter.addAll(wineInfoList);
@@ -193,9 +195,10 @@ public class WineFragment extends Fragment implements IWineFragmentView {
 
     @Override
     public void setBrandData(List<WineBrandEntity> wineBrandList) {
+        if (isDestroy) return;
+
         if(wineBrandList!=null&&wineBrandList.size()>0){
             brandAdapter.setData(wineBrandList);
-
         }
     }
 }

@@ -30,6 +30,7 @@ import com.jiupin.jiupinhui.entity.GoodsEntity;
 import com.jiupin.jiupinhui.manage.UserInfoManager;
 import com.jiupin.jiupinhui.presenter.IGoodsActivityPresenter;
 import com.jiupin.jiupinhui.presenter.impl.GoodsActivityPresenterImpl;
+import com.jiupin.jiupinhui.utils.ActivityUtils;
 import com.jiupin.jiupinhui.utils.DensityUtils;
 import com.jiupin.jiupinhui.utils.LogUtils;
 import com.jiupin.jiupinhui.utils.ToastUtils;
@@ -302,6 +303,8 @@ public class GoodsActivity extends BaseActivity implements IGoodsActivityView {
 
     @Override
     public void setData(final GoodsEntity goodsEntity) {
+        if (ActivityUtils.isFinish(mContext))return;
+
         this.goodsEntity = goodsEntity;
 //        wvWebview.loadData(getHtmlData(goodsEntity.getData().getGoods_details()), "text/html; charset=utf-8", "utf-8");
         wvWebview.loadUrl(Constant.GOODS_URL+goodsEntity.getData().getId());
@@ -509,6 +512,9 @@ public class GoodsActivity extends BaseActivity implements IGoodsActivityView {
 
     @Override
     public void setUserAppraise(List<AppraiseEntity> appraiseList) {
+
+        if (ActivityUtils.isFinish(mContext))return;
+
         //设置用户评论信息
         if(appraiseList!=null&&appraiseList.size()>0){
             rlAppraise.setVisibility(View.VISIBLE);

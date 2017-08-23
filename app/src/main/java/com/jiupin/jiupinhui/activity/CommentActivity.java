@@ -14,6 +14,7 @@ import com.jiupin.jiupinhui.entity.AppraiseEntity;
 import com.jiupin.jiupinhui.manage.PopWinManager;
 import com.jiupin.jiupinhui.presenter.ICommentActivityPresenter;
 import com.jiupin.jiupinhui.presenter.impl.CommentActivityPresenterImpl;
+import com.jiupin.jiupinhui.utils.ActivityUtils;
 import com.jiupin.jiupinhui.utils.LogUtils;
 import com.jiupin.jiupinhui.utils.ToastUtils;
 import com.jiupin.jiupinhui.view.ICommentActivityView;
@@ -93,6 +94,8 @@ public class CommentActivity extends BaseActivity implements ICommentActivityVie
 
     @Override
     public void setUserAppraise(List<AppraiseEntity> appraiseList) {
+        if (ActivityUtils.isFinish(mContext))return;
+
         if (appraiseList.size() > 0) {
             adapter.addAll(appraiseList);
             lrvComment.refreshComplete(10);

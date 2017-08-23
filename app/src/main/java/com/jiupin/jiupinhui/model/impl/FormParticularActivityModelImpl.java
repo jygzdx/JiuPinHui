@@ -40,6 +40,7 @@ public class FormParticularActivityModelImpl implements IFormParticularActivityM
 
                     @Override
                     public void onResponse(String response, int id) {
+                        LogUtils.d("getFormInfo.response = "+response);
                         JSONObject jsonObject = null;
                         try {
                             jsonObject = new JSONObject(response);

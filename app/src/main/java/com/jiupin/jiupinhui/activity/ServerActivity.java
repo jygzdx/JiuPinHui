@@ -19,6 +19,7 @@ import com.jiupin.jiupinhui.entity.ChatHistotyEntity;
 import com.jiupin.jiupinhui.manage.UserInfoManager;
 import com.jiupin.jiupinhui.presenter.IServerActivityPresenter;
 import com.jiupin.jiupinhui.presenter.impl.ServerActivityPresenterImpl;
+import com.jiupin.jiupinhui.utils.ActivityUtils;
 import com.jiupin.jiupinhui.view.IServerActivityView;
 
 import java.util.List;
@@ -123,6 +124,8 @@ public class ServerActivity extends BaseActivity implements IServerActivityView 
 
     @Override
     public void setChatHistoryList(List<ChatHistotyEntity> historyList) {
+        if (ActivityUtils.isFinish(mContext))return;
+
         if (historyList != null) {
             if (historyList.size() > 0) {
                 adapter.addAll(historyList);

@@ -32,6 +32,10 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import jp.wasabeef.glide.transformations.BlurTransformation;
 
+/**
+ * 酒圈的个人页面
+ *
+ */
 public class PersonActivity extends BaseActivity implements IPersonActivityView {
     private static final String TAG = "PersonActivity";
 
@@ -144,6 +148,11 @@ public class PersonActivity extends BaseActivity implements IPersonActivityView 
             UserEntity.DataBean userEntity = (UserEntity.DataBean) bundle.getSerializable("userEntity");
             this.userEntity = userEntity;
             tvUserNickname.setText(userEntity.getNickName());
+            if (userEntity.getIntro() == null || "" .equals(userEntity.getIntro())) {
+                tvUserSignature.setText("暂无留下任何信息");
+            } else {
+                tvUserSignature.setText(userEntity.getIntro());
+            }
             Fragment frag = fragList.get(1);
             if (frag != null) {
                 frag.onActivityResult(requestCode, resultCode, data);

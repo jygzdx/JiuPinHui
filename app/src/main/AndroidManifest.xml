@@ -33,6 +33,7 @@
         </activity>
         <activity
             android:name=".activity.LoginActivity"
+            android:launchMode="singleTask"
             android:windowSoftInputMode="adjustPan|stateHidden">
         </activity>
         <activity android:name=".activity.GoodsActivity">
@@ -130,6 +131,10 @@
         <activity android:name=".activity.MyAttentionActivity">
         </activity>
         <activity android:name=".activity.FansActivity">
+        </activity>
+        <activity android:name=".activity.RegisterActivity">
+        </activity>
+        <activity android:name=".activity.ResetActivity">
         </activity>
     </application>
 

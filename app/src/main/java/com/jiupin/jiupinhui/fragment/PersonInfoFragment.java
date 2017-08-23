@@ -101,6 +101,10 @@ public class PersonInfoFragment extends Fragment implements IPersonInfoFragmentV
 
     @Override
     public void setUserInfo(UserEntity.DataBean userEntity) {
+        LogUtils.d("isHidden = "+isHidden());
+        if (isHidden()) return;
+
+
 this.userEntity = userEntity;
         tvNickname.setText(userEntity.getNickName());
         tvSchool.setText(userEntity.getEducation());

@@ -207,12 +207,19 @@ public class PersonConditionFragment extends Fragment implements IPersonConditio
 
     @Override
     public void moveConditionToTop(List<CommunityEntity> communityList) {
+        LogUtils.d("isHidden = "+isHidden());
+        if (isHidden()) return;
+
         adapter.addAll(communityList);
         lrvPerson.refreshComplete(communityList.size());
+        lRecyclerViewAdapter.notifyDataSetChanged();
     }
 
     @Override
     public void onlymyselflook(List<CommunityEntity> communityList) {
+        LogUtils.d("isHidden = "+isHidden());
+        if (isHidden()) return;
+
         adapter.addAll(communityList);
         lrvPerson.refreshComplete(communityList.size());
     }

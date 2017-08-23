@@ -188,6 +188,7 @@ public class HomeFragment extends Fragment implements IHomeFragmentView {
 
     @Override
     public void setHomeLove(HomeLoveEntity homeLoveEntity) {
+
         if (homeLoveEntity != null) {
             if (homeLoveEntity.getData() != null) {
                 if (homeLoveEntity.getData().getList() != null) {

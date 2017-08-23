@@ -174,6 +174,11 @@ public class RecommendFragment extends Fragment implements IRecommendFragmentVie
 
     @Override
     public void setRecommendInfo(List<CommunityEntity> communityList) {
+
+        LogUtils.d("isHidden = "+isHidden());
+        if (isHidden()) return;
+        if (lrvRecommend==null)return;
+
         if (communityList != null) {
             if (communityList.size() > 0) {
                 adapter.addAll(communityList);
@@ -198,6 +203,10 @@ public class RecommendFragment extends Fragment implements IRecommendFragmentVie
 
     @Override
     public void setUserInfo(UserEntity userEntity) {
+
+        LogUtils.d("isHidden = "+isHidden());
+        if (isHidden()) return;
+
         CircleImageView civHead = (CircleImageView) headerView.findViewById(R.id.civ_head);
         TextView tvUserNickname = (TextView) headerView.findViewById(R.id.tv_user_nickname);
         TextView tvNewCondition = (TextView) headerView.findViewById(R.id.tv_new_condition);

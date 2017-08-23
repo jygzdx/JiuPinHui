@@ -26,6 +26,7 @@ import com.jiupin.jiupinhui.manage.PopWinManager;
 import com.jiupin.jiupinhui.manage.UserInfoManager;
 import com.jiupin.jiupinhui.presenter.IMyFormActivityPresenter;
 import com.jiupin.jiupinhui.presenter.impl.MyFormActivityPresenterImpl;
+import com.jiupin.jiupinhui.utils.ActivityUtils;
 import com.jiupin.jiupinhui.utils.DensityUtils;
 import com.jiupin.jiupinhui.utils.LogUtils;
 import com.jiupin.jiupinhui.utils.ToastUtils;
@@ -339,6 +340,8 @@ public class MyFormActivity extends BaseActivity implements IMyFormActivityView{
 
     @Override
     public void getFormInfoSuccess(List<FormEntity> forms) {
+        if (ActivityUtils.isFinish(mContext))return;
+
         this.container = forms;
         if(container!=null){
             adapter.addAll(container);

@@ -14,6 +14,7 @@ import com.jiupin.jiupinhui.adapter.ConditionCommentListAdapter;
 import com.jiupin.jiupinhui.entity.ConditionCommentEntity;
 import com.jiupin.jiupinhui.presenter.IConditionCommentListActivityPresenter;
 import com.jiupin.jiupinhui.presenter.impl.ConditionCommentListActivityPresenterImpl;
+import com.jiupin.jiupinhui.utils.ActivityUtils;
 import com.jiupin.jiupinhui.utils.LogUtils;
 import com.jiupin.jiupinhui.utils.ToastUtils;
 import com.jiupin.jiupinhui.view.IConditionCommentListActivityView;
@@ -96,6 +97,7 @@ public class ConditionCommentListActivity extends BaseActivity implements ICondi
 
     @Override
     public void setCommentList(List<ConditionCommentEntity> commentList) {
+        if (ActivityUtils.isFinish(mContext))return;
         if (commentList.size() > 0) {
             adapter.addAll(commentList);
             lrvComment.refreshComplete(10);

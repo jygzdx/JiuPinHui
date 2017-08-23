@@ -11,6 +11,7 @@ import com.jiupin.jiupinhui.entity.FormParticularEntity;
 import com.jiupin.jiupinhui.manage.PopWinManager;
 import com.jiupin.jiupinhui.manage.UserInfoManager;
 import com.jiupin.jiupinhui.presenter.impl.PaySuccessActivityPresenterImpl;
+import com.jiupin.jiupinhui.utils.ActivityUtils;
 import com.jiupin.jiupinhui.view.IPaySuccessActivityView;
 
 import java.util.List;
@@ -53,6 +54,8 @@ public class PaySuccessActivity extends BaseActivity implements IPaySuccessActiv
 
     @Override
     public void getFormSuccess(FormParticularEntity formParticularEntity) {
+        if (ActivityUtils.isFinish(mContext))return;
+
         if (formParticularEntity != null) {
             tvRemainTime.setText(formParticularEntity.getDeadline());
             tvConsigneeName.setText(formParticularEntity.getAddress().getTrueName());

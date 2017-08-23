@@ -3,13 +3,11 @@ package com.jiupin.jiupinhui.presenter.impl;
 import android.content.Context;
 
 import com.jiupin.jiupinhui.entity.RegisterEntity;
-import com.jiupin.jiupinhui.entity.ResponseBase;
 import com.jiupin.jiupinhui.model.ILoginActivityModel;
 import com.jiupin.jiupinhui.model.IModel;
 import com.jiupin.jiupinhui.model.impl.LoginActivityModelImpl;
 import com.jiupin.jiupinhui.presenter.ILoginActivityPresenter;
 import com.jiupin.jiupinhui.utils.HttpErrorUtils;
-import com.jiupin.jiupinhui.utils.LogUtils;
 import com.jiupin.jiupinhui.view.ILoginActivityView;
 
 /**
@@ -29,37 +27,6 @@ public class LoginActivityPresenterImpl implements ILoginActivityPresenter {
     }
 
     @Override
-    public void getSecurityCode(String mobile) {
-        model.getSecurityCode(mobile, new IModel.CallBack() {
-            @Override
-            public void onSuccess(Object success) {
-                view.onSuccess(((String) success));
-            }
-
-            @Override
-            public void onFailed(int status, String msg) {
-                HttpErrorUtils.manageErrorHttp(status,msg,(Context) view);
-            }
-        });
-    }
-
-    @Override
-    public void registerUser(String mobile, String code, String pwd) {
-        model.registerUser(mobile, code, pwd, new IModel.CallBack() {
-            @Override
-            public void onSuccess(Object success) {
-                view.registerSuccess((RegisterEntity) success);
-            }
-
-
-            @Override
-            public void onFailed(int status, String msg) {
-                HttpErrorUtils.manageErrorHttp(status,msg,(Context) view);
-            }
-        });
-    }
-
-    @Override
     public void loginUser(String mobile,String pwd, String way) {
         model.loginUser(mobile,pwd,way,new IModel.CallBack(){
 
@@ -68,53 +35,6 @@ public class LoginActivityPresenterImpl implements ILoginActivityPresenter {
                 view.loginSuccess((RegisterEntity)success);
             }
 
-
-            @Override
-            public void onFailed(int status, String msg) {
-                HttpErrorUtils.manageErrorHttp(status,msg,(Context) view);
-            }
-        });
-    }
-
-    @Override
-    public void isMobileUnique(String mobile) {
-        model.isMobileUnique(mobile, new IModel.CallBack() {
-            @Override
-            public void onSuccess(Object success) {
-                view.isMobileUnique((String) success);
-            }
-
-            @Override
-            public void onFailed(int status, String msg) {
-                HttpErrorUtils.manageErrorHttp(status,msg,(Context) view);
-            }
-        });
-    }
-
-    @Override
-    public void getResetSecurityCode(String mobile) {
-        model.getResetSecurityCode(mobile, new IModel.CallBack() {
-            @Override
-            public void onSuccess(Object success) {
-                view.onSuccess(((String) success));
-            }
-
-
-            @Override
-            public void onFailed(int status, String msg) {
-                HttpErrorUtils.manageErrorHttp(status,msg,(Context) view);
-            }
-        });
-    }
-
-    @Override
-    public void resetPwd(String mobile, String code, String pwd) {
-        model.resetPwd(mobile, code,pwd,new IModel.CallBack() {
-            @Override
-            public void onSuccess(Object success) {
-                LogUtils.d(TAG,"返回信息= "+((ResponseBase)success).getMsg());
-                view.resetPwdSuccess((ResponseBase)success);
-            }
 
             @Override
             public void onFailed(int status, String msg) {

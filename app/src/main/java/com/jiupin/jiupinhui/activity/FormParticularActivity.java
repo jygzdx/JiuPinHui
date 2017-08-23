@@ -21,6 +21,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.alipay.sdk.app.PayTask;
+import com.bumptech.glide.Glide;
 import com.jiupin.jiupinhui.R;
 import com.jiupin.jiupinhui.config.Constant;
 import com.jiupin.jiupinhui.entity.FormParticularEntity;
@@ -30,6 +31,7 @@ import com.jiupin.jiupinhui.manage.PopWinManager;
 import com.jiupin.jiupinhui.manage.UserInfoManager;
 import com.jiupin.jiupinhui.presenter.IFormParticularActivityPresenter;
 import com.jiupin.jiupinhui.presenter.impl.FormParticularActivityPresenterImpl;
+import com.jiupin.jiupinhui.utils.ActivityUtils;
 import com.jiupin.jiupinhui.utils.LogUtils;
 import com.jiupin.jiupinhui.utils.TimeUtils;
 import com.jiupin.jiupinhui.utils.ToastUtils;
@@ -598,6 +600,8 @@ public class FormParticularActivity extends BaseActivity implements IFormParticu
 
     @Override
     public void getFormSuccess(FormParticularEntity formParticularEntity) {
+        if (ActivityUtils.isFinish(mContext))return;
+
         LogUtils.d(TAG, formParticularEntity.toString());
         if (formParticularEntity != null) {
             this.formParticularEntity = formParticularEntity;
@@ -620,6 +624,12 @@ public class FormParticularActivity extends BaseActivity implements IFormParticu
                     TextView tvGoodsPrice = (TextView) view.findViewById(R.id.tv_goods_price);
                     TextView tvGoodsFormerPrice = (TextView) view.findViewById(R.id.tv_goods_former_price);
                     TextView tvGoodsNumber = (TextView) view.findViewById(R.id.tv_goods_number);
+                    ImageView ivGoodsPic = (ImageView) view.findViewById(R.id.iv_goods_pic);
+
+                    Glide.with(mContext)
+                            .load(cartBeanList.get(i).getMain_photo())
+                            .crossFade()
+                            .into(ivGoodsPic);
 
                     tvStoreName.setText(formParticularEntity.getStore().getStore_name());
                     tvGoodsName.setText(cartBeanList.get(i).getGoods_name());
@@ -646,6 +656,8 @@ public class FormParticularActivity extends BaseActivity implements IFormParticu
 
     @Override
     public void cancelFormSuccess() {
+        if (ActivityUtils.isFinish(mContext))return;
+
         ToastUtils.showShort(this, "取消订单成功");
         formStatus = Constant.TRANSACTION_CLOSED;
         updateView();
@@ -653,6 +665,8 @@ public class FormParticularActivity extends BaseActivity implements IFormParticu
 
     @Override
     public void ensureGainGoodsSuccess() {
+        if (ActivityUtils.isFinish(mContext))return;
+
         formStatus = Constant.TRANSACTION_SUCCESS_NO_COMMENT;
         updateView();
     }
@@ -664,6 +678,8 @@ public class FormParticularActivity extends BaseActivity implements IFormParticu
     }
     @Override
     public void alipaySuccess(ResponseBase responseBase) {//支付宝支付
+        if (ActivityUtils.isFinish(mContext))return;
+
         final String orderInfo = responseBase.getData().toString();
         LogUtils.d("orderInfo = " + orderInfo);
         Runnable payRunnable = new Runnable() {
@@ -686,6 +702,8 @@ public class FormParticularActivity extends BaseActivity implements IFormParticu
 
     @Override
     public void weChatPaySuccess(WeChatPayEntity weChatPayEntity) {
+        if (ActivityUtils.isFinish(mContext))return;
+
         PayReq request = new PayReq();
         request.appId = weChatPayEntity.getAppid();
         request.partnerId = weChatPayEntity.getPartnerid();

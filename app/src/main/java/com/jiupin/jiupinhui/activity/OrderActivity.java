@@ -32,6 +32,7 @@ import com.jiupin.jiupinhui.entity.WeChatPayEntity;
 import com.jiupin.jiupinhui.manage.UserInfoManager;
 import com.jiupin.jiupinhui.presenter.IOrderActivityPresenter;
 import com.jiupin.jiupinhui.presenter.impl.OrderActivityPresenterImpl;
+import com.jiupin.jiupinhui.utils.ActivityUtils;
 import com.jiupin.jiupinhui.utils.LogUtils;
 import com.jiupin.jiupinhui.utils.SPUtils;
 import com.jiupin.jiupinhui.utils.SoftKeyboardUtils;
@@ -507,6 +508,8 @@ public class OrderActivity extends BaseActivity implements IOrderActivityView {
 
     @Override
     public void setData(AddressEntity addressEntity) {
+        if (ActivityUtils.isFinish(mContext))return;
+
         if (addressEntity == null) {
             tvAddAddress.setVisibility(View.VISIBLE);
             llAddress.setVisibility(View.GONE);
@@ -523,6 +526,8 @@ public class OrderActivity extends BaseActivity implements IOrderActivityView {
 
     @Override
     public void submitFormSuccess(OrderSubmitEntity orderSubmitEntity) {
+        if (ActivityUtils.isFinish(mContext))return;
+
         LogUtils.d("submitFormSuccess");
         this.orderSubmitEntity = orderSubmitEntity;
         //弹出选择支付方式窗口
@@ -539,6 +544,8 @@ public class OrderActivity extends BaseActivity implements IOrderActivityView {
 
     @Override
     public void alipaySuccess(ResponseBase responseBase) {//支付宝支付
+        if (ActivityUtils.isFinish(mContext))return;
+
         final String orderInfo = responseBase.getData().toString();
         LogUtils.d("orderInfo = " + orderInfo);
         Runnable payRunnable = new Runnable() {
@@ -561,6 +568,8 @@ public class OrderActivity extends BaseActivity implements IOrderActivityView {
 
     @Override
     public void weChatPaySuccess(WeChatPayEntity weChatPayEntity) {
+        if (ActivityUtils.isFinish(mContext))return;
+
         PayReq request = new PayReq();
         request.appId = weChatPayEntity.getAppid();
         request.partnerId = weChatPayEntity.getPartnerid();

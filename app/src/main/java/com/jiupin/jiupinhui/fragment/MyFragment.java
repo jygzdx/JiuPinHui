@@ -73,12 +73,14 @@ public class MyFragment extends Fragment implements IMyFragmentView {
 
     private IMyFragmentPresenter presenter;
     private String token;
+    private boolean isDestroy;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_my, container, false);
         unbinder = ButterKnife.bind(this, view);
+        isDestroy = false;
 
         presenter = new MyFragmentPresenterImpl(this);
 
@@ -119,6 +121,7 @@ public class MyFragment extends Fragment implements IMyFragmentView {
         super.onDestroyView();
         LogUtils.d("MyFragment   onDestroyView");
         unbinder.unbind();
+        isDestroy = true;
     }
 
     @OnClick({R.id.tv_member_club, R.id.rl_member_service, R.id.tv_look_form,
@@ -235,9 +238,10 @@ public class MyFragment extends Fragment implements IMyFragmentView {
 
     @Override
     public void checkTokenBack(ResponseBase responseBase) {
-        LogUtils.d("checkTokenBack = " + responseBase.getMsg());
+
+        if(isDestroy)return;
+
         boolean status = "1".equals((String) responseBase.getData()) ? true : false;
-        LogUtils.d("status = " + status + "    data = " + (String) responseBase.getData());
         if (status) {//登录状态
             tvMyLogin.setVisibility(View.GONE);
             civHead.setVisibility(View.VISIBLE);
@@ -262,7 +266,8 @@ public class MyFragment extends Fragment implements IMyFragmentView {
 
     @Override
     public void setUserInfo(UserEntity userEntity) {
-        LogUtils.d("setUserInfo" + userEntity.getData().getImageUrl());
+        if(isDestroy)return;
+
         UserInfoManager.getInstance().setToken(token);
         UserInfoManager.getInstance().setUser(userEntity.getData());
 
@@ -276,6 +281,8 @@ public class MyFragment extends Fragment implements IMyFragmentView {
 
     @Override
     public void setFormNumber(MyFormEntity myFormEntity) {
+        if(isDestroy)return;
+
         LogUtils.d("setFormNumber" + myFormEntity.toString());
         if (myFormEntity.getData().getUnpay() == 0) {
             tvWaitPay.setVisibility(View.GONE);

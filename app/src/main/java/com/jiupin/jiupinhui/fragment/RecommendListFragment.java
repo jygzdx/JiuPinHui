@@ -21,6 +21,7 @@ import com.jiupin.jiupinhui.entity.AttListEntity;
 import com.jiupin.jiupinhui.manage.UserInfoManager;
 import com.jiupin.jiupinhui.presenter.IRecommendListFragmentPresenter;
 import com.jiupin.jiupinhui.presenter.impl.RecommendListFragmentPresenterImpl;
+import com.jiupin.jiupinhui.utils.LogUtils;
 import com.jiupin.jiupinhui.utils.ToastUtils;
 import com.jiupin.jiupinhui.view.IRecommendListFragmentView;
 
@@ -45,7 +46,6 @@ public class RecommendListFragment extends Fragment implements IRecommendListFra
     private LRecyclerViewAdapter lRecyclerViewAdapter;
     private IRecommendListFragmentPresenter presenter;
     private int page = 1;
-    private boolean isDestroyView;
 
 
     @Nullable
@@ -132,7 +132,6 @@ public class RecommendListFragment extends Fragment implements IRecommendListFra
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        isDestroyView = true;
         unbinder.unbind();
     }
 
@@ -144,7 +143,10 @@ public class RecommendListFragment extends Fragment implements IRecommendListFra
 
     @Override
     public void setRecommendListInfo(List<AttListEntity> attListEntities) {
-        if(isDestroyView) return;
+        LogUtils.d("isHidden = "+isHidden());
+        if (isHidden()) return;
+
+
         if(attListEntities==null)return;
         if (attListEntities.size() > 0) {
             adapter.addAll(attListEntities);

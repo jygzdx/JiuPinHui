@@ -8,8 +8,8 @@
     android:background="#f7f7f7"
     android:orientation="vertical"
     android:gravity="center_horizontal"
-    tools:context="com.jiupin.jiupinhui.activity.LoginActivity">
-    <!--顶部说明图标及文字-->
+    tools:context="com.jiupin.jiupinhui.activity.ResetActivity">
+
     <ImageView
         android:layout_width="70dp"
         android:layout_height="65dp"
@@ -26,10 +26,10 @@
         >
         <!--输入手机号码-->
         <com.chaychan.viewlib.PowerfulEditText
-            android:id="@+id/et_login_mobile"
+            android:id="@+id/et_reset_mobile"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:layout_marginTop="25dp"
+            android:layout_marginTop="5dp"
             android:paddingBottom="10dp"
             android:paddingTop="10dp"
             android:inputType="number"
@@ -47,9 +47,47 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/shallow_black"/>
+        <!--输入验证码-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="2dp"
+            android:orientation="horizontal"
+            >
+
+            <EditText
+                android:id="@+id/et_reset_checkout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@null"
+                android:hint="输入验证码"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:textColorHint="#cccccc"
+                android:textColor="@color/light_black"
+                android:textSize="12sp"
+                />
+
+            <Button
+                android:id="@+id/btn_reset_checkout"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/uncheckouted"
+                android:text="获取验证码"
+                android:textColor="@color/white"
+                />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/shallow_black"/>
         <!--输入密码-->
         <com.chaychan.viewlib.PowerfulEditText
-            android:id="@+id/et_login_password"
+            android:id="@+id/et_reset_password_one"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_marginTop="5dp"
@@ -63,7 +101,30 @@
             android:textColorHint="#cccccc"
             android:textColor="@color/light_black"
             android:textSize="12sp"
-            android:hint="输入密码"
+            android:hint="输入新密码"
+            />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/shallow_black"/>
+        <!--再次输入密码-->
+        <com.chaychan.viewlib.PowerfulEditText
+            android:id="@+id/et_reset_password_two"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="5dp"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
+            android:inputType="textPassword"
+            app:funcType="canClear"
+            android:drawableRight="@drawable/login_cancel"
+            android:drawablePadding="4dp"
+            android:background="@null"
+            android:textColorHint="#cccccc"
+            android:textColor="@color/light_black"
+            android:textSize="12sp"
+            android:hint="再次输入密码"
             />
 
         <View
@@ -72,111 +133,20 @@
             android:background="@color/shallow_black"/>
 
         <Button
-            android:id="@+id/btn_login_bottom"
+            android:id="@+id/btn_reset_bottom"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="15dp"
             android:background="@drawable/unlogined_bg"
-            android:hint="登录"
+            android:text="确定"
             android:textColor="@color/mainTextColor"
             android:textSize="17sp"
-            />
-
-        <TextView
-            android:id="@+id/tv_reset_password"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="9dp"
-            android:text="@string/reset_password"
-            android:textColor="#999999"
-            android:textSize="12sp"
-            />
-    </LinearLayout>
-
-    <!--第三方登录标识-->
-    <LinearLayout
-        android:id="@+id/ll_disanfang_biaoji"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/ll_login_and_register"
-        android:layout_centerHorizontal="true"
-        android:orientation="horizontal"
-        android:visibility="gone"
-        >
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:src="@drawable/left_line"
-            />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="1dp"
-            android:layout_marginRight="1dp"
-            android:text="其他登录方式"
-            android:textColor="#b3b3b3"
-            android:textSize="11dp"
-            />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:src="@drawable/right_line"
-            />
-    </LinearLayout>
-    <!--第三方登录按钮-->
-    <LinearLayout
-        android:id="@+id/ll_other_login"
-        android:layout_width="210dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/ll_disanfang_biaoji"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="15dp"
-        android:orientation="horizontal"
-        android:visibility="gone"
-        >
-
-        <ImageView
-            android:id="@+id/iv_login_qq"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_weight="1"
-            android:paddingBottom="4dp"
-            android:paddingTop="4dp"
-            android:src="@drawable/qq"
-            />
-
-        <ImageView
-            android:id="@+id/iv_login_wechat"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_weight="1"
-            android:paddingBottom="4dp"
-            android:paddingTop="4dp"
-            android:src="@drawable/wechat"
-            />
-
-        <ImageView
-            android:id="@+id/iv_login_weibo"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_weight="1"
-            android:paddingBottom="4dp"
-            android:paddingTop="4dp"
-            android:src="@drawable/weibo"
             />
 
     </LinearLayout>
     <View
         android:layout_width="wrap_content"
+        android:minHeight="20dp"
         android:layout_height="0dp"
         android:layout_weight="1"/>
 

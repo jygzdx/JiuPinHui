@@ -46,6 +46,7 @@ public class StoreFragment extends Fragment implements IStoreFragmentView {
     private MealAdapter adapter;
     private LRecyclerViewAdapter lrvAdapter;
     private boolean isFirst = true;
+    private boolean isDestroy;
 
     public StoreFragment() {
         mTitleList = new ArrayList<>();
@@ -56,6 +57,7 @@ public class StoreFragment extends Fragment implements IStoreFragmentView {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_store, container, false);
 
+        isDestroy = false;
         presenter = new StoreFragmentPresenterImpl(this);
 
         initBannerView();
@@ -117,10 +119,7 @@ public class StoreFragment extends Fragment implements IStoreFragmentView {
 
     @Override
     public void setBannerData(List<BannerEntity> bannerList) {
-        LogUtils.d("view = "+view);
-        if(view==null){
-            return;
-        }
+        if (isDestroy) return;
         LogUtils.d(TAG, "bannerList = " + bannerList);
         if (bannerList != null && bannerList.size() > 0) {
             bannerView = new ADBannerView(getContext(), true);
@@ -132,16 +131,12 @@ public class StoreFragment extends Fragment implements IStoreFragmentView {
 
     @Override
     public void setMealTypeData(List<MealTypeEntity> mealTypeList) {
-        LogUtils.d("view = "+view);
-        if(view==null){
-            return;
-        }
-//        ProgressUtils.dismiss();
+
+        if (isDestroy) return;
+
         if (mealTypeList != null && mealTypeList.size() > 0) {
 
 //            //获取到套餐id之后展示套餐信息
-//            presenter.getMealInfo(mealTypeList.get(0).getId()+"");
-
             for (int i = 0; i < mealTypeList.size(); i++) {
                 TabLayout.Tab tab = tabLayout.newTab();
                 tab.setTag(mealTypeList.get(i).getId()+"");
@@ -153,7 +148,6 @@ public class StoreFragment extends Fragment implements IStoreFragmentView {
 
     @Override
     public void setMealInfoData(List<MainShowEntity.DataBean.ListBean> mainShowList) {
-//        ProgressUtils.dismiss();
         LogUtils.d("isFirst = "+isFirst);
         if (mainShowList != null && mainShowList.size() > 0) {
             for (int i = 0; i < mainShowList.size(); i++) {
@@ -178,5 +172,6 @@ public class StoreFragment extends Fragment implements IStoreFragmentView {
     public void onDestroyView() {
         super.onDestroyView();
         LogUtils.d(TAG, "onDestroyview" + ll_advertis.getChildAt(0));
+        isDestroy = true;
     }
 }
