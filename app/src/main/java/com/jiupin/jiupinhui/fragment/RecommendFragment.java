@@ -182,10 +182,12 @@ public class RecommendFragment extends Fragment implements IRecommendFragmentVie
         if (communityList != null) {
             if (communityList.size() > 0) {
                 adapter.addAll(communityList);
-                lrvRecommend.refreshComplete(communityList.size());
+
             }else {
                 lrvRecommend.setNoMore(true);
             }
+            lrvRecommend.refreshComplete(communityList.size());
+            lRecyclerViewAdapter.notifyDataSetChanged();
         }
     }
 

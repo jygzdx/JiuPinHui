@@ -346,7 +346,6 @@ public class MyFormActivity extends BaseActivity implements IMyFormActivityView{
         if(container!=null){
             adapter.addAll(container);
             mCurrentCounter +=forms.size();
-            lrvMyForm.refreshComplete(REQUEST_COUNT);
         }
         if(forms.size()==0){
             lrvMyForm.setNoMore(true);
@@ -358,7 +357,8 @@ public class MyFormActivity extends BaseActivity implements IMyFormActivityView{
         }else {
             rlNoForm.setVisibility(View.GONE);
         }
-
+        lrvMyForm.refreshComplete(REQUEST_COUNT);
+        lRecyclerViewAdapter.notifyDataSetChanged();
     }
 
     @Override

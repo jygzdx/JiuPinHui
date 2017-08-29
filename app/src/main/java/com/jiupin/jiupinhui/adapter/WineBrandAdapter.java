@@ -11,7 +11,6 @@ import com.bumptech.glide.Glide;
 import com.jiupin.jiupinhui.R;
 import com.jiupin.jiupinhui.entity.WineBrandEntity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,9 +22,9 @@ public class WineBrandAdapter extends RecyclerView.Adapter implements View.OnCli
     private Context mContext;
     private List<WineBrandEntity> wineBrandList;
 
-    public WineBrandAdapter(Context mContext) {
+    public WineBrandAdapter(Context mContext , List<WineBrandEntity> wineBrandList) {
         this.mContext = mContext;
-        wineBrandList = new ArrayList<>();
+        this.wineBrandList = wineBrandList;
         inflater = LayoutInflater.from(mContext);
     }
 

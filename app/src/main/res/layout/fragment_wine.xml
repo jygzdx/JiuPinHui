@@ -8,156 +8,65 @@
               android:orientation="vertical"
               tools:context="com.jiupin.jiupinhui.activity.MainActivity">
 
-    <!--热门品牌-->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:orientation="vertical"
+        android:layout_height="@dimen/action_bar_size"
+        android:background="@color/mainColor"
         >
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_wine_kind"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:overScrollMode="never"
+            >
+
+        </android.support.v7.widget.RecyclerView>
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_wine"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/white">
+
+        </android.support.v7.widget.RecyclerView>
+
+        <com.jiupin.jiupinhui.widget.MyIndexBar
+            android:id="@+id/indexBar"
+            android:layout_width="24dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="right"
+            app:indexBarPressBackground="@color/partTranslucent"
+            app:indexBarTextSize="16sp"/>
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="15dp"
-            android:layout_marginLeft="22dp"
-            android:layout_marginTop="10dp"
-            android:text="热门品牌"
-            android:textColor="@color/mainTextColor"
-            android:textSize="16sp"
-            />
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_wine_brand"
-            android:layout_width="match_parent"
+            android:id="@+id/tvSideBarHint"
+            android:layout_width="80dp"
             android:layout_height="80dp"
-            android:overScrollMode="never"
-            />
-    </LinearLayout>
-    <!--酒类-->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:layout_marginTop="10dp"
-        android:background="@color/white"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:visibility="gone"
-        >
-
-        <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:background="@drawable/shape_side_bar_bg"
             android:gravity="center"
-            >
+            android:textColor="@color/white"
+            android:textSize="48sp"
+            android:visibility="gone"
+            tools:text="A"
+            tools:visibility="visible"/>
 
-            <Button
-                android:id="@+id/btn_red_wine"
-                android:layout_width="60dp"
-                android:layout_height="25dp"
-                android:layout_gravity="center"
-                android:layout_marginBottom="18dp"
-                android:layout_marginTop="18dp"
-                android:background="@drawable/wine_bg_selected"
-                android:text="红酒"
-                android:textColor="@color/mainTextColor"
-                android:textSize="14dp"
-                />
-        </RelativeLayout>
+    </FrameLayout>
 
-        <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            >
+    <!--&lt;!&ndash;酒类展示&ndash;&gt;-->
+    <!--<com.github.jdsjlzx.recyclerview.LRecyclerView-->
+        <!--android:id="@+id/lrv_Wine_show"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_marginTop="10dp"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:background="@color/white"-->
+        <!--&gt;-->
 
-            <Button
-                android:id="@+id/btn_white_wine"
-                android:layout_width="60dp"
-                android:layout_height="25dp"
-                android:layout_gravity="center"
-                android:background="@drawable/wine_bg_noselected"
-                android:text="白酒"
-                android:textColor="@color/mainTextColor"
-                android:textSize="14dp"
-                />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            >
-
-            <Button
-                android:id="@+id/btn_foreign_wine"
-                android:layout_width="60dp"
-                android:layout_height="25dp"
-                android:layout_gravity="center"
-                android:layout_marginBottom="18dp"
-                android:layout_marginTop="18dp"
-                android:background="@drawable/wine_bg_noselected"
-                android:text="洋酒"
-                android:textColor="@color/mainTextColor"
-                android:textSize="14dp"
-                />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            >
-
-            <Button
-                android:id="@+id/btn_yellow_wine"
-                android:layout_width="60dp"
-                android:layout_height="25dp"
-                android:layout_gravity="center"
-                android:layout_marginBottom="18dp"
-                android:layout_marginTop="18dp"
-                android:background="@drawable/wine_bg_noselected"
-                android:text="黄酒"
-                android:textColor="@color/mainTextColor"
-                android:textSize="14dp"
-                />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            >
-
-            <Button
-                android:id="@+id/btn_beer"
-                android:layout_width="60dp"
-                android:layout_height="25dp"
-                android:layout_gravity="center"
-                android:layout_marginBottom="18dp"
-                android:layout_marginTop="18dp"
-                android:background="@drawable/wine_bg_noselected"
-                android:text="啤酒"
-                android:textColor="@color/mainTextColor"
-                android:textSize="14dp"
-                />
-        </RelativeLayout>
-    </LinearLayout>
-    <!--酒类展示-->
-    <com.github.jdsjlzx.recyclerview.LRecyclerView
-        android:id="@+id/lrv_Wine_show"
-        android:layout_width="match_parent"
-        android:layout_marginTop="10dp"
-        android:layout_height="match_parent"
-        android:background="@color/white"
-        >
-
-    </com.github.jdsjlzx.recyclerview.LRecyclerView>
+    <!--</com.github.jdsjlzx.recyclerview.LRecyclerView>-->
 
 </LinearLayout>

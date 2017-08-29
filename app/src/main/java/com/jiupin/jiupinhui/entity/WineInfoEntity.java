@@ -4,7 +4,7 @@ package com.jiupin.jiupinhui.entity;
  * 作者：czb on 2017/7/26 10:24
  */
 
-public class WineInfoEntity {
+public class WineInfoEntity{
 
 
     /**
@@ -100,4 +100,5 @@ public class WineInfoEntity {
     public void setPath(String path) {
         this.path = path;
     }
+
 }

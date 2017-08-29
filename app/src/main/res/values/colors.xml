@@ -28,6 +28,9 @@
     <color name="black_33">#333333</color>
     <!--黑80-->
     <color name="black_80">#808080</color>
+
+    <color name="partTranslucent">#39000000</color>
+
     <!--红色-->
     <color name="light_red">#e92a2a</color>
 </resources>

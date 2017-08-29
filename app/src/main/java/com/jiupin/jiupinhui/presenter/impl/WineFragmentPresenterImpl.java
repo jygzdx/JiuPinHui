@@ -1,7 +1,6 @@
 package com.jiupin.jiupinhui.presenter.impl;
 
 import com.jiupin.jiupinhui.entity.WineBrandEntity;
-import com.jiupin.jiupinhui.entity.WineInfoEntity;
 import com.jiupin.jiupinhui.fragment.WineFragment;
 import com.jiupin.jiupinhui.model.IModel;
 import com.jiupin.jiupinhui.model.IWineFragmentModel;
@@ -26,36 +25,6 @@ public class WineFragmentPresenterImpl implements IWineFragmentPresenter {
     }
 
     @Override
-    public void getWineList(String page, String rows) {
-        model.getWineList(page, rows, new IModel.CallBack() {
-            @Override
-            public void onSuccess(Object success) {
-                view.setWineInfo(((List<WineInfoEntity>) success));
-            }
-
-            @Override
-            public void onFailed(int status, String msg) {
-                HttpErrorUtils.manageErrorHttp(status,msg,((WineFragment) view).getContext());
-            }
-        });
-    }
-
-    @Override
-    public void getWineListByBrandId(String brandId, String page, String rows) {
-        model.getWineListByBrandId(brandId, page, rows, new IModel.CallBack() {
-            @Override
-            public void onSuccess(Object success) {
-                view.setWineInfoById((List<WineInfoEntity>) success);
-            }
-
-            @Override
-            public void onFailed(int status, String msg) {
-                HttpErrorUtils.manageErrorHttp(status,msg,((WineFragment) view).getContext());
-            }
-        });
-    }
-
-    @Override
     public void getBrandData() {
         model.getBrandData(new IModel.CallBack() {
             @Override
@@ -65,7 +34,38 @@ public class WineFragmentPresenterImpl implements IWineFragmentPresenter {
 
             @Override
             public void onFailed(int status, String msg) {
-                HttpErrorUtils.manageErrorHttp(status,msg,((WineFragment) view).getContext());
+                HttpErrorUtils.manageErrorHttp(status, msg, ((WineFragment) view).getContext());
+            }
+        });
+    }
+
+    @Override
+    public void getBrandKind() {
+        model.getBrandKind(new IModel.CallBack() {
+            @Override
+            public void onSuccess(Object success) {
+                view.setWineKind(((List<WineBrandEntity>) success));
+            }
+
+            @Override
+            public void onFailed(int status, String msg) {
+                HttpErrorUtils.manageErrorHttp(status, msg, ((WineFragment) view).getContext());
+            }
+        });
+    }
+
+
+    @Override
+    public void getwineBrandKind(String cid) {
+        model.getwineBrandKind(cid, new IModel.CallBack() {
+            @Override
+            public void onSuccess(Object success) {
+                view.setWineBrandKind((List<WineBrandEntity>) success);
+            }
+
+            @Override
+            public void onFailed(int status, String msg) {
+                HttpErrorUtils.manageErrorHttp(status, msg, ((WineFragment) view).getContext());
             }
         });
     }

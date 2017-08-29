@@ -2,6 +2,7 @@ package com.jiupin.jiupinhui.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -19,6 +20,7 @@ import com.jiupin.jiupinhui.activity.TranConditionActivity;
 import com.jiupin.jiupinhui.entity.CommunityEntity;
 import com.jiupin.jiupinhui.manage.UserInfoManager;
 import com.jiupin.jiupinhui.utils.LogUtils;
+import com.jiupin.jiupinhui.utils.StringUtils;
 import com.jiupin.jiupinhui.utils.TimeUtils;
 import com.jiupin.jiupinhui.widget.CircleImageView;
 
@@ -78,7 +80,10 @@ public class RecommentAdapter extends RecyclerView.Adapter {
             recommentViewHolder.btnAttention.setVisibility(View.VISIBLE);
         }
 
-        if (community.getImage_list() != null && community.getImage_list() != "") {//设置用户自己上传的图片
+        LogUtils.d("getImage_list = "+community.getImage_list());
+        LogUtils.d("getTrans_img_list = "+community.getTrans_img_list());
+
+        if (!StringUtils.isEmpty(community.getImage_list())) {//设置用户自己上传的图片
             recommentViewHolder.rvUserImg.setVisibility(View.VISIBLE);
             String[] imgUrls = community.getImage_list().split(";");
             initUserImgRv(recommentViewHolder, imgUrls);
@@ -87,7 +92,7 @@ public class RecommentAdapter extends RecyclerView.Adapter {
         }
         if (community.isIs_trans()) {//设置用户转发他人的图片
             recommentViewHolder.llTranspond.setVisibility(View.VISIBLE);
-            if (community.getTrans_img_list() != null && community.getTrans_img_list() != "") {
+            if (!StringUtils.isEmpty(community.getTrans_img_list())) {
                 String[] imgUrls = community.getTrans_img_list().split(";");
                 initTranImgRv(recommentViewHolder, imgUrls);
             }
@@ -124,7 +129,9 @@ public class RecommentAdapter extends RecyclerView.Adapter {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, ConditionCommentListActivity.class);
-                intent.putExtra("dynamicId",community.getId());
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("community",community);
+                intent.putExtras(bundle);
                 mContext.startActivity(intent);
             }
         });
@@ -170,6 +177,7 @@ public class RecommentAdapter extends RecyclerView.Adapter {
 
 
     private void initTranImgRv(RecommentViewHolder recommentViewHolder, String[] imgUrls) {
+        LogUtils.d("initTranImgRv/imgUrls.length = "+imgUrls.length);
         GridLayoutManager manager;
         switch (imgUrls.length) {
             case 1:
@@ -186,7 +194,7 @@ public class RecommentAdapter extends RecyclerView.Adapter {
     }
 
     private void initUserImgRv(RecommentViewHolder recommentViewHolder, String[] imgUrls) {
-
+        LogUtils.d("initUserImgRv/imgUrls.length = "+imgUrls.length);
         GridLayoutManager manager;
         switch (imgUrls.length) {
             case 1:

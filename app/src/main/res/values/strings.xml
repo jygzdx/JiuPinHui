@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">酒品会</string>
-    <string name="reset_password"><u>重置密码</u></string>
+    <string name="reset_password"><u>忘记密码？</u></string>
     <string name="user_deal"><u>我已阅读，并同意《用户注册协议》</u></string>
     <string name="change_gift"><u>换一批</u></string>
 

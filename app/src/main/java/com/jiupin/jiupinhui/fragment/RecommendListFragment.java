@@ -150,10 +150,11 @@ public class RecommendListFragment extends Fragment implements IRecommendListFra
         if(attListEntities==null)return;
         if (attListEntities.size() > 0) {
             adapter.addAll(attListEntities);
-            lrvRecommendList.refreshComplete(attListEntities.size());
         }else {
             lrvRecommendList.setNoMore(true);
         }
+        lrvRecommendList.refreshComplete(attListEntities.size());
+        lRecyclerViewAdapter.notifyDataSetChanged();
 
     }
 }

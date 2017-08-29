@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.jiupin.jiupinhui.activity.WineListActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/action_bar_size"
+        android:background="@color/mainColor"
+        >
+
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:paddingBottom="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="10dp"
+            android:src="@drawable/back_base"
+            />
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:maxLines="1"
+            android:text="商品"
+            android:textColor="@color/white"
+            android:textSize="16sp"/>
+    </android.support.v7.widget.Toolbar>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="@color/white">
+
+
+        <ImageView
+            android:id="@+id/iv_wine_show"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="20dp"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="10dp"
+            app:srcCompat="@drawable/ic_launcher"/>
+
+        <TextView
+            android:id="@+id/tv_wine_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="13dp"
+            android:layout_toRightOf="@+id/iv_wine_show"
+            android:lines="1"
+            android:text=""
+            android:textColor="@color/light_black"
+            android:textSize="12sp"
+            />
+
+        <TextView
+            android:id="@+id/tv_wine_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/tv_wine_name"
+            android:layout_below="@+id/tv_wine_name"
+            android:layout_marginBottom="3dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="10dp"
+            android:lines="1"
+            android:text=""
+            android:textColor="#666666"
+            android:textSize="10sp"
+            />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:layout_alignParentBottom="true"
+            android:background="#f0f0f0"/>
+    </RelativeLayout>
+
+    <com.github.jdsjlzx.recyclerview.LRecyclerView
+        android:id="@+id/lrv_wine"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></com.github.jdsjlzx.recyclerview.LRecyclerView>
+
+</LinearLayout>

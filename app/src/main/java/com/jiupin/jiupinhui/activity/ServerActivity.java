@@ -129,11 +129,11 @@ public class ServerActivity extends BaseActivity implements IServerActivityView 
         if (historyList != null) {
             if (historyList.size() > 0) {
                 adapter.addAll(historyList);
-                lrvServer.refreshComplete(10);
-                lRecyclerViewAdapter.notifyDataSetChanged();
             } else {
                 lrvServer.setNoMore(true);
             }
+            lrvServer.refreshComplete(10);
+            lRecyclerViewAdapter.notifyDataSetChanged();
         }
     }
 }

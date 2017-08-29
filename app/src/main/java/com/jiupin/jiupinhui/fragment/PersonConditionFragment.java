@@ -183,13 +183,15 @@ public class PersonConditionFragment extends Fragment implements IPersonConditio
 
     @Override
     public void setPersonConditionInfo(List<CommunityEntity> communityList) {
+        if(isHidden())return;
         if (communityList != null) {
             if (communityList.size() > 0) {
                 adapter.addAll(communityList);
-                lrvPerson.refreshComplete(communityList.size());
             } else {
                 lrvPerson.setNoMore(true);
             }
+            lrvPerson.refreshComplete(communityList.size());
+            lRecyclerViewAdapter.notifyDataSetChanged();
         }
     }
 

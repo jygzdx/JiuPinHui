@@ -48,6 +48,8 @@ public class Constant {
      */
     public static final String MEAL_INFO_URL = MAIN_URL + "/appGoods/mall/getMealByClassId.json";
 
+    /********************************美酒**************************************/
+
     /**
      * 获取热门品牌
      */
@@ -61,6 +63,21 @@ public class Constant {
      * 根据品牌id获取商品列表
      */
     public static final String WINE_INFO_BY_ID_URL = MAIN_URL + "/appGoods/wine/getGoodsByBrandId.json";
+
+    /**
+     * 获取酒款分类id，分类名称
+     */
+    public static final String GET_BRAND_CLASS_LIST = MAIN_URL + "/appGoods/wine/getBrandClassList.json";
+
+    /**
+     * 根据分类id获取品牌列表
+     */
+    public static final String GET_BRAND_LIST_BY_CID = MAIN_URL + "/appGoods/wine/getBrandListByCid.json";
+
+    /**
+     * 获取美酒商品详情
+     */
+    public static final String GET_WINE_DETAIL_BY_CID = MAIN_URL + "/appGoods/wine/getWineDetailById.json";
 
     /**
      * 获取验证码

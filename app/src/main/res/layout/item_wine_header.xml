@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content">
+    <!--热门品牌-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:layout_marginLeft="22dp"
+            android:layout_marginTop="10dp"
+            android:text="热门品牌"
+            android:textColor="@color/mainTextColor"
+            android:textSize="16sp"
+            />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_wine_brand"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:overScrollMode="never"
+            />
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="#f0f0f0"
+        />
+
+</LinearLayout>

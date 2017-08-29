@@ -150,10 +150,11 @@ public class AttentionListFragment extends Fragment implements IAttentionListFra
         if(attListEntities==null)return;
         if (attListEntities.size() > 0) {
             adapter.addAll(attListEntities);
-            lrvAttentionList.refreshComplete(attListEntities.size());
+
         }else {
             lrvAttentionList.setNoMore(true);
         }
-
+        lrvAttentionList.refreshComplete(attListEntities.size());
+        lRecyclerViewAdapter.notifyDataSetChanged();
     }
 }

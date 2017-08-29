@@ -5,31 +5,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#f7f7f7"
+    android:background="@drawable/login_bg"
     android:orientation="vertical"
     android:gravity="center_horizontal"
     tools:context="com.jiupin.jiupinhui.activity.RegisterActivity">
-    <!--<android.support.v7.widget.Toolbar-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--&gt;-->
-
-        <!--<ImageView-->
-            <!--android:id="@+id/iv_back"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_centerVertical="true"-->
-            <!--android:paddingBottom="10dp"-->
-            <!--android:paddingRight="10dp"-->
-            <!--android:paddingTop="10dp"-->
-            <!--android:src="@drawable/back_base"-->
-            <!--/>-->
-    <!--</android.support.v7.widget.Toolbar>-->
     <ImageView
         android:layout_width="70dp"
         android:layout_height="65dp"
         android:src="@drawable/logo_version"
-        android:layout_marginTop="110dp"
+        android:layout_marginTop="100dp"
         />
 
     <LinearLayout
@@ -37,7 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:orientation="vertical"
-        android:layout_marginTop="68dp"
+        android:layout_marginTop="60dp"
         >
         <!--输入注册手机号码-->
         <com.chaychan.viewlib.PowerfulEditText
@@ -53,7 +37,7 @@
             android:drawablePadding="4dp"
             android:background="@null"
             android:textColorHint="#cccccc"
-            android:textColor="@color/light_black"
+            android:textColor="@color/white"
             android:textSize="12sp"
             android:hint="输入手机号码"
             />
@@ -61,7 +45,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/shallow_black"/>
+            android:background="#f0f0f0"/>
         <!--输入验证码-->
         <LinearLayout
             android:layout_width="match_parent"
@@ -81,7 +65,7 @@
                 android:paddingBottom="10dp"
                 android:paddingTop="10dp"
                 android:textColorHint="#cccccc"
-                android:textColor="@color/light_black"
+                android:textColor="@color/white"
                 android:textSize="12sp"
                 />
 
@@ -99,7 +83,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/shallow_black"/>
+            android:background="#f0f0f0"/>
         <!--输入密码-->
         <com.chaychan.viewlib.PowerfulEditText
             android:id="@+id/et_register_password_one"
@@ -114,7 +98,7 @@
             android:drawablePadding="4dp"
             android:background="@null"
             android:textColorHint="#cccccc"
-            android:textColor="@color/light_black"
+            android:textColor="@color/white"
             android:textSize="12sp"
             android:hint="创建密码（8-16位数字或字母）"
             />
@@ -122,7 +106,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/shallow_black"/>
+            android:background="#f0f0f0"/>
         <!--再次输入密码-->
         <com.chaychan.viewlib.PowerfulEditText
             android:id="@+id/et_register_password_two"
@@ -136,7 +120,7 @@
             android:inputType="textPassword"
             android:paddingBottom="10dp"
             android:paddingTop="10dp"
-            android:textColor="@color/light_black"
+            android:textColor="@color/white"
             android:textColorHint="#cccccc"
             android:textSize="12sp"
             app:funcType="canClear"
@@ -145,7 +129,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/shallow_black"/>
+            android:background="#f0f0f0"/>
 
         <Button
             android:id="@+id/btn_register_deal"
@@ -177,13 +161,14 @@
 
     <View
         android:layout_width="wrap_content"
-        android:minHeight="20dp"
+        android:minHeight="5dp"
         android:layout_height="0dp"
         android:layout_weight="1"/>
     <LinearLayout
         android:id="@+id/ll_bottom"
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:layout_gravity="bottom"
         android:background="@color/white"
         >
         <TextView

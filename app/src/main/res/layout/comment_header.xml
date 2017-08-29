@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical"
+              android:background="@color/white"
+              android:layout_marginBottom="15dp"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:orientation="horizontal"
+        >
+
+        <com.jiupin.jiupinhui.widget.CircleImageView
+            android:id="@+id/civ_head"
+            android:layout_width="34dp"
+            android:layout_height="34dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            />
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="10dp"
+            android:layout_weight="1"
+            >
+
+            <TextView
+                android:id="@+id/tv_condition_nickname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:text="耐磨"
+                android:textColor="@color/black_33"
+                android:textSize="13sp"
+                />
+
+            <TextView
+                android:id="@+id/tv_condition_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/tv_condition_nickname"
+                android:layout_marginTop="5dp"
+                android:maxLines="1"
+                android:text="2017-07-15"
+                android:textColor="@color/shallow_black"
+                android:textSize="10sp"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="3dp"
+                android:layout_toRightOf="@id/tv_condition_nickname"
+                android:src="@drawable/daren"
+                />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:padding="8dp"
+        android:maxLines="5"
+        android:text="textview"
+        android:textSize="12sp"
+        android:textColor="@color/light_black"
+        />
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_user_img"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:layout_marginBottom="12dp"
+        android:overScrollMode="never"
+        >
+    </android.support.v7.widget.RecyclerView>
+    <LinearLayout
+        android:id="@+id/ll_transpond"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:orientation="vertical"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:text="转发了"
+                android:textSize="12sp"
+                android:textColor="@color/light_black"
+                />
+            <TextView
+                android:id="@+id/tv_transpond_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="\@binzai"
+                android:textSize="12sp"
+                android:textColor="@color/mainTextColor"
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#fafafa"
+            android:layout_marginBottom="12dp"
+            android:orientation="vertical"
+            >
+            <TextView
+                android:id="@+id/tv_transpond_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="5"
+                android:padding="8dp"
+                android:textSize="12sp"
+                android:textColor="@color/light_black"
+                />
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_tran_img"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:overScrollMode="never"
+                >
+
+            </android.support.v7.widget.RecyclerView>
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_comment_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="20dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="10dp"
+        android:text="评论（0）"
+        android:textSize="12sp"
+        android:textColor="@color/light_black"
+        />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="#edeff0"/>
+
+</LinearLayout>

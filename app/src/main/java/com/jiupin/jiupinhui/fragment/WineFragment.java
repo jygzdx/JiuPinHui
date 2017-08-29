@@ -1,5 +1,7 @@
 package com.jiupin.jiupinhui.fragment;
 
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -8,21 +10,24 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
-import com.github.jdsjlzx.interfaces.OnLoadMoreListener;
-import com.github.jdsjlzx.interfaces.OnRefreshListener;
-import com.github.jdsjlzx.recyclerview.LRecyclerView;
 import com.github.jdsjlzx.recyclerview.LRecyclerViewAdapter;
-import com.github.jdsjlzx.recyclerview.ProgressStyle;
 import com.jiupin.jiupinhui.R;
+import com.jiupin.jiupinhui.activity.WineListActivity;
 import com.jiupin.jiupinhui.adapter.WineAdapter;
 import com.jiupin.jiupinhui.adapter.WineBrandAdapter;
+import com.jiupin.jiupinhui.adapter.WineKindAdapter;
 import com.jiupin.jiupinhui.entity.WineBrandEntity;
-import com.jiupin.jiupinhui.entity.WineInfoEntity;
 import com.jiupin.jiupinhui.presenter.impl.WineFragmentPresenterImpl;
+import com.jiupin.jiupinhui.rvUtils.HeaderRecyclerAndFooterWrapperAdapter;
+import com.jiupin.jiupinhui.rvUtils.ViewHolder;
 import com.jiupin.jiupinhui.utils.LogUtils;
 import com.jiupin.jiupinhui.view.IWineFragmentView;
+import com.jiupin.jiupinhui.widget.MyIndexBar;
+import com.jiupin.jiupinhui.widget.MySuspensionDecoration;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -35,10 +40,15 @@ import butterknife.Unbinder;
 
 public class WineFragment extends Fragment implements IWineFragmentView {
     private static final String TAG = "WineFragment";
-    @BindView(R.id.rv_wine_brand)
-    RecyclerView rvWineBrand;
-    @BindView(R.id.lrv_Wine_show)
-    LRecyclerView lrvWineShow;
+    @BindView(R.id.rv_wine_kind)
+    RecyclerView rvWineKind;
+    @BindView(R.id.rv_wine)
+    RecyclerView rvWine;
+    @BindView(R.id.indexBar)
+    MyIndexBar indexBar;
+    @BindView(R.id.tvSideBarHint)
+    TextView tvSideBarHint;
+
     private View view;
     private Unbinder unbinder;
     private WineAdapter wineAdapter;
@@ -49,6 +59,13 @@ public class WineFragment extends Fragment implements IWineFragmentView {
     private int brandId = -1;
     private int page = 1;
     private boolean isDestroy;
+    private LinearLayoutManager mManager;
+    private List<WineBrandEntity> wineList = new ArrayList<>();
+    private WineAdapter mAdapter;
+    private HeaderRecyclerAndFooterWrapperAdapter mHeaderAdapter;
+    private MySuspensionDecoration mDecoration;
+    private WineKindAdapter mWineKindAdapter;
+    private WineBrandAdapter wineBrandAdapter;
 
     @Nullable
     @Override
@@ -59,96 +76,76 @@ public class WineFragment extends Fragment implements IWineFragmentView {
 
         presenter = new WineFragmentPresenterImpl(this);
 
-        initBrandRV();
+        initWineKindRv();
 
         initWineRV();
-
-        //获取数据
-        initData();
-
 
         LogUtils.d(TAG, "onCreateView");
         return view;
     }
-    /**
-     * 初始化品牌recyclerview
-     */
-    private void initBrandRV() {
-        //设置品牌RecyclerView
-        RecyclerView.LayoutManager brandManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
-        rvWineBrand.setLayoutManager(brandManager);
-        brandAdapter = new WineBrandAdapter(getContext());
-        rvWineBrand.setAdapter(brandAdapter);
 
-
+    private void initWineKindRv() {
+        rvWineKind.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false));
+        mWineKindAdapter = new WineKindAdapter(getContext());
+        rvWineKind.setAdapter(mWineKindAdapter);
+        mWineKindAdapter.setOnItemClickListener(new WineKindAdapter.OnRecyclerViewItemClickListener() {
+            @Override
+            public void onItemClick(View view, WineBrandEntity data) {
+                presenter.getwineBrandKind(data.getId()+"");
+            }
+        });
+        presenter.getBrandKind();
     }
 
     /**
      * 初始化美酒recyclerview
      */
     private void initWineRV() {
-        //设置美酒详细数据RecyclerView
-        //reverseLayout->是否从尾部开始显示
-        RecyclerView.LayoutManager wineManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
-        lrvWineShow.setLayoutManager(wineManager);
-        wineAdapter = new WineAdapter(getContext());
-        lRecyclerViewAdapter = new LRecyclerViewAdapter(wineAdapter);
-        lrvWineShow.setAdapter(lRecyclerViewAdapter);
-        lrvWineShow.setLoadingMoreProgressStyle(ProgressStyle.LineSpinFadeLoader);
-        //设置底部加载颜色
-        lrvWineShow.setFooterViewColor(android.R.color.darker_gray, android.R.color.darker_gray, android.R.color.white);
-        //设置底部加载文字提示
-        lrvWineShow.setFooterViewHint("拼命加载中", "已经全部为你呈现了", "网络不给力啊，点击再试一次吧");
+        rvWine.setLayoutManager(mManager = new LinearLayoutManager(getContext()));
 
-        lrvWineShow.setOnRefreshListener(new OnRefreshListener() {
+        mAdapter = new WineAdapter(getContext(), wineList);
+        mHeaderAdapter = new HeaderRecyclerAndFooterWrapperAdapter(mAdapter) {
             @Override
-            public void onRefresh() {
-                page= 1;
-                wineAdapter.clear();
-                lRecyclerViewAdapter.notifyDataSetChanged();
-                requestRefreshData();
+            protected void onBindHeaderHolder(ViewHolder holder, int headerPos, int layoutId, Object o) {
+                RecyclerView rvWineBrand = (RecyclerView)holder.getView(R.id.rv_wine_brand);
+                rvWineBrand.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false));
+                rvWineBrand.setAdapter(wineBrandAdapter = new WineBrandAdapter(getContext(), (List<WineBrandEntity>) o));
+                wineBrandAdapter.setOnItemClickListener(new WineBrandAdapter.OnRecyclerViewItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, WineBrandEntity data) {
+                        Intent intent = new Intent(getContext(), WineListActivity.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable("wineBrand",data);
+                        intent.putExtras(bundle);
+                        getContext().startActivity(intent);
+                    }
+                });
             }
-        });
+        };
 
-        lrvWineShow.setOnLoadMoreListener(new OnLoadMoreListener() {
-            @Override
-            public void onLoadMore() {
-                requestLoadData();
-            }
-        });
-
-        brandAdapter.setOnItemClickListener(new WineBrandAdapter.OnRecyclerViewItemClickListener() {
+        mAdapter.setOnItemClickListener(new WineAdapter.OnRecyclerViewItemClickListener() {
             @Override
             public void onItemClick(View view, WineBrandEntity data) {
-                page= 1;
-                brandId = data.getId();
-                wineAdapter.clear();
-                lRecyclerViewAdapter.notifyDataSetChanged();
-                requestRefreshData();
+                Intent intent = new Intent(getContext(), WineListActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("wineBrand",data);
+                intent.putExtras(bundle);
+                getContext().startActivity(intent);
             }
         });
-    }
-//请求加载更多数据
-    private void requestLoadData() {
-        page++;
-        if(brandId == -1){
-            presenter.getWineList(page+"",20+"");
-        }else{
-            presenter.getWineListByBrandId(brandId+"",page+"",20+"");
-        }
-    }
 
-    private void requestRefreshData() {
-        if(brandId == -1){
-            presenter.getWineList(page+"",20+"");
-        }else{
-            presenter.getWineListByBrandId(brandId+"",page+"",20+"");
-        }
+
+        indexBar.setmPressedShowTextView(tvSideBarHint)//设置HintTextView
+                .setNeedRealIndex(true)//设置需要真实的索引
+                .setmLayoutManager(mManager);//设置RecyclerView的LayoutManager
+
+        //获取数据
+        initData();
     }
 
     private void initData() {
         presenter.getBrandData();
-        presenter.getWineList(page+"",20+"");
+
     }
 
     @Override
@@ -162,43 +159,46 @@ public class WineFragment extends Fragment implements IWineFragmentView {
     }
 
     @Override
-    public void setWineInfo(List<WineInfoEntity> wineInfoList) {
-        if (isDestroy) return;
-
-        LogUtils.d("isRemoving = "+isRemoving() + ", isDetached = "+isDetached());
-        if(wineInfoList!=null){
-            if(wineInfoList.size()>0){
-                wineAdapter.addAll(wineInfoList);
-                lrvWineShow.refreshComplete(20);
-            }else{
-                lrvWineShow.setNoMore(true);
-                lrvWineShow.refreshComplete(0);
-            }
-        }
-    }
-
-    @Override
-    public void setWineInfoById(List<WineInfoEntity> wineInfoList) {
-        if (isDestroy) return;
-
-        LogUtils.d("isRemoving = "+isRemoving() + ", isDetached = "+isDetached());
-        if(wineInfoList!=null){
-            if(wineInfoList.size()>0){
-                wineAdapter.addAll(wineInfoList);
-                lrvWineShow.refreshComplete(20);
-            }else{
-                lrvWineShow.setNoMore(true);
-                lrvWineShow.refreshComplete(0);
-            }
-        }
-    }
-
-    @Override
     public void setBrandData(List<WineBrandEntity> wineBrandList) {
-        if (isDestroy) return;
+        if (isDestroy)
+            return;
 
-        if(wineBrandList!=null&&wineBrandList.size()>0){
-            brandAdapter.setData(wineBrandList);
-        }
+        mHeaderAdapter.setHeaderView(R.layout.item_wine_header, wineBrandList);
+        rvWine.setAdapter(mHeaderAdapter);
+        rvWine.addItemDecoration(mDecoration = new MySuspensionDecoration(getContext(), wineList).setHeaderViewCount(mHeaderAdapter.getHeaderViewCount()));
+
+        mDecoration.setColorTitleBg(Color.parseColor("#fffafafa"));
+        mDecoration.setColorTitleFont(Color.parseColor("#ff000000"));
+        //如果add两个，那么按照先后顺序，依次渲染。
+//        rvWine.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL_LIST));
+
+        mHeaderAdapter.notifyDataSetChanged();
+
+
+    }
+
+    @Override
+    public void setWineKind(List<WineBrandEntity> wineKindList) {
+        if (isDestroy)
+            return;
+
+        if (wineKindList.size()<=0)return;
+        mWineKindAdapter.setData(wineKindList);
+        presenter.getwineBrandKind(wineKindList.get(0).getId()+"");
+    }
+
+    @Override
+    public void setWineBrandKind(List<WineBrandEntity> wineKindList) {
+        if (isDestroy)
+            return;
+
+        this.wineList = wineKindList;
+        indexBar.setmSourceDatas(wineKindList)//设置数据
+                .setHeaderViewCount(mHeaderAdapter.getHeaderViewCount())//设置HeaderView数量
+                .invalidate();
+
+        mAdapter.setData(wineKindList);
+        mHeaderAdapter.notifyDataSetChanged();
+        mDecoration.setmDatas(wineKindList);
     }
 }

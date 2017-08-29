@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#f7f7f7"
+    android:background="@drawable/login_bg"
     android:orientation="vertical"
     android:gravity="center_horizontal"
     tools:context="com.jiupin.jiupinhui.activity.LoginActivity">
@@ -14,7 +14,7 @@
         android:layout_width="70dp"
         android:layout_height="65dp"
         android:src="@drawable/logo_version"
-        android:layout_marginTop="110dp"
+        android:layout_marginTop="100dp"
         />
 
     <LinearLayout
@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:orientation="vertical"
-        android:layout_marginTop="68dp"
+        android:layout_marginTop="58dp"
         >
         <!--输入手机号码-->
         <com.chaychan.viewlib.PowerfulEditText
@@ -38,7 +38,7 @@
             android:drawablePadding="4dp"
             android:background="@null"
             android:textColorHint="#cccccc"
-            android:textColor="@color/light_black"
+            android:textColor="@color/white"
             android:textSize="12sp"
             android:hint="输入手机号码"
             />
@@ -46,7 +46,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/shallow_black"/>
+            android:background="#f0f0f0"/>
         <!--输入密码-->
         <com.chaychan.viewlib.PowerfulEditText
             android:id="@+id/et_login_password"
@@ -61,7 +61,7 @@
             android:drawablePadding="4dp"
             android:background="@null"
             android:textColorHint="#cccccc"
-            android:textColor="@color/light_black"
+            android:textColor="@color/white"
             android:textSize="12sp"
             android:hint="输入密码"
             />
@@ -69,15 +69,15 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/shallow_black"/>
+            android:background="#f0f0f0"/>
 
         <Button
             android:id="@+id/btn_login_bottom"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="40dp"
             android:background="@drawable/unlogined_bg"
-            android:hint="登录"
+            android:text="登录"
             android:textColor="@color/mainTextColor"
             android:textSize="17sp"
             />
@@ -87,12 +87,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="9dp"
+            android:layout_marginTop="14dp"
             android:text="@string/reset_password"
+            android:autoLink="all"
             android:textColor="#999999"
             android:textSize="12sp"
             />
     </LinearLayout>
+
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:minHeight="5dp"
+        android:layout_weight="1"/>
 
     <!--第三方登录标识-->
     <LinearLayout
@@ -101,8 +108,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/ll_login_and_register"
         android:layout_centerHorizontal="true"
+
         android:orientation="horizontal"
-        android:visibility="gone"
+        android:visibility="visible"
         >
 
         <ImageView
@@ -136,9 +144,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/ll_disanfang_biaoji"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="6dp"
         android:orientation="horizontal"
-        android:visibility="gone"
+        android:visibility="visible"
         >
 
         <ImageView
@@ -175,16 +183,15 @@
             />
 
     </LinearLayout>
-    <View
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_weight="1"/>
+
 
     <LinearLayout
         android:id="@+id/ll_bottom"
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:layout_marginTop="40dp"
         android:background="@color/white"
+        android:layout_gravity="bottom"
         >
         <TextView
             android:layout_width="0dp"
@@ -204,7 +211,6 @@
             android:textColor="@color/mainTextColor"
             android:gravity="left|center_vertical"
             />
-
     </LinearLayout>
 
 </LinearLayout>

@@ -251,7 +251,7 @@ public class FormParticularActivity extends BaseActivity implements IFormParticu
             popupWindow.dismiss();// 关闭
             LogUtils.d("dismiss");
         } else {
-            popupWindow.showAtLocation(ivBack.getRootView(), Gravity.BOTTOM, 50, 50);// 显示
+            popupWindow.showAtLocation(ivBack.getRootView(), Gravity.BOTTOM, 0, 0);// 显示
             LogUtils.d("showAtLocation");
             backgroundAlpha(0.7f);
         }

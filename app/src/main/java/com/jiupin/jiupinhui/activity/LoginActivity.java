@@ -1,6 +1,7 @@
 package com.jiupin.jiupinhui.activity;
 
 import android.content.Intent;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -34,6 +35,7 @@ public class LoginActivity extends BaseActivity implements ILoginActivityView {
     @BindView(R.id.tv_reset_password)
     TextView tvResetPassword;
 
+
     private IWXAPI api;
 
     private ILoginActivityPresenter presenter;
@@ -44,6 +46,8 @@ public class LoginActivity extends BaseActivity implements ILoginActivityView {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
+
+        tvResetPassword.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
 
         presenter = new LoginActivityPresenterImpl(this);
 

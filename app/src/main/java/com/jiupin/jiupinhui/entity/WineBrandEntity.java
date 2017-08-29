@@ -1,10 +1,14 @@
 package com.jiupin.jiupinhui.entity;
 
+import com.mcxtzhang.indexlib.IndexBar.bean.BaseIndexPinyinBean;
+
+import java.io.Serializable;
+
 /**
  * 作者：czb on 2017/7/26 10:23
  */
 
-public class WineBrandEntity {
+public class WineBrandEntity extends BaseIndexPinyinBean implements Serializable{
 
 
     /**
@@ -18,6 +22,15 @@ public class WineBrandEntity {
     private String cover_img;
     private String large_img;
     private String thumb_img;
+    private String first_word;
+
+    public String getFirst_word() {
+        return first_word;
+    }
+
+    public void setFirst_word(String first_word) {
+        this.first_word = first_word;
+    }
 
     public String getLarge_img() {
         return large_img;
@@ -57,5 +70,10 @@ public class WineBrandEntity {
 
     public void setCover_img(String cover_img) {
         this.cover_img = cover_img;
+    }
+
+    @Override
+    public String getTarget() {
+        return first_word;
     }
 }

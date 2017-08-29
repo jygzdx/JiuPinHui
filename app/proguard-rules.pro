@@ -48,3 +48,39 @@
 #LRecyclerview
 -dontwarn com.github.jdsjlzx.**
 -keep class com.github.jdsjlzx.progressindicator.indicators.** { *; }
+
+#微信
+-keep class com.tencent.mm.opensdk.** {   *;}
+-keep class com.tencent.wxop.** {   *;}
+-keep class com.tencent.mm.sdk.** {   *;}
+
+#Glide图片加载框架
+-keep public class * implements com.bumptech.glide.module.GlideModule
+-keep public class * extends com.bumptech.glide.AppGlideModule
+-keep public enum com.bumptech.glide.load.resource.bitmap.ImageHeaderParser$** {
+  **[] $VALUES;
+  public *;
+}
+
+# for DexGuard only
+#-keepresourcexmlelements manifest/application/meta-data@value=GlideModule
+
+#okhttputils
+-dontwarn com.zhy.http.**
+-keep class com.zhy.http.**{*;}
+#okhttp
+-dontwarn okhttp3.**
+-keep class okhttp3.**{*;}
+#okio
+-dontwarn okio.**
+-keep class okio.**{*;}
+
+#takephoto
+-keep class com.jph.takephoto.** { *; }
+-dontwarn com.jph.takephoto.**
+
+-keep class com.darsh.multipleimageselect.** { *; }
+-dontwarn com.darsh.multipleimageselect.**
+
+-keep class com.soundcloud.android.crop.** { *; }
+-dontwarn com.soundcloud.android.crop.**

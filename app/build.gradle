@@ -62,6 +62,8 @@ dependencies {
     compile 'com.github.chaychan:PowerfulViewLibrary:1.0'
     compile 'com.jph.takephoto:takephoto_library:4.0.3'
     compile 'com.github.jdsjlzx:LRecyclerView:1.4.3'
+    compile 'com.github.promeg:tinypinyin:1.0.0'
+    compile 'com.github.mcxtzhang:SuspensionIndexBar:V1.0.0'
     testCompile 'junit:junit:4.12'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
 }

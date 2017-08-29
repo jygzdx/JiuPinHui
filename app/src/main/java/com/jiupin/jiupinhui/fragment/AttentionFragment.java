@@ -180,10 +180,12 @@ public class AttentionFragment extends Fragment implements IAttentionFragmentVie
         if (communityList != null) {
             if (communityList.size() > 0) {
                 adapter.addAll(communityList);
-                lrvAttention.refreshComplete(communityList.size());
             }else {
                 lrvAttention.setNoMore(true);
             }
+            lrvAttention.refreshComplete(communityList.size());
+            lRecyclerViewAdapter.notifyDataSetChanged();
+
         }
     }
 

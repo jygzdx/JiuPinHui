@@ -1,6 +1,7 @@
 package com.jiupin.jiupinhui.activity;
 
 import android.content.Intent;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -41,6 +42,8 @@ public class RegisterActivity extends BaseActivity implements IRegisterActivityV
     PowerfulEditText etRegisterPasswordTwo;
     @BindView(R.id.btn_register_checkout)
     Button btnRegisterCheckout;
+    @BindView(R.id.btn_register_deal)
+    Button btnRegisterDeal;
 
     //手机号码是否注册过
     private boolean isMobileUnique;
@@ -78,6 +81,8 @@ public class RegisterActivity extends BaseActivity implements IRegisterActivityV
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         ButterKnife.bind(this);
+
+        btnRegisterDeal.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
 
         presenter = new RegisterActivityPresenterImpl(this);
 

@@ -2,6 +2,7 @@ package com.jiupin.jiupinhui.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -18,6 +19,7 @@ import com.jiupin.jiupinhui.activity.TranConditionActivity;
 import com.jiupin.jiupinhui.entity.CommunityEntity;
 import com.jiupin.jiupinhui.manage.UserInfoManager;
 import com.jiupin.jiupinhui.utils.LogUtils;
+import com.jiupin.jiupinhui.utils.StringUtils;
 import com.jiupin.jiupinhui.utils.TimeUtils;
 import com.jiupin.jiupinhui.widget.CircleImageView;
 
@@ -75,7 +77,7 @@ public class PersonConditionAdapter extends RecyclerView.Adapter {
         //设置更多选择按钮不可见
         personViewHolder.llMore.setVisibility(View.GONE);
 
-        if (community.getImage_list() != null && community.getImage_list() != "") {//设置用户自己上传的图片
+        if (!StringUtils.isEmpty(community.getImage_list())) {//设置用户自己上传的图片
             personViewHolder.rvUserImg.setVisibility(View.VISIBLE);
             String[] imgUrls = community.getImage_list().split(";");
             initUserImgRv(personViewHolder, imgUrls);
@@ -84,7 +86,7 @@ public class PersonConditionAdapter extends RecyclerView.Adapter {
         }
         if (community.isIs_trans()) {//设置用户转发他人的图片
             personViewHolder.llTranspond.setVisibility(View.VISIBLE);
-            if (community.getTrans_img_list() != null && community.getTrans_img_list() != "") {
+            if (!StringUtils.isEmpty(community.getTrans_img_list())) {
                 String[] imgUrls = community.getTrans_img_list().split(";");
                 initTranImgRv(personViewHolder, imgUrls);
             }
@@ -121,7 +123,9 @@ public class PersonConditionAdapter extends RecyclerView.Adapter {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, ConditionCommentListActivity.class);
-                intent.putExtra("dynamicId", community.getId());
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("community",community);
+                intent.putExtras(bundle);
                 mContext.startActivity(intent);
             }
         });

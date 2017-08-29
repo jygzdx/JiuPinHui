@@ -1,10 +1,12 @@
 package com.jiupin.jiupinhui.entity;
 
+import java.io.Serializable;
+
 /**
  * 作者：czb on 2017/8/8 18:02
  */
 
-public class CommunityEntity {
+public class CommunityEntity implements Serializable{
 
 
     /**
@@ -26,6 +28,7 @@ public class CommunityEntity {
      * trans_dynamic_type : 1
      * is_trans : true
      * concern_status : true 关注状态
+     * comment_count
      */
 
     private int id;
@@ -47,6 +50,7 @@ public class CommunityEntity {
     private boolean is_trans;
     private boolean concern_status;
     private boolean is_visible;
+    private int comment_count;
 
     @Override
     public String toString() {
@@ -222,5 +226,13 @@ public class CommunityEntity {
 
     public void setIs_visible(boolean is_visible) {
         this.is_visible = is_visible;
+    }
+
+    public int getComment_count() {
+        return comment_count;
+    }
+
+    public void setComment_count(int comment_count) {
+        this.comment_count = comment_count;
     }
 }
