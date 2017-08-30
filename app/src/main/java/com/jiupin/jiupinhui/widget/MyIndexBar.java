@@ -14,10 +14,10 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
 
+import com.jiupin.jiupinhui.R;
 import com.mcxtzhang.indexlib.IndexBar.bean.BaseIndexPinyinBean;
 import com.mcxtzhang.indexlib.IndexBar.helper.IIndexBarDataHelper;
 import com.mcxtzhang.indexlib.IndexBar.helper.IndexBarDataHelperImpl;
-import com.mcxtzhang.indexlib.R.styleable;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -28,7 +28,7 @@ import java.util.List;
  */
 
 public class MyIndexBar extends View {
-    private static final String TAG = "zxt/MyIndexBar";
+    private static final String TAG = "MyIndexBar";
     public static String[] INDEX_STRING = new String[]{"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "#"};
     private boolean isNeedRealIndex;
     private List<String> mIndexDatas;
@@ -89,14 +89,14 @@ public class MyIndexBar extends View {
     private void init(Context context, AttributeSet attrs, int defStyleAttr) {
         int textSize = (int) TypedValue.applyDimension(2, 16.0F, this.getResources().getDisplayMetrics());
         this.mPressedBackground = -16777216;
-        TypedArray typedArray = context.getTheme().obtainStyledAttributes(attrs, styleable.IndexBar, defStyleAttr, 0);
+        TypedArray typedArray = context.getTheme().obtainStyledAttributes(attrs, R.styleable.IndexBar, defStyleAttr, 0);
         int n = typedArray.getIndexCount();
 
         for(int i = 0; i < n; ++i) {
             int attr = typedArray.getIndex(i);
-            if(attr == styleable.IndexBar_indexBarTextSize) {
+            if(attr == R.styleable.IndexBar_indexBarTextSize) {
                 textSize = typedArray.getDimensionPixelSize(attr, textSize);
-            } else if(attr == styleable.IndexBar_indexBarPressBackground) {
+            } else if(attr == R.styleable.IndexBar_indexBarPressBackground) {
                 this.mPressedBackground = typedArray.getColor(attr, this.mPressedBackground);
             }
         }

@@ -78,81 +78,83 @@
         android:orientation="horizontal"
         >
 
-        <!--orientation<LinearLayout-->
-        <!--android:layout_width="0dp"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_weight="3"-->
-        <!--android:gravity="center_vertical"-->
-        <!--android:orientation="horizontal"-->
-        <!--&gt;-->
-
-        <!--<Button-->
-            <!--android:id="@+id/btn_contact_customer"-->
-            <!--android:layout_width="0dp"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_weight="1"-->
-            <!--android:background="@null"-->
-            <!--android:drawablePadding="4dp"-->
-            <!--android:drawableTop="@drawable/contact_big"-->
-            <!--android:gravity="center"-->
-            <!--android:paddingBottom="6dp"-->
-            <!--android:paddingTop="6dp"-->
-            <!--android:text="供应商"-->
-            <!--android:textColor="@color/light_black"-->
-            <!--android:textSize="10sp"-->
-            <!--/>-->
-
-        <!--<View-->
-            <!--android:layout_width="1dp"-->
-            <!--android:layout_height="25dp"-->
-            <!--android:background="@color/mainBackground"-->
-            <!--/>-->
-
-        <!--<RelativeLayout-->
-            <!--android:id="@+id/rl_buy_car"-->
-            <!--android:layout_width="0dp"-->
-            <!--android:layout_weight="1"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:clickable="true"-->
-            <!--&gt;-->
-            <!--<TextView-->
-                <!--android:id="@+id/tv_buy_car"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_centerHorizontal="true"-->
-                <!--android:drawablePadding="4dp"-->
-                <!--android:drawableTop="@drawable/buy_car"-->
-                <!--android:gravity="center"-->
-                <!--android:paddingBottom="6dp"-->
-                <!--android:paddingTop="6dp"-->
-                <!--android:text="购物车"-->
-                <!--android:textColor="@color/light_black"-->
-                <!--android:textSize="10sp"-->
-                <!--/>-->
-            <!--<TextView-->
-                <!--android:id="@+id/tv_buy_car_mark"-->
-                <!--android:layout_width="10dp"-->
-                <!--android:layout_height="10dp"-->
-                <!--android:background="@drawable/jiaobiao"-->
-                <!--android:gravity="center"-->
-                <!--android:layout_alignTop="@id/tv_buy_car"-->
-                <!--android:layout_alignRight="@id/tv_buy_car"-->
-                <!--android:layout_marginTop="5dp"-->
-                <!--android:text="5"-->
-                <!--android:textSize="6sp"-->
-                <!--android:textColor="@color/white"-->
-                <!--/>-->
-        <!--</RelativeLayout>-->
-
-    <!--</LinearLayout>-->
+        <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="4"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:background="@color/white"
+        >
 
         <Button
             android:id="@+id/btn_contact_customer"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="#f3eee1"
+            android:background="@null"
+            android:drawablePadding="4dp"
+            android:drawableTop="@drawable/contact_big"
+            android:gravity="center"
+            android:paddingBottom="6dp"
+            android:paddingTop="6dp"
             android:text="供应商"
+            android:textColor="@color/light_black"
+            android:textSize="10sp"
+            />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="25dp"
+            android:background="@color/shallow_black"
+            />
+
+        <RelativeLayout
+            android:id="@+id/rl_buy_car"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            >
+            <TextView
+                android:id="@+id/tv_buy_car"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:drawablePadding="4dp"
+                android:drawableTop="@drawable/buy_car"
+                android:gravity="center"
+                android:paddingBottom="6dp"
+                android:paddingTop="6dp"
+                android:text="购物车"
+                android:textColor="@color/light_black"
+                android:textSize="10sp"
+                />
+            <TextView
+                android:id="@+id/tv_buy_car_mark"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:background="@drawable/jiaobiao"
+                android:gravity="center"
+                android:layout_alignTop="@+id/tv_buy_car"
+                android:layout_alignRight="@+id/tv_buy_car"
+                android:layout_marginTop="5dp"
+                android:text="5"
+                android:textSize="6sp"
+                android:textColor="@color/white"
+                android:visibility="gone"
+                />
+        </RelativeLayout>
+
+    </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_add_car"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:background="#f3eee1"
+            android:text="加入购物车"
             android:textColor="@color/mainTextColor"
             android:textSize="15sp"
             />
@@ -161,7 +163,7 @@
             android:id="@+id/btn_now_pay"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="2"
+            android:layout_weight="3"
             android:background="@color/mainColor"
             android:text="立即购买"
             android:textColor="@color/white"

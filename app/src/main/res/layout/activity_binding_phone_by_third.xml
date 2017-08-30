@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f0f0f0"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    tools:context="com.jiupin.jiupinhui.activity.BindingPhoneByThirdActivity">
+    <android.support.v7.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/action_bar_size"
+        android:background="@color/white"
+        >
+
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:padding="10dp"
+            android:src="@drawable/left_zhishiqi"
+            />
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:maxLines="1"
+            android:text="绑定手机"
+            android:textColor="@color/black_33"
+            android:textSize="16sp"/>
+        <TextView
+            android:id="@+id/tv_next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:padding="12dp"
+            android:maxLines="1"
+            android:text="跳过"
+            android:textColor="@color/black_33"
+            android:textSize="16sp"/>
+    </android.support.v7.widget.Toolbar>
+
+    <LinearLayout
+        android:layout_width="300dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginBottom="2dp"
+        android:orientation="horizontal"
+        android:background="@drawable/input_bg"
+        >
+
+        <EditText
+            android:id="@+id/et_phone"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@null"
+            android:hint="请输入手机号"
+            android:gravity="center|left"
+            android:paddingLeft="20dp"
+            android:textColorHint="@color/thin_black"
+            android:textColor="@color/shallow_black"
+            android:textSize="12sp"
+            />
+
+        <Button
+            android:id="@+id/btn_get_checkout"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="2dp"
+            android:background="@drawable/checkout_bg"
+            android:text="获取验证码"
+            android:textColor="@color/white"
+            />
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/et_checkout"
+        android:layout_width="300dp"
+        android:layout_height="40dp"
+        android:background="@drawable/input_bg"
+        android:hint="输入验证码"
+        android:layout_marginTop="25dp"
+        android:gravity="center|left"
+        android:paddingLeft="20dp"
+        android:textColorHint="@color/thin_black"
+        android:textColor="@color/shallow_black"
+        android:textSize="12sp"
+        />
+
+    <Button
+        android:id="@+id/btn_check"
+        android:layout_width="300dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="25dp"
+android:background="@drawable/third_botton_bg"
+        android:text="绑定手机"
+        android:textSize="15sp"
+        android:textColor="@color/white"
+        />
+
+</LinearLayout>

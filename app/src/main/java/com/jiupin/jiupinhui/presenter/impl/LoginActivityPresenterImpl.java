@@ -8,6 +8,7 @@ import com.jiupin.jiupinhui.model.IModel;
 import com.jiupin.jiupinhui.model.impl.LoginActivityModelImpl;
 import com.jiupin.jiupinhui.presenter.ILoginActivityPresenter;
 import com.jiupin.jiupinhui.utils.HttpErrorUtils;
+import com.jiupin.jiupinhui.utils.ProgressUtils;
 import com.jiupin.jiupinhui.view.ILoginActivityView;
 
 /**
@@ -38,6 +39,22 @@ public class LoginActivityPresenterImpl implements ILoginActivityPresenter {
 
             @Override
             public void onFailed(int status, String msg) {
+                HttpErrorUtils.manageErrorHttp(status,msg,(Context) view);
+            }
+        });
+    }
+
+    @Override
+    public void wxLogin(String code) {
+        model.wxLogin(code, new IModel.CallBack() {
+            @Override
+            public void onSuccess(Object success) {
+                view.wxLoginBack((RegisterEntity)success);
+            }
+
+            @Override
+            public void onFailed(int status, String msg) {
+                ProgressUtils.dismiss();
                 HttpErrorUtils.manageErrorHttp(status,msg,(Context) view);
             }
         });

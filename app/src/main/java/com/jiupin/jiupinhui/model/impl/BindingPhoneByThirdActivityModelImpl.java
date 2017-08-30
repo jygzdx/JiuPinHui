@@ -1,12 +1,9 @@
 package com.jiupin.jiupinhui.model.impl;
 
-import com.google.gson.Gson;
 import com.jiupin.jiupinhui.config.Constant;
-import com.jiupin.jiupinhui.entity.RegisterEntity;
-import com.jiupin.jiupinhui.model.ILoginActivityModel;
+import com.jiupin.jiupinhui.model.IBindingPhoneByThirdActivityModel;
 import com.jiupin.jiupinhui.model.IModel;
 import com.jiupin.jiupinhui.utils.HttpErrorUtils;
-import com.jiupin.jiupinhui.utils.LogUtils;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -19,37 +16,33 @@ import okhttp3.Call;
  * 作者：czb on 2017/6/26 14:30
  */
 
-public class LoginActivityModelImpl implements ILoginActivityModel {
+public class BindingPhoneByThirdActivityModelImpl implements IBindingPhoneByThirdActivityModel {
+
 
     @Override
-    public void loginUser(String mobile, String pwd, String way, final IModel.CallBack callBack) {
+    public void getSecurityCode(final String mobile, final IModel.CallBack callBack) {
         OkHttpUtils
                 .post()
-                .url(Constant.LOGIN_USER_URL)
+                .url(Constant.BINDING_PHONE_SECURITY_CODE_URL)
                 .addParams("mobile", mobile)
-                .addParams("pwd", pwd)
-                .addParams("way", way)
                 .build()
                 .execute(new StringCallback() {
                     @Override
                     public void onError(Call call, Exception e, int id) {
-                        callBack.onFailed(HttpErrorUtils.NETWORK_ERROR,HttpErrorUtils.MSG_NETWORK_ERROR);
+                        callBack.onFailed(HttpErrorUtils.NETWORK_ERROR, HttpErrorUtils.MSG_NETWORK_ERROR);
                     }
 
                     @Override
                     public void onResponse(String response, int id) {
-                        LogUtils.d("response = " + response);
                         JSONObject jsonObject = null;
                         try {
                             jsonObject = new JSONObject(response);
                             String msg = jsonObject.getString("msg");
                             int status = jsonObject.getInt("status");
-                            if ("OK".equals(msg)) {
-                                Gson gson = new Gson();
-                                RegisterEntity registerEntity = gson.fromJson(response, RegisterEntity.class);
-                                callBack.onSuccess(registerEntity);
+                            if (200 == status) {
+                                callBack.onSuccess("发送成功");
                             } else {
-                                callBack.onFailed(status,msg);
+                                callBack.onFailed(status, msg);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -59,32 +52,31 @@ public class LoginActivityModelImpl implements ILoginActivityModel {
     }
 
     @Override
-    public void wxLogin(String code, final IModel.CallBack callBack) {
+    public void updateMobile(String token, String moblie, String sms, final IModel.CallBack callBack) {
         OkHttpUtils
                 .post()
-                .url(Constant.WX_LOGIN)
-                .addParams("code", code)
+                .url(Constant.UPDATE_MOBILE_URL)
+                .addParams("token", token)
+                .addParams("moblie", moblie)
+                .addParams("sms", sms)
                 .build()
                 .execute(new StringCallback() {
                     @Override
                     public void onError(Call call, Exception e, int id) {
-                        callBack.onFailed(HttpErrorUtils.NETWORK_ERROR,HttpErrorUtils.MSG_NETWORK_ERROR);
+                        callBack.onFailed(HttpErrorUtils.NETWORK_ERROR, HttpErrorUtils.MSG_NETWORK_ERROR);
                     }
 
                     @Override
                     public void onResponse(String response, int id) {
-                        LogUtils.d("response = " + response);
                         JSONObject jsonObject = null;
                         try {
                             jsonObject = new JSONObject(response);
                             String msg = jsonObject.getString("msg");
                             int status = jsonObject.getInt("status");
-                            if ("OK".equals(msg)) {
-                                Gson gson = new Gson();
-                                RegisterEntity registerEntity = gson.fromJson(response, RegisterEntity.class);
-                                callBack.onSuccess(registerEntity);
+                            if (200 == status) {
+                                callBack.onSuccess("绑定手机号码成功");
                             } else {
-                                callBack.onFailed(status,msg);
+                                callBack.onFailed(status, msg);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

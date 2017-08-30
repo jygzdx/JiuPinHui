@@ -95,6 +95,11 @@ public class Constant {
     public static final String LOGIN_USER_URL = MAIN_URL + "/appLogin/app/loginByMobilePwd.json";
 
     /**
+     * 第三方注册/登录接口--微信登录
+     */
+    public static final String WX_LOGIN = MAIN_URL + "/appRegister/app/loginByThirdParty.json";
+
+    /**
      * 校验手机号码是否注册过
      */
     public static final String IS_MOBILE_UNIQUE_URL = MAIN_URL + "/appRegister/app/isMobileUnique.json";

@@ -51,6 +51,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
                         Intent intent = new Intent(WXEntryActivity.this, LoginActivity.class);
                         intent.putExtra("code", code);
                         startActivity(intent);
+                        finish();
                     }
                     break;
                 case BaseResp.ErrCode.ERR_USER_CANCEL:

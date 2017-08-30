@@ -176,6 +176,20 @@ public class RegisterActivity extends BaseActivity implements IRegisterActivityV
     }
 
     @Override
+    protected void onDestroy() {
+        if (timer != null) {
+            timer.cancel();
+            timer = null;
+        }
+        if (task != null) {
+            task.cancel();
+            task = null;
+        }
+
+        super.onDestroy();
+    }
+
+    @Override
     public void registerSuccess(RegisterEntity registerEntity) {
         if (ActivityUtils.isFinish(mContext))return;
 

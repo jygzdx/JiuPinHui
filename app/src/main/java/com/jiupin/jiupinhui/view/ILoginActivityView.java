@@ -14,4 +14,10 @@ public interface ILoginActivityView{
      * @param registerEntity 返回实体类
      */
     void loginSuccess(RegisterEntity registerEntity);
+    /**
+     * 微信登录成功
+     *
+     * @param registerEntity 返回实体类
+     */
+    void wxLoginBack(RegisterEntity registerEntity);
 }

@@ -15,7 +15,9 @@ import com.jiupin.jiupinhui.presenter.ILoginActivityPresenter;
 import com.jiupin.jiupinhui.presenter.impl.LoginActivityPresenterImpl;
 import com.jiupin.jiupinhui.utils.ActivityUtils;
 import com.jiupin.jiupinhui.utils.LogUtils;
+import com.jiupin.jiupinhui.utils.ProgressUtils;
 import com.jiupin.jiupinhui.utils.SPUtils;
+import com.jiupin.jiupinhui.utils.StringUtils;
 import com.jiupin.jiupinhui.utils.ToastUtils;
 import com.jiupin.jiupinhui.view.ILoginActivityView;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
@@ -34,7 +36,7 @@ public class LoginActivity extends BaseActivity implements ILoginActivityView {
     PowerfulEditText etLoginPassword;
     @BindView(R.id.tv_reset_password)
     TextView tvResetPassword;
-
+public static final int REQUEST_CODE = 1;
 
     private IWXAPI api;
 
@@ -53,6 +55,9 @@ public class LoginActivity extends BaseActivity implements ILoginActivityView {
 
         //微信登录的code
         String code = getIntent().getStringExtra("code");
+        if(!StringUtils.isEmpty(code)){
+            presenter.wxLogin(code);
+        }
 
         api = WXAPIFactory.createWXAPI(LoginActivity.this, Constant.APP_ID, true);
         api.registerApp(Constant.APP_ID);
@@ -77,12 +82,20 @@ public class LoginActivity extends BaseActivity implements ILoginActivityView {
             case R.id.iv_login_qq:
                 break;
             case R.id.iv_login_wechat:
+                if (!api.isWXAppInstalled()) {
+                    ToastUtils.showShort(this,"您还未安装微信客户端");
+                    return;
+                }
+
+                ProgressUtils.show(this);
+
                 //用户登录
                 SendAuth.Req req = new SendAuth.Req();
                 req.scope = "snsapi_userinfo";
                 req.state = "123456";
                 //向微信发送请求
                 boolean status = api.sendReq(req);
+                finish();
                 LogUtils.d("status = " + status);
                 break;
             case R.id.iv_login_weibo:
@@ -93,6 +106,16 @@ public class LoginActivity extends BaseActivity implements ILoginActivityView {
                 break;
         }
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        LogUtils.d("requestCode = "+requestCode+"  resultCode = "+resultCode);
+        if(requestCode==REQUEST_CODE){
+            finish();
+        }
+    }
+
     @Override
     public void loginSuccess(RegisterEntity registerEntity) {
         if (ActivityUtils.isFinish(mContext))
@@ -109,4 +132,27 @@ public class LoginActivity extends BaseActivity implements ILoginActivityView {
         finish();
     }
 
+    @Override
+    public void wxLoginBack(RegisterEntity registerEntity) {
+        ProgressUtils.dismiss();
+        if (ActivityUtils.isFinish(mContext))
+            return;
+        if(registerEntity==null)
+            return;
+
+        SPUtils.put(this, SPUtils.LOGIN_TOKEN, registerEntity.getData().getToken());
+        SPUtils.put(this, SPUtils.USER_ID, registerEntity.getData().getUser().getId() + "");
+        ToastUtils.showShort(this, "登录成功");
+        UserInfoManager.getInstance().setLogin(true);
+        UserInfoManager.getInstance().setUserId(registerEntity.getData().getUser().getId() + "");
+        UserInfoManager.getInstance().setToken(registerEntity.getData().getToken());
+        //添加user信息保存起来
+        UserInfoManager.getInstance().setUser(registerEntity.getData().getUser());
+        if(StringUtils.isEmpty(registerEntity.getData().getUser().getMobile())){
+            Intent intent = new Intent(this,BindingPhoneByThirdActivity.class);
+            startActivityForResult(intent,REQUEST_CODE);
+        }else{
+            finish();
+        }
+    }
 }

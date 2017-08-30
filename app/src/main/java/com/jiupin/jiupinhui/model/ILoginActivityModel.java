@@ -12,4 +12,11 @@ public interface ILoginActivityModel {
      * @param way 登陆途径：1.微信商城，2.App商城，3.待加
      */
     void loginUser(String mobile,String pwd,String way, IModel.CallBack callBack);
+
+
+    /**
+     * 微信登录
+     * @param code 微信code
+     */
+    void wxLogin(String code, IModel.CallBack callBack);
 }

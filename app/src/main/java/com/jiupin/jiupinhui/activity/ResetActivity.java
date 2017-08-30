@@ -155,6 +155,19 @@ public class ResetActivity extends BaseActivity implements IResetActivityView {
     }
 
     @Override
+    protected void onDestroy() {
+        if (resetTimer != null) {
+            resetTimer.cancel();
+            resetTimer = null;
+        }
+        if (resetTask != null) {
+            resetTask.cancel();
+            resetTask = null;
+        }
+        super.onDestroy();
+    }
+
+    @Override
     public void resetPwdSuccess(ResponseBase responseBase) {
         if (ActivityUtils.isFinish(mContext))return;
 
