@@ -393,10 +393,10 @@ public class OrderActivity extends BaseActivity implements IOrderActivityView {
                 hidePopupWindow(rlPayPopupWindow);
                 token = UserInfoManager.getInstance().getToken(this);
                 if (paystatus == ALIPAY_STATUS) {//支付宝支付
-                    presenter.getAlipayInfo(token, orderSubmitEntity.getOrder().getId() + "");
+                    presenter.getAlipayInfo(token, orderSubmitEntity.getOrder().getOrder_id() + "");
                 } else if (paystatus == WECHAT_PAY_STATUS) {//微信支付
                     if(api.isWXAppInstalled()){
-                        presenter.getWeChatPayInfo(token,orderSubmitEntity.getOrder().getId() + "");
+                        presenter.getWeChatPayInfo(token,orderSubmitEntity.getOrder().getOrder_id() + "");
                     }else{
                         ToastUtils.showShort(this,"微信客户端没有安装，无法调起微信支付");
                         if (orderSubmitEntity != null) {

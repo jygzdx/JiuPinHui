@@ -40,7 +40,7 @@ public class GoodsActivityPresenterImpl implements IGoodsActivityPresenter {
 
             @Override
             public void onFailed(int status, String msg) {
-                HttpErrorUtils.manageErrorHttp(status,msg,(Context) view);
+                HttpErrorUtils.manageErrorHttp(status, msg, (Context) view);
             }
         });
     }
@@ -54,9 +54,40 @@ public class GoodsActivityPresenterImpl implements IGoodsActivityPresenter {
 
                 view.setUserAppraise(appraiseList);
             }
+
             @Override
             public void onFailed(int status, String msg) {
-                HttpErrorUtils.manageErrorHttp(status,msg,(Context) view);
+                HttpErrorUtils.manageErrorHttp(status, msg, (Context) view);
+            }
+        });
+    }
+
+    @Override
+    public void addGoodsToCar(String token, String id, String spec_id, String count) {
+        model.addGoodsToCar(token, id, spec_id, count, new IModel.CallBack() {
+            @Override
+            public void onSuccess(Object success) {
+                view.addGoodsToCar((String) success);
+            }
+
+            @Override
+            public void onFailed(int status, String msg) {
+                HttpErrorUtils.manageErrorHttp(status, msg, (Context) view);
+            }
+        });
+    }
+
+    @Override
+    public void getCartGoodsCount(String token) {
+        model.getCartGoodsCount(token, new IModel.CallBack() {
+            @Override
+            public void onSuccess(Object success) {
+                view.getCartGoodsCount((String) success);
+            }
+
+            @Override
+            public void onFailed(int status, String msg) {
+                HttpErrorUtils.manageErrorHttp(status, msg, (Context) view);
             }
         });
     }

@@ -494,10 +494,10 @@ public class FormParticularActivity extends BaseActivity implements IFormParticu
                 //提交支付
                 token = UserInfoManager.getInstance().getToken(FormParticularActivity.this);
                 if (paystatus == ALIPAY_STATUS) {//支付宝支付
-                    presenter.getAlipayInfo(token, formParticularEntity.getOrder().getId() + "");
+                    presenter.getAlipayInfo(token, formParticularEntity.getOrder().getOrder_id() + "");
                 } else if (paystatus == WECHAT_PAY_STATUS) {//微信支付
                     if(api.isWXAppInstalled()){
-                        presenter.getWeChatPayInfo(token,formParticularEntity.getOrder().getId() + "");
+                        presenter.getWeChatPayInfo(token,formParticularEntity.getOrder().getOrder_id() + "");
                     }else{
                         ToastUtils.showShort(FormParticularActivity.this,"微信客户端没有安装，无法调起微信支付");
                     }

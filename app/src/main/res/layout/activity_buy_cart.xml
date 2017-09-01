@@ -28,22 +28,24 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:gravity="center"
-            android:text="购物车（2）"
+            android:text="购物车（0）"
             android:textSize="16sp"
             android:textColor="@color/white"
             />
         <TextView
-            android:id="@+id/tv_bianji"
+            android:id="@+id/tv_compile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toLeftOf="@+id/iv_more"
-            android:layout_marginRight="2dp"
             android:gravity="center"
+            android:padding="5dp"
             android:text="编辑"
             android:textSize="16sp"
             android:textColor="@color/white"
-            />
+            android:layout_alignBaseline="@+id/tv_title_name"
+            android:layout_alignBottom="@+id/tv_title_name"
+            android:layout_toLeftOf="@+id/iv_more"
+            android:layout_toStartOf="@+id/iv_more"/>
+
         <ImageView
             android:id="@+id/iv_more"
             android:layout_width="wrap_content"
@@ -73,55 +75,102 @@
         android:layout_alignParentBottom="true"
         android:gravity="center_vertical"
         >
-        <RadioButton
-            android:id="@+id/rb_bottom_radio"
+
+        <ImageView
+            android:id="@+id/iv_check"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/radiobutton_bg_selector"
+            android:layout_margin="10dp"
+            android:src="@drawable/radiobotton_unchecked"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             android:layout_marginBottom="15dp"
-            android:layout_marginLeft="10dp"
-            android:checked="false"
-            android:button="@null"
-            android:drawablePadding="5dp"
+            android:layout_marginRight="40dp"
             android:text="全选"
             android:textColor="@color/light_black"
             android:textSize="14sp"
             />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="82dp"
-            android:text="合计："
-            android:textColor="@color/light_black"
-            android:textSize="12sp"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="￥999"
-            android:textColor="@color/mainTextColor"
-            android:textSize="12sp"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="9dp"
-            android:text="不含运费"
-            android:textColor="@color/light_black"
-            android:textSize="10sp"
-            />
-        <TextView
-            android:id="@+id/tv_pay"
+
+        <RelativeLayout
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="5dp"
-            android:gravity="center"
-            android:background="@color/mainColor"
-            android:text="结算（1）"
-            android:textColor="@color/white"
-            android:textSize="12sp"
-            />
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:id="@+id/ll_pay"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                >
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:maxWidth="130dp"
+                    android:gravity="right"
+                    android:text="合计："
+                    android:textColor="@color/light_black"
+                    android:textSize="12sp"
+                    />
+                <TextView
+                    android:id="@+id/tv_money"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="￥0.00"
+                    android:textColor="@color/mainTextColor"
+                    android:textSize="12sp"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="9dp"
+                    android:text="不含运费"
+                    android:textColor="@color/light_black"
+                    android:textSize="10sp"
+                    />
+                <TextView
+                    android:id="@+id/tv_pay"
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="5dp"
+                    android:minWidth="100dp"
+                    android:gravity="center"
+                    android:background="@color/mainColor"
+                    android:text="结算（0）"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    />
+
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/ll_delete"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:visibility="gone"
+                >
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    />
+                <TextView
+                    android:id="@+id/tv_delete"
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:background="@color/mainColor"
+                    android:text="删除"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    />
+            </LinearLayout>
+
+        </RelativeLayout>
+
+
+
     </LinearLayout>
 </RelativeLayout>

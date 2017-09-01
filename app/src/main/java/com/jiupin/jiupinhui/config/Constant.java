@@ -204,6 +204,7 @@ public class Constant {
      */
     public static final String PUSH_ADDRESS = MAIN_URL + "/app/order/saveOrUpdateAddress.json";
 
+    /********************************商品详情页**************************************/
     /**
      * 获取商品信息
      */
@@ -213,6 +214,42 @@ public class Constant {
      * 获取评论列表
      */
     public static final String APPRAISE_INFO = MAIN_URL + "/app/order/getEvaluate.json";
+
+    /**
+     * 往购物车里面添加一种商品（sku为单位，可以有多件）
+     */
+    public static final String ADD_TO_CAR = MAIN_URL + "/app/cart/addItemToCart.json";
+
+    /**
+     * 根据用户token返回用户购物车的商品种类数量（一种商品购买多件=1，N种商品=N）
+     */
+    public static final String GET_CART_GOODS_COUNT = MAIN_URL + "/app/cart/getCartGoodsCount.json";
+
+    /********************************购物车**************************************/
+    /**
+     * 根据用户token查找购物车商品列表
+     */
+    public static final String GET_CART_LIST = MAIN_URL + "/app/cart/getCartByUserId.json";
+
+    /**
+     * 用户选择指定商品后进入确认订单页面
+     */
+    public static final String SUBMIT_GOODS_INFO = MAIN_URL + "/app/order/getUserSpecifiedGoods.json";
+
+    /**
+     * 在购物车里面删除一种商品（sku为单位）
+     */
+    public static final String DELETE_ITEM_FROM_CART = MAIN_URL + "/app/cart/deleteItemFromCart.json";
+
+    /**
+     * 清空某个用户的购物车
+     */
+    public static final String EMPTY_CART = MAIN_URL + "/app/cart/emptyCartByUserId.json";
+
+    /**
+     * 修改购物车里某件商品的数量
+     */
+    public static final String NOTIFY_GOODS_COUNT = MAIN_URL + "/app/cart/modifyCart.json";
 
     /**
      * 提交订单

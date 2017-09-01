@@ -3,9 +3,9 @@ package com.jiupin.jiupinhui.model.impl;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.jiupin.jiupinhui.config.Constant;
-import com.jiupin.jiupinhui.entity.AppraiseEntity;
-import com.jiupin.jiupinhui.entity.GoodsEntity;
-import com.jiupin.jiupinhui.model.IGoodsActivityModel;
+import com.jiupin.jiupinhui.entity.AllCartEntity;
+import com.jiupin.jiupinhui.entity.CartEntity;
+import com.jiupin.jiupinhui.model.IBuyCartActivityModel;
 import com.jiupin.jiupinhui.model.IModel;
 import com.jiupin.jiupinhui.utils.HttpErrorUtils;
 import com.jiupin.jiupinhui.utils.LogUtils;
@@ -15,6 +15,7 @@ import com.zhy.http.okhttp.callback.StringCallback;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.Call;
@@ -23,52 +24,15 @@ import okhttp3.Call;
  * 作者：czb on 2017/6/26 14:30
  */
 
-public class GoodsActivityModelImpl implements IGoodsActivityModel {
+public class BuyCartActivityModelImpl implements IBuyCartActivityModel {
+
 
     @Override
-    public void getGoodsInfo(int id, final IModel.CallBack callBack) {
+    public void getBuyCartList(String token, final IModel.CallBack callBack) {
         OkHttpUtils
                 .post()
-                .url(Constant.GOODS_INFO)
-                .addParams("id", id+"")
-                .build()
-                .execute(new StringCallback() {
-                    @Override
-                    public void onError(Call call, Exception e, int id) {
-                        callBack.onFailed(HttpErrorUtils.NETWORK_ERROR,HttpErrorUtils.MSG_NETWORK_ERROR);
-
-                    }
-
-                    @Override
-                    public void onResponse(String response, int id) {
-                        LogUtils.d(response);
-                        JSONObject jsonObject = null;
-                        try {
-                            jsonObject = new JSONObject(response);
-                            String msg = jsonObject.getString("msg");
-                            int status = jsonObject.getInt("status");
-                            if (200 == status) {
-                                Gson gson = new Gson();
-                                GoodsEntity goodsEntity = gson.fromJson(response,GoodsEntity.class);
-                                callBack.onSuccess(goodsEntity);
-                            } else {
-                                callBack.onFailed(status, msg);
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                });
-    }
-
-    @Override
-    public void getAppraise(int goodsId, final IModel.CallBack callBack) {
-        OkHttpUtils
-                .post()
-                .url(Constant.APPRAISE_INFO)
-                .addParams("goodsId", goodsId+"")
-                .addParams("page", 1+"")
-                .addParams("rows", 1+"")
+                .url(Constant.GET_CART_LIST)
+                .addParams("token", token)
                 .build()
                 .execute(new StringCallback() {
                     @Override
@@ -78,7 +42,7 @@ public class GoodsActivityModelImpl implements IGoodsActivityModel {
 
                     @Override
                     public void onResponse(String response, int id) {
-                        LogUtils.d(response);
+                        LogUtils.d("getAddressList" + response);
                         JSONObject jsonObject = null;
                         try {
                             jsonObject = new JSONObject(response);
@@ -87,10 +51,32 @@ public class GoodsActivityModelImpl implements IGoodsActivityModel {
                             if (200 == status) {
                                 Gson gson = new Gson();
                                 String data = jsonObject.getString("data");
-                                JSONObject dataObj = new JSONObject(data);
-                                String list = dataObj.getString("list");
-                                List<AppraiseEntity> appraiseList = gson.fromJson(list,new TypeToken<List<AppraiseEntity>>(){}.getType());
-                                callBack.onSuccess(appraiseList);
+                                if(data.equals("成功")){
+                                    callBack.onSuccess(new ArrayList<CartEntity>());
+                                    return;
+                                }
+                                AllCartEntity allCartEntity = gson.fromJson(data, AllCartEntity.class);
+                                List<CartEntity> cartList = new ArrayList<CartEntity>();
+                                for (int i = 0; i < allCartEntity.getOnSale().size(); i++) {
+                                    AllCartEntity.OnSaleBean sale = allCartEntity.getOnSale().get(i);
+                                    for (int j = 0; j < sale.getGoodList().size(); j++) {
+                                        CartEntity cart = new CartEntity();
+                                        cart.setStoreId(sale.getStoreId());
+                                        cart.setStoreLogo(sale.getStoreLogo());
+                                        cart.setStoreName(sale.getStoreName());
+                                        cart.setId(sale.getGoodList().get(j).getId());
+                                        cart.setIs_meal(sale.getGoodList().get(j).getIs_meal());
+                                        cart.setGoods_name(sale.getGoodList().get(j).getGoods_name());
+                                        cart.setGoods_price(sale.getGoodList().get(j).getGoods_price());
+                                        cart.setStore_price(sale.getGoodList().get(j).getStore_price());
+                                        cart.setPath(sale.getGoodList().get(j).getPath());
+                                        cart.setCount(sale.getGoodList().get(j).getCount());
+                                        cart.setSpecIdsString(sale.getGoodList().get(j).getSpecIdsString());
+                                        cart.setSpecArray(sale.getGoodList().get(j).getSpecArray());
+                                        cartList.add(cart);
+                                    }
+                                }
+                                callBack.onSuccess(cartList);
                             } else {
                                 callBack.onFailed(status, msg);
                             }
@@ -102,14 +88,13 @@ public class GoodsActivityModelImpl implements IGoodsActivityModel {
     }
 
     @Override
-    public void addGoodsToCar(String token, String id, String spec_id, String count, final IModel.CallBack callBack) {
+    public void deleteGoods(String token, String id, String spec_id, final IModel.CallBack callBack) {
         OkHttpUtils
                 .post()
-                .url(Constant.ADD_TO_CAR)
+                .url(Constant.DELETE_ITEM_FROM_CART)
                 .addParams("token", token)
-                .addParams("id", id)
-                .addParams("spec_id", spec_id)
-                .addParams("count",count)
+                .addParams("id",id)
+                .addParams("spec_id",spec_id)
                 .build()
                 .execute(new StringCallback() {
                     @Override
@@ -119,7 +104,40 @@ public class GoodsActivityModelImpl implements IGoodsActivityModel {
 
                     @Override
                     public void onResponse(String response, int id) {
-                        LogUtils.d(response);
+                        LogUtils.d("deleteGoods" + response);
+                        JSONObject jsonObject = null;
+                        try {
+                            jsonObject = new JSONObject(response);
+                            String msg = jsonObject.getString("msg");
+                            int status = jsonObject.getInt("status");
+                            if (200 == status) {
+                                callBack.onSuccess("");
+                            } else {
+                                callBack.onFailed(status, msg);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+    }
+
+    @Override
+    public void emptyCart(String token, final IModel.CallBack callBack) {
+        OkHttpUtils
+                .post()
+                .url(Constant.EMPTY_CART)
+                .addParams("token", token)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+                        callBack.onFailed(HttpErrorUtils.NETWORK_ERROR,HttpErrorUtils.MSG_NETWORK_ERROR);
+                    }
+
+                    @Override
+                    public void onResponse(String response, int id) {
+                        LogUtils.d("deleteGoods" + response);
                         JSONObject jsonObject = null;
                         try {
                             jsonObject = new JSONObject(response);
@@ -139,11 +157,14 @@ public class GoodsActivityModelImpl implements IGoodsActivityModel {
     }
 
     @Override
-    public void getCartGoodsCount(String token, final IModel.CallBack callBack) {
+    public void notifyGoodsCount(String token, String id, String spec_id, int count, final IModel.CallBack callBack) {
         OkHttpUtils
                 .post()
-                .url(Constant.GET_CART_GOODS_COUNT)
+                .url(Constant.NOTIFY_GOODS_COUNT)
                 .addParams("token", token)
+                .addParams("id",id)
+                .addParams("spec_id",spec_id)
+                .addParams("count",count+"")
                 .build()
                 .execute(new StringCallback() {
                     @Override
@@ -153,7 +174,7 @@ public class GoodsActivityModelImpl implements IGoodsActivityModel {
 
                     @Override
                     public void onResponse(String response, int id) {
-                        LogUtils.d(response);
+                        LogUtils.d("notifyGoodsCount" + response);
                         JSONObject jsonObject = null;
                         try {
                             jsonObject = new JSONObject(response);
@@ -165,6 +186,44 @@ public class GoodsActivityModelImpl implements IGoodsActivityModel {
                             } else {
                                 callBack.onFailed(status, msg);
                             }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+    }
+
+    @Override
+    public void submitGoodsInfo(String token, String goodStr, final IModel.CallBack callBack) {
+        OkHttpUtils
+                .post()
+                .url(Constant.SUBMIT_GOODS_INFO)
+                .addParams("token", token)
+                .addParams("goodStr",goodStr)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+                        callBack.onFailed(HttpErrorUtils.NETWORK_ERROR,HttpErrorUtils.MSG_NETWORK_ERROR);
+                    }
+
+                    @Override
+                    public void onResponse(String response, int id) {
+                        LogUtils.d("submitGoodsInfo" + response);
+                        JSONObject jsonObject = null;
+                        try {
+                            jsonObject = new JSONObject(response);
+                            String msg = jsonObject.getString("msg");
+                            int status = jsonObject.getInt("status");
+                            if (200 == status) {
+                                Gson gson = new Gson();
+                                String data = jsonObject.getString("data");
+                                List<AllCartEntity.OnSaleBean> goodsList = gson.fromJson(data, new TypeToken<List<AllCartEntity.OnSaleBean>>(){}.getType());
+                                callBack.onSuccess(goodsList);
+                            } else{
+                                callBack.onFailed(status, msg);
+                            }
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }

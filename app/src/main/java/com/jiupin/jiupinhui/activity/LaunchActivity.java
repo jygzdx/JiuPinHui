@@ -11,6 +11,7 @@ import com.jiupin.jiupinhui.entity.UserEntity;
 import com.jiupin.jiupinhui.manage.UserInfoManager;
 import com.jiupin.jiupinhui.presenter.ILaunchActivityPresenter;
 import com.jiupin.jiupinhui.presenter.impl.LaunchActivityPresenterImpl;
+import com.jiupin.jiupinhui.utils.ActivityUtils;
 import com.jiupin.jiupinhui.utils.LogUtils;
 import com.jiupin.jiupinhui.view.ILaunchActivityView;
 
@@ -46,9 +47,15 @@ public class LaunchActivity extends BaseActivity implements ILaunchActivityView 
 
     @Override
     public void checkTokenBack(ResponseBase responseBase) {
-        UserInfoManager.getInstance().setLogin(true);
-        String token = UserInfoManager.getInstance().getToken(this);
-presenter.getUserInfoByToken(token);
+        if (ActivityUtils.isFinish(this))return;
+        String data = responseBase.getData().toString();
+        if (data.equals("1")){
+            UserInfoManager.getInstance().setLogin(true);
+            String token = UserInfoManager.getInstance().getToken(this);
+            presenter.getUserInfoByToken(token);
+        }else{
+            UserInfoManager.getInstance().setLogin(false);
+        }
     }
 
     @Override

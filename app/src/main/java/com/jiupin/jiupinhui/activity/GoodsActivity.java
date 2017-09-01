@@ -122,6 +122,8 @@ public class GoodsActivity extends BaseActivity implements IGoodsActivityView {
     LinearLayout llGoodsBottom;
     @BindView(R.id.wv_webview)
     WebView wvWebview;
+    @BindView(R.id.tv_buy_car_mark)
+    TextView tvBuyCarMark;
     private GoodsShowView goodsShowView;
     private IGoodsActivityPresenter presenter;
     private GoodsEntity goodsEntity;
@@ -149,6 +151,11 @@ public class GoodsActivity extends BaseActivity implements IGoodsActivityView {
         presenter = new GoodsActivityPresenterImpl(this);
         int id = getIntent().getExtras().getInt("id");
         presenter.getGoodsInfo(id);
+
+        if(UserInfoManager.getInstance().isLogin()){//登录状态去获取用户购物车的商品种类
+            String token = UserInfoManager.getInstance().getToken(mContext);
+            presenter.getCartGoodsCount(token);
+        }
 
         initGoodsShowView();
         initListener();
@@ -212,36 +219,66 @@ public class GoodsActivity extends BaseActivity implements IGoodsActivityView {
         llGoodsShow.addView(goodsShowView);
     }
 
-    @OnClick({R.id.btn_contact_customer, R.id.btn_now_pay, R.id.ll_Store_customer,R.id.ll_back_main,
-            R.id.iv_goods_back,R.id.tv_to_particulars,R.id.ll_comment
+    @OnClick({R.id.btn_contact_customer, R.id.btn_now_pay, R.id.ll_Store_customer, R.id.ll_back_main,
+            R.id.iv_goods_back, R.id.tv_to_particulars, R.id.ll_comment, R.id.rl_buy_car, R.id.btn_add_car
     })
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_goods_back:
                 finish();
                 break;
+            case R.id.rl_buy_car:
+                if(UserInfoManager.getInstance().isLogin()){
+                    Intent intent = new Intent(this,BuyCartActivity.class);
+                    startActivity(intent);
+                }else{
+                    ToastUtils.showShort(this,"您还没有登录，请先登录");
+                    gotoLoginActivity();
+                }
+
+                break;
+            case R.id.btn_add_car://加入购物车
+                if (UserInfoManager.getInstance().isLogin()){
+                    if (goodsEntity.getData().getIs_meal()==1){
+                        if (showDetail == null) {
+                            ToastUtils.showShort(this, "请选择商品属性");
+                        } else {
+                            String token = UserInfoManager.getInstance().getToken(this);
+                            String spec_id = showDetail.getId();
+                            presenter.addGoodsToCar(token, goodsEntity.getData().getId() + "", spec_id, 1 + "");
+                        }
+                    }else{
+                        String token = UserInfoManager.getInstance().getToken(this);
+                        presenter.addGoodsToCar(token, goodsEntity.getData().getId() + "", "", 1 + "");
+                    }
+
+                }else{
+                    ToastUtils.showShort(this,"您还没有登录，请先登录");
+                    gotoLoginActivity();
+                }
+                break;
             case R.id.ll_comment://跳转到评论界面
-                Intent commentIntent = new Intent(mContext,CommentActivity.class);
-                commentIntent.putExtra("goodsId",goodsEntity.getData().getId());
+                Intent commentIntent = new Intent(mContext, CommentActivity.class);
+                commentIntent.putExtra("goodsId", goodsEntity.getData().getId());
                 startActivity(commentIntent);
                 break;
             case R.id.tv_to_particulars://滑动到商品详情位置
-                nsvGoodsScrollview.smoothScrollTo(0,wvWebview.getTop()-DensityUtils.dp2px(this,40));
+                nsvGoodsScrollview.smoothScrollTo(0, wvWebview.getTop() - DensityUtils.dp2px(this, 40));
                 break;
             case R.id.btn_contact_customer:
-                if(UserInfoManager.getInstance().isLogin()){
+                if (UserInfoManager.getInstance().isLogin()) {
                     Intent serverIntent = new Intent(mContext, ServerActivity.class);
                     startActivity(serverIntent);
-                }else {//没有登录
+                } else {//没有登录
                     gotoLoginActivity();
                 }
 
                 break;
             case R.id.ll_Store_customer:
-                if(UserInfoManager.getInstance().isLogin()){
+                if (UserInfoManager.getInstance().isLogin()) {
                     Intent serverIntent2 = new Intent(mContext, ServerActivity.class);
                     startActivity(serverIntent2);
-                }else {//没有登录
+                } else {//没有登录
                     gotoLoginActivity();
                 }
                 break;
@@ -286,10 +323,19 @@ public class GoodsActivity extends BaseActivity implements IGoodsActivityView {
                                 return;
                             }
                         }
-
-
+                    }else{//购买单品
+                        Intent intent3 = new Intent(this, OrderActivity.class);
+                        Bundle bundle = new Bundle();
+                        goodsEntity.getData().setCount(1);
+                        List<GoodsEntity> goodsEntityList = new ArrayList<>();
+                        goodsEntityList.add(goodsEntity);
+                        bundle.putString("selectedPrice", goodsEntity.getData().getStore_price()+"");
+                        bundle.putSerializable("list", (Serializable) goodsEntityList);
+                        intent3.putExtras(bundle);
+                        startActivity(intent3);
                     }
-                } else {//没有登录
+                }else{
+                    ToastUtils.showShort(this,"您还没有登录，请先登录");
                     gotoLoginActivity();
                 }
                 break;
@@ -303,11 +349,12 @@ public class GoodsActivity extends BaseActivity implements IGoodsActivityView {
 
     @Override
     public void setData(final GoodsEntity goodsEntity) {
-        if (ActivityUtils.isFinish(mContext))return;
+        if (ActivityUtils.isFinish(mContext))
+            return;
 
         this.goodsEntity = goodsEntity;
-//        wvWebview.loadData(getHtmlData(goodsEntity.getData().getGoods_details()), "text/html; charset=utf-8", "utf-8");
-        wvWebview.loadUrl(Constant.GOODS_URL+goodsEntity.getData().getId());
+        //        wvWebview.loadData(getHtmlData(goodsEntity.getData().getGoods_details()), "text/html; charset=utf-8", "utf-8");
+        wvWebview.loadUrl(Constant.GOODS_URL + goodsEntity.getData().getId());
 
         goodsShowView.loadAD(goodsEntity.getData());
 
@@ -322,13 +369,13 @@ public class GoodsActivity extends BaseActivity implements IGoodsActivityView {
                 .into(ivStoreLogo);
         tvStoreName.setText(goodsEntity.getData().getStoreInfo().getStore_name());
         tvStoreDescription.setText(goodsEntity.getData().getStoreInfo().getStore_info());
-        tvAttentionNumber.setText(goodsEntity.getData().getStoreInfo().getAttention_num()+"");
-        tvAllProduct.setText(goodsEntity.getData().getStoreInfo().getGoods_num()+"");
-        tvStoreState.setText(goodsEntity.getData().getStoreInfo().getDynamic_num()+"");
+        tvAttentionNumber.setText(goodsEntity.getData().getStoreInfo().getAttention_num() + "");
+        tvAllProduct.setText(goodsEntity.getData().getStoreInfo().getGoods_num() + "");
+        tvStoreState.setText(goodsEntity.getData().getStoreInfo().getDynamic_num() + "");
 
         //设置商品详情信息
-        tvGoodsDownPrice.setText("￥"+goodsEntity.getData().getStore_price() + "");
-        tvGoodsRealPrice.setText("￥"+goodsEntity.getData().getGoods_price() + "");
+        tvGoodsDownPrice.setText("￥" + goodsEntity.getData().getStore_price() + "");
+        tvGoodsRealPrice.setText("￥" + goodsEntity.getData().getGoods_price() + "");
         tvGoodsName.setText(goodsEntity.getData().getGoods_name());
         tvGoodsCount.setText("库存：" + goodsEntity.getData().getGoods_inventory());
         String expressPrice = goodsEntity.getData().getGoods_transfee() == 1 ? "免邮" : "自费";
@@ -372,8 +419,8 @@ public class GoodsActivity extends BaseActivity implements IGoodsActivityView {
                                     showDetail = getDetail1(quarterChecked, preferenceChecked);
                                 }
                                 if (showDetail != null) {
-                                    tvGoodsDownPrice.setText("￥"+showDetail.getPrice());
-                                    tvGoodsRealPrice.setText("￥"+showDetail.getMemberPrice());
+                                    tvGoodsDownPrice.setText("￥" + showDetail.getPrice());
+                                    tvGoodsRealPrice.setText("￥" + showDetail.getMemberPrice());
                                     tvGoodsCount.setText("库存：" + showDetail.getCount());
                                 }
 
@@ -397,8 +444,8 @@ public class GoodsActivity extends BaseActivity implements IGoodsActivityView {
                                     showDetail = getDetail1(quarterChecked, preferenceChecked);
                                 }
                                 if (showDetail != null) {
-                                    tvGoodsDownPrice.setText("￥"+showDetail.getPrice());
-                                    tvGoodsRealPrice.setText("￥"+showDetail.getMemberPrice());
+                                    tvGoodsDownPrice.setText("￥" + showDetail.getPrice());
+                                    tvGoodsRealPrice.setText("￥" + showDetail.getMemberPrice());
                                     tvGoodsCount.setText("库存：" + showDetail.getCount());
                                 }
                             }
@@ -419,8 +466,8 @@ public class GoodsActivity extends BaseActivity implements IGoodsActivityView {
                                     showDetail = getDetail1(quarterChecked, preferenceChecked);
                                 }
                                 if (showDetail != null) {
-                                    tvGoodsDownPrice.setText("￥"+showDetail.getPrice());
-                                    tvGoodsRealPrice.setText("￥"+showDetail.getMemberPrice());
+                                    tvGoodsDownPrice.setText("￥" + showDetail.getPrice());
+                                    tvGoodsRealPrice.setText("￥" + showDetail.getMemberPrice());
                                     tvGoodsCount.setText("库存：" + showDetail.getCount());
                                 }
                             }
@@ -441,8 +488,8 @@ public class GoodsActivity extends BaseActivity implements IGoodsActivityView {
                                     showDetail = getDetail1(quarterChecked, preferenceChecked);
                                 }
                                 if (showDetail != null) {
-                                    tvGoodsDownPrice.setText("￥"+showDetail.getPrice());
-                                    tvGoodsRealPrice.setText("￥"+showDetail.getMemberPrice());
+                                    tvGoodsDownPrice.setText("￥" + showDetail.getPrice());
+                                    tvGoodsRealPrice.setText("￥" + showDetail.getMemberPrice());
                                     tvGoodsCount.setText("库存：" + showDetail.getCount());
                                 }
                             }
@@ -469,8 +516,8 @@ public class GoodsActivity extends BaseActivity implements IGoodsActivityView {
                                     showDetail = getDetail1(quarterChecked, preferenceChecked);
                                 }
                                 if (showDetail != null) {
-                                    tvGoodsDownPrice.setText("￥"+showDetail.getPrice());
-                                    tvGoodsRealPrice.setText("￥"+showDetail.getMemberPrice());
+                                    tvGoodsDownPrice.setText("￥" + showDetail.getPrice());
+                                    tvGoodsRealPrice.setText("￥" + showDetail.getMemberPrice());
                                     tvGoodsCount.setText("库存：" + showDetail.getCount());
                                 }
 
@@ -491,8 +538,8 @@ public class GoodsActivity extends BaseActivity implements IGoodsActivityView {
                                     showDetail = getDetail1(quarterChecked, preferenceChecked);
                                 }
                                 if (showDetail != null) {
-                                    tvGoodsDownPrice.setText("￥"+showDetail.getPrice());
-                                    tvGoodsRealPrice.setText("￥"+showDetail.getMemberPrice());
+                                    tvGoodsDownPrice.setText("￥" + showDetail.getPrice());
+                                    tvGoodsRealPrice.setText("￥" + showDetail.getMemberPrice());
                                     tvGoodsCount.setText("库存：" + showDetail.getCount());
                                 }
 
@@ -505,7 +552,7 @@ public class GoodsActivity extends BaseActivity implements IGoodsActivityView {
                 }
             }
         } else {
-            llGoodsBottom.setVisibility(View.GONE);
+//            llGoodsBottom.setVisibility(View.GONE);
         }
 
     }
@@ -513,31 +560,32 @@ public class GoodsActivity extends BaseActivity implements IGoodsActivityView {
     @Override
     public void setUserAppraise(List<AppraiseEntity> appraiseList) {
 
-        if (ActivityUtils.isFinish(mContext))return;
+        if (ActivityUtils.isFinish(mContext))
+            return;
 
         //设置用户评论信息
-        if(appraiseList!=null&&appraiseList.size()>0){
+        if (appraiseList != null && appraiseList.size() > 0) {
             rlAppraise.setVisibility(View.VISIBLE);
             AppraiseEntity appraise = appraiseList.get(0);
             tvUserNickname.setText(appraise.getUserName());
             tvAppraiseContent.setText(appraise.getEvaluate_info());
             for (int i = 0; i < 5; i++) {//添加星形图片
-                if(appraise.getDescription_evaluate()>i){
+                if (appraise.getDescription_evaluate() > i) {
                     ImageView image = new ImageView(this);
                     ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(DensityUtils.dp2px(this, 20), DensityUtils.dp2px(this, 20));
                     image.setLayoutParams(params);
                     image.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-                    image.setPadding(DensityUtils.dp2px(this, 5),0,DensityUtils.dp2px(this, 5),0);
+                    image.setPadding(DensityUtils.dp2px(this, 5), 0, DensityUtils.dp2px(this, 5), 0);
                     Glide.with(this)
                             .load(R.drawable.star_selected)
                             .into(image);
                     llGoodStars.addView(image);
-                }else{
+                } else {
                     ImageView image = new ImageView(this);
                     ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(DensityUtils.dp2px(this, 20), DensityUtils.dp2px(this, 20));
                     image.setLayoutParams(params);
                     image.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-                    image.setPadding(DensityUtils.dp2px(this, 5),0,DensityUtils.dp2px(this, 5),0);
+                    image.setPadding(DensityUtils.dp2px(this, 5), 0, DensityUtils.dp2px(this, 5), 0);
                     Glide.with(this)
                             .load(R.drawable.star_unselected)
                             .into(image);
@@ -545,14 +593,14 @@ public class GoodsActivity extends BaseActivity implements IGoodsActivityView {
                 }
             }
             //添加用户评论图片
-            if(appraise.getImage_list()!=null&&appraise.getImage_list()!=""){
+            if (appraise.getImage_list() != null && appraise.getImage_list() != "") {
                 String[] apps = appraise.getImage_list().split(";");
                 for (int i = 0; i < apps.length; i++) {
                     ImageView image = new ImageView(this);
                     ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(DensityUtils.dp2px(this, 80), DensityUtils.dp2px(this, 80));
                     image.setLayoutParams(params);
                     image.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-                    image.setPadding(DensityUtils.dp2px(this, 5),0,DensityUtils.dp2px(this, 5),0);
+                    image.setPadding(DensityUtils.dp2px(this, 5), 0, DensityUtils.dp2px(this, 5), 0);
                     Glide.with(this)
                             .load(apps[i])
                             .crossFade()
@@ -560,10 +608,28 @@ public class GoodsActivity extends BaseActivity implements IGoodsActivityView {
                     llAppraisePicture.addView(image);
                 }
             }
-        }else{
+        } else {
             tvNoAppraise.setVisibility(View.VISIBLE);
         }
-        
+
+    }
+
+    @Override
+    public void addGoodsToCar(String data) {
+        if (ActivityUtils.isFinish(mContext))
+            return;
+        ToastUtils.showShort(mContext,"添加成功");
+        tvBuyCarMark.setVisibility(View.VISIBLE);
+        tvBuyCarMark.setText(data);
+
+    }
+
+    @Override
+    public void getCartGoodsCount(String data) {
+        if (ActivityUtils.isFinish(mContext))
+            return;
+        tvBuyCarMark.setVisibility(View.VISIBLE);
+        tvBuyCarMark.setText(data);
     }
 
     private GoodsEntity.DataBean.Detail getDetail1(int id, int id1) {
