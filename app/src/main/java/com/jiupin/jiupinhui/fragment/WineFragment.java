@@ -88,10 +88,19 @@ public class WineFragment extends Fragment implements IWineFragmentView {
         rvWineKind.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false));
         mWineKindAdapter = new WineKindAdapter(getContext());
         rvWineKind.setAdapter(mWineKindAdapter);
-        mWineKindAdapter.setOnItemClickListener(new WineKindAdapter.OnRecyclerViewItemClickListener() {
+//        mWineKindAdapter.setOnItemClickListener(new WineKindAdapter.OnRecyclerViewItemClickListener() {
+//            @Override
+//            public void onItemClick(View view, WineBrandEntity data) {
+//                mWineKindAdapter.setSelected(position);
+//                presenter.getwineBrandKind(data.getId()+"");
+//            }
+//        });
+        mWineKindAdapter.setOnViewClickListener(new WineKindAdapter.OnViewClickListener() {
             @Override
-            public void onItemClick(View view, WineBrandEntity data) {
-                presenter.getwineBrandKind(data.getId()+"");
+            public void onClick(View view, Object data, int position) {
+                mWineKindAdapter.setSelected(position);
+                mWineKindAdapter.notifyDataSetChanged();
+                presenter.getwineBrandKind(((WineBrandEntity) data).getId()+"");
             }
         });
         presenter.getBrandKind();
@@ -146,6 +155,14 @@ public class WineFragment extends Fragment implements IWineFragmentView {
     private void initData() {
         presenter.getBrandData();
 
+    }
+
+    /**
+     * 获取美酒种类
+     * @param id
+     */
+    public void gainWineBrandKind(int id){
+        presenter.getwineBrandKind(id+"");
     }
 
     @Override

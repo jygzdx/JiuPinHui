@@ -69,4 +69,21 @@ public class StoreFragmentPresenterImpl implements IStoreFragmentPresenter {
             }
         });
     }
+
+    @Override
+    public void getCartGoodsCount(String token) {
+        model.getCartGoodsCount(token, new IModel.CallBack() {
+            @Override
+            public void onSuccess(Object success) {
+                view.getCartGoodsCount((String) success);
+            }
+
+            @Override
+            public void onFailed(int status, String msg) {
+                if(status!=HttpErrorUtils.TOKEN_ERROR){
+                    HttpErrorUtils.manageErrorHttp(status, msg, ((StoreFragment) view).getContext());
+                }
+            }
+        });
+    }
 }

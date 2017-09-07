@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.jiupin.jiupinhui.R;
 import com.jiupin.jiupinhui.activity.FormParticularActivity;
+import com.jiupin.jiupinhui.activity.MyFormActivity;
 import com.jiupin.jiupinhui.activity.PaySuccessActivity;
 import com.jiupin.jiupinhui.config.Constant;
 import com.jiupin.jiupinhui.utils.LogUtils;
@@ -32,6 +33,8 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_wxentry);
+
+        //由于购物车里面的支付之后跟单品支付的流程不一样，如果data是cart的话，直接跳转到我的订单界面
 		data = getIntent().getStringExtra("_wxapi_payresp_extdata");
     	api = WXAPIFactory.createWXAPI(this, Constant.APP_ID);
         api.handleIntent(getIntent(), this);
@@ -56,21 +59,31 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
 		if (resp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
 			if(resp.errCode==BaseResp.ErrCode.ERR_OK){//微信支付成功
 				ToastUtils.showShort(this,"支付成功");
-				Intent intent = new Intent(WXPayEntryActivity.this, PaySuccessActivity.class);
-				intent.putExtra("orderId",data);
-				startActivity(intent);
+                if("cart".equals(data)){
+                    Intent intent = new Intent(WXPayEntryActivity.this, MyFormActivity.class);
+                    intent.putExtra("orderStatus", "");
+                    startActivity(intent);
+                }else {
+                    Intent intent = new Intent(WXPayEntryActivity.this, PaySuccessActivity.class);
+                    intent.putExtra("orderId",data);
+                    startActivity(intent);
+                }
 			}else if(resp.errCode==BaseResp.ErrCode.ERR_USER_CANCEL){
 				ToastUtils.showShort(this,"取消支付");
-				Intent intent = new Intent(WXPayEntryActivity.this, FormParticularActivity.class);
-				intent.putExtra("status", Constant.WAIT_PAY);
-				intent.putExtra("orderId", data);
-				startActivity(intent);
+                if(!"cart".equals(data)){
+                    Intent intent = new Intent(WXPayEntryActivity.this, FormParticularActivity.class);
+                    intent.putExtra("status", Constant.WAIT_PAY);
+                    intent.putExtra("orderId", data);
+                    startActivity(intent);
+                }
 			}else {
 				ToastUtils.showShort(this,"支付失败");
-                Intent intent = new Intent(WXPayEntryActivity.this, FormParticularActivity.class);
-                intent.putExtra("status", Constant.WAIT_PAY);
-                intent.putExtra("orderId", data);
-                startActivity(intent);
+                if(!"cart".equals(data)){
+                    Intent intent = new Intent(WXPayEntryActivity.this, FormParticularActivity.class);
+                    intent.putExtra("status", Constant.WAIT_PAY);
+                    intent.putExtra("orderId", data);
+                    startActivity(intent);
+                }
 			}
 		}
 		finish();

@@ -1,12 +1,13 @@
 package com.jiupin.jiupinhui.entity;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * 作者：czb on 2017/8/31 15:18
  */
 
-public class CartEntity {
+public class CartEntity implements Serializable{
     /**
      * id : 6453
      * is_meal : 1

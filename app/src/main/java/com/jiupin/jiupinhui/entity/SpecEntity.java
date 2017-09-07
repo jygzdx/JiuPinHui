@@ -1,10 +1,12 @@
 package com.jiupin.jiupinhui.entity;
 
+import java.io.Serializable;
+
 /**
  * 作者：czb on 2017/8/31 15:43
  */
 
-public class SpecEntity {
+public class SpecEntity implements Serializable{
     /**
      * spec_info : 月度会员（3次）
      * spec_id : 32775

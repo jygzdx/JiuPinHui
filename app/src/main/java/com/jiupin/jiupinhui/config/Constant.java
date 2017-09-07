@@ -6,7 +6,10 @@ package com.jiupin.jiupinhui.config;
 
 public class Constant {
 
-    public static final String MAIN_URL = "http://nappt.9pin.com";
+    //正式版本
+    public static final String MAIN_URL = "https://napp.9pin.com";
+
+//    public static final String MAIN_URL = "http://nappt.9pin.com";
     //测试ip
 //        public static final String MAIN_URL = "http://192.168.0.131:8080";
     //服务器ip
@@ -251,6 +254,12 @@ public class Constant {
      */
     public static final String NOTIFY_GOODS_COUNT = MAIN_URL + "/app/cart/modifyCart.json";
 
+    /**
+     * 提交购物车结算信息
+     */
+    public static final String SUBMIT_CART_ORDERS = MAIN_URL + "/app/order/submitCartOrders.json";
+
+    /********************************订单详情页****************************************/
     /**
      * 提交订单
      */

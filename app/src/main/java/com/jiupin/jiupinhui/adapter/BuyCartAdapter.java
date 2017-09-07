@@ -278,6 +278,16 @@ public class BuyCartAdapter extends RecyclerView.Adapter {
         return money;
     }
 
+    public List<CartEntity> getSelectedGoods(){
+        List<CartEntity> list = new ArrayList<>();
+        for (int i = 0; i < carts.size(); i++) {
+            if(carts.get(i).isSelected()){
+                list.add(carts.get(i));
+            }
+        }
+        return list;
+    }
+
     /**
      * 移除所有的数据
      */

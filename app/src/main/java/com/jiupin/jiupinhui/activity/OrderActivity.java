@@ -436,8 +436,6 @@ public class OrderActivity extends BaseActivity implements IOrderActivityView {
             tvAddress.setText("收货地址：" + address);
             tvPhoneNumber.setText(phone);
         }
-
-
     }
 
     public void showRight(View view) {

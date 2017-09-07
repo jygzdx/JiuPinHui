@@ -13,5 +13,41 @@
 
     </com.github.jdsjlzx.recyclerview.LRecyclerView>
 
+    <RelativeLayout
+        android:id="@+id/rl_buy_car"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="120dp"
+        android:layout_marginRight="12dp"
+        android:background="@drawable/car_bg"
+        android:clickable="true"
+        >
+
+        <ImageView
+            android:id="@+id/tv_buy_car"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:src="@drawable/buy_car"
+            />
+        <TextView
+            android:id="@+id/tv_buy_car_mark"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:background="@drawable/jiaobiao"
+            android:gravity="center"
+            android:layout_alignTop="@+id/tv_buy_car"
+            android:layout_alignRight="@+id/tv_buy_car"
+            android:layout_marginTop="-3dp"
+            android:layout_marginRight="-3dp"
+            android:text="0"
+            android:textSize="6sp"
+            android:textColor="@color/white"
+            android:visibility="visible"
+            />
+    </RelativeLayout>
+
     <include layout="@layout/title_bar"></include>
 </RelativeLayout>

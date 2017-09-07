@@ -1,5 +1,6 @@
 package com.jiupin.jiupinhui.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -8,18 +9,22 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.github.jdsjlzx.interfaces.OnLoadMoreListener;
 import com.github.jdsjlzx.recyclerview.LRecyclerView;
 import com.github.jdsjlzx.recyclerview.LRecyclerViewAdapter;
 import com.github.jdsjlzx.recyclerview.ProgressStyle;
 import com.jiupin.jiupinhui.R;
+import com.jiupin.jiupinhui.activity.BuyCartActivity;
+import com.jiupin.jiupinhui.activity.LoginActivity;
 import com.jiupin.jiupinhui.adapter.HomeAdapter;
 import com.jiupin.jiupinhui.entity.ArticleEntity;
 import com.jiupin.jiupinhui.entity.BannerEntity;
 import com.jiupin.jiupinhui.entity.HomeLoveEntity;
 import com.jiupin.jiupinhui.entity.HotRecommentEntity;
 import com.jiupin.jiupinhui.entity.MainShowEntity;
+import com.jiupin.jiupinhui.manage.UserInfoManager;
 import com.jiupin.jiupinhui.presenter.IHomeFragmentPresenter;
 import com.jiupin.jiupinhui.presenter.impl.HomeFragmentPresenterImpl;
 import com.jiupin.jiupinhui.utils.LogUtils;
@@ -29,6 +34,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 
 /**
@@ -41,6 +47,8 @@ public class HomeFragment extends Fragment implements IHomeFragmentView {
     LRecyclerView lrvHome;
 
     Unbinder unbinder;
+    @BindView(R.id.tv_buy_car_mark)
+    TextView tvBuyCarMark;
 
     private View view;
     private HomeAdapter adapter;
@@ -49,6 +57,7 @@ public class HomeFragment extends Fragment implements IHomeFragmentView {
     private int page = 1;
     private int requestSize = -1;
     private int loveCount = 0;
+    private boolean isDestroy;
 
 
     @Nullable
@@ -57,6 +66,8 @@ public class HomeFragment extends Fragment implements IHomeFragmentView {
         view = inflater.inflate(R.layout.fragment_home, container, false);
 
         unbinder = ButterKnife.bind(this, view);
+
+        isDestroy = false;
 
         presenter = new HomeFragmentPresenterImpl(this);
 
@@ -81,6 +92,9 @@ public class HomeFragment extends Fragment implements IHomeFragmentView {
         presenter.getBanner();
         //获取文章数据
         presenter.getArticle();
+
+        String token = UserInfoManager.getInstance().getToken(getContext());
+        presenter.getCartGoodsCount(token);
     }
 
     private void initListener() {
@@ -154,6 +168,7 @@ public class HomeFragment extends Fragment implements IHomeFragmentView {
         unbinder.unbind();
         page = 1;
         loveCount = 0;
+        isDestroy = true;
     }
 
 
@@ -192,7 +207,7 @@ public class HomeFragment extends Fragment implements IHomeFragmentView {
         if (homeLoveEntity != null) {
             if (homeLoveEntity.getData() != null) {
                 if (homeLoveEntity.getData().getList() != null) {
-                    if(lrvHome!=null){//有时fragment会被销毁
+                    if (lrvHome != null) {//有时fragment会被销毁
                         if (homeLoveEntity.getData().getList().size() > 0) {
                             adapter.addAll(homeLoveEntity.getData().getList());
                             lrvHome.refreshComplete(requestSize);
@@ -225,5 +240,33 @@ public class HomeFragment extends Fragment implements IHomeFragmentView {
         }
     }
 
+    @Override
+    public void getCartGoodsCount(String data) {
+        if (isDestroy)
+            return;
+        tvBuyCarMark.setVisibility(View.VISIBLE);
+        tvBuyCarMark.setText(data);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode==104){
+            String token = UserInfoManager.getInstance().getToken(getContext());
+            presenter.getCartGoodsCount(token);
+        }
+    }
+
+    @OnClick(R.id.rl_buy_car)
+    public void onViewClicked() {
+        if(UserInfoManager.getInstance().isLogin()){
+            Intent intent = new Intent(getContext(), BuyCartActivity.class);
+            startActivity(intent);
+        }else{
+            Intent intent = new Intent(getContext(), LoginActivity.class);
+            startActivityForResult(intent,104);
+        }
+
+    }
 }
 

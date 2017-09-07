@@ -187,7 +187,8 @@
             android:gravity="right"
             android:orientation="vertical"
             android:visibility="visible"
-            android:padding="5dp"
+            android:padding="8dp"
+            android:background="@drawable/shape_person_bg"
             >
 
             <TextView

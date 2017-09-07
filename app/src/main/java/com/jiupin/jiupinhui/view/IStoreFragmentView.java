@@ -28,4 +28,10 @@ public interface IStoreFragmentView {
      * @param mainShowList 套餐信息
      */
     void setMealInfoData(List<MainShowEntity.DataBean.ListBean> mainShowList);
+
+    /**
+     * .根据用户token返回用户购物车的商品种类数量（一种商品购买多件=1，N种商品=N）
+     * @param data 用户购物车商品数量
+     */
+    void getCartGoodsCount(String data);
 }

@@ -9,6 +9,7 @@ import com.jiupin.jiupinhui.model.IBuyCartActivityModel;
 import com.jiupin.jiupinhui.model.IModel;
 import com.jiupin.jiupinhui.utils.HttpErrorUtils;
 import com.jiupin.jiupinhui.utils.LogUtils;
+import com.jiupin.jiupinhui.utils.StringUtils;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -16,9 +17,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import okhttp3.Call;
+
+import static com.zhy.http.okhttp.OkHttpUtils.post;
 
 /**
  * 作者：czb on 2017/6/26 14:30
@@ -29,8 +34,7 @@ public class BuyCartActivityModelImpl implements IBuyCartActivityModel {
 
     @Override
     public void getBuyCartList(String token, final IModel.CallBack callBack) {
-        OkHttpUtils
-                .post()
+        post()
                 .url(Constant.GET_CART_LIST)
                 .addParams("token", token)
                 .build()
@@ -89,8 +93,7 @@ public class BuyCartActivityModelImpl implements IBuyCartActivityModel {
 
     @Override
     public void deleteGoods(String token, String id, String spec_id, final IModel.CallBack callBack) {
-        OkHttpUtils
-                .post()
+        post()
                 .url(Constant.DELETE_ITEM_FROM_CART)
                 .addParams("token", token)
                 .addParams("id",id)
@@ -124,8 +127,7 @@ public class BuyCartActivityModelImpl implements IBuyCartActivityModel {
 
     @Override
     public void emptyCart(String token, final IModel.CallBack callBack) {
-        OkHttpUtils
-                .post()
+        post()
                 .url(Constant.EMPTY_CART)
                 .addParams("token", token)
                 .build()
@@ -158,13 +160,23 @@ public class BuyCartActivityModelImpl implements IBuyCartActivityModel {
 
     @Override
     public void notifyGoodsCount(String token, String id, String spec_id, int count, final IModel.CallBack callBack) {
+        Map<String,String> params = new HashMap<>();
+        if(!StringUtils.isEmpty(token)){
+            params.put("token", token);
+        }
+        if(!StringUtils.isEmpty(id)){
+            params.put("id",id);
+        }
+        if(!StringUtils.isEmpty(spec_id)){
+            params.put("spec_id",spec_id);
+        }
+        if(!StringUtils.isEmpty(count+"")){
+            params.put("count",count+"");
+        }
         OkHttpUtils
                 .post()
                 .url(Constant.NOTIFY_GOODS_COUNT)
-                .addParams("token", token)
-                .addParams("id",id)
-                .addParams("spec_id",spec_id)
-                .addParams("count",count+"")
+                .params(params)
                 .build()
                 .execute(new StringCallback() {
                     @Override
@@ -195,8 +207,7 @@ public class BuyCartActivityModelImpl implements IBuyCartActivityModel {
 
     @Override
     public void submitGoodsInfo(String token, String goodStr, final IModel.CallBack callBack) {
-        OkHttpUtils
-                .post()
+        post()
                 .url(Constant.SUBMIT_GOODS_INFO)
                 .addParams("token", token)
                 .addParams("goodStr",goodStr)

@@ -15,7 +15,10 @@
         android:textColor="@color/white"
         android:textSize="14sp"
         android:text="美酒"
-        android:background="@drawable/wine_kind_bg"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:paddingTop="6dp"
+        android:paddingBottom="6dp"
         />
 
 </RelativeLayout>

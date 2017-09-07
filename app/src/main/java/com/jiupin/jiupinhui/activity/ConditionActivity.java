@@ -88,7 +88,7 @@ public class ConditionActivity extends TakePhotoActivity implements IConditionAc
                 takePhoto = getTakePhoto();
                 if (null == config) {
                     config = new CompressConfig.Builder()
-                            .setMaxSize(500 * 1024)
+                            .setMaxSize(1000 * 1024)
                             .setMaxPixel(800)
                             .enableReserveRaw(true)
                             .create();
@@ -132,5 +132,6 @@ public class ConditionActivity extends TakePhotoActivity implements IConditionAc
     @Override
     public void sendConditionSuccess() {
         ToastUtils.showShort(this,"发布成功");
+        finish();
     }
 }

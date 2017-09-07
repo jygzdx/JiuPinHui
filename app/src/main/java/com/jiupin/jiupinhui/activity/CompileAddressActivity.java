@@ -233,7 +233,7 @@ LogUtils.d("---- token = "+token+"---- area_id = "+area_id+"---- userName = "+us
                     popupWindow.dismiss();// 关闭
                     LogUtils.d("dismiss");
                 } else {
-                    popupWindow.showAtLocation(llParent, Gravity.BOTTOM, 50, 50);// 显示
+                    popupWindow.showAtLocation(llParent, Gravity.BOTTOM, 0, 0);// 显示
                     LogUtils.d("showAtLocation");
                     backgroundAlpha(0.7f);
                     requestAddress(-1);

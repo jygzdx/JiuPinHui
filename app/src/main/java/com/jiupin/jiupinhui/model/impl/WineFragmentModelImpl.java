@@ -9,6 +9,7 @@ import com.jiupin.jiupinhui.model.IModel;
 import com.jiupin.jiupinhui.model.IWineFragmentModel;
 import com.jiupin.jiupinhui.utils.HttpErrorUtils;
 import com.jiupin.jiupinhui.utils.LogUtils;
+import com.jiupin.jiupinhui.utils.StringUtils;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -137,9 +138,11 @@ public class WineFragmentModelImpl implements IWineFragmentModel {
                                 for (int i = 0; i < wineBrandKindEntityList.size(); i++) {
                                     List<WineBrandEntity> brandlist = wineBrandKindEntityList.get(i).getList();
                                     for (int j = 0; j < brandlist.size(); j++) {
-                                        WineBrandEntity wine = gson.fromJson(brandlist.get(j).getCover_img(), WineBrandEntity.class);
-                                        brandlist.get(j).setLarge_img(wine.getLarge_img());
-                                        brandlist.get(j).setThumb_img(wine.getThumb_img());
+                                        if(!StringUtils.isEmpty(brandlist.get(j).getCover_img())){
+                                            WineBrandEntity wine = gson.fromJson(brandlist.get(j).getCover_img(), WineBrandEntity.class);
+                                            brandlist.get(j).setLarge_img(wine.getLarge_img());
+                                            brandlist.get(j).setThumb_img(wine.getThumb_img());
+                                        }
                                     }
                                     wineBrandList.addAll(brandlist);
                                 }

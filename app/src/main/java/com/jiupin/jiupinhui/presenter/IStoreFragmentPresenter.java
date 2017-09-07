@@ -19,4 +19,10 @@ public interface IStoreFragmentPresenter {
      * @param cid 套餐id
      */
     void getMealInfo(String cid);
+
+    /**
+     * .根据用户token返回用户购物车的商品种类数量（一种商品购买多件=1，N种商品=N）
+     * @param token token
+     */
+    void getCartGoodsCount(String token);
 }

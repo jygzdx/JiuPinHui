@@ -9,6 +9,9 @@
     <color name="mainColor">#D3AC65</color>
     <!--背景颜色-->
     <color name="mainBackground">#EDEFF0</color>
+    <!--透明颜色-->
+    <color name="transparency_color">#00000000</color>
+
     <!--浅主色-->
     <color name="shallow_yellow">#F0EEE1</color>
 

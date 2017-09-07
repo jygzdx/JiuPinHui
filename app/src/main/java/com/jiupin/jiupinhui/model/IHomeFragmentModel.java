@@ -30,4 +30,10 @@ public interface IHomeFragmentModel {
      * 获取热门文章
      */
     void getArticle(IModel.CallBack callBack);
+
+    /**
+     * 根据用户token返回用户购物车的商品种类数量（一种商品购买多件=1，N种商品=N）
+     * @param token token
+     */
+    void getCartGoodsCount(String token, IModel.CallBack callBack);
 }

@@ -1,5 +1,6 @@
 package com.jiupin.jiupinhui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,7 +11,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
 import com.jiupin.jiupinhui.R;
 import com.jiupin.jiupinhui.adapter.BuyCartAdapter;
 import com.jiupin.jiupinhui.entity.AllCartEntity;
@@ -24,6 +24,7 @@ import com.jiupin.jiupinhui.utils.LogUtils;
 import com.jiupin.jiupinhui.utils.ToastUtils;
 import com.jiupin.jiupinhui.view.IBuyCartActivityView;
 
+import java.io.Serializable;
 import java.util.List;
 
 import butterknife.BindView;
@@ -177,14 +178,14 @@ public class BuyCartActivity extends BaseActivity implements IBuyCartActivityVie
                 }
                 break;
             case R.id.tv_pay:
-                String goodList = new Gson().toJson(adapter.getGoodsList());
-                String token = UserInfoManager.getInstance().getToken(mContext);
-                LogUtils.d("goodList = "+goodList);
+
                 if (adapter.getSelectedSize()<=0){
                     ToastUtils.showShort(mContext,"您还没有选择商品");
                     return;
                 }
-                presenter.submitGoodsInfo(token,goodList);
+                Intent intent = new Intent(BuyCartActivity.this,OrderCopyActivity.class);
+                intent.putExtra("goods",(Serializable) adapter.getSelectedGoods());
+                startActivity(intent);
                 break;
             case R.id.tv_delete:
                 //删除全部订单

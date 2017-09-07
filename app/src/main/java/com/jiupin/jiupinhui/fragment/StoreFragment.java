@@ -1,5 +1,6 @@
 package com.jiupin.jiupinhui.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -10,14 +11,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.github.jdsjlzx.recyclerview.LRecyclerView;
 import com.github.jdsjlzx.recyclerview.LRecyclerViewAdapter;
 import com.jiupin.jiupinhui.R;
+import com.jiupin.jiupinhui.activity.BuyCartActivity;
+import com.jiupin.jiupinhui.activity.LoginActivity;
 import com.jiupin.jiupinhui.adapter.MealAdapter;
 import com.jiupin.jiupinhui.entity.BannerEntity;
 import com.jiupin.jiupinhui.entity.MainShowEntity;
 import com.jiupin.jiupinhui.entity.MealTypeEntity;
+import com.jiupin.jiupinhui.manage.UserInfoManager;
 import com.jiupin.jiupinhui.presenter.IStoreFragmentPresenter;
 import com.jiupin.jiupinhui.presenter.impl.StoreFragmentPresenterImpl;
 import com.jiupin.jiupinhui.utils.LogUtils;
@@ -27,6 +32,11 @@ import com.jiupin.jiupinhui.widget.ADBannerView;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.Unbinder;
+
 /**
  * Created by Administrator on 2017/3/15.
  * 商城模块
@@ -34,6 +44,9 @@ import java.util.List;
 
 public class StoreFragment extends Fragment implements IStoreFragmentView {
     private static final String TAG = "StoreFragment";
+    @BindView(R.id.tv_buy_car_mark)
+    TextView tvBuyCarMark;
+    Unbinder unbinder;
     private View view;
     private TabLayout tabLayout;
 
@@ -56,7 +69,7 @@ public class StoreFragment extends Fragment implements IStoreFragmentView {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_store, container, false);
-
+        unbinder = ButterKnife.bind(this, view);
         isDestroy = false;
         presenter = new StoreFragmentPresenterImpl(this);
 
@@ -66,12 +79,13 @@ public class StoreFragment extends Fragment implements IStoreFragmentView {
 
         initData();
         LogUtils.d(TAG, "onCreateView");
+
         return view;
     }
 
     private void initRecyclerView() {
         lrvStore = (LRecyclerView) view.findViewById(R.id.lrv_store);
-        RecyclerView.LayoutManager layout = new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false);
+        RecyclerView.LayoutManager layout = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         lrvStore.setLayoutManager(layout);
         adapter = new MealAdapter(getContext());
         lrvAdapter = new LRecyclerViewAdapter(adapter);
@@ -82,9 +96,11 @@ public class StoreFragment extends Fragment implements IStoreFragmentView {
     }
 
     private void initData() {
-//        ProgressUtils.show(getContext());
+        //        ProgressUtils.show(getContext());
         presenter.getBanner();
         presenter.getMealType();
+        String token = UserInfoManager.getInstance().getToken(getContext());
+        presenter.getCartGoodsCount(token);
     }
 
     private void initTabLayout() {
@@ -101,12 +117,12 @@ public class StoreFragment extends Fragment implements IStoreFragmentView {
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-                LogUtils.d(TAG,"onTabUnselected");
+                LogUtils.d(TAG, "onTabUnselected");
             }
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-                LogUtils.d(TAG,"onTabUnselected");
+                LogUtils.d(TAG, "onTabUnselected");
             }
         });
 
@@ -119,7 +135,8 @@ public class StoreFragment extends Fragment implements IStoreFragmentView {
 
     @Override
     public void setBannerData(List<BannerEntity> bannerList) {
-        if (isDestroy) return;
+        if (isDestroy)
+            return;
         LogUtils.d(TAG, "bannerList = " + bannerList);
         if (bannerList != null && bannerList.size() > 0) {
             bannerView = new ADBannerView(getContext(), true);
@@ -132,14 +149,15 @@ public class StoreFragment extends Fragment implements IStoreFragmentView {
     @Override
     public void setMealTypeData(List<MealTypeEntity> mealTypeList) {
 
-        if (isDestroy) return;
+        if (isDestroy)
+            return;
 
         if (mealTypeList != null && mealTypeList.size() > 0) {
 
-//            //获取到套餐id之后展示套餐信息
+            //            //获取到套餐id之后展示套餐信息
             for (int i = 0; i < mealTypeList.size(); i++) {
                 TabLayout.Tab tab = tabLayout.newTab();
-                tab.setTag(mealTypeList.get(i).getId()+"");
+                tab.setTag(mealTypeList.get(i).getId() + "");
                 tabLayout.addTab(tab.setText(mealTypeList.get(i).getClassName()));
             }
         }
@@ -148,12 +166,20 @@ public class StoreFragment extends Fragment implements IStoreFragmentView {
 
     @Override
     public void setMealInfoData(List<MainShowEntity.DataBean.ListBean> mainShowList) {
-        LogUtils.d("isFirst = "+isFirst);
+        LogUtils.d("isFirst = " + isFirst);
         if (mainShowList != null && mainShowList.size() > 0) {
             for (int i = 0; i < mainShowList.size(); i++) {
                 adapter.setData(mainShowList);
             }
         }
+    }
+
+    @Override
+    public void getCartGoodsCount(String data) {
+        if (isDestroy)
+            return;
+        tvBuyCarMark.setVisibility(View.VISIBLE);
+        tvBuyCarMark.setText(data);
     }
 
     @Override
@@ -172,6 +198,29 @@ public class StoreFragment extends Fragment implements IStoreFragmentView {
     public void onDestroyView() {
         super.onDestroyView();
         LogUtils.d(TAG, "onDestroyview" + ll_advertis.getChildAt(0));
+        unbinder.unbind();
         isDestroy = true;
+
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode==103){
+            String token = UserInfoManager.getInstance().getToken(getContext());
+            presenter.getCartGoodsCount(token);
+        }
+    }
+
+    @OnClick(R.id.rl_buy_car)
+    public void onViewClicked() {
+        if(UserInfoManager.getInstance().isLogin()){
+            Intent intent = new Intent(getContext(), BuyCartActivity.class);
+            startActivity(intent);
+        }else{
+            Intent intent = new Intent(getContext(), LoginActivity.class);
+            startActivityForResult(intent,103);
+        }
+
     }
 }

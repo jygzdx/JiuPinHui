@@ -137,4 +137,38 @@ public class StoreFragmentModelImpl implements IStoreFragmentModel {
                     }
                 });
     }
+
+    @Override
+    public void getCartGoodsCount(String token, final IModel.CallBack callBack) {
+        OkHttpUtils
+                .post()
+                .url(Constant.GET_CART_GOODS_COUNT)
+                .addParams("token", token)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+                        callBack.onFailed(HttpErrorUtils.NETWORK_ERROR,HttpErrorUtils.MSG_NETWORK_ERROR);
+                    }
+
+                    @Override
+                    public void onResponse(String response, int id) {
+                        LogUtils.d(response);
+                        JSONObject jsonObject = null;
+                        try {
+                            jsonObject = new JSONObject(response);
+                            String msg = jsonObject.getString("msg");
+                            int status = jsonObject.getInt("status");
+                            if (200 == status) {
+                                String data = jsonObject.getString("data");
+                                callBack.onSuccess(data);
+                            } else {
+                                callBack.onFailed(status, msg);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+    }
 }
