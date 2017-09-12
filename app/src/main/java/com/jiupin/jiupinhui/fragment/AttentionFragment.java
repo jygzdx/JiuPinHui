@@ -161,6 +161,19 @@ public class AttentionFragment extends Fragment implements IAttentionFragmentVie
         LogUtils.d(TAG, "onDestroy");
     }
 
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        LogUtils.d(TAG , "hidden = "+hidden);
+        if(!hidden){
+            if(adapter!=null){
+                String token = UserInfoManager.getInstance().getToken(getContext());
+                adapter.clear();
+                presenter.getAttentionList(token, page + "", rows + "");
+            }
+        }
+    }
+
     public void setThumbDynamic(int communityId , int position){
         String token = UserInfoManager.getInstance().getToken(getContext());
         presenter.setThumbDynamic(token,communityId+"",position);
@@ -199,6 +212,7 @@ public class AttentionFragment extends Fragment implements IAttentionFragmentVie
     public void concernExpert(String msg,String userId) {
         ToastUtils.showShort(getContext(),msg);
         adapter.notifyItemChangeOnConcernExpert(userId);
+//        refreshRecommendData();
     }
 
     @Override

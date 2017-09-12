@@ -8,6 +8,12 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:listDivider">@drawable/divider_bg</item>
     </style>
+    <!-- 启动界面style -->
+    <style name="Theme.AppCompat.Light.NoActionBar.FullScreen">
+        <item name="android:windowFullscreen">true</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
 
     <style name="listDivider">
         <item name="android:listDivider">@drawable/divider_bg</item>

@@ -28,6 +28,11 @@ public class SPUtils {
     public static final String USER_ID = "user_id";
 
     /**
+     * 首次进入app
+     */
+    public static final String IS_FIRST_WELCOME = "is_first_welcome";
+
+    /**
      * 保存数据的方法，我们需要拿到保存数据的具体类型，然后根据类型调用不同的保存方法
      *
      * @param context

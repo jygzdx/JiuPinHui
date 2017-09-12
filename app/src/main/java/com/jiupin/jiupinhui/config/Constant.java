@@ -9,6 +9,9 @@ public class Constant {
     //正式版本
     public static final String MAIN_URL = "https://napp.9pin.com";
 
+    //https测试版本
+//    public static final String MAIN_URL = "https://nappt.9pin.com";
+
 //    public static final String MAIN_URL = "http://nappt.9pin.com";
     //测试ip
 //        public static final String MAIN_URL = "http://192.168.0.131:8080";
@@ -442,6 +445,16 @@ public class Constant {
      * 微信支付接口
      */
     public static final String WEIXIN_SIGN = MAIN_URL + "/app/pay/weixin/getWeixinPayInfo.json";
+    /**------------------------------------版本信息-------------------------------------------*/
+    /**
+     * 获取安卓最新的下载地址
+     */
+    public static final String GET_APK_DOWNLOAD = MAIN_URL + "/version/getAndroidDownloadAddress.json";
+
+    /**
+     * 获取版本信息
+     */
+    public static final String VERSION_INFO = MAIN_URL + "/version/getCurrentVersionInfo.json";
 
     /**------------------------------------订单状态-------------------------------------------*/
     /**

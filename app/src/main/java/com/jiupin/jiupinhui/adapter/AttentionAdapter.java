@@ -233,10 +233,10 @@ public class AttentionAdapter extends RecyclerView.Adapter {
     private void setThumbStatus(AttentionViewHolder attentionViewHolder, int position) {
         if (communityList.get(position).isThumb_status()) {
             attentionViewHolder.ivSetLike.setImageResource(R.drawable.set_like_checked);
-            attentionViewHolder.llSetLike.setClickable(false);
+//            attentionViewHolder.llSetLike.setClickable(false);
         } else {
             attentionViewHolder.ivSetLike.setImageResource(R.drawable.set_like);
-            attentionViewHolder.llSetLike.setClickable(true);
+//            attentionViewHolder.llSetLike.setClickable(true);
         }
 
     }
@@ -247,7 +247,7 @@ public class AttentionAdapter extends RecyclerView.Adapter {
      * @param position
      */
     public void notifyItemChangeOnThumbStatus(int position) {
-        communityList.get(position).setThumb_status(true);
+        communityList.get(position).setThumb_status(!communityList.get(position).isThumb_status());
         notifyItemChanged(position);
     }
 

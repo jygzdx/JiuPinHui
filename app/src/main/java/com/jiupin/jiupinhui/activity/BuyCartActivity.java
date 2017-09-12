@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.jiupin.jiupinhui.R;
 import com.jiupin.jiupinhui.adapter.BuyCartAdapter;
 import com.jiupin.jiupinhui.entity.AllCartEntity;
@@ -41,6 +42,8 @@ public class BuyCartActivity extends BaseActivity implements IBuyCartActivityVie
     RecyclerView rvRecyclerview;
     @BindView(R.id.iv_check)
     ImageView ivCheck;
+    @BindView(R.id.iv_no_data)
+    ImageView ivNoData;
     @BindView(R.id.tv_money)
     TextView tvMoney;
     @BindView(R.id.tv_pay)
@@ -51,6 +54,10 @@ public class BuyCartActivity extends BaseActivity implements IBuyCartActivityVie
     LinearLayout llPay;
     @BindView(R.id.ll_delete)
     LinearLayout llDelete;
+    @BindView(R.id.ll_header)
+    LinearLayout llHeader;
+    @BindView(R.id.iv_logo)
+    ImageView ivLogo;
     /**
      * 编辑购物车
      */
@@ -86,48 +93,6 @@ public class BuyCartActivity extends BaseActivity implements IBuyCartActivityVie
         rvRecyclerview.setAdapter(adapter);
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }
-
-    @Override
-    public void buyCartList(List<CartEntity> cartList) {
-        if (ActivityUtils.isFinish(this))
-            return;
-        if (cartList.size() == 0) {//购物车没有商品
-            ToastUtils.showShort(mContext, "您的购物车空空如也");
-            return;
-        }
-        setTitleText(cartList.size());
-        adapter.setData(cartList);
-        setTitleText(adapter.getItemCount());
-    }
-
-    @Override
-    public void deleteGoods(int position) {
-        if (ActivityUtils.isFinish(this))
-            return;
-        adapter.remove(position);
-    }
-
-    @Override
-    public void emptyCartSuccess(String msg) {
-        if (ActivityUtils.isFinish(this))
-            return;
-        //        ToastUtils.showShort(mContext, msg);
-        adapter.removeAllItem();
-    }
-
-    @Override
-    public void notifyGoodsCountSuccess(int position, int count) {
-        adapter.notifyGoodsCount(position,count);
-    }
-
-    @Override
-    public void submitGoodsSuccess(List<AllCartEntity.OnSaleBean> goodsList) {
-        LogUtils.d("提交成功");
-    }
 
     @OnClick({R.id.iv_back, R.id.tv_compile, R.id.iv_more, R.id.iv_check, R.id.tv_pay, R.id.tv_delete,
     })
@@ -137,6 +102,9 @@ public class BuyCartActivity extends BaseActivity implements IBuyCartActivityVie
                 finish();
                 break;
             case R.id.tv_compile:
+                if(adapter.getItemCount()==0){
+                    return;
+                }
                 if (isCompile) {//完成状态
                     isCompile = false;
                     tvCompile.setText("编辑");
@@ -198,8 +166,8 @@ public class BuyCartActivity extends BaseActivity implements IBuyCartActivityVie
         tvMoney.setText("￥" + adapter.getChooseGoodsMoney());
     }
 
-    public void setTitleText(int num) {
-        tvTitleName.setText("购物车 (" + num + ")");
+    public void setTitleText() {
+        tvTitleName.setText("购物车 (" + adapter.getItemCount() + ")");
     }
 
     public void setSubmitText() {
@@ -261,5 +229,82 @@ public class BuyCartActivity extends BaseActivity implements IBuyCartActivityVie
         });
 
         dialog.show();
+    }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
+    @Override
+    public void buyCartList(List<CartEntity> cartList) {
+        if (ActivityUtils.isFinish(this))
+            return;
+        if (cartList.size() == 0) {//购物车没有商品
+            ToastUtils.showShort(mContext, "您的购物车空空如也");
+            ivNoData.setVisibility(View.VISIBLE);
+            //头部展示商店的logo
+            llHeader.setVisibility(View.GONE);
+            return;
+        }
+        adapter.setData(cartList);
+        setTitleText();
+        Glide.with(mContext)
+                .load(cartList.get(0).getStoreLogo())
+                .crossFade()
+                .into(ivLogo);
+    }
+
+    @Override
+    public void deleteGoods(int position) {
+        if (ActivityUtils.isFinish(this))
+            return;
+        adapter.remove(position);
+        //刷新顶部购物车
+        setTitleText();
+        //刷新底部结算按钮
+        if(adapter.getItemCount()==0){
+            tvPay.setText("结算 (0)");
+            ivNoData.setVisibility(View.VISIBLE);
+
+            llHeader.setVisibility(View.GONE);
+        }else{
+            setSubmitText();
+        }
+    }
+
+    @Override
+    public void emptyCartSuccess(String msg) {
+        if (ActivityUtils.isFinish(this))
+            return;
+        adapter.removeAllItem();
+        //刷新顶部购物车
+        setTitleText();
+        //刷新底部结算按钮
+        if(adapter.getItemCount()==0){
+            tvPay.setText("结算 (0)");
+            ivNoData.setVisibility(View.VISIBLE);
+            llHeader.setVisibility(View.GONE);
+        }else{
+            setSubmitText();
+        }
+        //改为完成状态
+        isCompile = false;
+        tvCompile.setText("编辑");
+        llPay.setVisibility(View.VISIBLE);
+        llDelete.setVisibility(View.GONE);
+        ivCheck.setClickable(true);
+        ivCheck.setImageResource(R.drawable.radiobotton_unchecked);
+        tvMoney.setText("￥0.00");
+        adapter.isWholeCompile = isCompile;
+    }
+
+    @Override
+    public void notifyGoodsCountSuccess(int position, int count) {
+        adapter.notifyGoodsCount(position,count);
+    }
+
+    @Override
+    public void submitGoodsSuccess(List<AllCartEntity.OnSaleBean> goodsList) {
+        LogUtils.d("提交成功");
     }
 }

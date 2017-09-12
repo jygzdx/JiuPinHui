@@ -93,11 +93,20 @@ public class BuyCartActivityModelImpl implements IBuyCartActivityModel {
 
     @Override
     public void deleteGoods(String token, String id, String spec_id, final IModel.CallBack callBack) {
+        Map<String, String> params = new HashMap<>();
+        if(!StringUtils.isEmpty(token)){
+            params.put("token", token);
+        }
+        if(!StringUtils.isEmpty(id)){
+            params.put("id", id);
+        }
+        if(!StringUtils.isEmpty(spec_id)){
+            params.put("spec_id", spec_id);
+        }
+
         post()
                 .url(Constant.DELETE_ITEM_FROM_CART)
-                .addParams("token", token)
-                .addParams("id",id)
-                .addParams("spec_id",spec_id)
+                .params(params)
                 .build()
                 .execute(new StringCallback() {
                     @Override
@@ -207,10 +216,17 @@ public class BuyCartActivityModelImpl implements IBuyCartActivityModel {
 
     @Override
     public void submitGoodsInfo(String token, String goodStr, final IModel.CallBack callBack) {
+        Map<String,String> params = new HashMap<>();
+        if(!StringUtils.isEmpty(token)){
+            params.put("token", token);
+        }
+        if(!StringUtils.isEmpty(goodStr)){
+            params.put("goodStr",goodStr);
+        }
+
         post()
                 .url(Constant.SUBMIT_GOODS_INFO)
-                .addParams("token", token)
-                .addParams("goodStr",goodStr)
+                .params(params)
                 .build()
                 .execute(new StringCallback() {
                     @Override

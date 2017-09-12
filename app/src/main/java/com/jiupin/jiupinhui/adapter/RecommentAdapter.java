@@ -236,10 +236,10 @@ public class RecommentAdapter extends RecyclerView.Adapter {
     private void setThumbStatus(RecommentViewHolder recommentViewHolder, int position) {
         if (communityList.get(position).isThumb_status()) {
             recommentViewHolder.ivSetLike.setImageResource(R.drawable.set_like_checked);
-            recommentViewHolder.llSetLike.setClickable(false);
+//            recommentViewHolder.llSetLike.setClickable(false);
         } else {
             recommentViewHolder.ivSetLike.setImageResource(R.drawable.set_like);
-            recommentViewHolder.llSetLike.setClickable(true);
+//            recommentViewHolder.llSetLike.setClickable(true);
         }
 
     }
@@ -250,7 +250,7 @@ public class RecommentAdapter extends RecyclerView.Adapter {
      * @param position
      */
     public void notifyItemChangeOnThumbStatus(int position) {
-        communityList.get(position).setThumb_status(true);
+        communityList.get(position).setThumb_status(!communityList.get(position).isThumb_status());
         notifyItemChanged(position);
     }
 

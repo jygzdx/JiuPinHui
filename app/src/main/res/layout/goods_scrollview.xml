@@ -45,7 +45,7 @@
             android:layout_below="@+id/ll_goods_show"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="15dp"
-            android:text="￥666.00"
+            android:text=""
             android:textColor="@color/mainTextColor"
             android:textSize="15sp"
             />
@@ -57,7 +57,7 @@
             android:layout_alignBottom="@+id/tv_goods_down_price"
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@+id/tv_goods_down_price"
-            android:text="￥688.00"
+            android:text=""
             android:textColor="#cccccc"
             android:textSize="10sp"
             />
@@ -105,7 +105,7 @@
             android:layout_marginTop="14dp"
             android:layout_toLeftOf="@+id/btn_goods_collecting_start"
             android:lines="1"
-            android:text="酒名酒名酒名酒名酒名酒名酒名酒名酒名酒名酒名酒名酒名"
+            android:text=""
             android:textColor="@color/light_black"
             android:textSize="10sp"
             />
@@ -403,8 +403,8 @@
 
             <ImageView
                 android:id="@+id/iv_store_logo"
-                android:layout_width="80dp"
-                android:layout_height="30dp"
+                android:layout_width="67dp"
+                android:layout_height="25dp"
                 android:src="@drawable/shangbiao"
                 />
             <TextView
@@ -415,6 +415,7 @@
                 android:layout_alignTop="@id/iv_store_logo"
                 android:layout_marginLeft="8dp"
                 android:layout_marginTop="2dp"
+                android:visibility="gone"
                 android:lines="1"
                 android:text="酒品旗舰店"
                 android:textColor="@color/light_black"
@@ -477,7 +478,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:lines="1"
-                    android:text="88"
+                    android:text=""
                     android:textColor="@color/light_black"
                     android:textSize="10sp"
                     />
@@ -503,7 +504,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:lines="1"
-                    android:text="15"
+                    android:text=""
                     android:textColor="@color/light_black"
                     android:textSize="10sp"
                     />

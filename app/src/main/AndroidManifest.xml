@@ -12,13 +12,20 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <application
+        android:name=".app.JiuPinApplication"
         android:allowBackup="true"
-        android:icon="@drawable/ic_launcher"
+        android:icon="@drawable/app_logo"
         android:label="@string/app_name"
-        android:roundIcon="@drawable/ic_launcher_round"
+        android:roundIcon="@drawable/app_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.LaunchActivity">
+        <activity
+            android:name=".activity.WelcomeActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen">
+        </activity>
+        <activity
+            android:name=".activity.LaunchActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -27,6 +34,7 @@
         </activity>
         <activity
             android:name=".activity.MainActivity"
+            android:launchMode="singleTask"
             android:windowSoftInputMode="stateUnspecified|adjustPan">
         </activity>
         <activity android:name=".activity.BaseActivity">
@@ -146,6 +154,19 @@
         </activity>
         <activity android:name=".activity.FormCopyActivity">
         </activity>
+
+        <!--适配7.0传递文件到外部程序-->
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.jiupin.jiupinhui.fileprovider"
+            android:grantUriPermissions="true"
+            android:exported="false">
+            <!--元数据-->
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
     </application>
 
 </manifest>

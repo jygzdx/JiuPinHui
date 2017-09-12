@@ -44,7 +44,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="2dp"
-                android:src="@drawable/pull_up"
+                android:src="@drawable/pull_down"
                 />
         </LinearLayout>
 

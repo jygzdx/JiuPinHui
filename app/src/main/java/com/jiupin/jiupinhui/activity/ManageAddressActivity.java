@@ -102,7 +102,7 @@ public class ManageAddressActivity extends BaseActivity implements IManageAddres
 
     @Override
     public void deleteAddressSuccess(List<AddressEntity> adds) {
-        if(adds.size()>0){
+        if(adds.size()>=0){
             adapter.setData(adds);
         }
     }

@@ -92,8 +92,13 @@ public class FormCopyActivity extends BaseActivity implements IFormCopyActivityV
                         Intent intent = new Intent(FormCopyActivity.this, MyFormActivity.class);
                         intent.putExtra("orderStatus", "");
                         startActivity(intent);
+                        finish();
                     }else{
                         ToastUtils.showShort(mContext,"支付失败");
+                        Intent intent = new Intent(FormCopyActivity.this, MyFormActivity.class);
+                        intent.putExtra("orderStatus", Constant.WAIT_PAY);
+                        startActivity(intent);
+                        finish();
                     }
                     break;
             }
@@ -195,17 +200,17 @@ public class FormCopyActivity extends BaseActivity implements IFormCopyActivityV
                 TextView tvTime = (TextView) infoView.findViewById(R.id.tv_time);
 
                 tranPrice = tranPrice+orderListBean.getShip_price();
-                tvTranPrice.setText(orderListBean.getShip_price()+"");
+                tvTranPrice.setText("￥" +orderListBean.getShip_price());
                 tvTime.setText(TimeUtils.getTime(orderListBean.getAddTime()));
                 tvOrderId.setText(orderListBean.getOrder_id());
                 llContainer.addView(infoView);
             }
         }
 
-        tvPaymentMoney.setText(order.getCartPaymentAmount()+"");
-        tvOrderMoney.setText(order.getCartPaymentAmount()+"");
-        tvCouponPrice.setText(order.getCouponAmount()+"");
-        tvTransportationPrice.setText(tranPrice+"");
+        tvPaymentMoney.setText("￥" +order.getCartPaymentAmount());
+        tvOrderMoney.setText("￥" +order.getCartPaymentAmount());
+        tvCouponPrice.setText("￥-" +order.getCouponAmount());
+        tvTransportationPrice.setText("￥" +tranPrice);
     }
 
     /**
@@ -214,7 +219,7 @@ public class FormCopyActivity extends BaseActivity implements IFormCopyActivityV
     private void initAddress() {
         tvConsigneeName.setText(order.getAddress().getTrueName());
         tvAddress.setText("收货地址：" + order.getAddress().getArea_main().replace(" ", "") + order.getAddress().getArea_info());
-        tvPhoneNumber.setText(order.getAddress().getTelephone());
+        tvPhoneNumber.setText(order.getAddress().getMobile());
     }
 
     @OnClick({R.id.iv_back, R.id.iv_more,R.id.tv_submit_order})
@@ -251,7 +256,7 @@ public class FormCopyActivity extends BaseActivity implements IFormCopyActivityV
         TextView tvPayAllNumber = (TextView) popupView.findViewById(R.id.tv_pay_all_number);
 
         //展示支付金额
-        tvPayAllNumber.setText(order.getCartPaymentAmount()+"");
+        tvPayAllNumber.setText("￥" +order.getCartPaymentAmount());
         final ImageView ivAliPayRight = (ImageView) popupView.findViewById(R.id.iv_alipay_right);
         final ImageView ivWeChatPayRight = (ImageView) popupView.findViewById(R.id.iv_wechat_pay_right);
         rlAliPay.setOnClickListener(new View.OnClickListener() {

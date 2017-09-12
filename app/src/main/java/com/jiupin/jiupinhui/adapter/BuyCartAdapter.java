@@ -60,7 +60,7 @@ public class BuyCartAdapter extends RecyclerView.Adapter {
         cartViewHolder.tvGoodsDownPrice.setText(cart.getStore_price() + "");
         cartViewHolder.tvGoodsDealPrice.setText(cart.getGoods_price() + "");
         cartViewHolder.tvGoodsDealPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-        cartViewHolder.tvGoodsStartNumber.setText(cart.getCount() + "");
+        cartViewHolder.tvGoodsStartNumber.setText("x"+cart.getCount());
         cartViewHolder.tvGoodsNumber.setText(cart.getCount() + "");
         Glide.with(mContext)
                 .load(cart.getStoreLogo())
@@ -111,6 +111,8 @@ public class BuyCartAdapter extends RecyclerView.Adapter {
             public void onClick(View v) {
                 cart.setCompile(!cart.isCompile());
                 notifyItemChanged(position);
+                ((BuyCartActivity) mContext).setPayMoneyText();
+                ((BuyCartActivity) mContext).setSubmitText();
             }
         });
         cartViewHolder.btnDelete.setOnClickListener(new View.OnClickListener() {//删除item
@@ -272,7 +274,7 @@ public class BuyCartAdapter extends RecyclerView.Adapter {
         double money = 0.00d;
         for (int i = 0; i < carts.size(); i++) {
             if (carts.get(i).isSelected()) {
-                money = ArithUtils.add(money, carts.get(i).getStore_price());
+                money = ArithUtils.add(money, carts.get(i).getStore_price()*carts.get(i).getCount());
             }
         }
         return money;
@@ -324,7 +326,7 @@ public class BuyCartAdapter extends RecyclerView.Adapter {
             @Override
             public void onClick(View v) {
                 //删除商品
-                ((BuyCartActivity) mContext).setTitleText(carts.size());
+                ((BuyCartActivity) mContext).setTitleText();
                 ((BuyCartActivity) mContext).deleteItem(position,carts.get(position).getId() + "", carts.get(position).getSpecIdsString());
                 //确定
                 dialog.dismiss();

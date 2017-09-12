@@ -88,13 +88,6 @@ public class WineFragment extends Fragment implements IWineFragmentView {
         rvWineKind.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false));
         mWineKindAdapter = new WineKindAdapter(getContext());
         rvWineKind.setAdapter(mWineKindAdapter);
-//        mWineKindAdapter.setOnItemClickListener(new WineKindAdapter.OnRecyclerViewItemClickListener() {
-//            @Override
-//            public void onItemClick(View view, WineBrandEntity data) {
-//                mWineKindAdapter.setSelected(position);
-//                presenter.getwineBrandKind(data.getId()+"");
-//            }
-//        });
         mWineKindAdapter.setOnViewClickListener(new WineKindAdapter.OnViewClickListener() {
             @Override
             public void onClick(View view, Object data, int position) {
@@ -145,7 +138,7 @@ public class WineFragment extends Fragment implements IWineFragmentView {
 
 
         indexBar.setmPressedShowTextView(tvSideBarHint)//设置HintTextView
-                .setNeedRealIndex(true)//设置需要真实的索引
+                .setNeedRealIndex(false)//设置需要真实的索引
                 .setmLayoutManager(mManager);//设置RecyclerView的LayoutManager
 
         //获取数据
@@ -154,7 +147,6 @@ public class WineFragment extends Fragment implements IWineFragmentView {
 
     private void initData() {
         presenter.getBrandData();
-
     }
 
     /**
@@ -182,12 +174,14 @@ public class WineFragment extends Fragment implements IWineFragmentView {
 
         mHeaderAdapter.setHeaderView(R.layout.item_wine_header, wineBrandList);
         rvWine.setAdapter(mHeaderAdapter);
-        rvWine.addItemDecoration(mDecoration = new MySuspensionDecoration(getContext(), wineList).setHeaderViewCount(mHeaderAdapter.getHeaderViewCount()));
+
+        if(mDecoration==null){
+            mDecoration = new MySuspensionDecoration(getContext(), wineList);
+        }
+        rvWine.addItemDecoration(mDecoration.setHeaderViewCount(mHeaderAdapter.getHeaderViewCount()));
 
         mDecoration.setColorTitleBg(Color.parseColor("#fffafafa"));
         mDecoration.setColorTitleFont(Color.parseColor("#ff000000"));
-        //如果add两个，那么按照先后顺序，依次渲染。
-//        rvWine.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL_LIST));
 
         mHeaderAdapter.notifyDataSetChanged();
 
@@ -210,6 +204,9 @@ public class WineFragment extends Fragment implements IWineFragmentView {
             return;
 
         this.wineList = wineKindList;
+        if(mDecoration==null){
+            mDecoration = new MySuspensionDecoration(getContext(), wineList);
+        }
         indexBar.setmSourceDatas(wineKindList)//设置数据
                 .setHeaderViewCount(mHeaderAdapter.getHeaderViewCount())//设置HeaderView数量
                 .invalidate();

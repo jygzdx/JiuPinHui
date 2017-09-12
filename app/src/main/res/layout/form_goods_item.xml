@@ -3,21 +3,14 @@
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:orientation="vertical"
-              android:paddingBottom="8dp"
-              android:paddingTop="12dp">
+              >
 
-    <TextView
-        android:id="@+id/tv_store_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="12dp"
-        android:background="@null"
-        android:drawableLeft="@drawable/goods_store"
-        android:drawablePadding="10dp"
-        android:text=""
-        android:textColor="@color/light_black"
-        android:textSize="12sp"
+    <ImageView
+        android:id="@+id/iv_store_name"
+        android:layout_width="67dp"
+        android:layout_height="22dp"
+        android:layout_margin="12dp"
+        android:src="@drawable/logo"
         />
     <!--商品信息-->
     <LinearLayout

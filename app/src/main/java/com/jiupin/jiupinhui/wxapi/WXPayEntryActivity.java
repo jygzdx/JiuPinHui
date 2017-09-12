@@ -70,7 +70,11 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
                 }
 			}else if(resp.errCode==BaseResp.ErrCode.ERR_USER_CANCEL){
 				ToastUtils.showShort(this,"取消支付");
-                if(!"cart".equals(data)){
+                if("cart".equals(data)){
+                    Intent intent = new Intent(WXPayEntryActivity.this, MyFormActivity.class);
+                    intent.putExtra("orderStatus", Constant.WAIT_PAY);
+                    startActivity(intent);
+                }else{
                     Intent intent = new Intent(WXPayEntryActivity.this, FormParticularActivity.class);
                     intent.putExtra("status", Constant.WAIT_PAY);
                     intent.putExtra("orderId", data);
@@ -78,7 +82,11 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
                 }
 			}else {
 				ToastUtils.showShort(this,"支付失败");
-                if(!"cart".equals(data)){
+                if("cart".equals(data)){
+                    Intent intent = new Intent(WXPayEntryActivity.this, MyFormActivity.class);
+                    intent.putExtra("orderStatus", Constant.WAIT_PAY);
+                    startActivity(intent);
+                }else{
                     Intent intent = new Intent(WXPayEntryActivity.this, FormParticularActivity.class);
                     intent.putExtra("status", Constant.WAIT_PAY);
                     intent.putExtra("orderId", data);

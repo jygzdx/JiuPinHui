@@ -60,7 +60,7 @@ public class OrderCopyActivity extends BaseActivity implements IOrderCopyActivit
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_copy);
         ButterKnife.bind(this);
-        
+
 
         Bundle bundle = getIntent().getExtras();
         goodsList = (List<CartEntity>) bundle.getSerializable("goods");
@@ -70,7 +70,7 @@ public class OrderCopyActivity extends BaseActivity implements IOrderCopyActivit
         presenter.getDefaultAddress(token);
 
         initData();
-        
+
     }
 
     private void initData() {
@@ -83,8 +83,8 @@ public class OrderCopyActivity extends BaseActivity implements IOrderCopyActivit
         //记录套餐的价格
         double mealPrice = 0.0;
         for (int i = 0; i < goodsList.size(); i++) {
-            if (i== 0){
-                View view = LayoutInflater.from(mContext).inflate(R.layout.item_order_header,(ViewGroup) tvOrderMoney.getParent(),false);
+            if (i == 0) {
+                View view = LayoutInflater.from(mContext).inflate(R.layout.item_order_header, (ViewGroup) tvOrderMoney.getParent(), false);
                 ImageView ivLogo = (ImageView) view.findViewById(R.id.iv_logo);
                 TextView tvName = (TextView) view.findViewById(R.id.tv_store_name);
                 Glide.with(mContext)
@@ -94,8 +94,8 @@ public class OrderCopyActivity extends BaseActivity implements IOrderCopyActivit
                 tvName.setText(goodsList.get(i).getStoreName());
                 llOrderContainer.addView(view);
             }
-            if(goodsList.get(i).getIs_meal()==0){//单品
-                View view = LayoutInflater.from(mContext).inflate(R.layout.item_order_middle, (ViewGroup) tvOrderMoney.getParent(),false);
+            if (goodsList.get(i).getIs_meal() == 0) {//单品
+                View view = LayoutInflater.from(mContext).inflate(R.layout.item_order_middle, (ViewGroup) tvOrderMoney.getParent(), false);
                 TextView tvGoodsName = (TextView) view.findViewById(R.id.tv_goods_name);
                 TextView tvGoodsPrice = (TextView) view.findViewById(R.id.tv_goods_price);
                 TextView tvGoodsNumber = (TextView) view.findViewById(R.id.tv_goods_number);
@@ -108,22 +108,22 @@ public class OrderCopyActivity extends BaseActivity implements IOrderCopyActivit
                         .load(cartEntity.getPath())
                         .crossFade()
                         .into(ivGoodsPic);
-                singleCount = singleCount+cartEntity.getCount();
-                singlePrice = singlePrice + cartEntity.getCount()*cartEntity.getStore_price();
+                singleCount = singleCount + cartEntity.getCount();
+                singlePrice = singlePrice + cartEntity.getCount() * cartEntity.getStore_price();
                 llOrderContainer.addView(view);
             }
-           if(singleCount!=0&&i == goodsList.size()-1){
-                View view = LayoutInflater.from(mContext).inflate(R.layout.item_order_end,(ViewGroup) tvOrderMoney.getParent(),false);
-                TextView tvNum = (TextView)view.findViewById(R.id.tv_total_number);
-               TextView tvPrice = (TextView)view.findViewById(R.id.tv_total_price);
-               tvNum.setText(singleCount+"");
-               tvPrice.setText(singlePrice+"");
-               llOrderContainer.addView(view);
+            if (singleCount != 0 && i == goodsList.size() - 1) {//商品小计
+                View view = LayoutInflater.from(mContext).inflate(R.layout.item_order_end, (ViewGroup) tvOrderMoney.getParent(), false);
+                TextView tvNum = (TextView) view.findViewById(R.id.tv_total_number);
+                TextView tvPrice = (TextView) view.findViewById(R.id.tv_total_price);
+                tvNum.setText(singleCount + "");
+                tvPrice.setText("￥" + singlePrice);
+                llOrderContainer.addView(view);
             }
         }
         for (int i = 0; i < goodsList.size(); i++) {
-            if(goodsList.get(i).getIs_meal()==1){//单品
-                View view = LayoutInflater.from(mContext).inflate(R.layout.item_order_middle, (ViewGroup) tvOrderMoney.getParent(),false);
+            if (goodsList.get(i).getIs_meal() == 1) {//单品
+                View view = LayoutInflater.from(mContext).inflate(R.layout.item_order_middle, (ViewGroup) tvOrderMoney.getParent(), false);
                 TextView tvGoodsName = (TextView) view.findViewById(R.id.tv_goods_name);
                 TextView tvGoodsPrice = (TextView) view.findViewById(R.id.tv_goods_price);
                 TextView tvGoodsNumber = (TextView) view.findViewById(R.id.tv_goods_number);
@@ -136,21 +136,21 @@ public class OrderCopyActivity extends BaseActivity implements IOrderCopyActivit
                         .load(cartEntity.getPath())
                         .crossFade()
                         .into(ivGoodsPic);
-                mealCount = mealCount+cartEntity.getCount();
-                mealPrice = mealPrice + cartEntity.getCount()*cartEntity.getStore_price();
+                mealCount = mealCount + cartEntity.getCount();
+                mealPrice = mealPrice + cartEntity.getCount() * cartEntity.getStore_price();
                 llOrderContainer.addView(view);
             }
-            if(mealCount!=0&&i == goodsList.size()-1){
-                View view = LayoutInflater.from(mContext).inflate(R.layout.item_order_end,(ViewGroup) tvOrderMoney.getParent(),false);
-                TextView tvNum = (TextView)view.findViewById(R.id.tv_total_number);
-                TextView tvPrice = (TextView)view.findViewById(R.id.tv_total_price);
-                tvNum.setText(mealCount+"");
-                tvPrice.setText(mealPrice+"");
+            if (mealCount != 0 && i == goodsList.size() - 1) {
+                View view = LayoutInflater.from(mContext).inflate(R.layout.item_order_end, (ViewGroup) tvOrderMoney.getParent(), false);
+                TextView tvNum = (TextView) view.findViewById(R.id.tv_total_number);
+                TextView tvPrice = (TextView) view.findViewById(R.id.tv_total_price);
+                tvNum.setText(mealCount + "");
+                tvPrice.setText("￥" + mealPrice);
                 llOrderContainer.addView(view);
             }
         }
 
-        tvOrderMoney.setText(singlePrice+mealPrice+"");
+        tvOrderMoney.setText("￥" + (singlePrice + mealPrice));
 
     }
 
@@ -171,9 +171,9 @@ public class OrderCopyActivity extends BaseActivity implements IOrderCopyActivit
                 startActivityForResult(intent, REQUEST_ADDRESS_CODE);
                 break;
             case R.id.tv_submit_order:
-                if(StringUtils.isEmpty(addressId)){
-                    ToastUtils.showShort(mContext,"请选择收货地址");
-                }else{
+                if (StringUtils.isEmpty(addressId)) {
+                    ToastUtils.showShort(mContext, "请选择收货地址");
+                } else {
                     String token = UserInfoManager.getInstance().getToken(mContext);
                     String msg = "";
                     String couponInfoId = "";
@@ -191,10 +191,10 @@ public class OrderCopyActivity extends BaseActivity implements IOrderCopyActivit
         }
     }
 
-    public String getGoodsList(){
+    public String getGoodsList() {
         List<GoodsBack> list = new ArrayList<>();
         for (int i = 0; i < goodsList.size(); i++) {
-            if(goodsList.get(i).isSelected()){
+            if (goodsList.get(i).isSelected()) {
                 GoodsBack goods = new GoodsBack();
                 goods.setId(goodsList.get(i).getId());
                 goods.setSpec_id(goodsList.get(i).getSpecIdsString());
@@ -224,7 +224,8 @@ public class OrderCopyActivity extends BaseActivity implements IOrderCopyActivit
 
     @Override
     public void setDefaultAddress(AddressEntity addressEntity) {
-        if (ActivityUtils.isFinish(mContext))return;
+        if (ActivityUtils.isFinish(mContext))
+            return;
 
         if (addressEntity == null) {
             tvAddAddress.setVisibility(View.VISIBLE);
@@ -242,13 +243,15 @@ public class OrderCopyActivity extends BaseActivity implements IOrderCopyActivit
 
     @Override
     public void submitFormSuccess(OrderCopyEntity orderCopyEntity) {
-        if (ActivityUtils.isFinish(mContext))return;
+        if (ActivityUtils.isFinish(mContext))
+            return;
 
-        if (orderCopyEntity==null)return;
+        if (orderCopyEntity == null)
+            return;
 
-        Intent intent = new Intent(OrderCopyActivity.this,FormCopyActivity.class);
-        intent.putExtra("form",orderCopyEntity);
+        Intent intent = new Intent(OrderCopyActivity.this, FormCopyActivity.class);
+        intent.putExtra("form", orderCopyEntity);
         startActivity(intent);
-
+        finish();
     }
 }

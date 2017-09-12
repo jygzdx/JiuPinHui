@@ -114,11 +114,15 @@ public class PersonActivity extends BaseActivity implements IPersonActivityView 
         tlTabLayout.setupWithViewPager(vpPenson);
     }
 
-    @OnClick({R.id.iv_back, R.id.iv_compile_info,R.id.tv_fans,R.id.tv_condition})
+    @OnClick({R.id.iv_back, R.id.iv_compile_info,R.id.tv_fans,R.id.tv_condition,R.id.iv_editor})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_back:
                 finish();
+                break;
+            case R.id.iv_editor:
+                Intent i = new Intent(mContext,ConditionActivity.class);
+                startActivity(i);
                 break;
             case R.id.tv_fans://进去粉丝界面
                 Intent fansIntent = new Intent(this,FansActivity.class);

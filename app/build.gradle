@@ -21,20 +21,19 @@ android {
         applicationId "com.jiupin.jiupinhui"
         minSdkVersion 14
         targetSdkVersion 25
-        versionCode 1
+        versionCode 100
         versionName "1.0.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
     }
     buildTypes {
         release {
             signingConfig signingConfigs.release
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         debug {
             signingConfig signingConfigs.debug
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -50,16 +49,6 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     compile files('libs/alipaySdk-20170725.jar')
-
-    //material design
-    //glide 图片加载
-    //网络框架
-    //json框架
-    //控件注入
-    //搜索框
-    //图片选择器
-    //微信开放平台
-    //下拉刷新上拉加载
     compile 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
     compile 'com.android.support:appcompat-v7:25.2.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
@@ -74,6 +63,7 @@ dependencies {
     compile 'com.github.jdsjlzx:LRecyclerView:1.4.3'
     compile 'com.github.promeg:tinypinyin:1.0.0'
     compile 'com.github.mcxtzhang:SuspensionIndexBar:V1.0.0'
+    compile 'com.blankj:utilcode:1.9.0'
     testCompile 'junit:junit:4.12'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
 }

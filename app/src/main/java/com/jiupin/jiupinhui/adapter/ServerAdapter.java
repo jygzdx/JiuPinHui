@@ -64,7 +64,7 @@ public class ServerAdapter extends RecyclerView.Adapter {
                     ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(DensityUtils.dp2px(mContext, 80), DensityUtils.dp2px(mContext, 80));
                     image.setLayoutParams(params);
                     image.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-                    image.setPadding(DensityUtils.dp2px(mContext, 5),0,DensityUtils.dp2px(mContext, 5),0);
+                    image.setPadding(0,0,DensityUtils.dp2px(mContext, 10),0);
                     Glide.with(mContext)
                             .load(imgUrls[i])
                             .crossFade()

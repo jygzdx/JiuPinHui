@@ -619,7 +619,7 @@ public class FormParticularActivity extends BaseActivity implements IFormParticu
 
                 for (int i = 0; i < cartBeanList.size(); i++) {
                     View view = inflater.inflate(R.layout.form_goods_item, null);
-                    TextView tvStoreName = (TextView) view.findViewById(R.id.tv_store_name);
+                    ImageView ivStoreName = (ImageView) view.findViewById(R.id.iv_store_name);
                     TextView tvGoodsName = (TextView) view.findViewById(R.id.tv_goods_name);
                     TextView tvGoodsPrice = (TextView) view.findViewById(R.id.tv_goods_price);
                     TextView tvGoodsFormerPrice = (TextView) view.findViewById(R.id.tv_goods_former_price);
@@ -631,7 +631,12 @@ public class FormParticularActivity extends BaseActivity implements IFormParticu
                             .crossFade()
                             .into(ivGoodsPic);
 
-                    tvStoreName.setText(formParticularEntity.getStore().getStore_name());
+                    //返回的数据没有商店头像地址
+//                    Glide.with(mContext)
+//                            .load(cartBeanList.get(i).getMain_photo()).....
+//                            .crossFade()
+//                            .into(ivGoodsPic);
+
                     tvGoodsName.setText(cartBeanList.get(i).getGoods_name());
                     tvGoodsPrice.setText("￥" + cartBeanList.get(i).getPrice());
                     tvGoodsFormerPrice.setText("￥" + cartBeanList.get(i).getOrigin_price());

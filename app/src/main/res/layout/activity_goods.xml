@@ -74,6 +74,7 @@
         android:id="@+id/ll_goods_bottom"
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:background="#fafafa"
         android:layout_alignParentBottom="true"
         android:orientation="horizontal"
         >

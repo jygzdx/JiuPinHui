@@ -18,4 +18,25 @@ public interface IModel {
          */
         void onFailed(int status ,String msg);
     }
+
+    public interface ProgressCallBack{
+
+        /**
+         * 进度条
+         * @param progress
+         */
+        void onProgress(Object progress);
+
+        /**
+         * 回调成功调用
+         * @param success 成功后传递的参数
+         */
+        void onSuccess(Object success);
+
+        /**
+         * 回调失败调用
+         * @param status 失败后传递的返回码
+         */
+        void onFailed(int status ,String msg);
+    }
 }

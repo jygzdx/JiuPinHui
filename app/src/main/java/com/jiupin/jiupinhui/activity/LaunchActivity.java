@@ -13,12 +13,15 @@ import com.jiupin.jiupinhui.presenter.ILaunchActivityPresenter;
 import com.jiupin.jiupinhui.presenter.impl.LaunchActivityPresenterImpl;
 import com.jiupin.jiupinhui.utils.ActivityUtils;
 import com.jiupin.jiupinhui.utils.LogUtils;
+import com.jiupin.jiupinhui.utils.SPUtils;
 import com.jiupin.jiupinhui.view.ILaunchActivityView;
 
 public class LaunchActivity extends BaseActivity implements ILaunchActivityView {
 
     private ILaunchActivityPresenter presenter;
     private static final int EMPTY_WHAT = 1;
+    private static final int WELCOME_WHAT = 2;
+
     private static final int stop_time = 2000;
     private Handler mHandler = new Handler() {
         @Override
@@ -31,6 +34,9 @@ public class LaunchActivity extends BaseActivity implements ILaunchActivityView 
                     mContext.startActivity(intent);
                     finish();
                     break;
+                case WELCOME_WHAT:
+                    gotoWelcomeActivity();
+                    break;
             }
         }
     };
@@ -42,7 +48,20 @@ public class LaunchActivity extends BaseActivity implements ILaunchActivityView 
         presenter = new LaunchActivityPresenterImpl(this);
         String token = UserInfoManager.getInstance().getToken(this);
         presenter.getTokenStatus(token);
-        mHandler.sendEmptyMessageDelayed(EMPTY_WHAT, stop_time);
+        //在setContentView()前检查是否第一次运行
+        boolean isFirst = (Boolean) SPUtils.get(mContext,SPUtils.IS_FIRST_WELCOME,true);
+        if (!isFirst){
+            mHandler.sendEmptyMessageDelayed(EMPTY_WHAT, stop_time);
+        }else{
+            mHandler.sendEmptyMessageDelayed(WELCOME_WHAT, stop_time);
+        }
+
+    }
+
+    private void gotoWelcomeActivity() {
+        Intent i = new Intent(LaunchActivity.this,WelcomeActivity.class);
+        startActivity(i);
+        finish();
     }
 
     @Override

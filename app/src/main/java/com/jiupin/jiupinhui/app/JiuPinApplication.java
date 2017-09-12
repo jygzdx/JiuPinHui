@@ -2,6 +2,7 @@ package com.jiupin.jiupinhui.app;
 
 import android.app.Application;
 
+import com.blankj.utilcode.util.Utils;
 import com.bumptech.glide.request.target.ViewTarget;
 import com.jiupin.jiupinhui.R;
 import com.jiupin.jiupinhui.config.Constant;
@@ -35,5 +36,8 @@ public class JiuPinApplication extends Application{
         final IWXAPI msgApi = WXAPIFactory.createWXAPI(this, null);
         // 将该app注册到微信
         msgApi.registerApp(Constant.APP_ID);
+
+        //初始化工具类
+        Utils.init(this);
     }
 }

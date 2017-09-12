@@ -202,7 +202,7 @@ public class OrderActivity extends BaseActivity implements IOrderActivityView {
         double price = Double.parseDouble(selectedPrice);
         for (int i = 0; i <= goodsEntityList.size() - 1; i++) {
             View view = inflater.inflate(R.layout.order_container_item, null);
-            TextView tvStoreName = (TextView) view.findViewById(R.id.tv_store_name);
+            ImageView ivStoreName = (ImageView) view.findViewById(R.id.iv_store_name);
             TextView tvGoodsName = (TextView) view.findViewById(R.id.tv_goods_name);
             TextView tvGoodsPrice = (TextView) view.findViewById(R.id.tv_goods_price);
             TextView tvTotalNumber = (TextView) view.findViewById(R.id.tv_total_number);
@@ -211,7 +211,12 @@ public class OrderActivity extends BaseActivity implements IOrderActivityView {
             ImageView ivGoodsPic = (ImageView) view.findViewById(R.id.iv_goods_pic);
             llOrderContainer.addView(view);
             GoodsEntity goodsEntity = goodsEntityList.get(i);
-            tvStoreName.setText(goodsEntity.getData().getStoreInfo().getStore_name());
+            //显示店铺的logo
+            Glide.with(mContext)
+                    .load(goodsEntity.getData().getStoreInfo().getStore_img())
+                    .crossFade()
+                    .into(ivStoreName);
+
             tvGoodsName.setText(goodsEntity.getData().getGoods_name());
             tvGoodsPrice.setText("￥" + selectedPrice);
             tvTotalNumber.setText(goodsEntity.getData().getCount() + "");

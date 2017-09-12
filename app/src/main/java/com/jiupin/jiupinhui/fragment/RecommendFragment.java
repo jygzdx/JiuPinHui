@@ -162,6 +162,19 @@ public class RecommendFragment extends Fragment implements IRecommendFragmentVie
         LogUtils.d(TAG, "onDestroy");
     }
 
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        LogUtils.d(TAG , "hidden = "+hidden);
+        if(!hidden) {
+            if (adapter != null) {
+                String token = UserInfoManager.getInstance().getToken(getContext());
+                adapter.clear();
+                presenter.getRecommendList(token, page + "", rows + "");
+            }
+        }
+    }
+
     public void setThumbDynamic(int communityId , int position){
         String token = UserInfoManager.getInstance().getToken(getContext());
         presenter.setThumbDynamic(token,communityId+"",position);
@@ -175,14 +188,13 @@ public class RecommendFragment extends Fragment implements IRecommendFragmentVie
     @Override
     public void setRecommendInfo(List<CommunityEntity> communityList) {
 
-        LogUtils.d("isHidden = "+isHidden());
+        LogUtils.d(TAG , "isHidden = "+isHidden());
         if (isHidden()) return;
         if (lrvRecommend==null)return;
 
         if (communityList != null) {
             if (communityList.size() > 0) {
                 adapter.addAll(communityList);
-
             }else {
                 lrvRecommend.setNoMore(true);
             }

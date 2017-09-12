@@ -246,10 +246,10 @@ public class PersonConditionAdapter extends RecyclerView.Adapter {
     private void setThumbStatus(PersonViewHolder personViewHolder, int position) {
         if (communityList.get(position).isThumb_status()) {
             personViewHolder.ivSetLike.setImageResource(R.drawable.set_like_checked);
-            personViewHolder.llSetLike.setClickable(false);
+//            personViewHolder.llSetLike.setClickable(false);
         } else {
             personViewHolder.ivSetLike.setImageResource(R.drawable.set_like);
-            personViewHolder.llSetLike.setClickable(true);
+//            personViewHolder.llSetLike.setClickable(true);
         }
 
     }
@@ -260,7 +260,7 @@ public class PersonConditionAdapter extends RecyclerView.Adapter {
      * @param position
      */
     public void notifyItemChangeOnThumbStatus(int position) {
-        communityList.get(position).setThumb_status(true);
+        communityList.get(position).setThumb_status(!communityList.get(position).isThumb_status());
         notifyItemChanged(position);
     }
 

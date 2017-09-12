@@ -2,21 +2,37 @@ package com.jiupin.jiupinhui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.IdRes;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AlertDialog;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.RadioGroup;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.blankj.utilcode.util.AppUtils;
+import com.blankj.utilcode.util.FileUtils;
+import com.blankj.utilcode.util.NetworkUtils;
 import com.jiupin.jiupinhui.R;
+import com.jiupin.jiupinhui.entity.VersionEntity;
 import com.jiupin.jiupinhui.fragment.CommunityFragment;
 import com.jiupin.jiupinhui.fragment.HomeFragment;
 import com.jiupin.jiupinhui.fragment.MyFragment;
 import com.jiupin.jiupinhui.fragment.StoreFragment;
 import com.jiupin.jiupinhui.fragment.WineFragment;
+import com.jiupin.jiupinhui.presenter.IMainActivityPresenter;
+import com.jiupin.jiupinhui.presenter.impl.MainActivityPresenterImpl;
+import com.jiupin.jiupinhui.utils.ActivityUtils;
 import com.jiupin.jiupinhui.utils.LogUtils;
+import com.jiupin.jiupinhui.utils.ToastUtils;
+import com.jiupin.jiupinhui.view.IMainActivityView;
 
-public class MainActivity extends AppCompatActivity implements RadioGroup.OnCheckedChangeListener {
+import java.io.File;
+
+public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedChangeListener,IMainActivityView {
     private static final String TAG = "MainActivity";
     /**
      * 底部RadioButton按钮
@@ -33,12 +49,17 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
     public static final String MY_STATUS = "my";
     public static final String WINE_STATUS = "wine";
     public static final String STORE_STATUS = "store";
+    private IMainActivityPresenter presenter;
+    private long firstTime;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        presenter = new MainActivityPresenterImpl(this);
+        presenter.getVersionInfo();
 
         initView();
 
@@ -88,8 +109,6 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
                 transaction.commit();
             }
         }
-
-
     }
 
     //设置默认Fragment
@@ -111,6 +130,19 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
     //初始化控件
     private void initView() {
         rgMain = (RadioGroup) findViewById(R.id.rg_main);
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        if (System.currentTimeMillis() - firstTime > 2000) {
+            firstTime = System.currentTimeMillis();
+            Toast.makeText(this, "再按一次退出", Toast.LENGTH_SHORT).show();
+        } else {
+//            finish();
+//            System.exit(0);
+            super.onBackPressed();
+        }
     }
 
     @Override
@@ -167,5 +199,81 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
             transaction.replace(R.id.fl_main_container, fgMy);
             transaction.commit();
         }
+    }
+
+    @Override
+    public void getVersionInfo(VersionEntity versionEntity) {
+        if (ActivityUtils.isFinish(mContext))return;
+        int curVerCode = AppUtils.getAppVersionCode();
+        //测试下
+        if(curVerCode<versionEntity.getVersionInNumber()){
+            presenter.getApk(versionEntity.getVersionInString());
+        }
+    }
+
+    @Override
+    public void setApkUrl(String apkUrl,String versionName){
+        if (ActivityUtils.isFinish(mContext))return;
+        ToastUtils.showShort(mContext,"获取链接完成");
+        //test7.0
+        File file = new File(mContext.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS),"/jiupinhui/apk/"+"jiupinhui_"+versionName+".apk");
+
+        //可能已经下载完成了
+        String filePath =mContext.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS)+"/jiupinhui/apk/"+"jiupinhui_"+versionName+".apk";
+        LogUtils.d("filePath = "+filePath);
+        if (FileUtils.isFileExists(filePath)){//如果已经下载过了，直接提示用户安装
+            ToastUtils.showShort(mContext,"文件已经下载过了");
+            showDialog(filePath);
+            return;
+        }
+        if(NetworkUtils.isWifiConnected()){
+            presenter.installApp(apkUrl,versionName,file);
+        }
+    }
+
+    @Override
+    public void installApp(String apkUrl) {
+        if (ActivityUtils.isFinish(mContext))return;
+        ToastUtils.showShort(mContext,"下载完毕");
+        showDialog(apkUrl);
+    }
+
+    public void showDialog(final String apkUrl){
+        View view= LayoutInflater.from(mContext).inflate(R.layout.dialog_content, null);
+
+        AlertDialog.Builder builder= new AlertDialog.Builder(mContext);
+
+        builder.setView(view);
+
+        final AlertDialog dialog=builder.create();
+
+        TextView tvContent=(TextView)view.findViewById(R.id.tv_content);
+
+        TextView tvCancel=(TextView)view.findViewById(R.id.tv_cancel);
+
+        TextView tvEnsure=(TextView)view.findViewById(R.id.tv_ensure);
+
+        tvContent.setText("酒品会有新版本需要更新，请问是否更新？");
+
+        tvCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //取消
+                dialog.dismiss();
+            }
+        });
+        tvEnsure.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+
+            public void onClick(View v) {
+                ToastUtils.showShort(mContext,"安装app");
+                String authority = "com.jiupin.jiupinhui.fileprovider";
+                AppUtils.installApp(apkUrl,authority);
+                //确定
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
     }
 }
