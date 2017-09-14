@@ -1,6 +1,8 @@
 package com.jiupin.jiupinhui.activity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -33,9 +35,13 @@ import com.jiupin.jiupinhui.presenter.IFormParticularActivityPresenter;
 import com.jiupin.jiupinhui.presenter.impl.FormParticularActivityPresenterImpl;
 import com.jiupin.jiupinhui.utils.ActivityUtils;
 import com.jiupin.jiupinhui.utils.LogUtils;
+import com.jiupin.jiupinhui.utils.StringUtils;
 import com.jiupin.jiupinhui.utils.TimeUtils;
 import com.jiupin.jiupinhui.utils.ToastUtils;
 import com.jiupin.jiupinhui.view.IFormParticularActivityView;
+import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
+import com.tencent.mm.opensdk.modelmsg.WXMediaMessage;
+import com.tencent.mm.opensdk.modelmsg.WXWebpageObject;
 import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
@@ -95,6 +101,8 @@ public class FormParticularActivity extends BaseActivity implements IFormParticu
     Button btnLeft;
     @BindView(R.id.btn_right)
     Button btnRight;
+    @BindView(R.id.iv_share_coupon)
+    ImageView ivShareCoupon;
 
     /**
      * 保存取消订单弹出窗的radiobutton
@@ -178,7 +186,9 @@ public class FormParticularActivity extends BaseActivity implements IFormParticu
         }
     }
 
-    @OnClick({R.id.btn_left, R.id.btn_right, R.id.tv_contact_customer, R.id.tv_making_phone, R.id.iv_back, R.id.iv_more})
+    @OnClick({R.id.btn_left, R.id.btn_right, R.id.tv_contact_customer, R.id.tv_making_phone, R.id.iv_back, R.id.iv_more,
+    R.id.iv_share_coupon
+    })
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_back:
@@ -194,6 +204,10 @@ public class FormParticularActivity extends BaseActivity implements IFormParticu
                 startActivity(intent);
                 break;
             case R.id.tv_making_phone://拨打电话
+                break;
+            case R.id.iv_share_coupon://分享优惠券
+                token = UserInfoManager.getInstance().getToken(mContext);
+                presenter.getCouponUrl(token,orderId);
                 break;
             case R.id.btn_left:
                 switch (formStatus) {
@@ -230,11 +244,9 @@ public class FormParticularActivity extends BaseActivity implements IFormParticu
                         nowComment();
                         break;
                     case WAIT_DELIVER_GOODS://等待发货
-
                         ensureGainGoods();
                         break;
                     case WAIT_GAIN_GOODS://等待收货
-
                         ensureGainGoods();
                         break;
                 }
@@ -547,6 +559,7 @@ public class FormParticularActivity extends BaseActivity implements IFormParticu
                 btnRight.setTextColor(ContextCompat.getColor(mContext, R.color.mainTextColor));
                 btnRight.setBackgroundResource(R.drawable.buttom_yellow);
                 tvShowStatus.setText("等待买家付款");
+                ivShareCoupon.setVisibility(View.GONE);
                 break;
             case TRANSACTION_CLOSED://交易关闭
                 btnLeft.setVisibility(View.GONE);
@@ -554,6 +567,7 @@ public class FormParticularActivity extends BaseActivity implements IFormParticu
                 btnRight.setTextColor(ContextCompat.getColor(mContext, R.color.light_black));
                 btnRight.setBackgroundResource(R.drawable.buttom_grey);
                 tvShowStatus.setText("交易关闭");
+                ivShareCoupon.setVisibility(View.GONE);
                 break;
             case TRANSACTION_SUCCESS_HAS_COMMENT://交易成功(已评论)
                 btnLeft.setVisibility(View.VISIBLE);
@@ -563,6 +577,7 @@ public class FormParticularActivity extends BaseActivity implements IFormParticu
                 btnRight.setTextColor(ContextCompat.getColor(mContext, R.color.light_black));
                 btnRight.setBackgroundResource(R.drawable.buttom_grey);
                 tvShowStatus.setText("交易成功");
+                ivShareCoupon.setVisibility(View.GONE);
                 break;
             case TRANSACTION_SUCCESS_NO_COMMENT://交易成功(还未评论)
                 btnLeft.setVisibility(View.VISIBLE);
@@ -572,6 +587,7 @@ public class FormParticularActivity extends BaseActivity implements IFormParticu
                 btnRight.setTextColor(ContextCompat.getColor(mContext, R.color.light_black));
                 btnRight.setBackgroundResource(R.drawable.buttom_grey);
                 tvShowStatus.setText("交易成功");
+                ivShareCoupon.setVisibility(View.VISIBLE);
                 break;
             case WAIT_DELIVER_GOODS://等待发货
                 btnLeft.setVisibility(View.VISIBLE);
@@ -581,6 +597,7 @@ public class FormParticularActivity extends BaseActivity implements IFormParticu
                 btnRight.setTextColor(ContextCompat.getColor(mContext, R.color.mainTextColor));
                 btnRight.setBackgroundResource(R.drawable.buttom_yellow);
                 tvShowStatus.setText("等待卖家发货");
+                ivShareCoupon.setVisibility(View.VISIBLE);
                 break;
             case WAIT_GAIN_GOODS://等待收货
                 btnLeft.setVisibility(View.VISIBLE);
@@ -590,6 +607,7 @@ public class FormParticularActivity extends BaseActivity implements IFormParticu
                 btnRight.setTextColor(ContextCompat.getColor(mContext, R.color.mainTextColor));
                 btnRight.setBackgroundResource(R.drawable.buttom_yellow);
                 tvShowStatus.setText("卖家已发货");
+                ivShareCoupon.setVisibility(View.VISIBLE);
                 break;
         }
     }
@@ -721,5 +739,26 @@ public class FormParticularActivity extends BaseActivity implements IFormParticu
         boolean isPay = api.sendReq(request);
     }
 
+    @Override
+    public void getCouponUrlSuccess(String url) {
+        if (ActivityUtils.isFinish(mContext))return;
+        if (StringUtils.isEmpty(url))return;
+        //初始化一个WXWebpageObject对象，填写url
+        WXWebpageObject webpage = new WXWebpageObject();
+        webpage.webpageUrl = Constant.MAIN_URL+url;
+        //用WXWebpageObject对象初始化一个WXMediaMessage对象，填写标题描述
+        WXMediaMessage msg = new WXMediaMessage(webpage);
+        msg.title = "酒品会邀你领红包";
+        msg.description = "来领红包吧！";
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(),R.drawable.app_logo);
+        msg.setThumbImage(bitmap);
 
+        //构造一个req
+        SendMessageToWX.Req req = new SendMessageToWX.Req();
+        req.transaction = "webpage";
+        req.message = msg;
+        req.scene = SendMessageToWX.Req.WXSceneSession;
+        boolean isreq = api.sendReq(req);
+        LogUtils.d("req = "+isreq);
+    }
 }

@@ -3,14 +3,13 @@ package com.jiupin.jiupinhui.activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.RequiresApi;
 import android.support.v4.widget.NestedScrollView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebResourceRequest;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
@@ -124,6 +123,8 @@ public class GoodsActivity extends BaseActivity implements IGoodsActivityView {
     WebView wvWebview;
     @BindView(R.id.tv_buy_car_mark)
     TextView tvBuyCarMark;
+    @BindView(R.id.iv_move_top)
+    ImageView ivMoveTop;
     private GoodsShowView goodsShowView;
     private IGoodsActivityPresenter presenter;
     private GoodsEntity goodsEntity;
@@ -165,8 +166,10 @@ public class GoodsActivity extends BaseActivity implements IGoodsActivityView {
     /**
      * 初始化webview
      */
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+//    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void initWebView() {
+
+        WebSettings setting = wvWebview.getSettings();
         //禁止webview进行复制黏贴
         wvWebview.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
@@ -174,8 +177,10 @@ public class GoodsActivity extends BaseActivity implements IGoodsActivityView {
                 return true;
             }
         });
-        //        wvWebview.setNestedScrollingEnabled(false);
-        wvWebview.getSettings().setJavaScriptEnabled(true);
+        setting.setJavaScriptEnabled(true);
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            setting.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
+        }
 
         wvWebview.setWebViewClient(new WebViewClient() {
             @Override
@@ -183,9 +188,6 @@ public class GoodsActivity extends BaseActivity implements IGoodsActivityView {
                 return true;
             }
         });
-
-        //        String html = "";
-        //        wvWebview.loadDataWithBaseURL(null, html, "text/html", "utf-8", null);
     }
 
     private void initListener() {
@@ -200,9 +202,11 @@ public class GoodsActivity extends BaseActivity implements IGoodsActivityView {
                     float alpha = 255 * scale;
                     //滑动时改变标题栏的透明度
                     rlGoodsTitle.setBackgroundColor(Color.argb((int) alpha, 0xd3, 0xac, 0x65));
+                    ivMoveTop.setVisibility(View.GONE);
                 } else if (scrollY > height) {
                     //滑动时改变标题栏的透明度
                     rlGoodsTitle.getBackground().setAlpha(255);
+                    ivMoveTop.setVisibility(View.VISIBLE);
                 }
             }
         });
@@ -220,17 +224,21 @@ public class GoodsActivity extends BaseActivity implements IGoodsActivityView {
     }
 
     @OnClick({R.id.btn_contact_customer, R.id.btn_now_pay, R.id.ll_Store_customer, R.id.ll_back_main,
-            R.id.iv_goods_back, R.id.tv_to_particulars, R.id.ll_comment, R.id.rl_buy_car, R.id.btn_add_car
+            R.id.iv_goods_back, R.id.tv_to_particulars, R.id.ll_comment, R.id.rl_buy_car, R.id.btn_add_car,
+            R.id.iv_move_top
     })
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_goods_back:
                 finish();
                 break;
+            case R.id.iv_move_top:
+                nsvGoodsScrollview.scrollTo(0,0);
+                break;
             case R.id.rl_buy_car:
                 if(UserInfoManager.getInstance().isLogin()){
                     Intent intent = new Intent(this,BuyCartActivity.class);
-                    startActivity(intent);
+                    startActivityForResult(intent,101);
                 }else{
                     ToastUtils.showShort(this,"您还没有登录，请先登录");
                     gotoLoginActivity();
@@ -542,19 +550,25 @@ public class GoodsActivity extends BaseActivity implements IGoodsActivityView {
                                     tvGoodsRealPrice.setText("￥" + showDetail.getMemberPrice());
                                     tvGoodsCount.setText("库存：" + showDetail.getCount());
                                 }
-
                             }
                         });
-
                         llPackageContainer.addView(view);
                     }
-
                 }
             }
         } else {
 //            llGoodsBottom.setVisibility(View.GONE);
         }
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode==101){
+            String token = UserInfoManager.getInstance().getToken(mContext);
+            presenter.getCartGoodsCount(token);
+        }
     }
 
     @Override

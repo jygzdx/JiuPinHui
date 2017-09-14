@@ -1,11 +1,10 @@
 package com.jiupin.jiupinhui.activity;
 
-import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.webkit.WebResourceRequest;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
@@ -40,8 +39,8 @@ public class ArticleActivity extends AppCompatActivity {
     /**
      * 初始化webview
      */
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void initWebView() {
+        WebSettings setting = wvArticle.getSettings();
         //禁止webview进行复制黏贴
         wvArticle.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
@@ -49,7 +48,12 @@ public class ArticleActivity extends AppCompatActivity {
                 return true;
             }
         });
-        wvArticle.getSettings().setJavaScriptEnabled(true);
+        setting.setJavaScriptEnabled(true);
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            setting.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
+        }
+
 
         wvArticle.setWebViewClient(new WebViewClient(){
             @Override

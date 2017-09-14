@@ -28,7 +28,7 @@ public class FansActivityModelImpl implements IFansActivityModel {
     public void getRecommendList(String token, String page, String rows, final IModel.CallBack callBack) {
         OkHttpUtils
                 .post()
-                .url(Constant.RECOMMEND_LIST)
+                .url(Constant.FANS_LIST)
                 .addParams("token",token)
                 .addParams("page",page)
                 .addParams("rows",rows)

@@ -9,20 +9,27 @@
     android:orientation="vertical"
     android:gravity="center_horizontal"
     tools:context="com.jiupin.jiupinhui.activity.LoginActivity">
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="18"
+        />
     <!--顶部说明图标及文字-->
     <ImageView
         android:layout_width="70dp"
         android:layout_height="65dp"
         android:src="@drawable/logo_version"
-        android:layout_marginTop="100dp"
         />
-
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="11"
+        />
     <LinearLayout
         android:layout_width="220dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:orientation="vertical"
-        android:layout_marginTop="58dp"
         >
         <!--输入手机号码-->
         <com.chaychan.viewlib.PowerfulEditText
@@ -71,35 +78,41 @@
             android:layout_height="1dp"
             android:background="#f0f0f0"/>
 
-        <Button
-            android:id="@+id/btn_login_bottom"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
-            android:background="@drawable/unlogined_bg"
-            android:text="登录"
-            android:textColor="@color/mainTextColor"
-            android:textSize="17sp"
-            />
-
-        <TextView
-            android:id="@+id/tv_reset_password"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="14dp"
-            android:text="@string/reset_password"
-            android:autoLink="all"
-            android:textColor="#999999"
-            android:textSize="12sp"
-            />
     </LinearLayout>
 
     <View
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:minHeight="5dp"
-        android:layout_weight="1"/>
+        android:layout_weight="9"
+        />
+
+    <Button
+        android:id="@+id/btn_login_bottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/unlogined_bg"
+        android:text="登录"
+        android:textColor="@color/mainTextColor"
+        android:textSize="17sp"
+        />
+
+    <TextView
+        android:id="@+id/tv_reset_password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="14dp"
+        android:text="@string/reset_password"
+        android:autoLink="all"
+        android:textColor="#999999"
+        android:textSize="12sp"
+        />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="14"
+        />
 
     <!--第三方登录标识-->
     <LinearLayout
@@ -108,7 +121,6 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/ll_login_and_register"
         android:layout_centerHorizontal="true"
-
         android:orientation="horizontal"
         android:visibility="visible"
         >
@@ -186,12 +198,17 @@
 
     </LinearLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="9"
+        />
+
 
     <LinearLayout
         android:id="@+id/ll_bottom"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginTop="40dp"
         android:background="@color/white"
         android:layout_gravity="bottom"
         >

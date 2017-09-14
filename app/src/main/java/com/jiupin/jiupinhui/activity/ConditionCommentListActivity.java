@@ -51,6 +51,7 @@ public class ConditionCommentListActivity extends BaseActivity implements ICondi
     private IConditionCommentListActivityPresenter presenter;
     private CommunityEntity community;
     private int dynamicId;
+    private TextView tvCommentCount;
 
 
     @Override
@@ -108,7 +109,7 @@ public class ConditionCommentListActivity extends BaseActivity implements ICondi
         LinearLayout llTranspond = (LinearLayout) headerView.findViewById(R.id.ll_transpond);
         TextView tvTranspondContent = (TextView) headerView.findViewById(R.id.tv_transpond_content);
         TextView tvTranspondName = (TextView) headerView.findViewById(R.id.tv_transpond_name);
-        TextView tvCommentCount = (TextView) headerView.findViewById(R.id.tv_comment_count);
+        tvCommentCount = (TextView) headerView.findViewById(R.id.tv_comment_count);
 
         Glide.with(mContext)
                 .load(community.getUser_img())
@@ -117,7 +118,7 @@ public class ConditionCommentListActivity extends BaseActivity implements ICondi
         tvConditionNickname.setText(community.getNickName());
         tvContent.setText(community.getContent());
         tvConditionTime.setText(TimeUtils.getTime(community.getAddTime()));
-        tvCommentCount.setText("评论("+community.getComment_count()+")");
+        //
         LogUtils.d("getImage_list = "+community.getImage_list());
         LogUtils.d("getTrans_img_list = "+community.getTrans_img_list());
 
@@ -170,9 +171,19 @@ public class ConditionCommentListActivity extends BaseActivity implements ICondi
             case R.id.tv_comment:
                 Intent intent = new Intent(mContext, SendConditionComActivity.class);
                 intent.putExtra("dynamicId", dynamicId);
-                mContext.startActivity(intent);
-                finish();
+                startActivityForResult(intent,1);
                 break;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==1){
+            adapter.clear();
+            lRecyclerViewAdapter.notifyDataSetChanged();
+            page=1;
+            presenter.getCommentList(dynamicId + "", page + "");
         }
     }
 
@@ -182,13 +193,15 @@ public class ConditionCommentListActivity extends BaseActivity implements ICondi
             return;
         if (commentList.size() > 0) {
             adapter.addAll(commentList);
-            lrvComment.refreshComplete(10);
         } else {
             if (isFirst) {
                 ToastUtils.showShort(this, "暂无评论");
             }
             lrvComment.setNoMore(true);
         }
+        tvCommentCount.setText("评论("+commentList.size()+")");
+        lrvComment.refreshComplete(commentList.size());
+        lRecyclerViewAdapter.notifyDataSetChanged();
         isFirst = false;
     }
 }

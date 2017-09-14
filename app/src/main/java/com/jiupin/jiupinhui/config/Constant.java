@@ -31,6 +31,11 @@ public class Constant {
     public static final String APP_ID = "wx420947e7a04ec1df";
 
     /**
+     * bugly_appid
+     */
+    public static final String BUGLY_APP_ID = "1d1e527e96";
+
+    /**
      * 获取首页轮播图图片
      */
     public static final String BANNER_URL = MAIN_URL + "/appGoods/home/getBannerList.json";
@@ -455,6 +460,12 @@ public class Constant {
      * 获取版本信息
      */
     public static final String VERSION_INFO = MAIN_URL + "/version/getCurrentVersionInfo.json";
+
+    /**------------------------------------优惠券-------------------------------------------*/
+    /**
+     * 根据订单ID获取分享优惠券地址
+     */
+    public static final String GET_COUPON_URL = MAIN_URL + "/app/order/getShareCouponUrlByOrderId.json";
 
     /**------------------------------------订单状态-------------------------------------------*/
     /**

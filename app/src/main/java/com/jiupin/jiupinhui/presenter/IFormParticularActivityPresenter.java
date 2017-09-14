@@ -51,4 +51,11 @@ public interface IFormParticularActivityPresenter {
      *              @param orderId 订单id
      */
     void getWeChatPayInfo(String token,String orderId);
+
+    /**
+     * 获取优惠券url
+     * @param token
+     * @param orderId 订单id
+     */
+    void getCouponUrl(String token ,String orderId);
 }

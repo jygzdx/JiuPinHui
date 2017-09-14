@@ -113,8 +113,6 @@ public class FansActivity extends BaseActivity  implements IFansActivityView{
                 }
             }
         });
-
-
     }
 
     public void cancelCondition(int userId, boolean concernStatus, int position){
@@ -134,10 +132,10 @@ public class FansActivity extends BaseActivity  implements IFansActivityView{
         if(attListEntities==null)return;
         if (attListEntities.size() > 0) {
             adapter.addAll(attListEntities);
-            lrvFans.refreshComplete(attListEntities.size());
         }else {
             lrvFans.setNoMore(true);
         }
-
+        lrvFans.refreshComplete(attListEntities.size());
+        lRecyclerViewAdapter.notifyDataSetChanged();
     }
 }

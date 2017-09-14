@@ -6,6 +6,7 @@ import com.blankj.utilcode.util.Utils;
 import com.bumptech.glide.request.target.ViewTarget;
 import com.jiupin.jiupinhui.R;
 import com.jiupin.jiupinhui.config.Constant;
+import com.tencent.bugly.crashreport.CrashReport;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.zhy.http.okhttp.OkHttpUtils;
@@ -39,5 +40,8 @@ public class JiuPinApplication extends Application{
 
         //初始化工具类
         Utils.init(this);
+
+        //初始化日志报告
+        CrashReport.initCrashReport(getApplicationContext(), Constant.BUGLY_APP_ID, false);
     }
 }

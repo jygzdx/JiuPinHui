@@ -115,4 +115,19 @@ public class FormParticularActivityPresenterImpl implements IFormParticularActiv
             }
         });
     }
+
+    @Override
+    public void getCouponUrl(String token, String orderId) {
+        model.getCouponUrl(token, orderId, new IModel.CallBack() {
+            @Override
+            public void onSuccess(Object success) {
+                view.getCouponUrlSuccess(((String) success));
+            }
+
+            @Override
+            public void onFailed(int status, String msg) {
+                HttpErrorUtils.manageErrorHttp(status,msg,(Context) view);
+            }
+        });
+    }
 }

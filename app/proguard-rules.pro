@@ -55,6 +55,9 @@
 -keep class com.tencent.mm.opensdk.** {   *;}
 -keep class com.tencent.wxop.** {   *;}
 -keep class com.tencent.mm.sdk.** {   *;}
+#日志报告
+-dontwarn com.tencent.bugly.**
+-keep public class com.tencent.bugly.**{*;}
 
 #Glide图片加载框架
 -keep public class * implements com.bumptech.glide.module.GlideModule

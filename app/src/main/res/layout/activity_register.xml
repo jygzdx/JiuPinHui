@@ -9,19 +9,27 @@
     android:orientation="vertical"
     android:gravity="center_horizontal"
     tools:context="com.jiupin.jiupinhui.activity.RegisterActivity">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="9"/>
     <ImageView
         android:layout_width="70dp"
         android:layout_height="65dp"
         android:src="@drawable/logo_version"
-        android:layout_marginTop="100dp"
         />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="7"/>
 
     <LinearLayout
         android:layout_width="220dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:orientation="vertical"
-        android:layout_marginTop="60dp"
         >
         <!--输入注册手机号码-->
         <com.chaychan.viewlib.PowerfulEditText
@@ -145,25 +153,27 @@
             android:textSize="10sp"
             />
 
-        <Button
-            android:id="@+id/btn_register_bottom"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="4dp"
-            android:background="@drawable/unlogined_bg"
-            android:text="注册"
-            android:textColor="@color/mainTextColor"
-            android:textSize="17sp"
-            />
-
     </LinearLayout>
 
     <View
-        android:layout_width="wrap_content"
-        android:minHeight="5dp"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"/>
+        android:layout_weight="2"/>
+
+    <Button
+        android:id="@+id/btn_register_bottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/unlogined_bg"
+        android:text="注册"
+        android:textColor="@color/mainTextColor"
+        android:textSize="17sp"
+        />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="13"/>
     <LinearLayout
         android:id="@+id/ll_bottom"
         android:layout_width="match_parent"

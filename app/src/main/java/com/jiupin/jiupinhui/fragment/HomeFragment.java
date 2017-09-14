@@ -93,8 +93,8 @@ public class HomeFragment extends Fragment implements IHomeFragmentView {
         //获取文章数据
         presenter.getArticle();
 
-        String token = UserInfoManager.getInstance().getToken(getContext());
-        presenter.getCartGoodsCount(token);
+//        String token = UserInfoManager.getInstance().getToken(getContext());
+//        presenter.getCartGoodsCount(token);
     }
 
     private void initListener() {
@@ -153,6 +153,13 @@ public class HomeFragment extends Fragment implements IHomeFragmentView {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         LogUtils.d(TAG, "onCreate");
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        String token = UserInfoManager.getInstance().getToken(getContext());
+        presenter.getCartGoodsCount(token);
     }
 
     @Override

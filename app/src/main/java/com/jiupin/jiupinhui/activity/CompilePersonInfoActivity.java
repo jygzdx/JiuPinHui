@@ -15,6 +15,7 @@ import com.jiupin.jiupinhui.manage.UserInfoManager;
 import com.jiupin.jiupinhui.presenter.ICompilePersonInfoActivityPresenter;
 import com.jiupin.jiupinhui.presenter.impl.CompilePersonInfoActivityPresenterImpl;
 import com.jiupin.jiupinhui.utils.ActivityUtils;
+import com.jiupin.jiupinhui.utils.LogUtils;
 import com.jiupin.jiupinhui.utils.StringUtils;
 import com.jiupin.jiupinhui.utils.TimeUtils;
 import com.jiupin.jiupinhui.utils.ToastUtils;
@@ -44,6 +45,7 @@ public class CompilePersonInfoActivity extends BaseActivity implements ICompileP
     @BindView(R.id.tv_add_time)
     TextView tvAddTime;
     private ICompilePersonInfoActivityPresenter presenter;
+    private UserEntity.DataBean userEntity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,12 +57,28 @@ public class CompilePersonInfoActivity extends BaseActivity implements ICompileP
 
         presenter = new CompilePersonInfoActivityPresenterImpl(this);
 
-        UserEntity.DataBean userEntity = (UserEntity.DataBean) bundle.getSerializable("userEntity");
+        userEntity = (UserEntity.DataBean) bundle.getSerializable("userEntity");
         if(userEntity!=null){
-            etNickname.setText(userEntity.getNickName());
-            etArea.setText(userEntity.getLocation());
-            etIntro.setText(userEntity.getIntro());
-            etSchool.setText(userEntity.getEducation());
+            if(StringUtils.isEmpty(userEntity.getNickName())){
+                etNickname.setHint("暂无信息");
+            }else{
+                etNickname.setHint(userEntity.getNickName());
+            }
+            if(StringUtils.isEmpty(userEntity.getLocation())){
+                etArea.setHint("暂无信息");
+            }else{
+                etArea.setHint(userEntity.getLocation());
+            }
+            if(StringUtils.isEmpty(userEntity.getIntro())){
+                etIntro.setHint("暂无信息");
+            }else{
+                etIntro.setHint(userEntity.getIntro());
+            }
+            if(StringUtils.isEmpty(userEntity.getEducation())){
+                etSchool.setHint("暂无信息");
+            }else{
+                etSchool.setHint(userEntity.getEducation());
+            }
             tvGrade.setText("lv."+userEntity.getLevel());
             tvAddTime.setText(TimeUtils.getTime(userEntity.getAddTime(),TimeUtils.DATE_FORMAT_DATE));
             tvSex.setText(userEntity.getSex()==1?"男":"女");
@@ -80,6 +98,19 @@ public class CompilePersonInfoActivity extends BaseActivity implements ICompileP
                 String area = etArea.getText().toString();
                 String intro = etIntro.getText().toString();
                 String school = etSchool.getText().toString();
+                if(StringUtils.isEmpty(nickName)){
+                    nickName = userEntity.getNickName();
+                }
+                if(StringUtils.isEmpty(area)){
+                    area = userEntity.getLocation();
+                }
+                if(StringUtils.isEmpty(intro)){
+                    intro = userEntity.getIntro();
+                }
+                if(StringUtils.isEmpty(school)){
+                    school = userEntity.getEducation();
+                }
+                LogUtils.d("  nickName = "+nickName+"  area = "+area+"  intro = "+intro+"  school = "+school);
                 if(StringUtils.isEmpty(nickName)){
                     ToastUtils.showShort(mContext,"昵称不能为空");
                     return;

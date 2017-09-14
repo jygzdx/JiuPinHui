@@ -56,6 +56,8 @@ public class BuyCartActivity extends BaseActivity implements IBuyCartActivityVie
     LinearLayout llDelete;
     @BindView(R.id.ll_header)
     LinearLayout llHeader;
+    @BindView(R.id.ll_bottom)
+    LinearLayout llBottom;
     @BindView(R.id.iv_logo)
     ImageView ivLogo;
     /**
@@ -244,6 +246,7 @@ public class BuyCartActivity extends BaseActivity implements IBuyCartActivityVie
             ivNoData.setVisibility(View.VISIBLE);
             //头部展示商店的logo
             llHeader.setVisibility(View.GONE);
+            llBottom.setVisibility(View.GONE);
             return;
         }
         adapter.setData(cartList);
@@ -265,8 +268,8 @@ public class BuyCartActivity extends BaseActivity implements IBuyCartActivityVie
         if(adapter.getItemCount()==0){
             tvPay.setText("结算 (0)");
             ivNoData.setVisibility(View.VISIBLE);
-
             llHeader.setVisibility(View.GONE);
+            llBottom.setVisibility(View.GONE);
         }else{
             setSubmitText();
         }
@@ -284,6 +287,7 @@ public class BuyCartActivity extends BaseActivity implements IBuyCartActivityVie
             tvPay.setText("结算 (0)");
             ivNoData.setVisibility(View.VISIBLE);
             llHeader.setVisibility(View.GONE);
+            llBottom.setVisibility(View.GONE);
         }else{
             setSubmitText();
         }

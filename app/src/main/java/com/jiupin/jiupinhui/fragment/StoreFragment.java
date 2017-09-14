@@ -78,7 +78,6 @@ public class StoreFragment extends Fragment implements IStoreFragmentView {
         initRecyclerView();
 
         initData();
-        LogUtils.d(TAG, "onCreateView");
 
         return view;
     }
@@ -99,8 +98,8 @@ public class StoreFragment extends Fragment implements IStoreFragmentView {
         //        ProgressUtils.show(getContext());
         presenter.getBanner();
         presenter.getMealType();
-        String token = UserInfoManager.getInstance().getToken(getContext());
-        presenter.getCartGoodsCount(token);
+//        String token = UserInfoManager.getInstance().getToken(getContext());
+//        presenter.getCartGoodsCount(token);
     }
 
     private void initTabLayout() {
@@ -186,6 +185,13 @@ public class StoreFragment extends Fragment implements IStoreFragmentView {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         LogUtils.d(TAG, "onCreate");
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        String token = UserInfoManager.getInstance().getToken(getContext());
+        presenter.getCartGoodsCount(token);
     }
 
     @Override

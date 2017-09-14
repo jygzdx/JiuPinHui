@@ -51,20 +51,22 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
                         Intent intent = new Intent(WXEntryActivity.this, LoginActivity.class);
                         intent.putExtra("code", code);
                         startActivity(intent);
-                        finish();
                     }
                     break;
                 case BaseResp.ErrCode.ERR_USER_CANCEL:
                     LogUtils.i(TAG, "发送取消ERR_USER_CANCEL");
                     //发送取消
+                    gotoLoginActivity();
                     break;
                 case BaseResp.ErrCode.ERR_AUTH_DENIED:
                     LogUtils.i(TAG, "发送取消ERR_AUTH_DENIEDERR_AUTH_DENIEDERR_AUTH_DENIED");
                     //发送被拒绝
+                    gotoLoginActivity();
                     break;
                 default:
                     LogUtils.i(TAG, "发送返回breakbreakbreak");
                     //发送返回
+                  gotoLoginActivity();
                     break;
             }
         }else {
@@ -73,5 +75,10 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
 
         finish();
 
+    }
+
+    public void gotoLoginActivity(){
+        Intent intent = new Intent(WXEntryActivity.this, LoginActivity.class);
+        startActivity(intent);
     }
 }

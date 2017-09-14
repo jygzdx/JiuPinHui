@@ -2,7 +2,7 @@ package com.jiupin.jiupinhui.presenter.impl;
 
 import com.jiupin.jiupinhui.entity.CommunityEntity;
 import com.jiupin.jiupinhui.entity.UserEntity;
-import com.jiupin.jiupinhui.fragment.RecommendFragment;
+import com.jiupin.jiupinhui.fragment.AttentionFragment;
 import com.jiupin.jiupinhui.model.IAttentionFragmentModel;
 import com.jiupin.jiupinhui.model.IModel;
 import com.jiupin.jiupinhui.model.impl.AttentionFragmentModelImpl;
@@ -35,7 +35,7 @@ public class AttentionFragmentPresenterImpl implements IAttentionFragmentPresent
 
             @Override
             public void onFailed(int status, String msg) {
-                HttpErrorUtils.manageErrorHttp(status, msg, ((RecommendFragment) view).getContext());
+                HttpErrorUtils.manageErrorHttp(status, msg, ((AttentionFragment) view).getContext());
             }
         });
     }
@@ -50,7 +50,7 @@ public class AttentionFragmentPresenterImpl implements IAttentionFragmentPresent
 
             @Override
             public void onFailed(int status, String msg) {
-                HttpErrorUtils.manageErrorHttp(status, msg, ((RecommendFragment) view).getContext());
+                HttpErrorUtils.manageErrorHttp(status, msg, ((AttentionFragment) view).getContext());
             }
         });
     }
@@ -65,7 +65,7 @@ public class AttentionFragmentPresenterImpl implements IAttentionFragmentPresent
 
             @Override
             public void onFailed(int status, String msg) {
-                HttpErrorUtils.manageErrorHttp(status, msg, ((RecommendFragment) view).getContext());
+                HttpErrorUtils.manageErrorHttp(status, msg, ((AttentionFragment) view).getContext());
             }
         });
     }
@@ -80,7 +80,7 @@ public class AttentionFragmentPresenterImpl implements IAttentionFragmentPresent
 
             @Override
             public void onFailed(int status, String msg) {
-                HttpErrorUtils.manageErrorHttp(status, msg, ((RecommendFragment) view).getContext());
+                HttpErrorUtils.manageErrorHttp(status, msg, ((AttentionFragment) view).getContext());
             }
         });
     }

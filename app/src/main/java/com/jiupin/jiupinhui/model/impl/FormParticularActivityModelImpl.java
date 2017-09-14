@@ -236,4 +236,39 @@ public class FormParticularActivityModelImpl implements IFormParticularActivityM
                 });
     }
 
+    @Override
+    public void getCouponUrl(String token, String orderId, final IModel.CallBack callBack) {
+        OkHttpUtils
+                .post()
+                .url(Constant.GET_COUPON_URL)
+                .addParams("token", token)
+                .addParams("orderId",orderId)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+                        callBack.onFailed(HttpErrorUtils.NETWORK_ERROR,HttpErrorUtils.MSG_NETWORK_ERROR);
+                    }
+
+                    @Override
+                    public void onResponse(String response, int id) {
+                        LogUtils.d("getCouponUrl=="+response);
+                        JSONObject jsonObject = null;
+                        try {
+                            jsonObject = new JSONObject(response);
+                            String msg = jsonObject.getString("msg");
+                            int status = jsonObject.getInt("status");
+                            if (200 == status) {
+                                String data = jsonObject.getString("data");
+                                callBack.onSuccess(data);
+                            } else {
+                                callBack.onFailed(status, msg);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+    }
+
 }

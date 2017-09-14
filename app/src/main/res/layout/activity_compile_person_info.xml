@@ -79,11 +79,6 @@
             android:textSize="12sp"
             />
 
-        <View
-            android:layout_width="1dp"
-            android:layout_height="20dp"
-            android:background="@color/black_66"/>
-
         <EditText
             android:id="@+id/et_nickname"
             android:layout_width="0dp"
@@ -119,11 +114,6 @@
             android:textSize="12sp"
             />
 
-        <View
-            android:layout_width="1dp"
-            android:layout_height="20dp"
-            android:background="@color/black_66"/>
-
         <TextView
             android:id="@+id/tv_sex"
             android:layout_width="0dp"
@@ -131,7 +121,7 @@
             android:layout_weight="560"
             android:gravity="center_vertical"
             android:text="男"
-            android:textColor="@color/black_33"
+            android:textColor="@color/shallow_black"
             android:textSize="12sp"
             />
 
@@ -156,11 +146,6 @@
             android:textColor="@color/light_black"
             android:textSize="12sp"
             />
-
-        <View
-            android:layout_width="1dp"
-            android:layout_height="20dp"
-            android:background="@color/black_66"/>
 
         <EditText
             android:id="@+id/et_area"
@@ -197,11 +182,6 @@
             android:textSize="12sp"
             />
 
-        <View
-            android:layout_width="1dp"
-            android:layout_height="20dp"
-            android:background="@color/black_66"/>
-
         <EditText
             android:id="@+id/et_intro"
             android:layout_width="0dp"
@@ -236,11 +216,6 @@
             android:textColor="@color/light_black"
             android:textSize="12sp"
             />
-
-        <View
-            android:layout_width="1dp"
-            android:layout_height="20dp"
-            android:background="@color/black_66"/>
 
         <EditText
             android:id="@+id/et_school"

@@ -13,7 +13,6 @@ import com.bumptech.glide.Glide;
 import com.jiupin.jiupinhui.R;
 import com.jiupin.jiupinhui.activity.GoodsActivity;
 import com.jiupin.jiupinhui.entity.MainShowEntity;
-import com.jiupin.jiupinhui.utils.LogUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,12 +54,12 @@ public class MealAdapter extends RecyclerView.Adapter {
                 .load(mealInfoList.get(position).getPath())
                 .crossFade()
                 .into(mealHolder.ivMealImg);
-        mealHolder.tvNowBuy.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LogUtils.d("立即购买");
-            }
-        });
+//        mealHolder.tvNowBuy.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                LogUtils.d("立即购买");
+//            }
+//        });
         mealHolder.view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

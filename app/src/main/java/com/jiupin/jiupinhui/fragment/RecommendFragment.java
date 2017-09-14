@@ -95,8 +95,12 @@ public class RecommendFragment extends Fragment implements IRecommendFragmentVie
         btnMyPage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getContext(), PersonActivity.class);
-                startActivity(intent);
+                if(UserInfoManager.getInstance().isLogin()){
+                    Intent intent = new Intent(getContext(), PersonActivity.class);
+                    startActivity(intent);
+                }else{
+                    ToastUtils.showShort(getContext(),"您还没有登录，请先登录");
+                }
             }
         });
 
